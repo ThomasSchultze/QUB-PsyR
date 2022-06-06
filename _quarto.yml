@@ -1,0 +1,26 @@
+project:
+  type: website
+
+website:
+  title: "QUB-PsyR"
+  navbar:
+    logo: images/QUBlogoWsmall.png
+    right:
+      - text: "Intro"
+        menu:
+        - text: "R and RStudio"
+          href: intro1.html
+        - text: "Running Code in R"
+          href: intro2.html
+      - text: "About"
+        href: about.html
+
+
+format:
+  html:
+    theme: 
+      - cerulean
+      - custom.scss
+
+
+

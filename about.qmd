@@ -1,0 +1,14 @@
+---
+title: "About this site"
+---
+
+This site contains resources for the upskilling of staff from QUB's School of Psychology in R and RStudio.
+
+
+::: {.alert .alert-warning}
+This site is work in progress. I will continuously add or update content
+:::
+
+Contributors:
+- Thomas Schultze-Gerlach ([t.schultze(at)qub.ac.uk](mailto:t.schultze@qub.ac.uk))
+

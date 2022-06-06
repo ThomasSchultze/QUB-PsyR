@@ -1,0 +1,49 @@
+---
+title: "Running code in R"
+---
+
+As mentioned before, the R console is where we execute code and where all the computing is done. Before we start using R scripts, we first need to get a rough understanding of what the R console does. Think of the console as a glorified calculator. You tell it to run a piece of code and then R returns the answer.
+
+There are to way to run code in R: entering it manually in the R console or writing a script and executing part or all of it.
+
+## Running code via the console
+
+We can execute code by typing it in the console and hitting "Enter". We will keep it simple for now. Lets say we want R to compute a few numbers. It could look like this:
+
+![Fig 1. Input and output of simple code in the R console](images/intro/console1.png)
+
+As we can see, each of the commands yields the appropriate answer. In theory, we could enter code that is much more complex, but entering long lines of code quickly becomes a hassle we would prefer to avoid. Also, once we close R we would have to enter the same code again manually, which is not only a lot of (unnecessary) work but also error prone.
+
+Generally speaking, using the console directly to run code is not very sensible, the exception being queries using the *help*-function (more on the *help*-function later).
+
+## Running code via R scripts
+
+The most common way to run code in R is to write an R script and then execute it. The great advantage of an R script is that we can save it and re-run it as often as we want without having to enter everything by hand once again. If you are keen about Open Science, you can share the Script as part of your Open Analysis Code policy. Since R is free, researchers who want to look at, re-run, or even copy your code can do so without worrying about license fees.
+
+For example, we can write a script containing the same computations we entered manually into the console above. To do so, we first need to create a new (end empty) R script by clicking on "File", then on "New File" and selecting "R Script".
+
+![Fig 2. Creating a new R script](images/intro/script1.png)
+
+We can now edit the script. Here, we enter each of the computations we want R to do as a single line of our script. Once all four lines are ready, we select them all (either by marking them with the mouse or by clicking ctrl+a). We then tell RStudio to run the selected code by clicking on the **"Run"-button** on the top right above the script or by pushing **ctrl+Enter**.
+
+![Fig 3. Running the code contained in the R script](images/intro/script2.png)
+
+As we can see, the output in the console looks as if we had manually entered the code and pressed "Enter" after each line. We could have obtained the same result by copy-pasting the content of the script into the console and hitting "Enter".
+
+**Note**: In the image above, our script is yet unsaved as can be seen from its name "untitled1". We can save it by clicking on the **floppy disc** Symbol (for those of you who still know what a 3.5" floppy disc is) or by clicking on "File" and then "Save" or "Save as". Since we have not yet named our script, we will be prompted to select a name and to choose in which folder we want to save the script.
+
+For example, we can name this script "my first script". Once we have done that, the tab above the script shows the name of the script (or the start of the name if we chose a long name) followed by ".R" indicating that this is an R file.
+
+![Fig 4. The script name is displayed after saving the script](images/intro/script3.png) Also note how the name of the script is now shown in black font as opposed to the red font it had prior to saving. Writing a script's name in red font is RStudio's way of telling you that this script has unsaved changes.
+
+## Commenting your code
+
+One crucial part of an R script are **comments**. Comments are used to explain the code we write. Commenting our scripts is **very important** as it provides structure to them and makes the code legible, be it for others who try to understand our code or to ourselves (trust me, you will learn to appreciate a well-commented code if you return to a script you wrote a few months back and cannot remember what you did there).
+
+We can write comments by adding a **\#** in front of the text. All text following a **\#** in the same line will be ignored by R when running the script.
+
+![Fig 5. Running code with comments](images/intro/comments1.png)
+
+When running the script the whole code is copied to the console, but only the actual code is being *evaluated*. All the text that we declared as comments is being ignored.
+
+**Note**: A good rule of thumb is to have at least one line of comments for every four lines of code. When in doubt, opt for more or more detailed comments. Better to over-explain your code than to risk it being unintelligible.
