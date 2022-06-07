@@ -3,7 +3,6 @@ title: "R Space for QUB-Psy"
 site: distill::distill_website
 ---
 
-
-![](images/R_logo_red.png){width=640px, height=496}
+![](images/R_logo_red.png){fig-align="left" width="4in"}
 
 Welcome to the website. I hope you enjoy it!
