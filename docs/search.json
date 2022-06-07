@@ -32,7 +32,7 @@
     "href": "intro2.html#running-code-via-the-console",
     "title": "Running code in R",
     "section": "Running code via the console",
-    "text": "Running code via the console\nWe can execute code by typing it in the console and hitting “Enter”. We will keep it simple for now. Lets say we want R to compute a few numbers. It could look like this:\n\n\n\nFig 1. Input and output of simple code in the R console\n\n\nAs we can see, each of the commands yields the appropriate answer. In theory, we could enter code that is much more complex, but entering long lines of code quickly becomes a hassle we would prefer to avoid. Also, once we close R we would have to enter the same code again manually, which is not only a lot of (unnecessary) work but also error prone.\nGenerally speaking, using the console directly to run code is not very sensible, the exception being queries using the help-function (more on the help-function later)."
+    "text": "Running code via the console\nWe can execute code by typing it in the console and hitting “Enter”. We will keep it simple for now. Lets say we want R to compute a few numbers. It could look like this:\n\n\n\nFig 1. Input and output of simple code in the R console\n\n\nAs we can see, each of the commands yields the appropriate answer. In theory, we could enter code that is much more complex, but entering long lines of code quickly becomes a hassle we would prefer to avoid. Also, once we close R we would have to enter the same code again manually, which is not only a lot of (unnecessary) work but also error prone.\n\nNote: Generally speaking, using the console directly to run code is not very sensible, the exception being queries using the help-function (more on the help-function later)."
   },
   {
     "objectID": "intro2.html#running-code-via-r-scripts",
@@ -46,6 +46,27 @@
     "href": "intro2.html#commenting-your-code",
     "title": "Running code in R",
     "section": "Commenting your code",
-    "text": "Commenting your code\nOne crucial part of an R script are comments. Comments are used to explain the code we write. Commenting our scripts is very important as it provides structure to them and makes the code legible, be it for others who try to understand our code or to ourselves (trust me, you will learn to appreciate a well-commented code if you return to a script you wrote a few months back and cannot remember what you did there).\nWe can write comments by adding a # in front of the text. All text following a # in the same line will be ignored by R when running the script.\n\n\n\nFig 5. Running code with comments\n\n\nWhen running the script the whole code is copied to the console, but only the actual code is being evaluated. All the text that we declared as comments is being ignored.\n\nA good rule of thumb is to have at least one line of comments for every four lines of code. When in doubt, opt for more or more detailed comments. Better to over-explain your code than to risk it being unintelligible."
+    "text": "Commenting your code\nOne crucial part of an R script are comments. Comments are used to explain the code we write. Commenting our scripts is very important as it provides structure to them and makes the code legible, be it for others who try to understand our code or to ourselves (trust me, you will learn to appreciate a well-commented code if you return to a script you wrote a few months back and cannot remember what you did there).\nWe can write comments by adding a # in front of the text. All text following a # in the same line will be ignored by R when running the script.\n\n\n\nFig 5. Running code with comments\n\n\nWhen running the script the whole code is copied to the console, but only the actual code is being evaluated. All the text that we declared as comments is being ignored.\n\nNote: A good rule of thumb is to have at least one line of comments for every four lines of code. When in doubt, opt for more or more detailed comments. Better to over-explain your code than to risk it being unintelligible."
+  },
+  {
+    "objectID": "intro3.html",
+    "href": "intro3.html",
+    "title": "Objects in R",
+    "section": "",
+    "text": "R revolves around different objects we can define and manipulate. First, we will cover the most important of the basic R objects, namely:\nWe will then turn toward two of the more complex R objects that we are very likely to encounter frequently when working with R:"
+  },
+  {
+    "objectID": "intro3.html#single-values",
+    "href": "intro3.html#single-values",
+    "title": "Objects in R",
+    "section": "Single values",
+    "text": "Single values\nSingle values are the simplest type of objects we can define in R. As their name suggests, they represent a single value, for example, the number 42. There are different types of values:\n\ndouble: this means numbers with decimal points (although the decimals must not necessarily be displayed)\ninteger: whole numbers that can be negative positive or zero (rarely used because double type numbers are more practical)\ncharacter: a character string, which is essentially a sequence of text symbols (these symbols can include numbers, but these are interpreted as being part of the text and not as numbers)\nlogical: a logical TRUE or FALSE, also called a boolean value\n\nIn order to define an object in R, we need to give it a name and then tell R how the object should look like. For example, we could tell R to create a single value called a that consists of the number 7. We do this as follows:\n\na = 7\n\nOnce we run this line of code, we should notice that our Environment (top right of our RStudio interface) now contains the object a. There, we can also see that a is the number 7.\nInstead of using an equal sign to define an object, we can also draw an arrow using the less than sign and a hyphen, which looks like this:\n\na <- 7\n\n\nNote: Using the arrow instead of an equal sign dates back to an old programming language that R is derived from (APL). Whether you define objects using arrows or equal signs has no effect on what R does. It is simply a matter of preference."
+  },
+  {
+    "objectID": "intro3.html#vectors",
+    "href": "intro3.html#vectors",
+    "title": "Objects in R",
+    "section": "Vectors",
+    "text": "Vectors\nVectors are objects that contain multiple values of the same type. A vector can contain several numbers, or it can contain multiple character strings, but we cannot create a vector that contains different types of values. We can define vectors using the following syntax.\n\nv1 = c(1,2,3)   # This line of code creates a double vector \n                # called \"v1\" containing the numbers 1 to 3.\n\nv2 = c('hello', 'purple', '11!')  # This creates a character vector\n                                  # called \"v2\" containing three strings.\n\nAfter executing this code, our Environment contains two more objects, v1 and v2. The vector v1 is denoted as a numeric vector (num) whereas v2 is labeled as a character vector (chr)."
   }
 ]

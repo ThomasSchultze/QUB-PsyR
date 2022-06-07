@@ -14,7 +14,9 @@ We can execute code by typing it in the console and hitting "Enter". We will kee
 
 As we can see, each of the commands yields the appropriate answer. In theory, we could enter code that is much more complex, but entering long lines of code quickly becomes a hassle we would prefer to avoid. Also, once we close R we would have to enter the same code again manually, which is not only a lot of (unnecessary) work but also error prone.
 
-Generally speaking, using the console directly to run code is not very sensible, the exception being queries using the *help*-function (more on the *help*-function later).
+::: {.alert .alert-info}
+Note: Generally speaking, using the console directly to run code is not very sensible, the exception being queries using the *help*-function (more on the *help*-function later).
+:::
 
 ## Running code via R scripts
 
@@ -46,6 +48,6 @@ We can write comments by adding a **\#** in front of the text. All text followin
 
 When running the script the whole code is copied to the console, but only the actual code is being *evaluated*. All the text that we declared as comments is being ignored.
 
-::: {.alert .alert-success}
-A good rule of thumb is to have at least one line of comments for every four lines of code. When in doubt, opt for more or more detailed comments. Better to over-explain your code than to risk it being unintelligible.
+::: {.alert .alert-info}
+Note: A good rule of thumb is to have at least one line of comments for every four lines of code. When in doubt, opt for more or more detailed comments. Better to over-explain your code than to risk it being unintelligible.
 :::

@@ -13,6 +13,8 @@ website:
           href: intro1.html
         - text: "Running Code in R"
           href: intro2.html
+        - text: "R Objects"
+          href: intro3.html
       - text: "About"
         href: about.html
 

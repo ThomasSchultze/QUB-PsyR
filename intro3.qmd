@@ -1,0 +1,73 @@
+---
+title: "Objects in R"
+---
+
+R revolves around different objects we can define and manipulate. First, we will cover the most important of the basic R objects, namely:
+
+-   single values
+-   vectors
+-   matrices
+
+:::{.alert .alert-info} 
+Note: Single values, vectors, and matrices can vary by *type*. The type of these objects refers to the nature of its content, for example whether it contains numbers, character strings, logical arguments etc. 
+:::
+
+We will then turn toward two of the more complex R objects that we are very likely to encounter frequently when working with R:
+
+-   data frames
+-   lists
+
+## Single values
+
+Single values are the simplest type of objects we can define in R. As their name suggests, they represent a single value, for example, the number 42. There are different types of values:
+
+- **double**: this means numbers with decimal points (although the decimals must not necessarily be displayed)
+- **integer**: whole numbers that can be negative positive or zero (rarely used because double type numbers are more practical)
+- **character**: a *character string*, which is essentially a sequence of text symbols (these symbols can include numbers, but these are interpreted as being part of the text and not as numbers)
+- **logical**: a logical *TRUE* or *FALSE*, also called a *boolean* value
+
+In order to define an object in R, we need to give it a name and then tell R how the object should look like. For example, we could tell R to create a single value called *a* that consists of the number 7. We do this as follows:
+
+```{r}
+#| eval: false
+a = 7
+```
+
+Once we run this line of code, we should notice that our **Environment** (top right of our RStudio interface) now contains the object *a*. There, we can also see that *a* is the number 7.
+
+Instead of using an equal sign to define an object, we can also draw an arrow using the *less than* sign and a *hyphen*, which looks like this:
+
+```{r}
+#| eval: false
+a <- 7
+```
+
+:::{.alert .alert-info} 
+Note: Using the arrow instead of an equal sign dates back to an old programming language that R is derived from (APL). Whether you define objects using arrows or equal signs has no effect on what R does. It is simply a matter of preference.
+:::
+
+
+## Vectors
+
+Vectors are objects that contain multiple values of the same type. A vector can contain several numbers, or it can contain multiple character strings, but we cannot create a vector that contains different types of values. We can define vectors using the following syntax.
+
+```{r}
+#| eval: false
+v1 = c(1,2,3)   # This line of code creates a double vector 
+                # called "v1" containing the numbers 1 to 3.
+
+v2 = c('hello', 'purple', '11!')  # This creates a character vector
+                                  # called "v2" containing three strings.
+
+```
+
+After executing this code, our **Environment** contains two more objects, *v1* and *v2*. The vector *v1* is denoted as a numeric vector (num) whereas *v2* is labeled as a character vector (chr).
+
+
+
+
+
+
+
+
+
