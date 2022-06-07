@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About this site",
+    "section": "",
+    "text": "This site is work in progress. I will continuously add or update content\n\nContributors: - Thomas Schultze-Gerlach (t.schultze(at)qub.ac.uk)"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "R Space for QUB-Psy",
+    "section": "",
+    "text": "Welcome to the website. I hope you enjoy it!"
+  },
+  {
+    "objectID": "intro1.html",
+    "href": "intro1.html",
+    "title": "R and RStudio",
+    "section": "",
+    "text": "Understanding the RStudio interface\nYou have got the latest version of R and RStudio on your computer and are eager to get things going? Great!\nIf you open R Studio for the first time, it will look like this:\n\n\n\nFig 1. RStudio interace when opening for the first time\n\n\nThe interface has three parts, the R console, the memory, and the utility and help area. Once you open your first R script (you can do do by clicking on “File”, selecting “New File”, and choosing “R Script”), a fourth (and probably the most important) appears in the top left, the script area (note; when you close all scripts, the script area will disappear again until a new script is opened).\n\n\n\nFig 2. RStudio interface when at least one script is open\n\n\n\n\nThe RStudio interface components\n\nThe console\nThe console is the direct link between RStudio and R. It executes the R code we enter, either manually or by running (part of) a script. With the exception of plots, the output of the code we entered, is also displayed in the console. We will be using the console mostly in the early states of getting used to working with R. We can execute code in the console by typing it in and confirming it via the “Enter” key. Doing so will directly produce the result of the code we entered (if we did it correctly) or an error message (if we managed to botch it up).\n\n\nThe memory\nThe memory area is one of the many advantages of using RStudio as compared to R only. It has different subsections. The subsection labeled Environment displays all the objects that are currently in R’s memory. Examples of such objects include variables we defined, data we read into R, or models we fit on our data. The list of objects in the Environment is rather handy because we do not need to memorize the names of all our objects, and we can even have a closer look at our more complex objects (e.g., we can have a look at the individual variables in our data object).\nThe second subsection is the History of our R session. The history contains all the code we sent to the console (irrespective of whether we did it by manually entering code in the console or by running a script). Using the History is handy if we want to trace back what we did, for example to search for errors.\n\n\nUtility and Help\nThe Utility and Help area located on the bottom right has five subsections, which can be tremendously helpful, so let’s have a closer look at them.\n\nFiles: This section displays the content of the current working directory. We can use it like the windows explorer to search for and load files.\nPlots: If we create plots, they will be displayed in this subsection.\nPackages: The base version of R comes with a wide range of functions that we can use to handle and analyse data. However, we will frequently want to do things that base R cannot do. In those situations, we will require additional R packages. The Packages section shows, which packages are installed on our computer, and which ones are currently active (more on that later).\nHelp: The Help section is very important. We can use it to obtain information on all functions and objects contained in base R and all currently active packages.\nViewer: We will rarely be using the Viewer when starting to learn R. It can be used to display local html-files that we can create using R.\n\n\n\nThe Script\nThe Script area in the top left of the interface is where we do most of our actual work. Here, we can create, save, load, and modify R scripts. If we open more than one script, each one will have its own tab displaying the name of the script (or labeling it as “unnamed” if we have not saved it yet). Clicking on the tabs lets us switch between scripts."
+  },
+  {
+    "objectID": "intro2.html",
+    "href": "intro2.html",
+    "title": "Running code in R",
+    "section": "",
+    "text": "As mentioned before, the R console is where we execute code and where all the computing is done. Before we start using R scripts, we first need to get a rough understanding of what the R console does. Think of the console as a glorified calculator. You tell it to run a piece of code and then R returns the answer.\nThere are to way to run code in R: entering it manually in the R console or writing a script and executing part or all of it."
+  },
+  {
+    "objectID": "intro2.html#running-code-via-the-console",
+    "href": "intro2.html#running-code-via-the-console",
+    "title": "Running code in R",
+    "section": "Running code via the console",
+    "text": "Running code via the console\nWe can execute code by typing it in the console and hitting “Enter”. We will keep it simple for now. Lets say we want R to compute a few numbers. It could look like this:\n\n\n\nFig 1. Input and output of simple code in the R console\n\n\nAs we can see, each of the commands yields the appropriate answer. In theory, we could enter code that is much more complex, but entering long lines of code quickly becomes a hassle we would prefer to avoid. Also, once we close R we would have to enter the same code again manually, which is not only a lot of (unnecessary) work but also error prone.\nGenerally speaking, using the console directly to run code is not very sensible, the exception being queries using the help-function (more on the help-function later)."
+  },
+  {
+    "objectID": "intro2.html#running-code-via-r-scripts",
+    "href": "intro2.html#running-code-via-r-scripts",
+    "title": "Running code in R",
+    "section": "Running code via R scripts",
+    "text": "Running code via R scripts\nThe most common way to run code in R is to write an R script and then execute it. The great advantage of an R script is that we can save it and re-run it as often as we want without having to enter everything by hand once again. If you are keen about Open Science, you can share the Script as part of your Open Analysis Code policy. Since R is free, researchers who want to look at, re-run, or even copy your code can do so without worrying about license fees.\nFor example, we can write a script containing the same computations we entered manually into the console above. To do so, we first need to create a new (end empty) R script by clicking on “File”, then on “New File” and selecting “R Script”.\n\n\n\nFig 2. Creating a new R script\n\n\nWe can now edit the script. Here, we enter each of the computations we want R to do as a single line of our script. Once all four lines are ready, we select them all (either by marking them with the mouse or by clicking ctrl+a). We then tell RStudio to run the selected code by clicking on the “Run”-button on the top right above the script or by pushing ctrl+Enter.\n\n\n\nFig 3. Running the code contained in the R script\n\n\nAs we can see, the output in the console looks as if we had manually entered the code and pressed “Enter” after each line. We could have obtained the same result by copy-pasting the content of the script into the console and hitting “Enter”.\nNote: In the image above, our script is yet unsaved as can be seen from its name “untitled1”. We can save it by clicking on the floppy disc Symbol (for those of you who still know what a 3.5” floppy disc is) or by clicking on “File” and then “Save” or “Save as”. Since we have not yet named our script, we will be prompted to select a name and to choose in which folder we want to save the script.\nFor example, we can name this script “my first script”. Once we have done that, the tab above the script shows the name of the script (or the start of the name if we chose a long name) followed by “.R” indicating that this is an R file.\n Also note how the name of the script is now shown in black font as opposed to the red font it had prior to saving. Writing a script’s name in red font is RStudio’s way of telling you that this script has unsaved changes."
+  },
+  {
+    "objectID": "intro2.html#commenting-your-code",
+    "href": "intro2.html#commenting-your-code",
+    "title": "Running code in R",
+    "section": "Commenting your code",
+    "text": "Commenting your code\nOne crucial part of an R script are comments. Comments are used to explain the code we write. Commenting our scripts is very important as it provides structure to them and makes the code legible, be it for others who try to understand our code or to ourselves (trust me, you will learn to appreciate a well-commented code if you return to a script you wrote a few months back and cannot remember what you did there).\nWe can write comments by adding a # in front of the text. All text following a # in the same line will be ignored by R when running the script.\n\n\n\nFig 5. Running code with comments\n\n\nWhen running the script the whole code is copied to the console, but only the actual code is being evaluated. All the text that we declared as comments is being ignored.\nNote: A good rule of thumb is to have at least one line of comments for every four lines of code. When in doubt, opt for more or more detailed comments. Better to over-explain your code than to risk it being unintelligible."
+  }
+]
