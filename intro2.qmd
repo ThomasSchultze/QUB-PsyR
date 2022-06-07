@@ -30,9 +30,7 @@ We can now edit the script. Here, we enter each of the computations we want R to
 
 As we can see, the output in the console looks as if we had manually entered the code and pressed "Enter" after each line. We could have obtained the same result by copy-pasting the content of the script into the console and hitting "Enter".
 
-::: {.alert .alert-success}
-**Note**: In the image above, our script is yet unsaved as can be seen from its name "untitled1". We can save it by clicking on the **floppy disc** Symbol (for those of you who still know what a 3.5" floppy disc is) or by clicking on "File" and then "Save" or "Save as". Since we have not yet named our script, we will be prompted to select a name and to choose in which folder we want to save the script.
-:::
+In the image above, our script is yet unsaved as can be seen from its name "untitled1". We can save it by clicking on the **floppy disc** Symbol (for those of you who still know what a 3.5" floppy disc is) or by clicking on "File" and then "Save" or "Save as". Since we have not yet named our script, we will be prompted to select a name and to choose in which folder we want to save the script.
 
 For example, we can name this script "my first script". Once we have done that, the tab above the script shows the name of the script (or the start of the name if we chose a long name) followed by ".R" indicating that this is an R file.
 
@@ -49,5 +47,5 @@ We can write comments by adding a **\#** in front of the text. All text followin
 When running the script the whole code is copied to the console, but only the actual code is being *evaluated*. All the text that we declared as comments is being ignored.
 
 ::: {.alert .alert-success}
-**Note**: A good rule of thumb is to have at least one line of comments for every four lines of code. When in doubt, opt for more or more detailed comments. Better to over-explain your code than to risk it being unintelligible.
+A good rule of thumb is to have at least one line of comments for every four lines of code. When in doubt, opt for more or more detailed comments. Better to over-explain your code than to risk it being unintelligible.
 :::
