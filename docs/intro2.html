@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.522">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>QUB-PsyR - Running code in R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="./index.html">
+    <img src="./images/QUBlogoWsmall.png" alt="">
+    <span class="navbar-title">QUB-PsyR</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-intro" role="button" data-bs-toggle="dropdown" aria-expanded="false">Intro</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-intro">    
+        <li>
+    <a class="dropdown-item" href="./intro1.html">
+ <span class="dropdown-text">R and RStudio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./intro2.html">
+ <span class="dropdown-text">Running Code in R</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html">About</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Running code in R</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p>As mentioned before, the R console is where we execute code and where all the computing is done. Before we start using R scripts, we first need to get a rough understanding of what the R console does. Think of the console as a glorified calculator. You tell it to run a piece of code and then R returns the answer.</p>
+<p>There are to way to run code in R: entering it manually in the R console or writing a script and executing part or all of it.</p>
+<section id="running-code-via-the-console" class="level2">
+<h2 class="anchored" data-anchor-id="running-code-via-the-console">Running code via the console</h2>
+<p>We can execute code by typing it in the console and hitting “Enter”. We will keep it simple for now. Lets say we want R to compute a few numbers. It could look like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/intro/console1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Fig 1. Input and output of simple code in the R console</figcaption><p></p>
+</figure>
+</div>
+<p>As we can see, each of the commands yields the appropriate answer. In theory, we could enter code that is much more complex, but entering long lines of code quickly becomes a hassle we would prefer to avoid. Also, once we close R we would have to enter the same code again manually, which is not only a lot of (unnecessary) work but also error prone.</p>
+<p>Generally speaking, using the console directly to run code is not very sensible, the exception being queries using the <em>help</em>-function (more on the <em>help</em>-function later).</p>
+</section>
+<section id="running-code-via-r-scripts" class="level2">
+<h2 class="anchored" data-anchor-id="running-code-via-r-scripts">Running code via R scripts</h2>
+<p>The most common way to run code in R is to write an R script and then execute it. The great advantage of an R script is that we can save it and re-run it as often as we want without having to enter everything by hand once again. If you are keen about Open Science, you can share the Script as part of your Open Analysis Code policy. Since R is free, researchers who want to look at, re-run, or even copy your code can do so without worrying about license fees.</p>
+<p>For example, we can write a script containing the same computations we entered manually into the console above. To do so, we first need to create a new (end empty) R script by clicking on “File”, then on “New File” and selecting “R Script”.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/intro/script1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Fig 2. Creating a new R script</figcaption><p></p>
+</figure>
+</div>
+<p>We can now edit the script. Here, we enter each of the computations we want R to do as a single line of our script. Once all four lines are ready, we select them all (either by marking them with the mouse or by clicking ctrl+a). We then tell RStudio to run the selected code by clicking on the <strong>“Run”-button</strong> on the top right above the script or by pushing <strong>ctrl+Enter</strong>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/intro/script2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Fig 3. Running the code contained in the R script</figcaption><p></p>
+</figure>
+</div>
+<p>As we can see, the output in the console looks as if we had manually entered the code and pressed “Enter” after each line. We could have obtained the same result by copy-pasting the content of the script into the console and hitting “Enter”.</p>
+<p><strong>Note</strong>: In the image above, our script is yet unsaved as can be seen from its name “untitled1”. We can save it by clicking on the <strong>floppy disc</strong> Symbol (for those of you who still know what a 3.5” floppy disc is) or by clicking on “File” and then “Save” or “Save as”. Since we have not yet named our script, we will be prompted to select a name and to choose in which folder we want to save the script.</p>
+<p>For example, we can name this script “my first script”. Once we have done that, the tab above the script shows the name of the script (or the start of the name if we chose a long name) followed by “.R” indicating that this is an R file.</p>
+<p><img src="images/intro/script3.png" class="img-fluid" alt="Fig 4. The script name is displayed after saving the script"> Also note how the name of the script is now shown in black font as opposed to the red font it had prior to saving. Writing a script’s name in red font is RStudio’s way of telling you that this script has unsaved changes.</p>
+</section>
+<section id="commenting-your-code" class="level2">
+<h2 class="anchored" data-anchor-id="commenting-your-code">Commenting your code</h2>
+<p>One crucial part of an R script are <strong>comments</strong>. Comments are used to explain the code we write. Commenting our scripts is <strong>very important</strong> as it provides structure to them and makes the code legible, be it for others who try to understand our code or to ourselves (trust me, you will learn to appreciate a well-commented code if you return to a script you wrote a few months back and cannot remember what you did there).</p>
+<p>We can write comments by adding a <strong>#</strong> in front of the text. All text following a <strong>#</strong> in the same line will be ignored by R when running the script.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/intro/comments1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Fig 5. Running code with comments</figcaption><p></p>
+</figure>
+</div>
+<p>When running the script the whole code is copied to the console, but only the actual code is being <em>evaluated</em>. All the text that we declared as comments is being ignored.</p>
+<p><strong>Note</strong>: A good rule of thumb is to have at least one line of comments for every four lines of code. When in doubt, opt for more or more detailed comments. Better to over-explain your code than to risk it being unintelligible.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
