@@ -36,7 +36,8 @@ In the image above, our script is yet unsaved as can be seen from its name "unti
 
 For example, we can name this script "my first script". Once we have done that, the tab above the script shows the name of the script (or the start of the name if we chose a long name) followed by ".R" indicating that this is an R file.
 
-![Fig 4. The script name is displayed after saving the script](images/intro/script3.png) Also note how the name of the script is now shown in black font as opposed to the red font it had prior to saving. Writing a script's name in red font is RStudio's way of telling you that this script has unsaved changes.
+![Fig 4. The script name is displayed after saving the script](images/intro/script3.png) 
+Also note how the name of the script is now shown in black font as opposed to the red font it had prior to saving. Writing a script's name in red font is RStudio's way of telling you that this script has unsaved changes.
 
 ## Commenting your code
 

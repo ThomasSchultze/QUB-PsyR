@@ -46,6 +46,15 @@ a <- 7
 Note: Using the arrow instead of an equal sign dates back to an old programming language that R is derived from (APL). Whether you define objects using arrows or equal signs has no effect on what R does. It is simply a matter of preference.
 :::
 
+:::{.altert .alert-warning}
+A few notes on naming variables:
+
+1. Variables names must not start with numbers. The name "item2" for an object is perfectly alright, whereas R won't accept "2" or "2nd" as object names.
+
+2. Variables names may not contain special characters with the exception of underlines and points. For example, the names "item_2" or "item.2" are valid. Other special characters will return error messages, though, because R interprets them as operators (e.g., "*" for multiplication, "/" for division, "&" as logical conjunction, etc.).
+
+3. variable names must not contain spaces. While "item2" is a valid name, "item 2" is not.
+:::
 
 ## Vectors
 
