@@ -191,24 +191,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>vectors</li>
 <li>matrices</li>
 </ul>
-<div class="alert alert-info">
-<p>Note: Single values, vectors, and matrices can vary by <em>type</em>. The type of these objects refers to the nature of its content, for example whether it contains numbers, character strings, logical arguments etc.</p>
-</div>
-<p>We will then turn toward two of the more complex R objects that we are very likely to encounter frequently when working with R:</p>
+<div class="alert alert-success">
+<p>We will later turn toward two of the more complex R objects that we are very likely to encounter frequently when working with R:</p>
 <ul>
 <li>data frames</li>
 <li>lists</li>
 </ul>
-<section id="single-values" class="level2">
-<h2 class="anchored" data-anchor-id="single-values">Single values</h2>
-<p>Single values are the simplest type of objects we can define in R. As their name suggests, they represent a single value, for example, the number 42. There are different types of values:</p>
+</div>
+<section id="types-of-values-vectors-and-matrices" class="level2">
+<h2 class="anchored" data-anchor-id="types-of-values-vectors-and-matrices">Types of values, vectors, and matrices</h2>
+<p>Single values, vectors, and matrices can vary by <em>type</em>. The type of these objects refers to the nature of its content, for example whether it contains numbers, character strings, logical arguments etc. The most common types of types are:</p>
 <ul>
 <li><strong>double</strong>: this means numbers with decimal points (although the decimals must not necessarily be displayed)</li>
 <li><strong>integer</strong>: whole numbers that can be negative positive or zero (rarely used because double type numbers are more practical)</li>
 <li><strong>character</strong>: a <em>character string</em>, which is essentially a sequence of text symbols (these symbols can include numbers, but these are interpreted as being part of the text and not as numbers)</li>
 <li><strong>logical</strong>: a logical <em>TRUE</em> or <em>FALSE</em>, also called a <em>boolean</em> value</li>
 </ul>
-<p>In order to define an object in R, we need to give it a name and then tell R how the object should look like. For example, we could tell R to create a single value called <em>a</em> that consists of the number 7. We do this as follows:</p>
+</section>
+<section id="naming-objects-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="naming-objects-in-r">Naming objects in R</h2>
+<p>In order to define an object in R, we need to give it a name and then tell R how the object should look like. Generally speaking, we can get very creative when naming our objects, but there are a few rules we need to keep in mind.</p>
+<ol type="1">
+<li><p>Object names must not start with numbers. The name “item2” is valid, but “2nd” is not (it will return a error message complaining about an “unexpected symbol”).</p></li>
+<li><p>Object names may not contain special characters with the exception of underscores and periods. For example, the names “item_2” or “item.2” are valid. Using other special character will often yield error messages because R interprets these characters as operators (e.g., “*” indicates multiplication, “&amp;” is a logical conjunction, etc.).</p></li>
+<li><p>Object names must not contain spaces. While “item2” is a valid name, “item 2” is not.</p></li>
+</ol>
+<div class="alert alert-success">
+<p>Not being allowed to use spaces in object names might prevent us from assigning meaningful and intelligible object names. To deal with the issue, there are three common types of notation:</p>
+<ul>
+<li><strong>period notation</strong>: place periods where you would have placed a space, e.g.&nbsp;<em>trial.number</em></li>
+<li><strong>underscore notation</strong>: replace spaces with underscores, e.g.&nbsp;<em>trial_number</em></li>
+<li><strong>camelBack notation</strong>: instead of spaces write everything as one word, but write the beginning of new words with a capital letter, e.g.&nbsp;<em>trialNumber</em></li>
+</ul>
+<p>Which notation you use is purely a matter of preference. You will likely encounter all of them when using R because the people who created base R or additional packages each have their own preferences regarding notation.</p>
+</div>
+</section>
+<section id="single-values" class="level2">
+<h2 class="anchored" data-anchor-id="single-values">Single values</h2>
+<p>Single values are the simplest type of objects we can define in R. As their name suggests, they represent a single value, for example, the number 7. We could tell R to create a single value called <em>a</em> that consists of the number 7. We do this as follows:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -218,20 +238,63 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="alert alert-info">
-<p>Note: Using the arrow instead of an equal sign dates back to an old programming language that R is derived from (APL). Whether you define objects using arrows or equal signs has no effect on what R does. It is simply a matter of preference.</p>
+<p>Using the arrow instead of an equal sign dates back to an old programming language that R is derived from (APL). Whether you define objects using arrows or equal signs has no effect on what R does. It is simply a matter of preference.</p>
 </div>
+<p>We can make R show us an object by running its name as code (either via the console or a script). If we enter the name of our single value <em>a</em> as code, we will see the following output.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7</code></pre>
+</div>
+</div>
+<p>R tells us “7”, which is exactly the value that we specified as <em>a</em>. The “[1]” in front of the value “7” is not important at this point. It merely tells us that the “7” is the first (and only) element of our single value.</p>
 </section>
 <section id="vectors" class="level2">
 <h2 class="anchored" data-anchor-id="vectors">Vectors</h2>
-<p>Vectors are objects that contain multiple values of the same type. A vector can contain several numbers, or it can contain multiple character strings, but we cannot create a vector that contains different types of values. We can define vectors using the following syntax.</p>
+<p>Vectors are objects that contain multiple values of the same type. Vectors cannot contain elements of different types. We can define vectors using the following syntax.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)   <span class="co"># This line of code creates a double vector </span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                <span class="co"># called "v1" containing the numbers 1 to 3.</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'hello'</span>, <span class="st">'purple'</span>, <span class="st">'11!'</span>)  <span class="co"># This creates a character vector</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="co"># called "v2" containing three strings.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)   <span class="co"># This line of code creates a double vector </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                <span class="co"># called "v1" containing the numbers 1 to 3.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'hello'</span>, <span class="st">'purple'</span>, <span class="st">'11!'</span>)  <span class="co"># This creates a character vector</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="co"># called "v2" containing three strings.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After executing this code, our <strong>Environment</strong> contains two more objects, <em>v1</em> and <em>v2</em>. The vector <em>v1</em> is denoted as a numeric vector (num) whereas <em>v2</em> is labeled as a character vector (chr).</p>
+<p>Just as with the single value <em>a</em>, we can have a look at our vectors by entering their names as code. For example, we can enter <em>v2</em> as code.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "hello"  "purple" "11!"   </code></pre>
+</div>
+</div>
+<p>We now see the three character strings that <em>v2</em> consists of in the console. Again, there is a [1] at the front of the line. It indicates that “hello” is the first element of <em>v2</em>. If the vector was long enough to occupy multiple rows in the console, each line would start with a number in brackets, indicating which element of the vector is displayed at the beginning of that line.</p>
+<div class="alert alert-success">
+<p><strong>Fun fact</strong>: We can think of single values as vectors of length 1.</p>
+</div>
+<div class="alert alert-danger">
+<p><strong>Caveat</strong>: If we try to create a vector containing different types of elements, R will not complain (i.e., we do not get an error message)! Instead, R will simply transform some of the elements to ensure that all elements share the same type.</p>
+<p>For example, if at least one of the elements we want to include in the vector is a character string, R will transform all other element types to character strings and create a character vector.</p>
+<p>If we try to combine numeric (double or integer) and logical values into one vector, R will interpret “FALSE” as 0 and “TRUE” as 1.</p>
+</div>
+</section>
+<section id="matrices" class="level2">
+<h2 class="anchored" data-anchor-id="matrices">Matrices</h2>
+<p>Matrices are the two-dimensional cousins of vectors. They have <em>r</em> rows and <em>c</em> columns. Per convention, the number of rows is stated before the number of columns, that is, a 4x3 matrix has 4 rows and 3 columns (think <strong>r</strong>oman-<strong>c</strong>atholic as a mnemonic aid).</p>
+<p>As with vectors, all elements of a matrix must share the same type (if we try to combine different types of elements, R will just transform some of the elements to create a homogeneous matrix). In fact, matrices in R are vectors that we break down into rows and columns. The syntax looks as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>matrix1 <span class="ot">=</span> <span class="fu">matrix</span>( <span class="co"># this tells R that we want to create a matrix</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>),     <span class="co"># defines the vector that will turn into a matrix</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">2</span>,       <span class="co"># this tells R that our matrix should have 2 rows </span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">2</span>)       <span class="co"># this tells R that our matrix should have 2 columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Executing this code creates a numerical matrix in our <strong>Environment</strong>. Other than with single values and vectors, we can click on the name of our matrix in the <strong>Environment</strong> to view how it looks like. Alternatively, we can enter the name of our matrix as code and have R print it in the console.</p>
+<div class="alert alert-rcode">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    1    3
+[2,]    2    4</code></pre>
+</div>
+</div>
+</div>
 
 
 </section>
