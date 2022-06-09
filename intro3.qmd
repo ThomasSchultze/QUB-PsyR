@@ -146,7 +146,7 @@ Executing the code above creates a numerical matrix in our **Environment**. Othe
 matrix1
 ```
 
-:::{.alert .alert-success}
+:::{.alert .alert-info}
 R is convenient in the sense that it is technically sufficient to specify either the number of rows or the number of columns. R will just infer the missing piece of information. For example, if we want to turn a vector of length 6 into a matrix with 2 columns, R will know that the matrix must have 3 rows. 
 :::
 
