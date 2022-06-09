@@ -11,7 +11,7 @@ In order to define an R object, we need to choose a name and tell R what informa
 
 ```{r}
 #| eval: false
-name = information
+object_name = information
 ```
 
 We write the name of our new object to the left of an *equal* sign and define the information the object should contain to its right. Instead of using an equal sign to define an object, we can also draw an arrow using the *less than* sign and a *hyphen*, which looks like this:
