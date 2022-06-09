@@ -60,7 +60,8 @@ We will be using two functions below:
 
 :::{.alert .alert-info}
 **Core fact 1**: Functions can have a lot of arguments, but it is not always necessary to specify all of them. Most functions have default values for some of their arguments. If we do not specify these arguments, R will just run the function as if we had entered the default value of the argument. If we do specify arguments with default values, we simply override the default. 
-
+:::
+:::{.alert .alert-info}
 **Core fact 2**: It is impossible (for most people at least) to remember all functions and which arguments they require. Therefore, R contains a lifesaver in the form of a special function called *help*. The function *help* requires the name of a *topic* (including but not limited to functions) as its main argument. Calling *help* with the name of a function will show the documentation for that function in the **Help** tab of the **Utility & Help** section of RStudio's interface (bottom right).
 :::
 
