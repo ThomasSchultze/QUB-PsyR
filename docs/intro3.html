@@ -194,7 +194,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="defining-r-objects">Defining R objects</h2>
 <p>In order to define an R object, we need to choose a name and tell R what information the object should contain. The general syntax for defining objects looks like this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>name <span class="ot">=</span> information</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>object_name <span class="ot">=</span> information</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We write the name of our new object to the left of an <em>equal</em> sign and define the information the object should contain to its right. Instead of using an equal sign to define an object, we can also draw an arrow using the <em>less than</em> sign and a <em>hyphen</em>, which looks like this:</p>
 <div class="cell">
@@ -288,8 +288,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">2</span>,       <span class="co"># this tells R that our matrix should have 2 rows </span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">2</span>)       <span class="co"># this tells R that our matrix should have 2 columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Executing this code creates a numerical matrix in our <strong>Environment</strong>. Other than with single values and vectors, we can click on the name of our matrix in the <strong>Environment</strong> to view how it looks like. Alternatively, we can enter the name of our matrix as code and have R print it in the console.</p>
-<div class="alert alert-warning">
+<p>Executing the code above creates a numerical matrix in our <strong>Environment</strong>. Other than with single values and vectors, we can click on the name of our matrix in the <strong>Environment</strong> to view how it looks like. Alternatively, we can enter the name of our matrix as code and have R print it in the console.</p>
+<p>:::{.alert .alert-warning}</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
@@ -297,6 +297,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 [2,]    2    4</code></pre>
 </div>
 </div>
+<div class="alert alert-success">
+<p>R is convenient in the sense that it is technically sufficient to specify either the number of rows or the number of columns. R will just infer the missing piece of information. For example, if we want to turn a vector of length 6 into a matrix with 2 columns, R will know that the matrix must have 3 rows.</p>
 </div>
 </section>
 <section id="naming-objects-in-r" class="level2">
@@ -307,7 +309,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Object names may not contain special characters with the exception of underscores and periods. For example, the names “item_2” or “item.2” are valid. Using other special character will often yield error messages because R interprets these characters as operators (e.g., “*” indicates multiplication, “&amp;” is a logical conjunction, etc.).</p></li>
 <li><p>Object names must not contain spaces. While “item2” is a valid name, “item 2” is not.</p></li>
 </ol>
-<div class="alert alert-success">
+<div class="alert alert-info">
 <p>Not being allowed to use spaces in object names might prevent us from assigning meaningful and intelligible object names. To deal with the issue, there are three common types of notation:</p>
 <ul>
 <li><strong>period notation</strong>: place periods where you would have placed a space, e.g.&nbsp;<em>trial.number</em></li>
