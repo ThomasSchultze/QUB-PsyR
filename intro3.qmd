@@ -2,18 +2,44 @@
 title: "Objects in R"
 ---
 
-R revolves around different objects we can define and manipulate. First, we will cover the most important of the basic R objects, namely:
+R revolves around **objects** and **functions**. Generally speaking, an object is a container for information, and a function is a piece of code that performs a specific task. We often use functions to manipulate or create objects. Here, we will focus on R objects.
+
+
+## Defining R objects
+
+In order to define an R object, we need to choose a name and tell R what information the object should contain. The general syntax for defining objects looks like this:
+
+```{r}
+#| eval: false
+name = information
+```
+
+We write the name of our new object to the left of an *equal* sign and define the information the object should contain to its right. Instead of using an equal sign to define an object, we can also draw an arrow using the *less than* sign and a *hyphen*, which looks like this:
+
+```{r}
+#| eval: false
+object_name <- information
+```
+
+:::{.alert .alert-info} 
+Using the arrow instead of an equal sign dates back to an old programming language that R is derived from (APL). Whether you define objects using arrows or equal signs has no effect on what R does. It is simply a matter of preference.
+:::
+
+As soon as we have defined an object (and assuming that we did everything correctly), our new object will appear in the **Environment** tab of RStudio's **Memory** section (top right panel).
+
+We will now cover the most important of the basic R objects, namely:
 
 -   single values
 -   vectors
 -   matrices
 
-:::{.alert .alert-success}
+:::{.alert .alert-info}
 We will later turn toward two of the more complex R objects that we are very likely to encounter frequently when working with R:
 
 -   data frames
 -   lists
 :::
+
 
 ## Types of values, vectors, and matrices
 
@@ -25,27 +51,6 @@ Single values, vectors, and matrices can vary by *type*. The type of these objec
 - **logical**: a logical *TRUE* or *FALSE*, also called a *boolean* value
 
 
-## Naming objects in R
-
-In order to define an object in R, we need to give it a name and then tell R how the object should look like. Generally speaking, we can get very creative when naming our objects, but there are a few rules we need to keep in mind.
-
-1. Object names must not start with numbers. The name "item2" is valid, but "2nd" is not (it will return a error message complaining about an "unexpected symbol").
-
-2. Object names may not contain special characters with the exception of underscores and periods. For example, the names "item_2" or "item.2" are valid. Using other special character will often yield error messages because R interprets these characters as operators (e.g., "*" indicates multiplication, "&" is a logical conjunction, etc.).
-
-3. Object names must not contain spaces. While "item2" is a valid name, "item 2" is not. 
-
-:::{.alert .alert-success}
-Not being allowed to use spaces in object names might prevent us from assigning meaningful and intelligible object names. To deal with the issue, there are three common types of notation:
-
-- **period notation**: place periods where you would have placed a space, e.g. *trial.number*
-- **underscore notation**: replace spaces with underscores, e.g. *trial_number*
-- **camelBack notation**: instead of spaces write everything as one word, but write the beginning of new words with a capital letter, e.g. *trialNumber*
-
-Which notation you use is purely a matter of preference. You will likely encounter all of them when using R because the people who created base R or additional packages each have their own preferences regarding notation.
-:::
-
-
 ## Single values
 
 Single values are the simplest type of objects we can define in R. As their name suggests, they represent a single value, for example, the number 7. We could tell R to create a single value called *a* that consists of the number 7. We do this as follows:
@@ -55,27 +60,25 @@ Single values are the simplest type of objects we can define in R. As their name
 a = 7
 ```
 
-Once we run this line of code, we should notice that our **Environment** (top right of our RStudio interface) now contains the object *a*. There, we can also see that *a* is the number 7.
-
-Instead of using an equal sign to define an object, we can also draw an arrow using the *less than* sign and a *hyphen*, which looks like this:
+Alternatively, we can use the arrow notation to define the object.
 
 ```{r}
 #| eval: false
 a <- 7
 ```
 
-:::{.alert .alert-info} 
-Using the arrow instead of an equal sign dates back to an old programming language that R is derived from (APL). Whether you define objects using arrows or equal signs has no effect on what R does. It is simply a matter of preference.
-:::
-
+Once we run either line of code, we should notice that our **Environment** now contains the object *a*. There, we can also see that *a* is the number 7.
 
 We can make R show us an object by running its name as code (either via the console or a script). If we enter the name of our single value *a* as code, we will see the following output.
 
+:::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
 a
 ```
+:::
+
 R tells us "7", which is exactly the value that we specified as *a*. The "[1]" in front of the value "7" is not important at this point. It merely tells us that the "7" is the first (and only) element of our single value.
 
 
@@ -97,11 +100,14 @@ After executing this code, our **Environment** contains two more objects, *v1* a
 
 Just as with the single value *a*, we can have a look at our vectors by entering their names as code. For example, we can enter *v2* as code.
 
+:::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
 v2
 ```
+:::
+
 We now see the three character strings that *v2* consists of in the console. Again, there is a [1] at the front of the line. It indicates that "hello" is the first element of *v2*. If the vector was long enough to occupy multiple rows in the console, each line would start with a number in brackets, indicating which element of the vector is displayed at the beginning of that line.
 
 :::{.alert .alert-success}
@@ -131,20 +137,36 @@ matrix1 = matrix( # this tells R that we want to create a matrix
   ncol = 2)       # this tells R that our matrix should have 2 columns
 ```
 
-Executing this code creates a numerical matrix in our **Environment**. Other than with single values and vectors, we can click on the name of our matrix in the **Environment** to view how it looks like. Alternatively, we can enter the name of our matrix as code and have R print it in the console.
+Executing the code above creates a numerical matrix in our **Environment**. Other than with single values and vectors, we can click on the name of our matrix in the **Environment** to view how it looks like. Alternatively, we can enter the name of our matrix as code and have R print it in the console.
 
-:::{.alert .alert-rcode}
+:::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
 matrix1
 ```
+
+:::{.alert .alert-success}
+R is convenient in the sense that it is technically sufficient to specify either the number of rows or the number of columns. R will just infer the missing piece of information. For example, if we want to turn a vector of length 6 into a matrix with 2 columns, R will know that the matrix must have 3 rows. 
 :::
 
 
+## Naming objects in R
 
+In order to define an object in R, we need to give it a name and then tell R how the object should look like. Generally speaking, we can get very creative when naming our objects, but there are a few rules we need to keep in mind.
 
+1. Object names must not start with numbers. The name "item2" is valid, but "2nd" is not (it will return a error message complaining about an "unexpected symbol").
 
+2. Object names may not contain special characters with the exception of underscores and periods. For example, the names "item_2" or "item.2" are valid. Using other special character will often yield error messages because R interprets these characters as operators (e.g., "*" indicates multiplication, "&" is a logical conjunction, etc.).
 
+3. Object names must not contain spaces. While "item2" is a valid name, "item 2" is not. 
 
+:::{.alert .alert-info}
+Not being allowed to use spaces in object names might prevent us from assigning meaningful and intelligible object names. To deal with the issue, there are three common types of notation:
 
+- **period notation**: place periods where you would have placed a space, e.g. *trial.number*
+- **underscore notation**: replace spaces with underscores, e.g. *trial_number*
+- **camelBack notation**: instead of spaces write everything as one word, but write the beginning of new words with a capital letter, e.g. *trialNumber*
+
+Which notation you use is purely a matter of preference. You will likely encounter all of them when using R because the people who created base R or additional packages each have their own preferences regarding notation.
+:::
