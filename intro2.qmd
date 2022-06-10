@@ -4,7 +4,7 @@ title: "Running code in R"
 
 As mentioned before, the R console is where we execute code and where all the computing is done. Before we start using R scripts, we first need to get a rough understanding of what the R console does. Think of the console as a glorified calculator. You tell it to run a piece of code and then R returns the answer.
 
-There are to way to run code in R: entering it manually in the R console or writing a script and executing part or all of it.
+There are two ways to run code in R: entering it manually in the R console or writing a script and executing part or all of it.
 
 ## Running code via the console
 
