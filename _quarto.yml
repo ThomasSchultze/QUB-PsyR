@@ -15,6 +15,8 @@ website:
           href: intro2.html
         - text: "Objects and Functions"
           href: intro3.html
+        - text: "Data Frames and Lists"
+          href: intro4.html
       - text: "About"
         href: about.html
 
