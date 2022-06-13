@@ -5,7 +5,7 @@ title: "R and RStudio"
 R is a software for statistical analysis (among others), but we will not work with R directly. Instead, we will be using R via a software called Rstudio, which serves as a user interface. While there is nothing wrong with using R on its own, RStudio makes the life of the users easier.
 
 
-# Understanding the RStudio interface
+## Understanding the RStudio interface
 
 You have got the latest version of R and RStudio on your computer and are eager to get things going? Great!
 
@@ -18,7 +18,7 @@ The interface has three parts, the **R console**, the **memory**, and the **util
 ![Fig 2. RStudio interface when at least one script is open](images/intro/RStudioGUI2.png)
 
 
-# The RStudio interface components
+## The RStudio interface components
 
 ### The console
 
