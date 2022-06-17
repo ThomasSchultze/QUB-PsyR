@@ -17,6 +17,11 @@ website:
           href: intro3.html
         - text: "Data Frames and Lists"
           href: intro4.html
+      - text: "Working with R Objects"
+        menu:
+        - text: "Operations on numeric objects"
+          href: working1.html
+        
       - text: "About"
         href: about.html
 
