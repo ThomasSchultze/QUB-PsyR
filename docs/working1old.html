@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>QUB-PsyR - Single Values</title>
+<title>QUB-PsyR - Operations on numeric objects</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -184,7 +184,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Single Values</h1>
+<h1 class="title">Operations on numeric objects</h1>
 </div>
 
 
@@ -198,77 +198,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>We already know ho to define R objects. We will now turn to the question how to work with them. Generally speaking, we can work with R objects by performing <strong>operations</strong> on them. There are two ways of doing so: one is to use <strong>binary operators</strong>. Binary operators are symbols that R uses to represent a specific operation involving two objects. These operations can be <em>arithmetic</em> or <em>logical</em>. Another way to perform operations on R objects is to feed them into <strong>functions</strong> as function arguments.</p>
-<p>We can think of a function as an (often) elaborate sequence of simple operations. As such, they can involve more than two objects. However, functions are not only more elaborate than operations using a binary operator; they are also more flexible, because we can modify what a function does or how it does it via its additional function arguments.</p>
-<div class="alert alert-info">
-<p>Consider, for example the function <em>matrix</em> we used previously. It is flexible because the function arguments <em>nrow</em> and <em>ncol</em> allow us to create matrices of arbitrary size.</p>
-</div>
-<p>In the following, we will learn how to perform arithmetic and logical operations on single values by using some of R’s built-in binary operators and by using functions. But before we jump into action, we need to have a look at how R’s binary operators look like.</p>
-<section id="arithmetic-binary-operators" class="level2">
-<h2 class="anchored" data-anchor-id="arithmetic-binary-operators">Arithmetic binary operators</h2>
-<p>R has seven built-in arithmetic binary operators (you will probably not use the last two, but we will include them for the sake of completeness).</p>
-<table class="table">
-<colgroup>
-<col style="width: 12%">
-<col style="width: 24%">
-<col style="width: 63%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Operator</th>
-<th>Operation</th>
-<th>What R does</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>+</td>
-<td>addition</td>
-<td>computes the sum of two numbers</td>
-</tr>
-<tr class="even">
-<td>-</td>
-<td>subtraction</td>
-<td>subtracts the second number from the first</td>
-</tr>
-<tr class="odd">
-<td>*</td>
-<td>multiplication</td>
-<td>computes the product of two numbers</td>
-</tr>
-<tr class="even">
-<td>-</td>
-<td>division</td>
-<td>divides first number by the second</td>
-</tr>
-<tr class="odd">
-<td>^</td>
-<td>power</td>
-<td>takes the first to the power of the second</td>
-</tr>
-<tr class="even">
-<td>%%</td>
-<td>modulo</td>
-<td>takes the remainder of division</td>
-</tr>
-<tr class="odd">
-<td>%/%</td>
-<td>integer division</td>
-<td>division rounded down to whole numbers</td>
-</tr>
-</tbody>
-</table>
-<p>Now that we know the symbols for R’s arithmetic binary operators, we can start using them on numeric objects.</p>
+<p>We already know ho to define numeric values, vectors, or matrices in R. Here, we will learn how we use them in arithmetic operations.</p>
+<section id="basic-operations-on-single-values" class="level2">
+<h2 class="anchored" data-anchor-id="basic-operations-on-single-values">Basic operations on single values</h2>
+<p>In R, the basic arithmetic operations use specific symbols, that is, in order to perform these operations, we do not need to call functions. These symbols look as follows:</p>
+<ul>
+<li><strong>addition</strong>: +</li>
+<li><strong>subtraction</strong>: -</li>
+<li><strong>multiplication</strong>: *</li>
+<li><strong>division</strong>: /</li>
+<li><strong>exponentiation</strong>: ^</li>
+</ul>
 <p>Here are a few examples:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">7</span>   <span class="co"># defines a numeric value to play around with</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="dv">2</span>   <span class="co"># defines a second numeric value</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>a <span class="sc">+</span> <span class="dv">3</span>   <span class="co"># adds 3 to our value for a sum of 10</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">*</span> a   <span class="co"># multiples 5 by a for a product of 35</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>a <span class="sc">^</span> b   <span class="co"># computes a to the power of b (49)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">7</span>   <span class="co"># defines a numeric value to play around with</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a <span class="sc">+</span> <span class="dv">3</span>   <span class="co"># adds 3 to our value for a sum of 10</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">*</span> a   <span class="co"># multiples 5 by a for a product of 35</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>a <span class="sc">^</span> <span class="dv">2</span>     <span class="co"># computes a to the power of 2 (49)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is what appears in the console:</p>
 <div class="alert alert-warning">
@@ -284,7 +233,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p>Of course, we can also use arithmetic operators involving multiple numeric values, and we can save the result by defining it as another object.</p>
+<p>Of curse, we can also use operators involving multiple objects, and we can save the result by defining it as another object.</p>
 <div class="alert alert-danger">
 <p>Note that R follows the basic rules of arithmetic operations. That is, power takes precedence over multiplication or division, which, in turn, take precedence over addition or subtraction. Just as in school maths, we need to use parentheses to organize our operations accordingly.</p>
 </div>
@@ -305,141 +254,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<div class="alert alert-danger">
-<p>Arithmetic operators should only work on numeric values (integer or double). Accordingly, R will complain if at lest one of the objects we use as arguments is a character string. Specifically, it will return an error message in the console stating that we assigned a non-numeric argument to the binary operator.</p>
-<p>Something similar should happen if we assign at least one boolean value, that is, a value stating either a logical TRUE or FALSE. Keep in mind, however, that R sometimes changes the type of an object so that it works with an operator or function (this is called coercion). If we use a boolean value in an arithmetic operation, R will just treat it as a binary numeric variable (FALSE = 0, TRUE = 1).</p>
+</section>
+<section id="basic-operations-on-vectors-and-matrices" class="level2">
+<h2 class="anchored" data-anchor-id="basic-operations-on-vectors-and-matrices">Basic operations on vectors and matrices</h2>
+<p>In R, we can use the same operations we can use on single values when working with vectors and matrices. That is, we can:</p>
+<ul>
+<li>add or subtract a specific number to a numeric vector or matrix</li>
+<li>multiply or divide a numeric vector or matrix by a specific number</li>
+<li>take a numeric vector or matrix to the power of a specific number</li>
+</ul>
+<p>Let’s first define a vector containing the numbers from 1 to 9. Usually, we would define this vector using the function <em>c</em>, and entering the numbers from 1 to 9 as function arguments. However, defining vectors of consecutive integers in this fashion can become a bit tiresome, so we will use a more efficient option that R offers.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>  <span class="co"># create a vector of integers from 1 to 9</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="alert alert-info">
+<p>Note that the code above creates an integer vector (whole numbers). We can verify this by calling the function <em>typeof</em> and using our vector <em>v1</em> as its argument. Had we created <em>v1</em> by using the function <em>c</em> and entering all number from 1 to 9 as function arguments, the resulting vector would have been a <em>double</em> vector instead (decimal numbers). However, in practice,this does not need to concern us because we can use any operation that works on decimal numbers on integers in R.</p>
+</div>
+<p>Now that we have defined our vector, we can use it in the operations above. For example, we can add a number to it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="sc">+</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The output in the console looks as follows:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  6  7  8  9 10 11 12 13 14</code></pre>
+</div>
+</div>
+</div>
+<p>As we can see, R performed the operation (add 5) to each element of our vector <em>v1</em>. The same would have happened, had we chosen another arithmetic operation.</p>
+<p>Using matrices in basic operations works in the same fashion. To show this, we will first turn our vector <em>v1</em> into a matrix, which we will call <em>m1</em> for lack of creativity. We will then multiply the new matrix by 2.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">matrix</span>(v1, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">nrow =</span> <span class="dv">3</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">*</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As we can see from the output in the console, R has indeed multiplied each element of our matrix by two.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    2    8   14
+[2,]    4   10   16
+[3,]    6   12   18</code></pre>
+</div>
+</div>
 </div>
 </section>
-<section id="logical-operators" class="level2">
-<h2 class="anchored" data-anchor-id="logical-operators">Logical operators</h2>
-<p>Besides arithmetic operators, R has several built-in logical binary operators. Logical binary operators require two objects as argument and then check if something is TRUE or FALSE. In other word, they return a boolean value. Here is the list of logical operators:</p>
-<table class="table">
-<colgroup>
-<col style="width: 12%">
-<col style="width: 87%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Operator</th>
-<th>What R tests</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>&lt;</td>
-<td>the first value is <strong>less than</strong> the second</td>
-</tr>
-<tr class="even">
-<td>&lt;=</td>
-<td>the first value is <strong>less than or equal to</strong> the second</td>
-</tr>
-<tr class="odd">
-<td>&gt;</td>
-<td>the first value is <strong>greater</strong> than the second</td>
-</tr>
-<tr class="even">
-<td>&gt;=</td>
-<td>the first value is <strong>greater than or equal to</strong> the second</td>
-</tr>
-<tr class="odd">
-<td>==</td>
-<td>the first value is <strong>exactly equal</strong> to the second</td>
-</tr>
-<tr class="even">
-<td>!=</td>
-<td>the first value is <strong>not equal</strong> to the second</td>
-</tr>
-</tbody>
-</table>
-<p>Some of these logical operators can only be used on numeric values or on boolean values that R has coerced to being numeric. However, the last two operators work on any type of value. Here are a few examples:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="st">"hello"</span>   <span class="co"># a character value</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="cn">FALSE</span>     <span class="co"># a boolean value</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">=</span> <span class="dv">13</span>        <span class="co"># a numeric value</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>a <span class="sc">!=</span> <span class="st">"hello"</span>  <span class="co"># tests if a is unqeual to the string "hello" (this is FALSE)</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>b <span class="sc">==</span> <span class="cn">FALSE</span>    <span class="co"># tests if b is the boolean value FALSE (which is TRUE)</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>d <span class="sc">&lt;=</span> <span class="dv">25</span>       <span class="co"># tests if d is less than or equal to 25 (TRUE)</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>d <span class="sc">&gt;</span> b         <span class="co"># tests if 13 is greater than FALSE</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>              <span class="co"># R will coerce the object b to become numeric with FALSE </span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>              <span class="co"># equaling 0 (therefore, th statement is TRUE)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Here is what the output in the console looks like.</p>
-<div class="alert alert-warning">
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
-</div>
-</div>
-</div>
-<div class="alert alert-info">
-<p><strong>Note</strong> In the example above, we named the three objects <em>a</em>, <em>b</em>, and <em>d</em>. This was neither an oversight nor an expression of dislike toward the letter <em>c</em>. The simple reason is that there is a function called <em>c</em>, and it is prudent to avoid giving objects the same name as existing functions.</p>
-<p>Technically, it is possible to assign an object the name of a function, but it may lead to confusion or problems. Therefore, it is best avoided.</p>
-</div>
-<p>Just as with numeric binary operators, we can form longer expressions by combining logical operations. There are two ways to connect two logical operations. Each has its own symbol in R.</p>
-<table class="table">
-<colgroup>
-<col style="width: 12%">
-<col style="width: 87%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Operator</th>
-<th>What it means</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>&amp;</td>
-<td><strong>AND</strong></td>
-</tr>
-<tr class="even">
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>A few examples:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>a <span class="sc">==</span> <span class="st">"hello"</span> <span class="sc">&amp;</span> d <span class="sc">!=</span> <span class="dv">7</span> <span class="co"># tests if both a equal "hello" and d differs from 7</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                      <span class="co"># since both statements are true, R will return TRUE</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>b <span class="sc">==</span> <span class="cn">FALSE</span> <span class="sc">|</span> d <span class="sc">==</span> <span class="dv">7</span>   <span class="co"># tests if either b equals FALSE (which is TRUE)</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                      <span class="co"># or d equal 7 (which is FALSE); since at least</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                      <span class="co"># one of the statements is true, R will return TRUE</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>a <span class="sc">==</span> <span class="st">"bye"</span> <span class="sc">|</span> b <span class="sc">==</span> <span class="cn">TRUE</span> <span class="sc">|</span> d <span class="sc">!=</span> <span class="dv">13</span>  <span class="co"># here, we test if any of three tests is TRUE</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                                  <span class="co"># none of them are TRUE, so R will say FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Here is what the ourput in the console looks like:</p>
-<div class="alert alert-warning">
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
-</div>
-</div>
-</div>
-<div class="alert alert-info">
-<p>The <em>!</em> has some special uses in R. It represents the logical argument “non”. There are several functions that</p>
-</div>
+<section id="multiplication-of-vectors-and-matrices" class="level2">
+<h2 class="anchored" data-anchor-id="multiplication-of-vectors-and-matrices">Multiplication of vectors and matrices</h2>
 
 
 </section>

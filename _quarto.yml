@@ -19,7 +19,7 @@ website:
           href: intro4.html
       - text: "Working with R Objects"
         menu:
-        - text: "Operations on numeric objects"
+        - text: "Single Values"
           href: working1.html
         
       - text: "About"

@@ -1,0 +1,144 @@
+---
+title: "Operations on numeric objects"
+---
+
+We already know ho to define numeric values, vectors, or matrices in R. Here, we will learn how we use them in arithmetic operations. 
+
+## Basic operations on single values
+
+In R, the basic arithmetic operations use specific symbols, that is, in order to perform these operations, we do not need to call functions. These symbols look as follows:
+
+- **addition**: +
+- **subtraction**: -
+- **multiplication**: \*
+- **division**: /
+- **exponentiation**: ^
+
+Here are a few examples:
+
+```{r}
+#| eval: false
+#| echo: true
+a = 7   # defines a numeric value to play around with
+
+a + 3   # adds 3 to our value for a sum of 10
+
+5 * a   # multiples 5 by a for a product of 35
+
+a ^ 2     # computes a to the power of 2 (49)
+```
+
+This is what appears in the console:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+a = 7   # defines a numeric value to play around with
+
+a + 3   # adds 3 to our value for a sum of 10
+
+5 * a   # multiples 5 by a for a product of 35
+
+a ^ 2     # computes a to the power of 2
+```
+:::
+
+Of curse, we can also use operators involving multiple objects, and we can save the result by defining it as another object.
+
+:::{.alert .alert-danger}
+Note that R follows the basic rules of arithmetic operations. That is, power takes precedence over multiplication or division, which, in turn, take precedence over addition or subtraction. Just as in school maths, we need to use parentheses to organize our operations accordingly.
+:::
+
+```{r}
+#| eval: true
+
+x = 3   # define a numeric value
+y = 2   # define another value
+
+z = x ^ 2 / (x * y - x)
+```
+
+In the example above, we defined a numeric value called *z*. Since power takes precedence over division, R first computes *x* to the power of 2 (for a total of 9). It then divides 9 by the expression in the parentheses. Within the parentheses, multiplication takes precedence over subtraction, which means that R first computed the product of *x* and *y* (which is 6) and then subtracts *x* for a total of 3. So our code boils down to dividing 9 by 3. We can easily verify that R did that by inspecting the new object *z*.
+
+```{r}
+#| eval: false
+#| echo: true
+z
+```
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+z
+```
+:::
+
+
+## Basic operations on vectors and matrices
+
+In R, we can use the same operations we can use on single values when working with vectors and matrices. That is, we can:
+
+- add or subtract a specific number to a numeric vector or matrix
+- multiply or divide a numeric vector or matrix by a specific number
+- take a numeric vector or matrix to the power of a specific number
+
+Let's first define a vector containing the numbers from 1 to 9. Usually, we would define this vector using the function *c*, and entering the numbers from 1 to 9 as function arguments. However, defining vectors of consecutive integers in this fashion can become a bit tiresome, so we will use a more efficient option that R offers.
+
+```{r}
+#| eval: true
+#| echo: true
+
+v1 = 1:9  # create a vector of integers from 1 to 9
+```
+
+:::{.alert .alert-info}
+Note that the code above creates an integer vector (whole numbers). We can verify this by calling the function *typeof* and using our vector *v1* as its argument. Had we created *v1* by using the function *c* and entering all number from 1 to 9 as function arguments, the resulting vector would have been a *double* vector instead (decimal numbers). However, in practice,this does not need to concern us because we can use any operation that works on decimal numbers on integers in R. 
+:::
+
+Now that we have defined our vector, we can use it in the operations above. For example, we can add a number to it.
+
+```{r}
+#| eval: false
+#| echo: true
+v1 + 5
+```
+
+The output in the console looks as follows:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+v1 + 5
+```
+:::
+
+As we can see, R performed the operation (add 5) to each element of our vector *v1*. The same would have happened, had we chosen another arithmetic operation. 
+
+Using matrices in basic operations works in the same fashion. To show this, we will first turn our vector *v1* into a matrix, which we will call *m1* for lack of creativity. We will then multiply the new matrix by 2.
+
+```{r}
+#| eval: false
+#| echo: true
+m1 = matrix(v1, ncol = 3, nrow = 3)
+
+m1 * 2
+```
+
+As we can see from the output in the console, R has indeed multiplied each element of our matrix by two.
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+m1 = matrix(v1, ncol = 3, nrow = 3)
+
+m1 * 2
+```
+:::
+
+## Multiplication of vectors and matrices
+
+
