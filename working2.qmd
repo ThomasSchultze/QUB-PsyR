@@ -1,0 +1,11 @@
+---
+title: "Functions"
+---
+
+Most of the things we will do when using R will be done using functions. We can think of a function as an (often) elaborate sequence of simple operations. As such, they can involve more than two objects. However, functions are not only more elaborate than operations using a binary operator; they are also more flexible, because we can modify what a function does or how it does it via its additional function arguments.
+
+:::{.alert .alert-info}
+Consider, for example the function *matrix* we used previously. It is flexible because the function arguments *nrow* and *ncol* allow us to create matrices of arbitrary size.
+:::
+
+

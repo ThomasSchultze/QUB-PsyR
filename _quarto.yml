@@ -19,8 +19,10 @@ website:
           href: intro4.html
       - text: "Working with R Objects"
         menu:
-        - text: "Single Values"
+        - text: "Binary Operators"
           href: working1.html
+        - text: "Functions"
+          href: working2.html
         
       - text: "About"
         href: about.html
