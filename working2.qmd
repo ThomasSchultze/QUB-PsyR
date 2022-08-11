@@ -9,3 +9,54 @@ Consider, for example the function *matrix* we used previously. It is flexible b
 :::
 
 
+## The basic setup of R functions
+
+All R function share the same setup. The function has a unique name by which we can call it, and it has a number of *function arguments* that we need to specify in parentheses following the function name when calling the function.
+
+Function arguments can be objects that we would like to feed to the function or parameters of the function that influence what the function does. Some of a function's arguments are **required** arguments, that is, if we do not specify these arguments, the functions won't run. Instead, R will complain by printing an error message telling us that we did not specify a required function argument.
+
+A function may also entail **non-required** function arguments. Technically, these arguments are also required, but the person who wrote the function defined **default values** for the arguments. If a function argument has a default value, we do not need to specify it in order for the function to run. The function will simply run as if we had entered the respective argument's default value manually.
+
+:::{alert .alert-info}
+Occasionally, we might come across functions that have no arguments at all. These functions are quite rare. We can can them by writing nothing in the parentheses following the function's name.
+
+
+## The most useful function in R - help
+
+All functions in R are documented in order to help users understand what the function does, what its arguments are and what they do. We can ask R to show us the documentation using the function *help*. If we call this function and feed it the name of an R function as a function argument, R will display the documentation in the **help** tab of the **utility & help** section (bottom right of RStudio's interface). Note that the function *help* requires the function name to be a character string, that is, we need to write it in quotation marks.
+
+As an alternative to calling the function's name in regular R syntax, we can type the functions name in the search field of the **help** tab.If we use this way to learn about a function, we do not need quotation marks.
+
+Once we call the help function, R will show us the documentation of an existing R function or a group of related functions. R will generally display a lot of information. What information is displayed exactly depends on the function.
+
+The following information will be shown for all functions:
+
+- the **name** of the function
+- what **R package** it is from
+- a **description** of the the function does
+- how to call the function (**usage**)
+- the functions' **arguments**
+- a description of the type and format of the function's output (**value**)
+- functioning R code showing **examples** of how the function can be used
+
+There may be additional information for some functions such as:
+- a description of the maths or logic underlying the function (**details**)
+- additional information of potential interest to the user (**note**)
+- **references** to literature the literature the function is based on
+- links to related functions (**see also**)
+
+Let's look at an example by asking R to show us the documentation for the function *median* using R syntax.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+help("median")
+```
+
+R will now show us the following in the **help** tab.
+
+![Fig 1. Documentation for the function median](images/working/help_median.png)
+
+
+

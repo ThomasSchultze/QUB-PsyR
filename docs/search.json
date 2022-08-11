@@ -165,6 +165,20 @@
     "href": "working2.html",
     "title": "Functions",
     "section": "",
-    "text": "Consider, for example the function matrix we used previously. It is flexible because the function arguments nrow and ncol allow us to create matrices of arbitrary size."
+    "text": "Most of the things we will do when using R will be done using functions. We can think of a function as an (often) elaborate sequence of simple operations. As such, they can involve more than two objects. However, functions are not only more elaborate than operations using a binary operator; they are also more flexible, because we can modify what a function does or how it does it via its additional function arguments."
+  },
+  {
+    "objectID": "working2.html#the-basic-setup-of-r-functions",
+    "href": "working2.html#the-basic-setup-of-r-functions",
+    "title": "Functions",
+    "section": "The basic setup of R functions",
+    "text": "The basic setup of R functions\nAll R function share the same setup. The function has a unique name by which we can call it, and it has a number of function arguments that we need to specify in parentheses following the function name when calling the function.\nFunction arguments can be objects that we would like to feed to the function or parameters of the function that influence what the function does. Some of a function’s arguments are required arguments, that is, if we do not specify these arguments, the functions won’t run. Instead, R will complain by printing an error message telling us that we did not specify a required function argument.\nA function may also entail non-required function arguments. Technically, these arguments are also required, but the person who wrote the function defined default values for the arguments. If a function argument has a default value, we do not need to specify it in order for the function to run. The function will simply run as if we had entered the respective argument’s default value manually.\n:::{alert .alert-info} Occasionally, we might come across functions that have no arguments at all. These functions are quite rare. We can can them by writing nothing in the parentheses following the function’s name."
+  },
+  {
+    "objectID": "working2.html#the-most-useful-function-in-r---help",
+    "href": "working2.html#the-most-useful-function-in-r---help",
+    "title": "Functions",
+    "section": "The most useful function in R - help",
+    "text": "The most useful function in R - help\nAll functions in R are documented in order to help users understand what the function does, what its arguments are and what they do. We can ask R to show us the documentation using the function help. If we call this function and feed it the name of an R function as a function argument, R will display the documentation in the help tab of the utility & help section (bottom right of RStudio’s interface). Note that the function help requires the function name to be a character string, that is, we need to write it in quotation marks.\nAs an alternative to calling the function’s name in regular R syntax, we can type the functions name in the search field of the help tab.If we use this way to learn about a function, we do not need quotation marks.\nOnce we call the help function, R will show us the documentation of an existing R function or a group of related functions. R will generally display a lot of information. What information is displayed exactly depends on the function.\nThe following information will be shown for all functions:\n\nthe name of the function\nwhat R package it is from\na description of the the function does\nhow to call the function (usage)\nthe functions’ arguments\na description of the type and format of the function’s output (value)\nfunctioning R code showing examples of how the function can be used\n\nThere may be additional information for some functions such as: - a description of the maths or logic underlying the function (details) - additional information of potential interest to the user (note) - references to literature the literature the function is based on - links to related functions (see also)\nLet’s look at an example by asking R to show us the documentation for the function median using R syntax.\n\nhelp(\"median\")\n\nR will now show us the following in the help tab.\n\n\n\nFig 1. Documentation for the function median"
   }
 ]
