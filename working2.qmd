@@ -17,7 +17,7 @@ Function arguments can be objects that we would like to feed to the function or 
 
 A function may also entail **non-required** function arguments. Technically, these arguments are also required, but the person who wrote the function defined **default values** for the arguments. If a function argument has a default value, we do not need to specify it in order for the function to run. The function will simply run as if we had entered the respective argument's default value manually.
 
-:::{alert .alert-info}
+:::{.alert .alert-info}
 Occasionally, we might come across functions that have no arguments at all. These functions are quite rare. We can can them by writing nothing in the parentheses following the function's name.
 :::
 
@@ -67,7 +67,7 @@ The other highly relevant section is the **arguments** section. It tells us what
 Finally, let's inspect the **value** section. From what the function is supposed to do, we would expect it to return a single numeric value. The documentation tells us that this value can be a double type value when the vector is of even length (in this case, the median is the mean of the two centremost values of *x*). It also informs us that the output of the function will be NA if *x* is either an empty vector of if *x* contains NA values while *na.rm* is set to FALSE.
 
 
-:::{alert .alert-info}
+:::{.alert .alert-info}
 At the top left of the documentation, R states in braces following the function's name which R package it stems from. In case of the function *median*, the package it belongs to is called *stats*. This package along with *base* is built into core R.
 
 **Caveat**: If a function does not belong to one of R's built-in packages, R's *help* will not know the function unless the respective package is loaded (see the section on installing and loading additional packages for more information).
