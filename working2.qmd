@@ -19,7 +19,7 @@ A function may also entail **non-required** function arguments. Technically, the
 
 :::{alert .alert-info}
 Occasionally, we might come across functions that have no arguments at all. These functions are quite rare. We can can them by writing nothing in the parentheses following the function's name.
-
+:::
 
 ## The most useful function in R - help
 
@@ -58,5 +58,17 @@ R will now show us the following in the **help** tab.
 
 ![Fig 1. Documentation for the function median](images/working/help_median.png)
 
+Let's first look at the **description**. Unsurprisingly, it states that this function computes the sample median.
+
+One of most relevant sections of the documentation is the function's **usage**. As we can see, the function *median* has two function arguments, *x* and *na.rm*. The second argument, *na.rm* has a default value, indicated by the equal sign and a specific value (FALSE) to its right. If we do not specify *na.rm*, R will use the value FALSE as a default. Since the argument *x* has no default, we must specify it. Otherwise, the function won't run.
+
+The other highly relevant section is the **arguments** section. It tells us what the function arguments do and values are acceptable for each of the two function arguments. The argument *x* must be a numeric vector (we can ignore the first part of the sentence referring quite obscurely to 'an object for which a method has been defined'). This is the set of numbers for which we will compute the median. The second function argument, *na.rm*, defines how missing values (represented by NA, meaning "not available") should be handled. The function will not work when our numeric vector *x* contains at least one NA value. By setting *na.rm* to TRUE, we can tell R to remove the NA values prior to computing the median.
+
+Finally, let's inspect the **value** section. From what the function is supposed to do, we would expect it to return a single numeric value. The documentation tells us that this value can be a double type value when the vector is of even length (in this case, the median is the mean of the two centremost values of *x*). It also informs us that the output of the function will be NA if *x* is either an empty vector of if *x* contains NA values while *na.rm* is set to FALSE.
 
 
+:::{alert .alert-info}
+At the top left of the documentation, R states in braces following the function's name which R package it stems from. In case of the function *median*, the package it belongs to is called *stats*. This package along with *base* is built into core R.
+
+**Caveat**: If a function does not belong to one of R's built-in packages, R's *help* will not know the function unless the respective package is loaded (see the section on installing and loading additional packages for more information).
+:::
