@@ -117,6 +117,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -218,7 +219,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="the-most-useful-function-in-r---help" class="level2">
 <h2 class="anchored" data-anchor-id="the-most-useful-function-in-r---help">The most useful function in R - help</h2>
 <p>All functions in R are documented in order to help users understand what the function does, what its arguments are and what they do. We can ask R to show us the documentation using the function <em>help</em>. If we call this function and feed it the name of an R function as a function argument, R will display the documentation in the <strong>help</strong> tab of the <strong>utility &amp; help</strong> section (bottom right of RStudio’s interface). Note that the function <em>help</em> requires the function name to be a character string, that is, we need to write it in quotation marks.</p>
-<p>As an alternative to calling the function’s name in regular R syntax, we can type the functions name in the search field of the <strong>help</strong> tab.If we use this way to learn about a function, we do not need quotation marks.</p>
+<p>As an alternative to calling the function’s name in regular R syntax, we can type the functions name in the search bar of the <strong>help</strong> tab.If we use this way to learn about a function, we do not need quotation marks.</p>
 <p>Once we call the help function, R will show us the documentation of an existing R function or a group of related functions. R will generally display a lot of information. What information is displayed exactly depends on the function.</p>
 <p>The following information will be shown for all functions:</p>
 <ul>
@@ -249,6 +250,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="alert alert-info">
 <p>At the top left of the documentation, R states in braces following the function’s name which R package it stems from. In case of the function <em>median</em>, the package it belongs to is called <em>stats</em>. This package along with <em>base</em> is built into core R.</p>
 <p><strong>Caveat</strong>: If a function does not belong to one of R’s built-in packages, R’s <em>help</em> will not know the function unless the respective package is loaded (see the section on installing and loading additional packages for more information).</p>
+</div>
+</section>
+<section id="finding-functions-if-their-name-is-unknown" class="level2">
+<h2 class="anchored" data-anchor-id="finding-functions-if-their-name-is-unknown">Finding functions if their name is unknown</h2>
+<p>Sometimes, we might be looking for a function to perform a specific operation, but we do not know whether R has such a function and, if so, how it is called in R. In such situations, we can make use of the search bar on the top right of the <strong>help</strong> tab. If we input the term we are interested in there, R will return a list of related functions in the <strong>help</strong> tab.</p>
+<p>Let’s assume, for example, that we are looking for a function that computes the standard deviation of a numeric vector. Entering the term “standard deviation” in the search bar, yields the following output:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/working/help_sd.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Fig 2. Search results for the term “standard deviation”</figcaption><p></p>
+</figure>
+</div>
+<p>As we can see, R links to several help pages, each of which contains the documentation for a function that R thinks to relate to our search term. R displays the results of the search in a special format, namely <em>package name</em>::<em>function name</em>. For example, the first result of the search is the function <em>devfun2</em> of the package <em>lme4</em>. Klicking on any of the links our search returned is equivalent to using the <em>help</em> function for the respective function.</p>
+<div class="alert alert-info">
+<p>Note that unlike the regular <em>help</em> function, using the search bar is not restricted to currently loaded R packages. Any package that is installed on the computer will be included in the search. This handy feature is designed to maximize the chance of finding the function we are looking for.</p>
+</div>
+<p>In the example above, we can see that there is a function called <em>sd</em> in the <em>stats</em> package that is part of basic R. The brief description of this function looks promising enough to warrant klicking on the function’s name. The documentation for the function that R now displays confirms that this is the function we are looking for (see below).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/working/help_sd2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Fig 3. Documentation for the function sd</figcaption><p></p>
+</figure>
+</div>
+<p>As we can see from the documentations <strong>usage</strong> and <strong>arguments</strong> sections, the function <em>sd</em> requires a numeric vector <em>x</em> as a function argument. It has a second optional argument we are already familiar with, namely <em>na.rm</em>, which allows us to exclude NA values prior to computing the standard deviation.</p>
+<p>Let’s have a look at the <strong>details</strong> section of the function <em>sd</em>. This section contains an important piece of information, namely that the function uses the denominator <span class="math inline">\(n-1\)</span>. What this means is that the function <em>sd</em> computes an unbiased estimate of the population standard deviation by multiplying the (uncorrected) sample standard deviation by <span class="math inline">\(\frac{n}{n-1}\)</span>.</p>
+<p>An alternative to using the search bar of the <strong>help</strong> tab is to use R code to search for functions. We can do so using a special operator <em>??</em> followed by the term we are searching for. If our term consists of more than one word, we need to put it in quotation marks (putting a single word in quotation marks won’t do any harm).</p>
+<p>The syntax looks like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>??<span class="st">"standard deviation"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can verify that searching for our term of interest using R syntax yields the same results in the <strong>help</strong> tab. :::</p>
+<div class="alert alert-danger">
+<p><strong>Caveat</strong>: There is one situation in which using the search bar of the <strong>help</strong> tab and using the operator <em>??</em> will yield different results. If the search term matches the name of an R function, either from base R or from a currently loaded R package, the <strong>help</strong> tab will always display the documentation for that function instead of providing us with a list of potentially relevant functions. Using the <em>??</em> operator will always display the list of results.</p>
+</div>
+<div class="alert alert-success">
+<p>If our search for the desired function is not successful, google (or any non-evil alternative search engine) is our friend. R has a very active and supportive community, and there are extensive resources for R users online.</p>
 </div>
 
 

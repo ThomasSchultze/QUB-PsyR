@@ -25,7 +25,7 @@ Occasionally, we might come across functions that have no arguments at all. Thes
 
 All functions in R are documented in order to help users understand what the function does, what its arguments are and what they do. We can ask R to show us the documentation using the function *help*. If we call this function and feed it the name of an R function as a function argument, R will display the documentation in the **help** tab of the **utility & help** section (bottom right of RStudio's interface). Note that the function *help* requires the function name to be a character string, that is, we need to write it in quotation marks.
 
-As an alternative to calling the function's name in regular R syntax, we can type the functions name in the search field of the **help** tab.If we use this way to learn about a function, we do not need quotation marks.
+As an alternative to calling the function's name in regular R syntax, we can type the functions name in the search bar of the **help** tab.If we use this way to learn about a function, we do not need quotation marks.
 
 Once we call the help function, R will show us the documentation of an existing R function or a group of related functions. R will generally display a lot of information. What information is displayed exactly depends on the function.
 
@@ -72,3 +72,56 @@ At the top left of the documentation, R states in braces following the function'
 
 **Caveat**: If a function does not belong to one of R's built-in packages, R's *help* will not know the function unless the respective package is loaded (see the section on installing and loading additional packages for more information).
 :::
+
+## Finding functions if their name is unknown
+
+Sometimes, we might be looking for a function to perform a specific operation, but we do not know whether R has such a function and, if so, how it is called in R. In such situations, we can make use of the search bar on the top right of the **help** tab. If we input the term we are interested in there, R will return a list of related functions in the **help** tab.
+
+Let's assume, for example, that we are looking for a function that computes the standard deviation of a numeric vector. Entering the term "standard deviation" in the search bar, yields the following output:
+
+![Fig 2. Search results for the term "standard deviation"](images/working/help_sd.png)
+
+As we can see, R links to several help pages, each of which contains the documentation for a function that R thinks to relate to our search term. R displays the results of the search in a special format, namely *package name*::*function name*. For example, the first result of the search is the function *devfun2* of the package *lme4*. Klicking on any of the links our search returned is equivalent to using the *help* function for the respective function.
+
+:::{.alert .alert-info}
+Note that unlike the regular *help* function, using the search bar is not restricted to currently loaded R packages. Any package that is installed on the computer will be included in the search. This handy feature is designed to maximize the chance of finding the function we are looking for.
+:::
+
+In the example above, we can see that there is a function called *sd* in the *stats* package that is part of basic R. The brief description of this function looks promising enough to warrant klicking on the function's name. The documentation for the function that R now displays confirms that this is the function we are looking for (see below).
+
+![Fig 3. Documentation for the function sd](images/working/help_sd2.png)
+
+As we can see from the documentations **usage** and **arguments** sections, the function *sd* requires a numeric vector *x* as a function argument. It has a second optional argument we are already familiar with, namely *na.rm*, which allows us to exclude NA values prior to computing the standard deviation.
+
+Let's have a look at the **details** section of the function *sd*. This section contains an important piece of information, namely that the function uses the denominator $n-1$. What this means is that the function *sd* computes an unbiased estimate of the population standard deviation by multiplying the (uncorrected) sample standard deviation by $\frac{n}{n-1}$. 
+
+An alternative to using the search bar of the **help** tab is to use R code to search for functions. We can do so using a special operator *??* followed by the term we are searching for. If our term consists of more than one word, we need to put it in quotation marks (putting a single word in quotation marks won't do any harm).
+
+The syntax looks like this:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+??"standard deviation"
+```
+
+We can verify that searching for our term of interest using R syntax yields the same results in the **help** tab. 
+
+:::{.alert .alert-danger}
+**Caveat**: There is one situation in which using the search bar of the **help** tab and using the operator *??* will yield different results. If the search term matches the name of an R function, either from base R or from a currently loaded R package, the **help** tab will always display the documentation for that function instead of providing us with a list of potentially relevant functions. Using the *??* operator will always display the list of results.
+:::
+
+:::{.alert .alert-success}
+If our search for the desired function is not successful, google (or any non-evil alternative search engine) is our friend. R has a very active and supportive community, and there are extensive resources for R users online.
+:::
+
+
+
+
+
+
+
+
+
+
