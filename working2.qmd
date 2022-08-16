@@ -66,7 +66,6 @@ The other highly relevant section is the **arguments** section. It tells us what
 
 Finally, let's inspect the **value** section. From what the function is supposed to do, we would expect it to return a single numeric value. The documentation tells us that this value can be a double type value when the vector is of even length (in this case, the median is the mean of the two centremost values of *x*). It also informs us that the output of the function will be NA if *x* is either an empty vector of if *x* contains NA values while *na.rm* is set to FALSE.
 
-
 :::{.alert .alert-info}
 At the top left of the documentation, R states in braces following the function's name which R package it stems from. In case of the function *median*, the package it belongs to is called *stats*. This package along with *base* is built into core R.
 
@@ -93,7 +92,7 @@ In the example above, we can see that there is a function called *sd* in the *st
 
 As we can see from the documentations **usage** and **arguments** sections, the function *sd* requires a numeric vector *x* as a function argument. It has a second optional argument we are already familiar with, namely *na.rm*, which allows us to exclude NA values prior to computing the standard deviation.
 
-Let's have a look at the **details** section of the function *sd*. This section contains an important piece of information, namely that the function uses the denominator $n-1$. What this means is that the function *sd* computes an unbiased estimate of the population standard deviation by multiplying the (uncorrected) sample standard deviation by $\frac{n}{n-1}$. 
+Let's have a look at the **details** section of the function *sd*. This section contains an important piece of information, namely that the function uses the denominator $n-1$. What this means is that the function *sd* computes an unbiased estimate of the population standard deviation by multiplying the (uncorrected) sample variance by $\frac{n}{n-1}$ prior to taking its square root. 
 
 An alternative to using the search bar of the **help** tab is to use R code to search for functions. We can do so using a special operator *??* followed by the term we are searching for. If our term consists of more than one word, we need to put it in quotation marks (putting a single word in quotation marks won't do any harm).
 
@@ -115,13 +114,4 @@ We can verify that searching for our term of interest using R syntax yields the 
 :::{.alert .alert-success}
 If our search for the desired function is not successful, google (or any non-evil alternative search engine) is our friend. R has a very active and supportive community, and there are extensive resources for R users online.
 :::
-
-
-
-
-
-
-
-
-
 

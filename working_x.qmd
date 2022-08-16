@@ -1,0 +1,46 @@
+---
+title: "Custom functions"
+---
+
+Sometimes, we may not find an R function that does exactly what we want it to do in base R, and we may also run out of luck when browsing additional R packages in search od that function. In those cases, we can resort to writing our own functions using a special function called *function* (yes, very creative, I know).
+
+Writing R functions is easy, once we understand how R functions work (and we do know that from looking at the documentation of different functions). What we need to do when defining a custom function is to:
+- give it a name (ideally a unique name to avoid conflicts with existing functions)
+- tell R what function arguments the function should have
+- tell R whether any of the arguments should have default values
+- tell R what operations it should perform when we call the function
+
+When defining the function, we need to use a specific Syntax. Just as with R objects, we write the name of our custom function to the left of an equal sign. To its right we call the function *function*. This function does not have fixed arguments that we specifiy in parentheses. Instead, we write those arguments in parentheses that we **want** our our custom function to have. If we would like there to be a default value for a function argument, we can use an equal sign following the argument name and enter the respective value to its right.
+
+Finally, we use braces to define what the function should do, that is, which operations to run on the arguments we fed it. Here, sky is the limit to our creativity. We can use any binary operator 
+or function (even other custom functions) to tell R what it it should do. The final line of code within the braces should be a call of the function *return*, which we can use to define the output of our custom function. Let's look at a few examples.
+
+### Example 1
+
+In the first example, we will write a custom function that computed the **uncorrected standard deviation** of a numeric vector (remember that the function *sd* that is built into base R computed the bias-corrected standard deviation, which may not always be what we are looking for). We will call this function *sd_uncorrected* (any name is fine, but it may be prudent to choose a name that is informative of what the function does).
+
+The R code for defining this function could look as follows:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+sd_uncorrected = function(x, na.rm = TRUE){
+  
+  x = na.omit(x)  # excludes elements of x that are NA (if any)
+  n = length(x)   # sample size n is the length of the vector x
+  
+  var_x = 1/n * sum((x - mean(x))^2)  # compute uncorrected variance of x
+  sd = sqrt(var_x)                    # take square root to get sd
+  
+  return(sd)                          # return the object sd, which happens to be
+                                      # a single numeric value
+  
+}
+```
+
+
+
+
+
+
