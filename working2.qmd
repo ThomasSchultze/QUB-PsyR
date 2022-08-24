@@ -115,3 +115,128 @@ We can verify that searching for our term of interest using R syntax yields the 
 If our search for the desired function is not successful, google (or any non-evil alternative search engine) is our friend. R has a very active and supportive community, and there are extensive resources for R users online.
 :::
 
+
+## Combining several functions
+
+We will frequently find ourselves in situations, in which the operations we want to perform require calling not just one function but a sequence of functions. 
+
+Consider, for example, a case, in which we want to create a list type object that contains descriptive statistics for two variables we observed. The first element of that list will contain the variables' means while the second will contain their variance-covariance matrix.
+
+Creating the first element of that list is simple as it requires only computing the means whereas creating th 2x2 matrix requires computing the variances of the two variables as well as their covariance and then putting them in a matrix format.
+
+The first way to go about this is to write R code such that we call each function separately and save its output as a new object. We then use this object as a function argument in the next function we need to call. Another possibility is to use a function call as the argument for the next function. Lets have a look at these two options.
+
+### Calling functions separately.
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-overflow: wrap
+v1 = c(2, 3, 5, 7, 9, 11, 13)     # data for variable 1
+v2 = c(1, 1, 2, 3, 5, 8, 13)      # data for variable 2
+
+# compute means for v1 and v2 using the function 'mean'
+mean1 = mean(v1)
+mean2 = mean(v2) 
+
+# create a vector of the means using the function 'c'
+mean_vector = c(mean1, mean2)
+
+# compute variances using the function 'var'
+var1 = var(v1)
+var2 = var(v2)   
+
+# compute the covariance using the function 'cov'
+cov12 = cov(v1, v2)
+
+# create the variance-covariance matrix using the
+# functions 'matrix' and 'c'
+vc_vector = c(var1, cov12, cov12, var2)
+vc_mat = matrix(vc_vector, nrow = 2)
+
+# now create the list using the function 'list'
+my_list = list(means = mean_vector,
+               var_cov_matrix = vc_mat)
+
+```
+
+We can now have a look at the object we crated by calling the name of our newly defined list.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+my_list
+```
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+my_list
+```
+:::
+
+As we can see, the objects looks exactly as it should, and it contains the information we want it to contain. There is, however, a drawback to the piece-by-piece approach, we took in creating the list. It becomes apparent when we look at the **Environment** tab of the **Memory** section (top right).
+
+![Fig 1. Clogged Environment](images/working/memory_clog.png)
+
+Since we defined the output of each function as an object of its own, our **Environment** contains not only the list we wanted to create, but also ten additional objects.Two of them are the original data, which we may want to keep, but the other eight objects are no longer required. Eight superfluous objects may not sound too much, but if we work on more complex tasks in R, the number of superfluous objects may increase rapidly. 
+
+One solution to solve the problem is to clean up afterwards using the function *rm*. This function takes an arbitrary number of R objects as function arguments. It removes all listed arguments from the **Environment**. Here is what the code looks like in our example.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+rm(mean1, mean2, mean_vector,
+   var1, var2, cov12,
+   vc_vector, vc_mat)
+```
+
+After we run this code, the **Environment** looks much tidier. It now contains only the original data vectors *v1* and *v2* as well as the list containing the descriptive statistics. 
+
+![Fig 2. Unclogged Environment](images/working/memory_unclogged.png)
+
+### Calling multiple functions in one go
+
+An alternative to calling each function separately and defining interim objects is to use function calls as arguments for other functions. In theory, it is possible to write one(very long) line of code to create our list of descriptive statistics from the two data vectors *v1* and *v2*. Here is what the code would look like.
+
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-overflow: wrap
+v1 = c(2, 3, 5, 7, 9, 11, 13)     # data for variable 1
+v2 = c(1, 1, 2, 3, 5, 8, 13)      # data for variable 2
+
+# create the list using the function 'list'
+my_list = list(
+  # create the first element of the list using the 
+  # functions 'c' and 'mean'
+  means = c(mean(v1), mean(v2)),
+  
+  # create the second element using the functions 
+  # 'matrix', 'c', 'var', and 'cov'
+  var_cov_matrix = matrix(
+    c(var(v1), cov(v1, v2), cov(v1, v2), var(v2)),
+    nrow = 2)
+)
+
+```
+
+In the example above, the R code is spread out between multiple lines for the purpose of better readability. We could have actually put it all into one line. If we now look at the Environment, we will only see the two original data vectors and the list we created. No interim objects were created, and there is not need to clean up afterwards.
+
+Note also how the code starts with the last step of the step-by-step approach. That is, if we use function calls as arguments for other functions, we need to think from the end to the start.
+
+One downside of writing code containing convoluted function calls is that the code may become more difficult to parse for others or even for ourselves (especially if we revisit a script we wrote a while ago). For example, if we combine too many function calls, we may end up with a line of code that has a dozen closing brackets at its end. This is not only hard to read, but it may also lead to bugs in our code when we miss a closing bracket or include too many of them.
+
+:::{.alert .alert-success}
+Note: Either of the two ways of writing code shown above is viable. However, it is often advisable to choose a middle ground, where we define interim objects whenever the code would otherwise become to convoluted.
+
+As always, readability of the code greatly benefits from making ample use of commenting.
+:::
+
+
+

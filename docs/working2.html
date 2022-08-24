@@ -287,8 +287,111 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="alert alert-success">
 <p>If our search for the desired function is not successful, google (or any non-evil alternative search engine) is our friend. R has a very active and supportive community, and there are extensive resources for R users online.</p>
 </div>
+</section>
+<section id="combining-several-functions" class="level2">
+<h2 class="anchored" data-anchor-id="combining-several-functions">Combining several functions</h2>
+<p>We will frequently find ourselves in situations, in which the operations we want to perform require calling not just one function but a sequence of functions.</p>
+<p>Consider, for example, a case, in which we want to create a list type object that contains descriptive statistics for two variables we observed. The first element of that list will contain the variables’ means while the second will contain their variance-covariance matrix.</p>
+<p>Creating the first element of that list is simple as it requires only computing the means whereas creating th 2x2 matrix requires computing the variances of the two variables as well as their covariance and then putting them in a matrix format.</p>
+<p>The first way to go about this is to write R code such that we call each function separately and save its output as a new object. We then use this object as a function argument in the next function we need to call. Another possibility is to use a function call as the argument for the next function. Lets have a look at these two options.</p>
+<section id="calling-functions-separately." class="level3">
+<h3 class="anchored" data-anchor-id="calling-functions-separately.">Calling functions separately.</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">13</span>)     <span class="co"># data for variable 1</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">13</span>)      <span class="co"># data for variable 2</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># compute means for v1 and v2 using the function 'mean'</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>mean1 <span class="ot">=</span> <span class="fu">mean</span>(v1)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>mean2 <span class="ot">=</span> <span class="fu">mean</span>(v2) </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># create a vector of the means using the function 'c'</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>mean_vector <span class="ot">=</span> <span class="fu">c</span>(mean1, mean2)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># compute variances using the function 'var'</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>var1 <span class="ot">=</span> <span class="fu">var</span>(v1)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>var2 <span class="ot">=</span> <span class="fu">var</span>(v2)   </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the covariance using the function 'cov'</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>cov12 <span class="ot">=</span> <span class="fu">cov</span>(v1, v2)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># create the variance-covariance matrix using the</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># functions 'matrix' and 'c'</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>vc_vector <span class="ot">=</span> <span class="fu">c</span>(var1, cov12, cov12, var2)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>vc_mat <span class="ot">=</span> <span class="fu">matrix</span>(vc_vector, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># now create the list using the function 'list'</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">=</span> <span class="fu">list</span>(<span class="at">means =</span> mean_vector,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>               <span class="at">var_cov_matrix =</span> vc_mat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can now have a look at the object we crated by calling the name of our newly defined list.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>my_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>$means
+[1] 7.142857 4.714286
+
+$var_cov_matrix
+         [,1]     [,2]
+[1,] 16.80952 17.04762
+[2,] 17.04762 19.57143</code></pre>
+</div>
+</div>
+</div>
+<p>As we can see, the objects looks exactly as it should, and it contains the information we want it to contain. There is, however, a drawback to the piece-by-piece approach, we took in creating the list. It becomes apparent when we look at the <strong>Environment</strong> tab of the <strong>Memory</strong> section (top right).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/working/memory_clog.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Fig 1. Clogged Environment</figcaption><p></p>
+</figure>
+</div>
+<p>Since we defined the output of each function as an object of its own, our <strong>Environment</strong> contains not only the list we wanted to create, but also ten additional objects.Two of them are the original data, which we may want to keep, but the other eight objects are no longer required. Eight superfluous objects may not sound too much, but if we work on more complex tasks in R, the number of superfluous objects may increase rapidly.</p>
+<p>One solution to solve the problem is to clean up afterwards using the function <em>rm</em>. This function takes an arbitrary number of R objects as function arguments. It removes all listed arguments from the <strong>Environment</strong>. Here is what the code looks like in our example.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(mean1, mean2, mean_vector,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>   var1, var2, cov12,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>   vc_vector, vc_mat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>After we run this code, the <strong>Environment</strong> looks much tidier. It now contains only the original data vectors <em>v1</em> and <em>v2</em> as well as the list containing the descriptive statistics.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/working/memory_unclogged.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Fig 2. Unclogged Environment</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="calling-multiple-functions-in-one-go" class="level3">
+<h3 class="anchored" data-anchor-id="calling-multiple-functions-in-one-go">Calling multiple functions in one go</h3>
+<p>An alternative to calling each function separately and defining interim objects is to use function calls as arguments for other functions. In theory, it is possible to write one(very long) line of code to create our list of descriptive statistics from the two data vectors <em>v1</em> and <em>v2</em>. Here is what the code would look like.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">13</span>)     <span class="co"># data for variable 1</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">13</span>)      <span class="co"># data for variable 2</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create the list using the function 'list'</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create the first element of the list using the </span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># functions 'c' and 'mean'</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">means =</span> <span class="fu">c</span>(<span class="fu">mean</span>(v1), <span class="fu">mean</span>(v2)),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create the second element using the functions </span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 'matrix', 'c', 'var', and 'cov'</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">var_cov_matrix =</span> <span class="fu">matrix</span>(</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="fu">var</span>(v1), <span class="fu">cov</span>(v1, v2), <span class="fu">cov</span>(v1, v2), <span class="fu">var</span>(v2)),</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the example above, the R code is spread out between multiple lines for the purpose of better readability. We could have actually put it all into one line. If we now look at the Environment, we will only see the two original data vectors and the list we created. No interim objects were created, and there is not need to clean up afterwards.</p>
+<p>Note also how the code starts with the last step of the step-by-step approach. That is, if we use function calls as arguments for other functions, we need to think from the end to the start.</p>
+<p>One downside of writing code containing convoluted function calls is that the code may become more difficult to parse for others or even for ourselves (especially if we revisit a script we wrote a while ago). For example, if we combine too many function calls, we may end up with a line of code that has a dozen closing brackets at its end. This is not only hard to read, but it may also lead to bugs in our code when we miss a closing bracket or include too many of them.</p>
+<div class="alert alert-success">
+<p>Note: Either of the two ways of writing code shown above is viable. However, it is often advisable to choose a middle ground, where we define interim objects whenever the code would otherwise become to convoluted.</p>
+<p>As always, readability of the code greatly benefits from making ample use of commenting.</p>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
