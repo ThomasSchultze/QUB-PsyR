@@ -1,0 +1,20 @@
+---
+title: "Indexing"
+---
+
+Most R objects consist of multiple elements, the exception being single values (or vectors of length 1 and 1x1 matrices, which technically are single values, too). There will be situations where we would like to view, extract, or change some, but not all elements of an object. For example we might want to remove the first four cases from a data set because they were test runs, or we might be interested in how the 22nd participant in our recent study responded to questions 13 and 14. What we do in those cases is tell R to look for specific elements of an object. That is called **indexing**. 
+
+The most generic form of indexing uses **brackets**. Specifically, we first write the name of the object of interest. In brackets following the object's name, we define which elements we want R to obtain. We can obtain elements by their referring to their (numerical) position in an object or via logical operations (using either binary operators or functions).
+
+
+## Numerical indexing
+
+Numerical indexing means that we tell R in brackets which elements it should obtain by entering the elements' position within the object. If the object is a vector, we need only provide a single number per element, wheres we need two coordinates in case our object is two-dimensional (e.g., a matrix or a data frame). Lets look at a few examples.
+
+
+
+
+
+
+
+
