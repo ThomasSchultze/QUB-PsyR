@@ -175,6 +175,7 @@ m1[3:4, 1:2]
 ```
 A look at the console confirms, again, that the code worked as intended.
 
+:::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -189,6 +190,7 @@ m1[c(2, 4), 1:3]
 # and 2 (7, 8)
 m1[3:4, 1:2]
 ```
+:::
 
 Sometimes we might want to extract all elements of certain rows or columns of a two-dimensional R object. Theoretically, we could do so by entering all rows/columns in brackets, but R has an easier way for us to do that: stating nothing! Yes, you read that correctly. If we do not specify the rows or columns in brackets, R will understand that we want all of them. Since in those cases, the elements will either share their row or column positions, the resulting objects will be two-dimensional again (see examples below).
 
@@ -242,8 +244,8 @@ The output in the console looks like this:
 
 :::{.alert .alert-warning}
 ```{r}
-#| eval: false
-#| echo: true
+#| eval: true
+#| echo: false
 #| code-overflow: wrap
 # remove the first row but obtain all columns 
 m1[-1, ]
@@ -284,24 +286,15 @@ l1 = list(
 )
 ```
 
+Here is what the new list looks like.
+
 :::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
 #| code-overflow: wrap
 # The following code creates a list with four elements
-l1 = list(
-  my_value = 'hello',               # a character value
-  
-  my_vector =  c(1,1,2,3,5,8),      # a numeric vector
-  
-  my_matrix = matrix(NA, nrow = 3,  # a 3x3 matrix of NAs
-                     ncol = 3),      
-  my_list = list(                   # a list of two objects
-    a = c('happy', 'hippo'),
-    b = 42
-  )
-)
+l1
 ```
 :::
 
@@ -363,8 +356,8 @@ l1[-3]
 
 :::{.alert .alert-warning}
 ```{r}
-#| eval: false
-#| echo: true
+#| eval: true
+#| echo: false
 #| code-overflow: wrap
 ## obtain a list containing all elements of l1 except for the 3rd
 l1[-3]
@@ -372,7 +365,6 @@ l1[-3]
 :::
 
 Let us now turn to the case where we ant to obtain a specific element of a list. As mentioned above, we will use **double brackets** to do that. Note that we can only obtain a single element of a list in that fashion. If we try to specify multiple elements in **double brackets**, R will complain by returning an error message.
-
 
 ```{r}
 #| eval: false
@@ -406,8 +398,8 @@ l1[[2]][1:3]
 
 :::{.alert .alert-warning}
 ```{r}
-#| eval: false
-#| echo: true
+#| eval: true
+#| echo: false
 #| code-overflow: wrap
 # obtain elements 1 to 3 of the second element of l1
 l1[[2]][1:3]
@@ -436,8 +428,8 @@ l1[[4]][[1]][2]
 ```
 :::
 
-:::{.alert .alert-info}
-Given that indexing of lists is somewhat tricky, you might be wondering why we should bother with it. The answer is that many of the functions we will be using when analysing our data will return lists as their output. These lists can contain tons of information, and we may often require only some of it. Therefore, knowing how to access parts of a list can be extremely handy.
+:::{.alert .alert-success}
+**Important**: Given that indexing of lists is somewhat tricky, you might be wondering why we should bother with it. The answer is that many of the functions we will be using to analyse our data will return lists as their output. These lists can contain tons of information, and we may often require only some of it. Therefore, knowing how to access parts of a list can be extremely handy.
 :::
 
 
