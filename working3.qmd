@@ -1,20 +1,443 @@
 ---
-title: "Indexing"
+title: "Numerical Indexing"
 ---
 
 Most R objects consist of multiple elements, the exception being single values (or vectors of length 1 and 1x1 matrices, which technically are single values, too). There will be situations where we would like to view, extract, or change some, but not all elements of an object. For example we might want to remove the first four cases from a data set because they were test runs, or we might be interested in how the 22nd participant in our recent study responded to questions 13 and 14. What we do in those cases is tell R to look for specific elements of an object. That is called **indexing**. 
 
 The most generic form of indexing uses **brackets**. Specifically, we first write the name of the object of interest. In brackets following the object's name, we define which elements we want R to obtain. We can obtain elements by their referring to their (numerical) position in an object or via logical operations (using either binary operators or functions).
 
+Numerical indexing means that we tell R in brackets which elements it should obtain by entering the elements' position within the object. If the object is a vector, we need only provide a single number per element, wheres we need two coordinates in case our object is two-dimensional (e.g., a matrix or a data frame). Using numerical indexing, we can ask R to obtain a single element but also multiple elements of an R object.
 
-## Numerical indexing
+Lets look at a few examples using vectors first.
 
-Numerical indexing means that we tell R in brackets which elements it should obtain by entering the elements' position within the object. If the object is a vector, we need only provide a single number per element, wheres we need two coordinates in case our object is two-dimensional (e.g., a matrix or a data frame). Lets look at a few examples.
+## Numerical indexing of vectors
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+v1 = c(5, 7, 11, 22, 3, 1, 19) # create a vector with arbitrary numbers
+
+# obtain the 3rd element of vector v1
+v1[3]
+
+# obtain elements 2 to 5 of v1
+v1[c(2,3,4,5)]
+
+# obtain elements 2 to 5 of v1 (lazy/efficient version)
+v1[2:5]
+
+# obtain elements 2, 5, and 7 of v1
+v1[c(2,5,7)]
+```
+
+Using the code above yields the following output in the R console (because we did not save the obtained elements of *v1* as objects of their own, R will print the result in the console).
+
+:::{.alert .alert-warning}
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+v1 = 1:6 # create a numerical vector with numbers from 1 to 7
+
+# obtain the 3rd element of vector v1 (3)
+v1[3]
+
+# obtain elements 2 to 5 of v1 (2, 3, 4, 5)
+v1[2:5]
+
+# obtain elements 2, 5, and 7 of v1 (2, 5, 7)
+v1[c(2,5,7)]
+
+# obtain element 2 of v1 twice (2, 2)
+v1[c(2,2)]
+
+# obtain elements of v1 specified in v2 (1, 3)
+v2 = 1:3  # vector of numbers 1 to 3
+v1[v2]
+```
+:::
+
+A neat trick in R is that we can tell it to obtain all elements of an object **except for** those we specify in brackets. We can do so by preceding the selection of elements with the operator **-**. 
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain all elements of v1 except for the 1st and 2nd (3 to 7)
+v1[-(1:2)]
+
+# obtain all elements of v1 except for those (4 to 6)
+# specified in v2
+v1[-v2]
+```
+
+The output in the console looks like this:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+v1 = 1:7 # create a vector with arbitrary numbers
+v2 = 1:3 # create a numerical vector with numbers from 1 to 7
+
+# obtain all elements of v1 except for the 1st and 2nd (3 to 7)
+v1[-(1:2)]
+
+# obtain all elements of v1 except for those (4 to 6)
+# specified in v2
+v1[-v2]
+```
+:::
+
+In some of the example above, we used vectors in brackets to tell R which elements of the vector *v1* we want to obtain. Generally speaking, we can obtain elements of R objects by indexing objects of the same dimensions in brackets, that is, we can use vectors to obtain elements of one-dimensional objects such as vectors and lists, and matrices to obtain elements of two-dimensional objects such as matrices and data frames.
 
 
+## Numerical indexing of matrices and data frames
+
+Let's now turn to two-dimensional objects. As mentioned above, we need to tell R the coordinates of the elements we want to obtain in the brackets following the object's name. The coordinates must be separated by a comma, and we specify the rows before the columns (remember the **r**oman-**c**atholics as a mnemonic aid). 
+
+For the following examples, we fist generate a 4x4 matrix containing the numbers form 1 to 16.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+m1 = matrix(1:16, nrow = 4)  # create a numeric 4x4 matrix
+```
+
+The matrix looks as follows:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+m1 = matrix(1:16, nrow = 4)  # create a numeric 4x4 matrix
+```
+:::
+
+Now let's look at few examples of numerial indexing using our matrix *m1*.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# extract the element in the 2nd row and the 3rd column (10)
+m1[2, 3]
+
+# extract the element in the 1st row and 3rd column (9) a well
+# as the element in the 4th row and 2nd column (8)
+m1[c(1, 3), c(4, 2)]
+
+# extract elements 1 to 3 in the 2nd row (2, 6, and 10)
+m1[2, 1:3]
+```
+
+Here is what we will see in the console when running the code above.
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+m1 = matrix(1:16, nrow = 4)  # create a numeric 4x4 matrix
+
+# extract the element in the 2nd row and the 3rd column (10)
+m1[2, 3]
+
+# extract the element in the 1st row and 3rd column (9) a well
+# as the element in the 4th row and 2nd column (8)
+m1[c(1, 3), c(4, 2)]
+
+# extract elements 1 to 3 in the 2nd row (2, 6, and 10)
+m1[2, 1:3]
+```
+:::
+
+A look at the console shows that R returns the desired elements as vectors. The reason is that we either asked for a single value (example 1), two elements from very different parts of the original matrix (example 2), or a vector of neighboring values within the original matrix (example 3).
+
+It is possible, though, to obtain elements from a matrix so that R returns another matrix (of smaller size). The output will be another matrix if we extract elements from different rows but the same columns (or vice versa). Let's have a look at a few examples below:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# extract elements 1 to 3 in the 2nd row (2, 6, and 10)
+# and the 4th row (4, 8, 12)
+m1[c(2, 4), 1:3]
+
+# extract the 3rd and 4th elements of columns 1 (3, 4) 
+# and 2 (7, 8)
+m1[3:4, 1:2]
+```
+A look at the console confirms, again, that the code worked as intended.
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+m1 = matrix(1:16, nrow = 4)  # create a numeric 4x4 matrix
+
+# extract elements 1 to 3 in the 2nd row (2, 6, and 10)
+# and the 4th row (4, 8, 12)
+m1[c(2, 4), 1:3]
+
+# extract the 3rd and 4th elements of columns 1 (3, 4) 
+# and 2 (7, 8)
+m1[3:4, 1:2]
+```
+
+Sometimes we might want to extract all elements of certain rows or columns of a two-dimensional R object. Theoretically, we could do so by entering all rows/columns in brackets, but R has an easier way for us to do that: stating nothing! Yes, you read that correctly. If we do not specify the rows or columns in brackets, R will understand that we want all of them. Since in those cases, the elements will either share their row or column positions, the resulting objects will be two-dimensional again (see examples below).
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# extract the complete 1st row (1, 5, 9, 13) and 
+# 3rd row (3, 7, 11, 15)
+m1[c(1, 3), ]
+
+# extract the complete 3rd (9 to 12) and 4th column
+# (13 to 16)
+m1[, 3:4]
+```
+
+Here is what R prints in the console:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+m1 = matrix(1:16, nrow = 4)  # create a numeric 4x4 matrix
+
+# extract elements 1 to 3 in the 2nd row (2, 6, and 10)
+# and the 4th row (4, 8, 12)
+m1[c(2, 4), 1:3]
+
+# extract the 3rd and 4th elements of columns 1 (3, 4) 
+# and 2 (7, 8)
+m1[3:4, 1:2]
+```
+:::
+
+Finally, as with vectors, we can use the operator **-** to tell R that we want all elements of a two-dimensional object except for some of them. For example, we could specify that we want to exclude some rows and some columns in brackets. Since we have two dimensions, we can also combine selection of certain rows with the exclusion of columns and vice versa. Here are a few examples.
 
 
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# remove the first row but obtain all columns 
+m1[-1, ]
+
+# obtain rows 1:3, but remove columns 2 and 4
+m1[1:3, -c(2, 4)]
+```
+
+The output in the console looks like this:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# remove the first row but obtain all columns 
+m1[-1, ]
+
+# obtain rows 1:3, but remove columns 2 and 4
+m1[1:3, -c(2, 4)]
+```
+:::
+
+:::{.alert .alert-info}
+**Note**: In the examples above, we always obtained some elements of a matrix. However, the code would work in the same fashion, had the matrices been data frames instead.
+
+We can easily check that this is true by turning the matrices into data frames using the function *as.data.frame*. Feeding this function a matrix as the sole function argument, will turn any matrix into a data frame type of object.
+:::
+
+## Numerical indexing of lists
+
+Finally, we need to look at how numerical indexing works for lists. At first glance, lists seem to follow the same logic as vectors. They, too, are one-dimensional objects with a certain number of elements. However, indexing of lists uses a slightly different syntax. Specifically, we need to tell R which element or elements of a list we want to obtain using **double brackets**.
+
+Let's first create a simple list to work with. Note how the last element of our list is another list (yes, you can put lists into list, that is how cool R lists are).
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# The following code creates a list with four elements
+l1 = list(
+  my_value = 'hello',               # a character value
+  
+  my_vector =  c(1,1,2,3,5,8),      # a numeric vector
+  
+  my_matrix = matrix(NA, nrow = 3,  # a 3x3 matrix of NAs
+                     ncol = 3),      
+  my_list = list(                   # a list of two objects
+    a = c('happy', 'hippo'),
+    b = 42
+  )
+)
+```
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# The following code creates a list with four elements
+l1 = list(
+  my_value = 'hello',               # a character value
+  
+  my_vector =  c(1,1,2,3,5,8),      # a numeric vector
+  
+  my_matrix = matrix(NA, nrow = 3,  # a 3x3 matrix of NAs
+                     ncol = 3),      
+  my_list = list(                   # a list of two objects
+    a = c('happy', 'hippo'),
+    b = 42
+  )
+)
+```
+:::
+
+We can now obtain elements of the list. However, lists are a bit more complicated than the other objects. In fact, there are two ways to obtain elements of a list. The first is using **single brackets** just as we did it with vectors. If we do that, R will return to us another list containing only the specified elements of the original list.
+
+If we instead want to obtain a specific element of a list, we can index that element using **double brackets** instead of the single ones. Using double brackets will return the element in its original form. It will obtain values as value,s vectors as vector, matrices as matrices and so on. That is, R will not return a list when we use **double brackets** unless the element we are looking for is another list.
+
+Let's look at a few examples using **single brackets** first (we will do them one by one because the output of a list in the console can be a bit longer). 
+
+We can obtain a single element.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain a list containing element 2 of the list l1
+l1[2]
+```
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# obtain a list containing element 2 of the list l1
+l1[2]
+```
+:::
+
+We can obtain multiple elements
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain a list containing elements 2 to 4 of the l1
+l1[2:4]
+```
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# obtain a list containing elements 2 to 4 of the l1
+l1[2:4]
+```
+:::
+
+We can exclude some elements using the **-** operator.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain a list containing all elements of l1 except for the 3rd
+l1[-3]
+```
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+## obtain a list containing all elements of l1 except for the 3rd
+l1[-3]
+```
+:::
+
+Let us now turn to the case where we ant to obtain a specific element of a list. As mentioned above, we will use **double brackets** to do that. Note that we can only obtain a single element of a list in that fashion. If we try to specify multiple elements in **double brackets**, R will complain by returning an error message.
 
 
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain element 2 of the list l1
+l1[[2]]
+```
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# obtain element 2 of the list l1
+l1[[2]]
+```
+:::
+
+Some elements of our list are indexable elements on their own. When we obtain such an element using **double brackets**, we can use **hierarchical indexing**. That is, we can tell R to obtain parts of a part of a list. We can do that by first indexing the element of the list we want to obtain using **double brackets** and then specifying which element of the obtained element we want R to extract using either **single brackets** or **double brackets** depending on whether the desired element is another list or not.
+
+Here is some example code, in which we extract the first three elements of the second element of our list.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain elements 1 to 3 of the second element of l1
+l1[[2]][1:3]
+```
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain elements 1 to 3 of the second element of l1
+l1[[2]][1:3]
+```
+:::
+
+As a final example (just because we can), lets obtain the second element of the character vector that forms the first element of **my_list**, which is the last element of *l1*. In those cases, we need to think backwards (similar to calling multiple functions in one go), that is, we tell R to obtain the fourth element of *l1*, then to obtain that elements' first element, and then to obtain that elements' second element. The code to do so looks as follows:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain the second element of the 1st element of
+# the 4th element of the list l1
+l1[[4]][[1]][2]
+```
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# obtain the second element of the 1st element of
+# the 4th element of the list l1
+l1[[4]][[1]][2]
+```
+:::
+
+:::{.alert .alert-info}
+Given that indexing of lists is somewhat tricky, you might be wondering why we should bother with it. The answer is that many of the functions we will be using when analysing our data will return lists as their output. These lists can contain tons of information, and we may often require only some of it. Therefore, knowing how to access parts of a list can be extremely handy.
+:::
 
 
