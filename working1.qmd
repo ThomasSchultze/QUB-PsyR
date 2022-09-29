@@ -4,9 +4,92 @@ title: "Binary Operators"
 
 We already know ho to define R objects. We will now turn to the question how to work with them. Generally speaking, we can work with R objects by performing **operations** on them. There are two ways of doing so: one is to use **binary operators**. Another way to perform operations on R objects is to feed them into **functions** as function arguments. Here, we will focus on binary operators.
 
+## Prelude - the $ operator
+
+Before we delve into binary operators, we need to learn about a very useful operator specific to data frames and lists with named elements.
+
+This operator is **$**. It is not a binary operator because it requires only one object.
+
+Specifically, the **$** operator allows us to **extract a named element** from a data frame or list.
+
+To do so, we need two first write the name of the data frame (or list), immediately follow it with the **$** operator, and then follow with the name of the element we want to obtain.
+
+Here is what the code looks like, generally speaking:
+
+```{r}
+#| eval: false
+#| echo: true
+data_frame$variable_name
+```
+
+Here is an example, in which we obtain a variable called *age* from a data frame called *my_data_frame* that, among others, contains this variable.
+
+```{r}
+#| eval: false
+#| echo: true
+# create a data frame
+my_data_frame = data.frame(
+  ID = 1:5,
+  gender = c('m', 'f', 'f', 'nb', 'm'),
+  age = c(32, 66, 37, 41, 38)
+)
+
+# obtain age from the data frame
+my_data_frame$age
+```
+
+If we run this code, R will display the information contained in the column labelled *age* in the console with the output looking as follows:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# create a data frame
+my_data_frame = data.frame(
+  ID = 1:5,
+  gender = c('m', 'f', 'f', 'nb', 'm'),
+  age = c(32, 66, 37, 41, 38)
+)
+
+# obtain age from the data frame
+my_data_frame$age
+```
+:::
+
+We could also define the extracted column as a separate object and save it in the **Environment**.
+
+One extremely useful feature in R is that we can use the **$** operator to **create new elements** in a data frame or list. For example, we can add a new variable to the data frame from the previous example.
+
+```{r}
+#| eval: false
+#| echo: true
+# add a variable to the data frame coding whether 
+# the participants is currently employed
+my_data_frame$employed = c(T, T, F, T, T)
+```
+
+Once we run the code, R will update the data frame in the **Environment**. It will now be shown as "5 obs. of 4 variables" instead of the original "5 obs. of 3 variables". Upon inspection, we can confirm that it now contains the new variable *employed* as its last column.
+
+Here is what the data frame would look like in the console:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# add a variable to the data frame coding whether 
+# the participants is currently employed
+my_data_frame$employed = c(T, T, F, T, T)
+
+# show data frame in the console
+my_data_frame
+```
+:::
+
+## Back to binary operators
+
 Binary operators are symbols that R uses to represent a specific operation involving two objects. These operations can be *arithmetic* or *logical*. Before we jump into action, we need to have a look at how R's binary operators look like.
 
-## Arithmetic binary operators
+### Arithmetic binary operators
 
 R has seven built-in arithmetic binary operators (you will probably not use the last two, but we will include them for the sake of completeness).
 
@@ -21,7 +104,7 @@ R has seven built-in arithmetic binary operators (you will probably not use the 
 | %/%      | integer division | division rounded down to whole numbers     |
 
 
-## Logical binary operators
+### Logical binary operators
 
 Besides arithmetic operators, R has several built-in logical binary operators. Logical binary operators also require two objects as arguments. They compare the object to the left of the operator to the object on its right and check if the result of this comparison is TRUE or FALSE. In other words, they return a Boolean value. Here is the list of logical operators:
 
