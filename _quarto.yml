@@ -17,6 +17,8 @@ website:
           href: intro3.html
         - text: "Data Frames and Lists"
           href: intro4.html
+        - text: "Saving and Loading Data"
+          href: intro5.html
       - text: "Working with R Objects"
         menu:
         - text: "Binary Operators"
@@ -25,6 +27,8 @@ website:
           href: working2.html
         - text: "Numerical Indexing"
           href: working3.html
+        - text: "Logical Indexing"
+          href: working4.html
         
       - text: "About"
         href: about.html

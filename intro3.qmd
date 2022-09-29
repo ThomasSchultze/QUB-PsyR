@@ -7,7 +7,7 @@ R revolves around **objects** and **functions**. Generally speaking, an object i
 
 ## R objects
 
-In R, an object is information that we tore in R's memory. In order to define an R object, we need to choose a name and tell R what information the object should contain. The general syntax for defining objects looks like this:
+In R, an object is information that we store in R's memory. In order to define an R object, we need to choose a name and tell R what information the object should contain. The general syntax for defining objects looks like this:
 
 ```{r}
 #| eval: false

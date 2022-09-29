@@ -15,7 +15,7 @@ R has seven built-in arithmetic binary operators (you will probably not use the 
 | \+       | addition         | computes the sum of two numbers            |
 | \-       | subtraction      | subtracts the second number from the first |
 | \*       | multiplication   | computes the product of two numbers        |
-| \-       | division         | divides first number by the second         |
+| \/       | division         | divides first number by the second         |
 | \^       | power            | takes the first to the power of the second |
 | %%       | modulo           | takes the remainder of division            |
 | %/%      | integer division | division rounded down to whole numbers     |

@@ -1,0 +1,85 @@
+---
+title: "Saving and loading data"
+---
+
+At some point, we either want to load data into R or save a data frame that we have created or modified. Arguably, the best format to store data in tabular form (rows representing observations and columns representing variables) is the *CSV* (comma-separated variables) format.
+
+CSV files are ideal for **Open Data** as most software can read them, including generic text editors.
+
+In order to load and save data in *CSV* format, we can use two functions:
+
+- *write.csv* will save tabular data (usually a data frame, but can also be a matrix) as a *CSV* file
+- *read.csv* will load data from a *CSV* file
+
+
+## Saving data frames
+
+If we save a data frame using the function *write.csv*, we should specify three function arguments:
+
+- *x*: the name of the object we want to save (a data frame, but works with matrices, too)
+- *file*: the **directory** where we want to save the file **plus the file name** as a character string
+- *row.names*: whether we want R to assign row names (default is TRUE, but we want to turn that to FALSE)
+
+If we do not specify a directory, R will save the data frame in the **current working directory**.
+
+We can ask R to tell us the current working directory using the function *getwd*. This function is special in that it does not have any function arguments. Here is what the syntax looks like:
+
+```{r}
+#| eval: false
+#| echo: true
+# Obtain the current working directory
+getwd()
+```
+
+The output in the console will look slightly different for each person due to differences in how their folders are named:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# Obtain the current working directory
+print("C:/Users/Thomas/Documents/R stuff")
+```
+:::
+
+
+Here is how the code for saving a data frame could look like.
+
+```{r}
+#| code-line-numbers: 2|3|4|5
+# save the object called my_data_frame
+write.csv(
+  x = my_data_frame,
+  file = "C:/Users/Thomas/Documents/data.csv",
+  row.names = FALSE
+)
+```
+
+Provided the directory "C:/Users/Thomas/Documents" already exists on the computer, there will now be a file named "data.csv" in that directory.
+
+
+## Loading data frames
+
+We can load a data frame (or matrix) saved in *CSV* format using the function *read.csv*.
+
+We usually need to specify only two function arguments:
+
+- file: the **directory and file name** of the *CSV* file
+- header: a Boolean variable indicating whether the first row of file contains the variable names (default is TRUE)
+
+:::{.alert .alert-danger}
+**Important**: If we simply call the function, R will display the data frame we loaded in the console. If we want it to appear in the **Environment** we need to define it as a new object.
+::: 
+
+Here is what the code would look like if we were to load the data frame saved in the previous example.
+
+```{r}
+# load data
+my_data_frame = read.csv(
+  file = "C:/Users/Thomas/Documents/data.csv",
+  header = T)
+```
+
+Assuming that the requested file exists in the specified directory, the Environment will now show the object called "my_data_frame" in the Environment.
+
+
