@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>QUB-PsyR - Custom functions</title>
+<title>QUB-PsyR - Saving and loading data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -200,7 +200,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Custom functions</h1>
+<h1 class="title">Saving and loading data</h1>
 </div>
 
 
@@ -214,28 +214,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>Sometimes, we may not find an R function that does exactly what we want it to do in base R, and we may also run out of luck when browsing additional R packages in search od that function. In those cases, we can resort to writing our own functions using a special function called <em>function</em> (yes, very creative, I know).</p>
-<p>Writing R functions is easy, once we understand how R functions work (and we do know that from looking at the documentation of different functions). What we need to do when defining a custom function is to: - give it a name (ideally a unique name to avoid conflicts with existing functions) - tell R what function arguments the function should have - tell R whether any of the arguments should have default values - tell R what operations it should perform when we call the function</p>
-<p>When defining the function, we need to use a specific Syntax. Just as with R objects, we write the name of our custom function to the left of an equal sign. To its right we call the function <em>function</em>. This function does not have fixed arguments that we specifiy in parentheses. Instead, we write those arguments in parentheses that we <strong>want</strong> our our custom function to have. If we would like there to be a default value for a function argument, we can use an equal sign following the argument name and enter the respective value to its right.</p>
-<p>Finally, we use braces to define what the function should do, that is, which operations to run on the arguments we fed it. Here, sky is the limit to our creativity. We can use any binary operator or function (even other custom functions) to tell R what it it should do. The final line of code within the braces should be a call of the function <em>return</em>, which we can use to define the output of our custom function. Let’s look at a few examples.</p>
-<section id="example-1" class="level3">
-<h3 class="anchored" data-anchor-id="example-1">Example 1</h3>
-<p>In the first example, we will write a custom function that computed the <strong>uncorrected standard deviation</strong> of a numeric vector (remember that the function <em>sd</em> that is built into base R computed the bias-corrected standard deviation, which may not always be what we are looking for). We will call this function <em>sd_uncorrected</em> (any name is fine, but it may be prudent to choose a name that is informative of what the function does).</p>
-<p>The R code for defining this function could look as follows:</p>
+<p>At some point, we either want to load data into R or save a data frame that we have created or modified. Arguably, the best format to store data in tabular form (rows representing observations and columns representing variables) is the <em>CSV</em> (comma-separated variables) format.</p>
+<p>CSV files are ideal for <strong>Open Data</strong> as most software can read them, including generic text editors.</p>
+<p>In order to load and save data in <em>CSV</em> format, we can use two functions:</p>
+<ul>
+<li><em>write.csv</em> will save tabular data (usually a data frame, but can also be a matrix) as a <em>CSV</em> file</li>
+<li><em>read.csv</em> will load data from a <em>CSV</em> file</li>
+</ul>
+<section id="saving-data-frames" class="level2">
+<h2 class="anchored" data-anchor-id="saving-data-frames">Saving data frames</h2>
+<p>If we save a data frame using the function <em>write.csv</em>, we should specify three function arguments:</p>
+<ul>
+<li><em>x</em>: the name of the object we want to save (a data frame, but works with matrices, too)</li>
+<li><em>file</em>: the <strong>directory</strong> where we want to save the file <strong>plus the file name</strong> as a character string</li>
+<li><em>row.names</em>: whether we want R to assign row names (default is TRUE, but we want to turn that to FALSE)</li>
+</ul>
+<p>If we do not specify a directory, R will save the data frame in the <strong>current working directory</strong>.</p>
+<p>We can ask R to tell us the current working directory using the function <em>getwd</em>. This function is special in that it does not have any function arguments. Here is what the syntax looks like:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>sd_uncorrected <span class="ot">=</span> <span class="cf">function</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>){</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">=</span> <span class="fu">na.omit</span>(x)  <span class="co"># excludes elements of x that are NA (if any)</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">length</span>(x)   <span class="co"># sample size n is the length of the vector x</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  var_x <span class="ot">=</span> <span class="dv">1</span><span class="sc">/</span>n <span class="sc">*</span> <span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>)  <span class="co"># compute uncorrected variance of x</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  sd <span class="ot">=</span> <span class="fu">sqrt</span>(var_x)                    <span class="co"># take square root to get sd</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(sd)                          <span class="co"># return the object sd, which happens to be</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                                      <span class="co"># a single numeric value</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain the current working directory</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>The output in the console will look slightly different for each person due to differences in how their folders are named:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "C:/Users/Thomas/Documents/R stuff"</code></pre>
+</div>
+</div>
+</div>
+<p>Here is how the code for saving a data frame could look like.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save the object called my_data_frame</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> my_data_frame,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"C:/Users/Thomas/Documents/data.csv"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Provided the directory “C:/Users/Thomas/Documents” already exists on the computer, there will now be a file named “data.csv” in that directory.</p>
+</section>
+<section id="loading-data-frames" class="level2">
+<h2 class="anchored" data-anchor-id="loading-data-frames">Loading data frames</h2>
+<p>We can load a data frame (or matrix) saved in <em>CSV</em> format using the function <em>read.csv</em>.</p>
+<p>We usually need to specify only two function arguments:</p>
+<ul>
+<li>file: the <strong>directory and file name</strong> of the <em>CSV</em> file</li>
+<li>header: a Boolean variable indicating whether the first row of file contains the variable names (default is TRUE)</li>
+</ul>
+<div class="alert alert-danger">
+<p><strong>Important</strong>: If we simply call the function, R will display the data frame we loaded in the console. If we want it to appear in the <strong>Environment</strong> we need to define it as a new object.</p>
+</div>
+<p>Here is what the code would look like if we were to load the data frame saved in the previous example.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>my_data_frame <span class="ot">=</span> <span class="fu">read.csv</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"C:/Users/Thomas/Documents/data.csv"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Assuming that the requested file exists in the specified directory, the Environment will now show the object called “my_data_frame” in the Environment.</p>
 
 
 </section>

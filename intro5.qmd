@@ -46,7 +46,8 @@ print("C:/Users/Thomas/Documents/R stuff")
 Here is how the code for saving a data frame could look like.
 
 ```{r}
-#| code-line-numbers: 2|3|4|5
+#| eval: false
+#| echo: true
 # save the object called my_data_frame
 write.csv(
   x = my_data_frame,
@@ -74,6 +75,8 @@ We usually need to specify only two function arguments:
 Here is what the code would look like if we were to load the data frame saved in the previous example.
 
 ```{r}
+#| eval: false
+#| echo: true
 # load data
 my_data_frame = read.csv(
   file = "C:/Users/Thomas/Documents/data.csv",

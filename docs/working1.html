@@ -154,6 +154,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="./intro4.html">
  <span class="dropdown-text">Data Frames and Lists</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./intro5.html">
+ <span class="dropdown-text">Saving and Loading Data</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -170,6 +174,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li>
     <a class="dropdown-item" href="./working3.html">
  <span class="dropdown-text">Numerical Indexing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./working4.html">
+ <span class="dropdown-text">Logical Indexing</span></a>
   </li>  
     </ul>
   </li>
@@ -207,9 +215,63 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <p>We already know ho to define R objects. We will now turn to the question how to work with them. Generally speaking, we can work with R objects by performing <strong>operations</strong> on them. There are two ways of doing so: one is to use <strong>binary operators</strong>. Another way to perform operations on R objects is to feed them into <strong>functions</strong> as function arguments. Here, we will focus on binary operators.</p>
+<section id="prelude---the-operator" class="level2">
+<h2 class="anchored" data-anchor-id="prelude---the-operator">Prelude - the $ operator</h2>
+<p>Before we delve into binary operators, we need to learn about a very useful operator specific to data frames and lists with named elements.</p>
+<p>This operator is <strong>$</strong>. It is not a binary operator because it requires only one object.</p>
+<p>Specifically, the <strong>$</strong> operator allows us to <strong>extract a named element</strong> from a data frame or list.</p>
+<p>To do so, we need two first write the name of the data frame (or list), immediately follow it with the <strong>$</strong> operator, and then follow with the name of the element we want to obtain.</p>
+<p>Here is what the code looks like, generally speaking:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_frame<span class="sc">$</span>variable_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is an example, in which we obtain a variable called <em>age</em> from a data frame called <em>my_data_frame</em> that, among others, contains this variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a data frame</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>my_data_frame <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">gender =</span> <span class="fu">c</span>(<span class="st">'m'</span>, <span class="st">'f'</span>, <span class="st">'f'</span>, <span class="st">'nb'</span>, <span class="st">'m'</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">66</span>, <span class="dv">37</span>, <span class="dv">41</span>, <span class="dv">38</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain age from the data frame</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>my_data_frame<span class="sc">$</span>age</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If we run this code, R will display the information contained in the column labelled <em>age</em> in the console with the output looking as follows:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 32 66 37 41 38</code></pre>
+</div>
+</div>
+</div>
+<p>We could also define the extracted column as a separate object and save it in the <strong>Environment</strong>.</p>
+<p>One extremely useful feature in R is that we can use the <strong>$</strong> operator to <strong>create new elements</strong> in a data frame or list. For example, we can add a new variable to the data frame from the previous example.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a variable to the data frame coding whether </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the participants is currently employed</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>my_data_frame<span class="sc">$</span>employed <span class="ot">=</span> <span class="fu">c</span>(T, T, F, T, T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once we run the code, R will update the data frame in the <strong>Environment</strong>. It will now be shown as “5 obs. of 4 variables” instead of the original “5 obs. of 3 variables”. Upon inspection, we can confirm that it now contains the new variable <em>employed</em> as its last column.</p>
+<p>Here is what the data frame would look like in the console:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID gender age employed
+1  1      m  32     TRUE
+2  2      f  66     TRUE
+3  3      f  37    FALSE
+4  4     nb  41     TRUE
+5  5      m  38     TRUE</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="back-to-binary-operators" class="level2">
+<h2 class="anchored" data-anchor-id="back-to-binary-operators">Back to binary operators</h2>
 <p>Binary operators are symbols that R uses to represent a specific operation involving two objects. These operations can be <em>arithmetic</em> or <em>logical</em>. Before we jump into action, we need to have a look at how R’s binary operators look like.</p>
-<section id="arithmetic-binary-operators" class="level2">
-<h2 class="anchored" data-anchor-id="arithmetic-binary-operators">Arithmetic binary operators</h2>
+<section id="arithmetic-binary-operators" class="level3">
+<h3 class="anchored" data-anchor-id="arithmetic-binary-operators">Arithmetic binary operators</h3>
 <p>R has seven built-in arithmetic binary operators (you will probably not use the last two, but we will include them for the sake of completeness).</p>
 <table class="table">
 <colgroup>
@@ -241,7 +303,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>computes the product of two numbers</td>
 </tr>
 <tr class="even">
-<td>-</td>
+<td>/</td>
 <td>division</td>
 <td>divides first number by the second</td>
 </tr>
@@ -263,8 +325,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 </section>
-<section id="logical-binary-operators" class="level2">
-<h2 class="anchored" data-anchor-id="logical-binary-operators">Logical binary operators</h2>
+<section id="logical-binary-operators" class="level3">
+<h3 class="anchored" data-anchor-id="logical-binary-operators">Logical binary operators</h3>
 <p>Besides arithmetic operators, R has several built-in logical binary operators. Logical binary operators also require two objects as arguments. They compare the object to the left of the operator to the object on its right and check if the result of this comparison is TRUE or FALSE. In other words, they return a Boolean value. Here is the list of logical operators:</p>
 <table class="table">
 <colgroup>
@@ -304,22 +366,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
+</section>
 <section id="using-binary-operators-on-single-values" class="level3">
 <h3 class="anchored" data-anchor-id="using-binary-operators-on-single-values">Using binary operators on single values</h3>
 <p>The simplest way to use binary operators is to use them on single values. In the case of arithmetic operators, this comes down to adding, subtracting, multiplying etc. two numbers. As the two arguments for the operators, we can use values we defined as objects prior to the operation, values that we enter as is, or a combination of both. Here are a few examples.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="st">"hello"</span>   <span class="co"># a character value</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="cn">FALSE</span>     <span class="co"># a Boolean value</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">=</span> <span class="dv">13</span>        <span class="co"># a numeric value</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>e <span class="ot">=</span> <span class="dv">2</span>         <span class="co"># another numeric value</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>a <span class="sc">!=</span> <span class="st">"hello"</span>  <span class="co"># tests if a is unqeual to the string "hello" (this is FALSE)</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>b <span class="sc">==</span> <span class="cn">FALSE</span>    <span class="co"># tests if b is the Boolean value FALSE (which is TRUE)</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>d <span class="sc">+</span> <span class="dv">3</span>         <span class="co"># adds 3 to the object d (for a total of 10)</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>d <span class="sc">^</span> e         <span class="co"># takes d to the power of e (the result is 169)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="st">"hello"</span>   <span class="co"># a character value</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="cn">FALSE</span>     <span class="co"># a Boolean value</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">=</span> <span class="dv">13</span>        <span class="co"># a numeric value</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>e <span class="ot">=</span> <span class="dv">2</span>         <span class="co"># another numeric value</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>a <span class="sc">!=</span> <span class="st">"hello"</span>  <span class="co"># tests if a is unqeual to the string "hello" (this is FALSE)</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>b <span class="sc">==</span> <span class="cn">FALSE</span>    <span class="co"># tests if b is the Boolean value FALSE (which is TRUE)</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>d <span class="sc">+</span> <span class="dv">3</span>         <span class="co"># adds 3 to the object d (for a total of 10)</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>d <span class="sc">^</span> e         <span class="co"># takes d to the power of e (the result is 169)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is what appears in the console:</p>
 <div class="alert alert-warning">
@@ -350,14 +413,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Example 1:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">3</span>   <span class="co"># define a numeric value</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">2</span>   <span class="co"># define another value</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> x <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span> (x <span class="sc">*</span> y <span class="sc">-</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">3</span>   <span class="co"># define a numeric value</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">2</span>   <span class="co"># define another value</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> x <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span> (x <span class="sc">*</span> y <span class="sc">-</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the example above, we defined a numeric value called <em>z</em>. Since power takes precedence over division, R first computes <em>x</em> to the power of 2 (for a total of 9). It then divides 9 by the expression in the parentheses. Within the parentheses, multiplication takes precedence over subtraction, which means that R first computes the product of <em>x</em> and <em>y</em> (which is 6) and then subtracts <em>x</em> for a total of 3. So our code boils down to dividing 9 by 3. We can easily verify that R did that by inspecting the new object <em>z</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="alert alert-warning">
 <div class="cell">
@@ -368,11 +431,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Example 2:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">3</span>      <span class="co"># define a numeric value</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">2</span>      <span class="co"># define another value</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> <span class="st">'red'</span>  <span class="co"># define a character value</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>z <span class="sc">!=</span> <span class="st">'red'</span> <span class="sc">&amp;</span> (x <span class="sc">&gt;</span> <span class="dv">2</span> <span class="sc">|</span> x <span class="sc">+</span> y <span class="sc">==</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">3</span>      <span class="co"># define a numeric value</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">2</span>      <span class="co"># define another value</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> <span class="st">'red'</span>  <span class="co"># define a character value</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>z <span class="sc">!=</span> <span class="st">'red'</span> <span class="sc">&amp;</span> (x <span class="sc">&gt;</span> <span class="dv">2</span> <span class="sc">|</span> x <span class="sc">+</span> y <span class="sc">==</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this example, we test whether the two conditions combined by <strong>&amp;</strong> (logical AND) are simultaneously TRUE. First, whether the value z equals the string ‘red’, and second, whether at least one of the following two statements combined with the <strong>|</strong> (logical OR) is TRUE: the value x is greater than 2 OR the sum of x and y equals 7.</p>
 <p>The first statement is TRUE because z equals the character string ‘red’. The second statement is also true. While the sum of x and y clearly differs from 7 and is, thus, FALSE, x is greater than 2. Since the logical OR only requires one of the statements to be TRUE, the whole statement in parentheses is TRUE. Therefore, executing this code should return the Boolean TRUE, which we can check by inspecting the output in the console.</p>
@@ -392,17 +455,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We can also use binary operators on vectors or matrices. The exact operation depends on the two objects involved. More specifically, if one of the two arguments of a binary operator is a vector or a matrix, then the operation differs depending on whether the second argument is a single vector or another vector or matrix.</p>
 <p>Lets first look at the (simpler) case where one of the two arguments is a vector/matrix and the other is a single value. In this case, the exact same operation is performed on all elements of the vector or matrix. For example adding a single value and a vector/matrix means that the single value is added to each element of the vector/matrix, multiplying the vector/matrix by a number means that each element is multiplied by that number, testing whether a vector/matrix equals a certain character string tests for each element whether it equals that string, and so on. Let’s look at some examples.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'red'</span>, <span class="st">'green'</span>, <span class="st">'blue'</span>)  <span class="co"># defines a character vector</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>)      <span class="co"># defines a numeric 3x3 matrix</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">2</span>         <span class="co"># defines a numeric value</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>v1 <span class="sc">==</span> <span class="st">'red'</span>   <span class="co"># tests for each element of v1 whether it equals the string 'red'</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>a <span class="sc">^</span> m1        <span class="co"># takes a (the value 2) to the power of each element of m1</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">&lt;</span> <span class="dv">5</span>        <span class="co"># tests for each element of m1 whether it is smaller than 5   </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'red'</span>, <span class="st">'green'</span>, <span class="st">'blue'</span>)  <span class="co"># defines a character vector</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>)      <span class="co"># defines a numeric 3x3 matrix</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">2</span>         <span class="co"># defines a numeric value</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>v1 <span class="sc">==</span> <span class="st">'red'</span>   <span class="co"># tests for each element of v1 whether it equals the string 'red'</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>a <span class="sc">^</span> m1        <span class="co"># takes a (the value 2) to the power of each element of m1</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">&lt;</span> <span class="dv">5</span>        <span class="co"># tests for each element of m1 whether it is smaller than 5   </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is what appears in the console:</p>
 <div class="alert alert-warning">
@@ -434,14 +497,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>When using binary operators with two vectors or matrices, R performs an element-wise operation. That means that R pairs the first element of the first vector or matrix with the corresponding element of the second vector or matrix when performing the operation. The second element of the first object is paired with second element of the second object, and so on. Let’s again look at a few examples.</p>
 <p>Vectors first.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>)    <span class="co"># defines a numeric vector</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>              <span class="co"># lazy way of creating a vector of length 4</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>v1 <span class="sc">+</span> v2               <span class="co"># performs element-wise addition of the vectors</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>v1 <span class="sc">!=</span> v2              <span class="co"># takes each element of v1 abnd tests whether it is</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                      <span class="co"># different from the corresponding element of v2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>)    <span class="co"># defines a numeric vector</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>              <span class="co"># lazy way of creating a vector of length 4</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>v1 <span class="sc">+</span> v2               <span class="co"># performs element-wise addition of the vectors</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>v1 <span class="sc">!=</span> v2              <span class="co"># takes each element of v1 abnd tests whether it is</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                      <span class="co"># different from the corresponding element of v2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is what appears in the console:</p>
 <div class="alert alert-warning">
@@ -456,14 +519,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Now for some matrices.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>), <span class="at">nrow =</span> <span class="dv">2</span>)    <span class="co"># defines a 2x2 matrix</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">2</span>)              <span class="co"># defines another 2x2 matrix</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">-</span> m2               <span class="co"># performs element-wise subtraction of the matrices</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">&lt;</span> m2               <span class="co"># takes each element of m1 tests whether it is less than </span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                      <span class="co"># the corresponding element of m2   </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>), <span class="at">nrow =</span> <span class="dv">2</span>)    <span class="co"># defines a 2x2 matrix</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">2</span>)              <span class="co"># defines another 2x2 matrix</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">-</span> m2               <span class="co"># performs element-wise subtraction of the matrices</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>m1 <span class="sc">&lt;</span> m2               <span class="co"># takes each element of m1 tests whether it is less than </span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                      <span class="co"># the corresponding element of m2   </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is what appears in the console:</p>
 <div class="alert alert-warning">

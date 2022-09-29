@@ -294,6 +294,19 @@ Here is what the new list looks like.
 #| echo: false
 #| code-overflow: wrap
 # The following code creates a list with four elements
+l1 = list(
+  my_value = 'hello',               # a character value
+  
+  my_vector =  c(1,1,2,3,5,8),      # a numeric vector
+  
+  my_matrix = matrix(NA, nrow = 3,  # a 3x3 matrix of NAs
+                     ncol = 3),      
+  my_list = list(                   # a list of two objects
+    a = c('happy', 'hippo'),
+    b = 42
+  )
+)
+
 l1
 ```
 :::
