@@ -23,7 +23,9 @@ Occasionally, we might come across functions that have no arguments at all. Thes
 
 ## The most useful function in R - help
 
-All functions in R are documented in order to help users understand what the function does, what its arguments are and what they do. We can ask R to show us the documentation using the function *help*. If we call this function and feed it the name of an R function as a function argument, R will display the documentation in the **help** tab of the **utility & help** section (bottom right of RStudio's interface). Note that the function *help* requires the function name to be a character string, that is, we need to write it in quotation marks.
+All functions in R are documented in order to help users understand what the function does, what its arguments are and what they do. We can ask R to show us the documentation using the function *help*. If we call this function and feed it the name of an R function as a function argument, R will display the documentation in the **help** tab of the **utility & help** section (bottom right of RStudio's interface). 
+
+Note that the function *help* will accept the function name both if we enter it as is or if we enter it as a character string (i.e., we write it in quotation marks).
 
 As an alternative to calling the function's name in regular R syntax, we can type the functions name in the search bar of the **help** tab.If we use this way to learn about a function, we do not need quotation marks.
 
@@ -51,7 +53,7 @@ Let's look at an example by asking R to show us the documentation for the functi
 #| eval: false
 #| echo: true
 #| code-overflow: wrap
-help("median")
+help(median)
 ```
 
 R will now show us the following in the **help** tab.

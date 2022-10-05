@@ -230,7 +230,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="the-most-useful-function-in-r---help" class="level2">
 <h2 class="anchored" data-anchor-id="the-most-useful-function-in-r---help">The most useful function in R - help</h2>
-<p>All functions in R are documented in order to help users understand what the function does, what its arguments are and what they do. We can ask R to show us the documentation using the function <em>help</em>. If we call this function and feed it the name of an R function as a function argument, R will display the documentation in the <strong>help</strong> tab of the <strong>utility &amp; help</strong> section (bottom right of RStudio’s interface). Note that the function <em>help</em> requires the function name to be a character string, that is, we need to write it in quotation marks.</p>
+<p>All functions in R are documented in order to help users understand what the function does, what its arguments are and what they do. We can ask R to show us the documentation using the function <em>help</em>. If we call this function and feed it the name of an R function as a function argument, R will display the documentation in the <strong>help</strong> tab of the <strong>utility &amp; help</strong> section (bottom right of RStudio’s interface).</p>
+<p>Note that the function <em>help</em> will accept the function name both if we enter it as is or if we enter it as a character string (i.e., we write it in quotation marks).</p>
 <p>As an alternative to calling the function’s name in regular R syntax, we can type the functions name in the search bar of the <strong>help</strong> tab.If we use this way to learn about a function, we do not need quotation marks.</p>
 <p>Once we call the help function, R will show us the documentation of an existing R function or a group of related functions. R will generally display a lot of information. What information is displayed exactly depends on the function.</p>
 <p>The following information will be shown for all functions:</p>
@@ -246,7 +247,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>There may be additional information for some functions such as: - a description of the maths or logic underlying the function (<strong>details</strong>) - additional information of potential interest to the user (<strong>note</strong>) - <strong>references</strong> to literature the literature the function is based on - links to related functions (<strong>see also</strong>)</p>
 <p>Let’s look at an example by asking R to show us the documentation for the function <em>median</em> using R syntax.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="st">"median"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(median)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>R will now show us the following in the <strong>help</strong> tab.</p>
 <div class="quarto-figure quarto-figure-center">
