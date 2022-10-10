@@ -2,3 +2,12 @@
 title: "Logical Indexing"
 ---
 
+So far, we have learned how to obtain parts of an R object using numeric indexing. We also know how to obtain a names element of a data frame or list, namely by using the **$** operator. We will now turn to logical indexing, that is obtaining elements of objects that satisfy certain conditions. 
+
+Just as with numerical indexing, logical indexing uses brackets. Within these brackets we can specify conditions that be be tested logically such that the result of the test is a TRUE or FALSE statement (i.e., a Boolean variable). R will then only show those elements of the object for which these conditions are true.
+
+
+## Logical indexing using binary operators
+
+The simplest form of logical indexing is to use a single statement involving a logical binary operator. For example, we could ask R to return to us all element of a numeric vector that are greater then 5, or we could ask it to obtain all elements from a Boolean matrix that are TRUE.
+

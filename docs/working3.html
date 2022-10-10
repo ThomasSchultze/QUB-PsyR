@@ -117,6 +117,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -275,14 +276,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p>In some of the example above, we used vectors in brackets to tell R which elements of the vector <em>v1</em> we want to obtain. Generally speaking, we can obtain elements of R objects by indexing objects of the same dimensions in brackets, that is, we can use vectors to obtain elements of one-dimensional objects such as vectors and lists, and matrices to obtain elements of two-dimensional objects such as matrices and data frames.</p>
+<p>Remember that data frames are essentially a container for column vectors of equal length. Remember also that we can obtain an existing column (i.e., one variable) of a data frame using the <strong>$</strong> operator. We can obtain elements of that variable using numerical indexing just as we did in the examples above. Here is what the syntax looks like.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a data frame with some demographic data</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>my_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,                                   </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">51</span>, <span class="dv">32</span>, <span class="dv">23</span>, <span class="dv">55</span>, <span class="dv">68</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">gender =</span> <span class="fu">c</span>(<span class="st">'m'</span>, <span class="st">'f'</span>, <span class="st">'nb'</span>, <span class="st">'f'</span>, <span class="st">'f'</span>, <span class="st">'m'</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">employed =</span> <span class="fu">c</span>(T, T, T, T, T, F)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the first element of the age variable</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>age[<span class="dv">1</span>]</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain elements 2:4 of the gender variable</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>gender[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain all elements of the employed variable </span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># except for the first and the last </span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>employed[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">6</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is what the output in the console would look like:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 40</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "f"  "nb" "f" </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE TRUE TRUE TRUE</code></pre>
+</div>
+</div>
+</div>
+<p>In some of the examples above, we used vectors in brackets to tell R which elements of the vector <em>v1</em> we want to obtain. Generally speaking, we can obtain elements of R objects by indexing objects of the same dimensions in brackets, that is, we can use vectors to obtain elements of one-dimensional objects such as vectors and lists, and matrices to obtain elements of two-dimensional objects such as matrices and data frames.</p>
 </section>
 <section id="numerical-indexing-of-matrices-and-data-frames" class="level2">
 <h2 class="anchored" data-anchor-id="numerical-indexing-of-matrices-and-data-frames">Numerical indexing of matrices and data frames</h2>
 <p>Let’s now turn to two-dimensional objects. As mentioned above, we need to tell R the coordinates of the elements we want to obtain in the brackets following the object’s name. The coordinates must be separated by a comma, and we specify the rows before the columns (remember the <strong>r</strong>oman-<strong>c</strong>atholics as a mnemonic aid).</p>
 <p>For the following examples, we fist generate a 4x4 matrix containing the numbers form 1 to 16.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">16</span>, <span class="at">nrow =</span> <span class="dv">4</span>)  <span class="co"># create a numeric 4x4 matrix</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">16</span>, <span class="at">nrow =</span> <span class="dv">4</span>)  <span class="co"># create a numeric 4x4 matrix</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The matrix looks as follows:</p>
 <div class="alert alert-warning">
@@ -292,15 +327,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Now let’s look at few examples of numerial indexing using our matrix <em>m1</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the element in the 2nd row and the 3rd column (10)</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>m1[<span class="dv">2</span>, <span class="dv">3</span>]</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the element in the 1st row and 3rd column (9) a well</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># as the element in the 4th row and 2nd column (8)</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>m1[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>)]</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># extract elements 1 to 3 in the 2nd row (2, 6, and 10)</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>m1[<span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the element in the 2nd row and the 3rd column (10)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>m1[<span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the element in the 1st row and 3rd column (9) a well</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># as the element in the 4th row and 2nd column (8)</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>m1[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>)]</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># extract elements 1 to 3 in the 2nd row (2, 6, and 10)</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>m1[<span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is what we will see in the console when running the code above.</p>
 <div class="alert alert-warning">
@@ -321,13 +356,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>A look at the console shows that R returns the desired elements as vectors. The reason is that we either asked for a single value (example 1), two elements from very different parts of the original matrix (example 2), or a vector of neighboring values within the original matrix (example 3).</p>
 <p>It is possible, though, to obtain elements from a matrix so that R returns another matrix (of smaller size). The output will be another matrix if we extract elements from different rows but the same columns (or vice versa). Let’s have a look at a few examples below:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract elements 1 to 3 in the 2nd row (2, 6, and 10)</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and the 4th row (4, 8, 12)</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>m1[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the 3rd and 4th elements of columns 1 (3, 4) </span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># and 2 (7, 8)</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>m1[<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract elements 1 to 3 in the 2nd row (2, 6, and 10)</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and the 4th row (4, 8, 12)</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>m1[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the 3rd and 4th elements of columns 1 (3, 4) </span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># and 2 (7, 8)</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>m1[<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A look at the console confirms, again, that the code worked as intended.</p>
 <div class="alert alert-warning">
@@ -346,13 +381,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Sometimes we might want to extract all elements of certain rows or columns of a two-dimensional R object. Theoretically, we could do so by entering all rows/columns in brackets, but R has an easier way for us to do that: stating nothing! Yes, you read that correctly. If we do not specify the rows or columns in brackets, R will understand that we want all of them. Since in those cases, the elements will either share their row or column positions, the resulting objects will be two-dimensional again (see examples below).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the complete 1st row (1, 5, 9, 13) and </span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 3rd row (3, 7, 11, 15)</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>m1[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), ]</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the complete 3rd (9 to 12) and 4th column</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># (13 to 16)</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>m1[, <span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the complete 1st row (1, 5, 9, 13) and </span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 3rd row (3, 7, 11, 15)</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>m1[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), ]</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the complete 3rd (9 to 12) and 4th column</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># (13 to 16)</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>m1[, <span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is what R prints in the console:</p>
 <div class="alert alert-warning">
@@ -371,11 +406,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Finally, as with vectors, we can use the operator <strong>-</strong> to tell R that we want all elements of a two-dimensional object except for some of them. For example, we could specify that we want to exclude some rows and some columns in brackets. Since we have two dimensions, we can also combine selection of certain rows with the exclusion of columns and vice versa. Here are a few examples.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove the first row but obtain all columns </span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>m1[<span class="sc">-</span><span class="dv">1</span>, ]</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain rows 1:3, but remove columns 2 and 4</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>m1[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove the first row but obtain all columns </span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>m1[<span class="sc">-</span><span class="dv">1</span>, ]</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain rows 1:3, but remove columns 2 and 4</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>m1[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The output in the console looks like this:</p>
 <div class="alert alert-warning">
@@ -394,9 +429,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<div class="alert alert-info">
-<p><strong>Note</strong>: In the examples above, we always obtained some elements of a matrix. However, the code would work in the same fashion, had the matrices been data frames instead.</p>
-<p>We can easily check that this is true by turning the matrices into data frames using the function <em>as.data.frame</em>. Feeding this function a matrix as the sole function argument, will turn any matrix into a data frame type of object.</p>
+<p>In the examples above, we always obtained some elements of a matrix. However, the code would work in the same fashion, had the matrices been data frames instead. To show that this is true, lets look at a few examples using he data frame we created above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the element that is in the 3rd row</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and the 2ns column of the data frame</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>my_df[<span class="dv">3</span>, <span class="dv">2</span>]</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the first variable of the data frame</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># (yields the same output as my_df$ID would)</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>my_df[, <span class="dv">1</span>]</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain rows 2:4 of the data frame</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>my_df[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, ]</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain all elements in rows 3 to 6 and</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co"># in all columns except for the first</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>my_df[<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>, <span class="sc">-</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As we can see from the output, two-dimensional indexing of data frames works as intended.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 32</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4 5 6</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID age gender employed
+2  2  51      f     TRUE
+3  3  32     nb     TRUE
+4  4  23      f     TRUE</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  age gender employed
+3  32     nb     TRUE
+4  23      f     TRUE
+5  55      f     TRUE
+6  68      m    FALSE</code></pre>
+</div>
+</div>
 </div>
 </section>
 <section id="numerical-indexing-of-lists" class="level2">
@@ -404,19 +476,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Finally, we need to look at how numerical indexing works for lists. At first glance, lists seem to follow the same logic as vectors. They, too, are one-dimensional objects with a certain number of elements. However, indexing of lists uses a slightly different syntax. Specifically, we need to tell R which element or elements of a list we want to obtain using <strong>double brackets</strong>.</p>
 <p>Let’s first create a simple list to work with. Note how the last element of our list is another list (yes, you can put lists into list, that is how cool R lists are).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The following code creates a list with four elements</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>l1 <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">my_value =</span> <span class="st">'hello'</span>,               <span class="co"># a character value</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">my_vector =</span>  <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">8</span>),      <span class="co"># a numeric vector</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">my_matrix =</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> <span class="dv">3</span>,  <span class="co"># a 3x3 matrix of NAs</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ncol =</span> <span class="dv">3</span>),      </span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">my_list =</span> <span class="fu">list</span>(                   <span class="co"># a list of two objects</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">a =</span> <span class="fu">c</span>(<span class="st">'happy'</span>, <span class="st">'hippo'</span>),</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">b =</span> <span class="dv">42</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The following code creates a list with four elements</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>l1 <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">my_value =</span> <span class="st">'hello'</span>,               <span class="co"># a character value</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">my_vector =</span>  <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">8</span>),      <span class="co"># a numeric vector</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">my_matrix =</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> <span class="dv">3</span>,  <span class="co"># a 3x3 matrix of NAs</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ncol =</span> <span class="dv">3</span>),      </span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">my_list =</span> <span class="fu">list</span>(                   <span class="co"># a list of two objects</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">a =</span> <span class="fu">c</span>(<span class="st">'happy'</span>, <span class="st">'hippo'</span>),</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">b =</span> <span class="dv">42</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is what the new list looks like.</p>
 <div class="alert alert-warning">
@@ -448,8 +520,8 @@ $my_list$b
 <p>Let’s look at a few examples using <strong>single brackets</strong> first (we will do them one by one because the output of a list in the console can be a bit longer).</p>
 <p>We can obtain a single element.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain a list containing element 2 of the list l1</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>l1[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain a list containing element 2 of the list l1</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>l1[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="alert alert-warning">
 <div class="cell">
@@ -461,8 +533,8 @@ $my_list$b
 </div>
 <p>We can obtain multiple elements</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain a list containing elements 2 to 4 of the l1</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>l1[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain a list containing elements 2 to 4 of the l1</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>l1[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="alert alert-warning">
 <div class="cell">
@@ -487,8 +559,8 @@ $my_list$b
 </div>
 <p>We can exclude some elements using the <strong>-</strong> operator.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain a list containing all elements of l1 except for the 3rd</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>l1[<span class="sc">-</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain a list containing all elements of l1 except for the 3rd</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>l1[<span class="sc">-</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="alert alert-warning">
 <div class="cell">
@@ -510,8 +582,8 @@ $my_list$b
 </div>
 <p>Let us now turn to the case where we ant to obtain a specific element of a list. As mentioned above, we will use <strong>double brackets</strong> to do that. Note that we can only obtain a single element of a list in that fashion. If we try to specify multiple elements in <strong>double brackets</strong>, R will complain by returning an error message.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain element 2 of the list l1</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>l1[[<span class="dv">2</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain element 2 of the list l1</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>l1[[<span class="dv">2</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="alert alert-warning">
 <div class="cell">
@@ -523,8 +595,8 @@ $my_list$b
 <p>Some elements of our list are indexable elements on their own. When we obtain such an element using <strong>double brackets</strong>, we can use <strong>hierarchical indexing</strong>. That is, we can tell R to obtain parts of a part of a list. We can do that by first indexing the element of the list we want to obtain using <strong>double brackets</strong> and then specifying which element of the obtained element we want R to extract using either <strong>single brackets</strong> or <strong>double brackets</strong> depending on whether the desired element is another list or not.</p>
 <p>Here is some example code, in which we extract the first three elements of the second element of our list.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain elements 1 to 3 of the second element of l1</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>l1[[<span class="dv">2</span>]][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain elements 1 to 3 of the second element of l1</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>l1[[<span class="dv">2</span>]][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="alert alert-warning">
 <div class="cell">
@@ -535,9 +607,9 @@ $my_list$b
 </div>
 <p>As a final example (just because we can), lets obtain the second element of the character vector that forms the first element of <strong>my_list</strong>, which is the last element of <em>l1</em>. In those cases, we need to think backwards (similar to calling multiple functions in one go), that is, we tell R to obtain the fourth element of <em>l1</em>, then to obtain that elements’ first element, and then to obtain that elements’ second element. The code to do so looks as follows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the second element of the 1st element of</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the 4th element of the list l1</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>l1[[<span class="dv">4</span>]][[<span class="dv">1</span>]][<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the second element of the 1st element of</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the 4th element of the list l1</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>l1[[<span class="dv">4</span>]][[<span class="dv">1</span>]][<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="alert alert-warning">
 <div class="cell">
@@ -549,8 +621,90 @@ $my_list$b
 <div class="alert alert-success">
 <p><strong>Important</strong>: Given that indexing of lists is somewhat tricky, you might be wondering why we should bother with it. The answer is that many of the functions we will be using to analyse our data will return lists as their output. These lists can contain tons of information, and we may often require only some of it. Therefore, knowing how to access parts of a list can be extremely handy.</p>
 </div>
+</section>
+<section id="saving-and-overwriting-indexed-elements" class="level2">
+<h2 class="anchored" data-anchor-id="saving-and-overwriting-indexed-elements">Saving and overwriting indexed elements</h2>
+<p>So far, we have only used numerical indexing to make R show us the elements in the console. However, we can do two more things with the obtained elements:</p>
+<ul>
+<li>we can use them as the definition of a new R object</li>
+<li>we can overwrite them by defining new values for them</li>
+</ul>
+<p>In other words, we can use them as both the left-hand-side and the right-hand-side argument in object definition.</p>
+<section id="saving-elements-of-an-object-as-a-new-object" class="level3">
+<h3 class="anchored" data-anchor-id="saving-elements-of-an-object-as-a-new-object">Saving elements of an object as a new object</h3>
+<p>Let’s first look at the case in which we want to save parts of an object as an object of its own. For example, we might be interested in creating a reduced data frame, that contains only some of the variables of the original data frame. We will use the data frame defined above in this example.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a reduced data frame that omits the </span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co"># employed variable (4th column)</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>reduced_df <span class="ot">=</span> my_df[<span class="sc">-</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running the code above will create a new object called <em>reduced_df</em> in the <strong>Environment</strong>. As we can see, it consists of 6 observations of 3 variables as compared to the original data frames 6 observations of 4 variables (which makes perfect sense since we asked R to remove one variable.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/working/indexing1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Fig 1. Defining part of a data frame as a new object</figcaption><p></p>
+</figure>
+</div>
+<p>Here is what the new data frame looks like in the console:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID age gender
+1  1  40      m
+2  2  51      f
+3  3  32     nb
+4  4  23      f
+5  5  55      f
+6  6  68      m</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="overwriting-elements-of-an-object" class="level3">
+<h3 class="anchored" data-anchor-id="overwriting-elements-of-an-object">Overwriting elements of an object</h3>
+<p>Let’s now have a look at the second case, in which we use part of an R object as the left-hand-side argument of object definition. As mentioned above, this corresponds to overwriting the exiting values of those elements with new values.</p>
+<p>If we want to overwrite elements of an object, we must consider two rules:</p>
+<p>First, <strong>the new values must conform with the type of the object</strong>. We should overwrite numeric value only with numeric value, character strings with only with other character strings, and so on. If we overwrite existing values with values of different types, R will <strong>not</strong> return an error message. Instead, it will coerce the object such that all elements are of equal type. For example, trying to overwrite elements of a numeric or Boolean object with a character string will turn the whole object into a character string. If we overwrite an element of a numeric vector with a Boolean value (TRUE or FALSE), the object will remain numeric,a nd the new values will be interpreted as either 1 or 0, and so on.</p>
+<div class="alert alert-danger">
+<p>In case of a data frame, each column works as its own object, that is, messing up one variable in this way will usually not mess up the other variables.</p>
+<p>However, if we overwrite a complete row of the data frame, we can potentially mess up the whole data frame, because now we tamper with elements of each column.</p>
+</div>
+<p>Second, <strong>we need to tell R the correct number of new values</strong> for the elements we want to overwrite. For example, if we want to overwrite two elements of a vector, we need to define the new values in a vector of length two, and if we want to overwrite the elements of a <span class="math inline">\(3\times2\)</span> matrix, the new values must be defined either in a <span class="math inline">\(3\times2\)</span> matrix or as a vector of length 6 (in the latter case, R will simply overwrite the old values with the values contained in the vector by filling columns from top to bottom and then moving to the next column). There is an exception to the second rule: <strong>we can always specify a single value as the new value</strong>. In this case, R will overwrite all of the old values with this new value.</p>
+<p>Let’s look at a few examples using the original data frame we defined above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The first participant entered the wrong age; we need to overwrite it with the correct value</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>age[<span class="dv">1</span>] <span class="ot">=</span> <span class="dv">41</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="co"># We want to capitalise the letters in our gender variable; overwrite the 3rd column (option A)</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>my_df[,<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'M'</span>, <span class="st">'F'</span>, <span class="st">'NB'</span>, <span class="st">'F'</span>, <span class="st">'F'</span>, <span class="st">'M'</span>)</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="co"># overwrite the 3rd column (option B)</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>gender <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'M'</span>, <span class="st">'F'</span>, <span class="st">'NB'</span>, <span class="st">'F'</span>, <span class="st">'F'</span>, <span class="st">'M'</span>)</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Participant 6 wants to retract their data we need to Overwrite the 6th row with NAs</span></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>my_df[<span class="dv">6</span>,] <span class="ot">=</span> <span class="cn">NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is what the data frame looks like after we have redefined the values as per the code above:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID age gender employed
+1  1  41      M     TRUE
+2  2  51      F     TRUE
+3  3  32     NB     TRUE
+4  4  23      F     TRUE
+5  5  55      F     TRUE
+6 NA  NA   &lt;NA&gt;       NA</code></pre>
+</div>
+</div>
+</div>
+<div class="alert alert-info">
+<p>Note that R has a slightly different way of showing that a value is <em>NA</em> (not available, i.e., missing) in the console whenever the object type is a character string. Rather than simply showing <em>NA</em> as it does when objects are numeric or Boolean, R will instead show <em><na></na></em> for character strings. This is purely cosmetic, that is, it has no consequences for the way we write code or how R evaluates it.</p>
+<p>If we inspect the object using RStudio’s viewer, instead, all <em>NA</em> values will be shown as <em>NA</em> irrespective of their type.</p>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

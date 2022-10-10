@@ -92,7 +92,58 @@ v1[-v2]
 ```
 :::
 
-In some of the example above, we used vectors in brackets to tell R which elements of the vector *v1* we want to obtain. Generally speaking, we can obtain elements of R objects by indexing objects of the same dimensions in brackets, that is, we can use vectors to obtain elements of one-dimensional objects such as vectors and lists, and matrices to obtain elements of two-dimensional objects such as matrices and data frames.
+Remember that data frames are essentially a container for column vectors of equal length. Remember also that we can obtain an existing column (i.e., one variable) of a data frame using the **$** operator. We can obtain elements of that variable using numerical indexing just as we did in the examples above. Here is what the syntax looks like.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# create a data frame with some demographic data
+my_df = data.frame(
+  ID = 1:6,                                   
+  age = c(40, 51, 32, 23, 55, 68),
+  gender = c('m', 'f', 'nb', 'f', 'f', 'm'),
+  employed = c(T, T, T, T, T, F)
+  )
+
+# obtain the first element of the age variable
+my_df$age[1]
+
+# obtain elements 2:4 of the gender variable
+my_df$gender[2:4]
+
+# obtain all elements of the employed variable 
+# except for the first and the last 
+my_df$employed[-c(1, 6)]
+```
+Here is what the output in the console would look like:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# create a data frame with some demographic data
+my_df = data.frame(
+  ID = 1:6,                                   
+  age = c(40, 51, 32, 23, 55, 68),
+  gender = c('m', 'f', 'nb', 'f', 'f', 'm'),
+  employed = c(T, T, T, T, T, F)
+  )
+
+# obtain the first element of the age variable
+my_df$age[1]
+
+# obtain elements 2:4 of the gender variable
+my_df$gender[2:4]
+
+# obtain all elements of the employed variable 
+# except for the first and the last 
+my_df$employed[-c(1, 6)]
+```
+:::
+
+In some of the examples above, we used vectors in brackets to tell R which elements of the vector *v1* we want to obtain. Generally speaking, we can obtain elements of R objects by indexing objects of the same dimensions in brackets, that is, we can use vectors to obtain elements of one-dimensional objects such as vectors and lists, and matrices to obtain elements of two-dimensional objects such as matrices and data frames.
 
 
 ## Numerical indexing of matrices and data frames
@@ -255,10 +306,51 @@ m1[1:3, -c(2, 4)]
 ```
 :::
 
-:::{.alert .alert-info}
-**Note**: In the examples above, we always obtained some elements of a matrix. However, the code would work in the same fashion, had the matrices been data frames instead.
 
-We can easily check that this is true by turning the matrices into data frames using the function *as.data.frame*. Feeding this function a matrix as the sole function argument, will turn any matrix into a data frame type of object.
+In the examples above, we always obtained some elements of a matrix. However, the code would work in the same fashion, had the matrices been data frames instead. To show that this is true, lets look at a few examples using he data frame we created above.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain the element that is in the 3rd row
+# and the 2ns column of the data frame
+my_df[3, 2]
+
+# obtain the first variable of the data frame
+# (yields the same output as my_df$ID would)
+my_df[, 1]
+
+# obtain rows 2:4 of the data frame
+my_df[2:4, ]
+
+# obtain all elements in rows 3 to 6 and
+# in all columns except for the first
+my_df[3:6, -1]
+```
+
+As we can see from the output, two-dimensional indexing of data frames works as intended.
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# obtain the element that is in the 3rd row
+# and the 2nd column of the data frame
+my_df[3, 2]
+
+# obtain the first variable of the data frame
+# (yields the same output as my_df$ID would)
+my_df[, 1]
+
+# obtain rows 2:4 of the data frame
+my_df[2:4, ]
+
+# obtain all elements in rows 3 to 6 and
+# in all columns except for the first
+my_df[3:6, -1]
+```
 :::
 
 ## Numerical indexing of lists
@@ -446,3 +538,117 @@ l1[[4]][[1]][2]
 :::
 
 
+## Saving and overwriting indexed elements
+
+So far, we have only used numerical indexing to make R show us the elements in the console. However, we can do two more things with the obtained elements:
+
+- we can use them as the definition of a new R object
+- we can overwrite them by defining new values for them
+
+In other words, we can use them as both the left-hand-side and the right-hand-side argument in object definition.
+
+
+### Saving elements of an object as a new object
+
+Let's first look at the case in which we want to save parts of an object as an object of its own. For example, we might be interested in creating a reduced data frame, that contains only some of the variables of the original data frame. We will use the data frame defined above in this example.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# create a reduced data frame that omits the 
+# employed variable (4th column)
+reduced_df = my_df[-4]
+```
+
+Running the code above will create a new object called *reduced_df* in the **Environment**. As we can see, it consists of 6 observations of 3 variables as compared to the original data frames 6 observations of 4 variables (which makes perfect sense since we asked R to remove one variable.
+
+![Fig 1. Defining part of a data frame as a new object](images/working/indexing1.png)
+
+Here is what the new data frame looks like in the console:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# create a reduced data frame that omits the 
+# employed variable (4th column)
+reduced_df = my_df[-4]
+
+# display the data frame
+reduced_df
+```
+:::
+
+
+### Overwriting elements of an object
+
+Let's now have a look at the second case, in which we use part of an R object as the left-hand-side argument of object definition. As mentioned above, this corresponds to overwriting the exiting values of those elements with new values. 
+
+If we want to overwrite elements of an object, we must consider two rules:
+
+First, **the new values must conform with the type of the object**. We should overwrite numeric value only with numeric value, character strings with only with other character strings, and so on. If we overwrite existing values with values of different types, R will **not** return an error message. Instead, it will coerce the object such that all elements are of equal type. For example, trying to overwrite elements of a numeric or Boolean object with a character string will turn the whole object into a character string. If we overwrite an element of a numeric vector with a Boolean value (TRUE or FALSE), the object will remain numeric,a nd the new values will be interpreted as either 1 or 0, and so on. 
+
+:::{.alert .alert-danger}
+In case of a data frame, each column works as its own object, that is, messing up one variable in this way will usually not mess up the other variables.
+
+However, if we overwrite a complete row of the data frame, we can potentially mess up the whole data frame, because now we tamper with elements of each column.
+:::
+
+
+Second, **we need to tell R the correct number of new values** for the elements we want to overwrite. For example, if we want to overwrite two elements of a vector, we need to define the new values in a vector of length two, and if we want to overwrite the elements of a $3\times2$ matrix, the new values must be defined either in a $3\times2$ matrix or as a vector of length 6 (in the latter case, R will simply overwrite the old values with the values contained in the vector by filling columns from top to bottom and then moving to the next column). There is an exception to the second rule: **we can always specify a single value as the new value**. In this case, R will overwrite all of the old values with this new value. 
+
+
+Let's look at a few examples using the original data frame we defined above.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# The first participant entered the wrong age; we need to overwrite it with the correct value
+my_df$age[1] = 41
+
+# We want to capitalise the letters in our gender variable; overwrite the 3rd column (option A)
+my_df[,3] = c('M', 'F', 'NB', 'F', 'F', 'M')
+
+# overwrite the 3rd column (option B)
+my_df$gender = c('M', 'F', 'NB', 'F', 'F', 'M')
+
+# Participant 6 wants to retract their data we need to Overwrite the 6th row with NAs
+my_df[6,] = NA
+```
+
+Here is what the data frame looks like after we have redefined the values as per the code above:
+
+:::{.alert .alert-warning}
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# The first participant entered the wrong age;
+# we need to overwrite it with the correct value
+my_df$age[1] = 41
+
+# We want to capitalise the letters in our gender 
+# variable; overwrite the 3rd column (option A)
+my_df[,3] = c('M', 'F', 'NB', 'F', 'F', 'M')
+
+# overwrite the 3rd column (option B)
+my_df$gender = c('M', 'F', 'NB', 'F', 'F', 'M')
+
+# Participant 6 wants to retract their data;
+# we need to Overwrite the 6th row with NA (not available)
+my_df[6,] = NA
+
+# display the data frame
+my_df
+```
+:::
+
+:::{.alert .alert-info}
+Note that R has a slightly different way of showing that a  value is *NA* (not available, i.e., missing) in the console whenever the object type is a character string. Rather than simply showing *NA* as it does when objects are numeric or Boolean, R will instead show *<NA>* for character strings. This is purely cosmetic, that is, it has no consequences for the way we write code or how R evaluates it.
+
+If we inspect the object using RStudio's viewer, instead, all *NA* values will be shown as *NA* irrespective of their type.
+:::
