@@ -34,6 +34,7 @@ m1[m1 == T]
 ```
 Here is what the output in the console looks like:
 
+:::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -52,6 +53,7 @@ v1[v1 > 3]
 # obtain all elements of m1 that are TRUE
 m1[m1 == T]
 ```
+:::
 
 We can also obtain elements by combining multiple logical statements using R's AND and OR operators (**&** and **|**, respectively). For example, we could obtain all elements of the numeric vector we created above that exceed 2 AND are smaller than 5. 
 
@@ -88,3 +90,88 @@ This code works as intended, which we can verify by looking at the output in the
 v1[v1 > 2 & v1 < 5]
 ```
 :::
+
+One neat thing about logical indexing is that we are not restricted to referring to the variable we want obtain elements from. As long as the outcome of the logical tests is an object of the same size as the object we want to obtain elements from, the ode will work.
+
+What this means is that we can obtain all elements of an object that satisfy conditions in other equally sized objects. This is particularly useful when we want to obtain elements of a data frame. For example, we might want R to show us all elements of one variable that satisfy the condition that another variable equal a specific value. Let's look at a few specific examples.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# create a data frame containing some demographic variables and responses to three 5-point Likert-scale items
+my_df = data.frame(
+  ID = 1:6,
+  age = c(23, 21, 18, 16, 19, 17),
+  gender = c('f', 'f', 'm', 'm', 'f', 'f'),
+  item1 = c(2, 5, 5, 4, 5, 3),
+  item2 = c(1, 2, 1, 3, 2, 1),
+  item3 = c(3, 4, 5, 5, 4, 2)
+)
+
+# obtain the responses to item 2 of all participants who are adults
+my_df$item2[my_df$age >= 18]
+
+# obtain the gender of all participants who below 4 on items 1 and 3
+my_df$gender[my_df$item1 < 4 & my_df$item3 < 4]
+```
+Here is what the output in the console looks like:
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# create a data frame containing some demographic variables and responses to three 5-point Likert-scale items
+my_df = data.frame(
+  ID = 1:6,
+  age = c(23, 21, 18, 16, 19, 17),
+  gender = c('f', 'f', 'm', 'm', 'f', 'f'),
+  item1 = c(2, 5, 5, 4, 5, 3),
+  item2 = c(1, 2, 1, 3, 2, 1),
+  item3 = c(3, 4, 5, 5, 4, 2)
+)
+
+# obtain the responses to item 2 of all participants who are adults
+my_df$item2[my_df$age >= 18]
+
+# obtain the gender of all participants who below 4 on items 1 and 3
+my_df$gender[my_df$item1 < 4 & my_df$item3 < 4]
+```
+
+Just as with numeric indexing, we can also use logical indexing to save the obtained elements as a new object of their own, or we can overwrite the obtained elements. Let's focus on overwriting. Overwriting of values using logical indexing is particularly useful in situations, in which missing data is coded using specific numbers (e.g., -99). 
+
+Numeric values for missing data can cause problems if we do not detect it such as distorting some measures of central tendency (e.g., the mean) or variability (e.g., standard deviation, range). Ideally, we want missing data to be represented by *NA* when working with R. That means that we may end up having to replace certain values that code missing data with NAs manually. Logical indexing makes this a walk in the park as the following example shows.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# add two more items to the data frame created above, both of which contain missing data coded as -99
+my_df$item4 = c(3, 5, 3, -99, 4, -99)
+my_df$item5 = c(-99, 2, 3, 1, -99, 2)
+
+# turn all elements that are equal to -99 into NAs
+# variant A:
+my_df$item4[my_df$item4 == -99] = NA
+my_df$item5[my_df$item5 == -99] = NA
+
+# variant B:
+my_df[my_df == -99] = NA
+```
+
+Both ways of overwriting the -99s with *NA*s work. The second one is more parsimonious. However, replacing all elements of a certain value in a data frame can become messy in large data sets. If the code for missing data has been chosen poorly (e.g., 99), there may be some variables for which 999 is an actual and valid value (e.g., a reaction time in milliseconds). Therefore, caution is advised when replacing values for a complete data frame.
+
+
+## Logical indexing using functions
+
+Instead of - or in addition to - binary operators, we can also use functions for logical indexing. We can use functions in two ways here. First, we can use the output of a function call as a value of comparison. For example, rather than testing whether an element of an object exceeds a certain fixed value, we could test whether it exceeds the mean or the median of that object.
+
+Second, there a several functions that conduct logical tests. For example, the function *is.na* tests whether an object is *NA*, the function *is.numeric* tests whether an object's type is numeric (either integer or double), and the function *is.finite* tests whether a numeric variable has a finite value. 
+
+:::{.alert .alert-sucess}
+**Note**: R has a neat way of reversing functions such as *is.na*, *is.numeric*, and *is.finite*. We can make R test the respective opposite by preceding the function call with an exclamation mark (similar to how we test inequality using the operator **!=**).
+
+For example, calling *!is.na* tests whether an object is not missing, *!is.numeric* tests whether the object's type is different from numeric, and *!is.finite* tests whether a numeric value is infinite (or *Inf* in R terms).
+:::
+
+
