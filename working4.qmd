@@ -2,12 +2,89 @@
 title: "Logical Indexing"
 ---
 
-So far, we have learned how to obtain parts of an R object using numeric indexing. We also know how to obtain a names element of a data frame or list, namely by using the **$** operator. We will now turn to logical indexing, that is obtaining elements of objects that satisfy certain conditions. 
+So far, we have learned how to obtain or overwrite parts of an R object using numeric indexing. We also know how to obtain a named element of a data frame or list, namely by using the **$** operator. We will now turn to logical indexing, that is obtaining elements of objects that satisfy certain conditions. 
 
 Just as with numerical indexing, logical indexing uses brackets. Within these brackets we can specify conditions that be be tested logically such that the result of the test is a TRUE or FALSE statement (i.e., a Boolean variable). R will then only show those elements of the object for which these conditions are true.
 
 
 ## Logical indexing using binary operators
 
-The simplest form of logical indexing is to use a single statement involving a logical binary operator. For example, we could ask R to return to us all element of a numeric vector that are greater then 5, or we could ask it to obtain all elements from a Boolean matrix that are TRUE.
+The simplest form of logical indexing is to use a single statement involving a logical binary operator. For example, we could ask R to return to us all elements of a numeric vector (including, for example, a column of a data frame) that are greater then 3, or we could ask it to obtain all elements from a Boolean matrix that are TRUE.  
 
+Here are a few examples:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# create a numeric vector
+v1 = 1:6
+
+# create a Boolean 2x3 matrix
+m1 = matrix(
+  c(T, T, F, T, F, F),
+  nrow = 2
+)
+
+# obtain all elements of v1 that are greater than 3
+v1[v1 > 3]
+
+# obtain all elements of m1 that are TRUE
+m1[m1 == T]
+```
+Here is what the output in the console looks like:
+
+```{r}
+#| eval: true
+#| echo: false
+# create a numeric vector
+v1 = 1:6
+
+# create a Boolean 2x3 matrix
+m1 = matrix(
+  c(T, T, F, T, F, F),
+  nrow = 2
+)
+
+# obtain all elements of v1 that are greater than 3
+v1[v1 > 3]
+
+# obtain all elements of m1 that are TRUE
+m1[m1 == T]
+```
+
+We can also obtain elements by combining multiple logical statements using R's AND and OR operators (**&** and **|**, respectively). For example, we could obtain all elements of the numeric vector we created above that exceed 2 AND are smaller than 5. 
+
+If we combine multiple logical tests in logical indexing, it is important that we tell R in each of the involved tests which variable to test. The following code would not work even though it may seem clear to us what it should mean:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain all elements of v1 that are greater than 2 and smaller than 5
+v1[v1 > 2 & < 5]
+```
+
+While it looks as if we asked R to show us all elements that are greater than 2 AND smaller than 5, R will not know which variable the second part of the test refers to and will return an error message (in this message, R will tell us that the **<** sign following the **&** operator was unexpected).
+
+Here is how the code needs to look like if we want to obtain elements of an obect using a combination of multiple logical statements:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain all elements of v1 that are greater than 2 and smaller than 5
+v1[v1 > 2 & v1 < 5]
+```
+
+This code works as intended, which we can verify by looking at the output in the console.
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# obtain all elements of v1 that are greater than 2 and smaller than 5
+v1[v1 > 2 & v1 < 5]
+```
+:::

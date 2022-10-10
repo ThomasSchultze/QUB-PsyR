@@ -558,7 +558,7 @@ Let's first look at the case in which we want to save parts of an object as an o
 #| code-overflow: wrap
 # create a reduced data frame that omits the 
 # employed variable (4th column)
-reduced_df = my_df[-4]
+reduced_df = my_df[, -4]
 ```
 
 Running the code above will create a new object called *reduced_df* in the **Environment**. As we can see, it consists of 6 observations of 3 variables as compared to the original data frames 6 observations of 4 variables (which makes perfect sense since we asked R to remove one variable.
@@ -574,7 +574,7 @@ Here is what the new data frame looks like in the console:
 #| code-overflow: wrap
 # create a reduced data frame that omits the 
 # employed variable (4th column)
-reduced_df = my_df[-4]
+reduced_df = my_df[, -4]
 
 # display the data frame
 reduced_df
@@ -584,11 +584,9 @@ reduced_df
 
 ### Overwriting elements of an object
 
-Let's now have a look at the second case, in which we use part of an R object as the left-hand-side argument of object definition. As mentioned above, this corresponds to overwriting the exiting values of those elements with new values. 
+Let's now have a look at the second case, in which we use part of an R object as the left-hand-side argument of object definition. As mentioned above, this corresponds to overwriting the existing values of those elements with new values. If we want to overwrite elements of an object, we must consider two rules:
 
-If we want to overwrite elements of an object, we must consider two rules:
-
-First, **the new values must conform with the type of the object**. We should overwrite numeric value only with numeric value, character strings with only with other character strings, and so on. If we overwrite existing values with values of different types, R will **not** return an error message. Instead, it will coerce the object such that all elements are of equal type. For example, trying to overwrite elements of a numeric or Boolean object with a character string will turn the whole object into a character string. If we overwrite an element of a numeric vector with a Boolean value (TRUE or FALSE), the object will remain numeric,a nd the new values will be interpreted as either 1 or 0, and so on. 
+First, **the new values must conform with the type of the object**. We should overwrite numeric value only with numeric value, character strings with only with other character strings, and so on. If we overwrite existing values with values of different types, R will **not** return an error message. Instead, it will coerce the object such that all elements are of equal type. For example, trying to overwrite elements of a numeric or Boolean object with a character string will turn the whole object into a character string. If we overwrite an element of a numeric vector with a Boolean value (TRUE or FALSE), the object will remain numeric, and the new values will be interpreted as either 1 or 0, and so on. 
 
 :::{.alert .alert-danger}
 In case of a data frame, each column works as its own object, that is, messing up one variable in this way will usually not mess up the other variables.
@@ -615,7 +613,7 @@ my_df[,3] = c('M', 'F', 'NB', 'F', 'F', 'M')
 # overwrite the 3rd column (option B)
 my_df$gender = c('M', 'F', 'NB', 'F', 'F', 'M')
 
-# Participant 6 wants to retract their data we need to Overwrite the 6th row with NAs
+# Participant 6 wants to retract their data we need to overwrite the 6th row with NAs
 my_df[6,] = NA
 ```
 
@@ -639,7 +637,7 @@ my_df[,3] = c('M', 'F', 'NB', 'F', 'F', 'M')
 my_df$gender = c('M', 'F', 'NB', 'F', 'F', 'M')
 
 # Participant 6 wants to retract their data;
-# we need to Overwrite the 6th row with NA (not available)
+# we need to overwrite the 6th row with NA (not available)
 my_df[6,] = NA
 
 # display the data frame

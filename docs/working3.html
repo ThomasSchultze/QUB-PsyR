@@ -636,7 +636,7 @@ $my_list$b
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a reduced data frame that omits the </span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co"># employed variable (4th column)</span></span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>reduced_df <span class="ot">=</span> my_df[<span class="sc">-</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>reduced_df <span class="ot">=</span> my_df[, <span class="sc">-</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Running the code above will create a new object called <em>reduced_df</em> in the <strong>Environment</strong>. As we can see, it consists of 6 observations of 3 variables as compared to the original data frames 6 observations of 4 variables (which makes perfect sense since we asked R to remove one variable.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -662,9 +662,8 @@ $my_list$b
 </section>
 <section id="overwriting-elements-of-an-object" class="level3">
 <h3 class="anchored" data-anchor-id="overwriting-elements-of-an-object">Overwriting elements of an object</h3>
-<p>Let’s now have a look at the second case, in which we use part of an R object as the left-hand-side argument of object definition. As mentioned above, this corresponds to overwriting the exiting values of those elements with new values.</p>
-<p>If we want to overwrite elements of an object, we must consider two rules:</p>
-<p>First, <strong>the new values must conform with the type of the object</strong>. We should overwrite numeric value only with numeric value, character strings with only with other character strings, and so on. If we overwrite existing values with values of different types, R will <strong>not</strong> return an error message. Instead, it will coerce the object such that all elements are of equal type. For example, trying to overwrite elements of a numeric or Boolean object with a character string will turn the whole object into a character string. If we overwrite an element of a numeric vector with a Boolean value (TRUE or FALSE), the object will remain numeric,a nd the new values will be interpreted as either 1 or 0, and so on.</p>
+<p>Let’s now have a look at the second case, in which we use part of an R object as the left-hand-side argument of object definition. As mentioned above, this corresponds to overwriting the existing values of those elements with new values. If we want to overwrite elements of an object, we must consider two rules:</p>
+<p>First, <strong>the new values must conform with the type of the object</strong>. We should overwrite numeric value only with numeric value, character strings with only with other character strings, and so on. If we overwrite existing values with values of different types, R will <strong>not</strong> return an error message. Instead, it will coerce the object such that all elements are of equal type. For example, trying to overwrite elements of a numeric or Boolean object with a character string will turn the whole object into a character string. If we overwrite an element of a numeric vector with a Boolean value (TRUE or FALSE), the object will remain numeric, and the new values will be interpreted as either 1 or 0, and so on.</p>
 <div class="alert alert-danger">
 <p>In case of a data frame, each column works as its own object, that is, messing up one variable in this way will usually not mess up the other variables.</p>
 <p>However, if we overwrite a complete row of the data frame, we can potentially mess up the whole data frame, because now we tamper with elements of each column.</p>
@@ -681,7 +680,7 @@ $my_list$b
 <span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="co"># overwrite the 3rd column (option B)</span></span>
 <span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>gender <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'M'</span>, <span class="st">'F'</span>, <span class="st">'NB'</span>, <span class="st">'F'</span>, <span class="st">'F'</span>, <span class="st">'M'</span>)</span>
 <span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Participant 6 wants to retract their data we need to Overwrite the 6th row with NAs</span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Participant 6 wants to retract their data we need to overwrite the 6th row with NAs</span></span>
 <span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>my_df[<span class="dv">6</span>,] <span class="ot">=</span> <span class="cn">NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is what the data frame looks like after we have redefined the values as per the code above:</p>
