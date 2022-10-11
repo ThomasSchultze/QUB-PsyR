@@ -214,7 +214,6 @@ my_df$item5[is.na(my_df$item5)] = mean(my_df$item5, na.rm = T)
 ```
 :::
 
-
 And here is what the data frame looks like after we replaced the missing responses with the average response.
 
 :::{.alert .alert-warning}
@@ -227,8 +226,11 @@ my_df
 ```
 :::
 
+:::{.alert .alert-info}
+Note how R now displays two decimals for *item4*. It does not display decimals for the other items, even though their object type is *double* - just as that of *item4* (we can find out the object types by calling the function *typeof* and feeding it the column of interest as the sole function argument).
 
-
+R generally only uses as many decimals as it has to. If a *double* type object contains only whole numbers, then R will simply omit the decimals.
+:::
 
 
 
