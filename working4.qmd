@@ -2,7 +2,7 @@
 title: "Logical Indexing"
 ---
 
-So far, we have learned how to obtain or overwrite parts of an R object using numeric indexing. We also know how to obtain a named element of a data frame or list, namely by using the **$** operator. We will now turn to logical indexing, that is obtaining elements of objects that satisfy certain conditions. 
+So far, we have learned how to obtain or overwrite parts of an R object using numerical indexing. We also know how to obtain a named element of a data frame or list, namely by using the **$** operator. We will now turn to logical indexing, that is obtaining elements of objects that satisfy certain conditions. 
 
 Just as with numerical indexing, logical indexing uses brackets. Within these brackets we can specify conditions that be be tested logically such that the result of the test is a TRUE or FALSE statement (i.e., a Boolean variable). R will then only show those elements of the object for which these conditions are true.
 
@@ -138,7 +138,7 @@ my_df$item2[my_df$age >= 18]
 my_df$gender[my_df$item1 < 4 & my_df$item3 < 4]
 ```
 
-Just as with numeric indexing, we can also use logical indexing to save the obtained elements as a new object of their own, or we can overwrite the obtained elements. Let's focus on overwriting. Overwriting of values using logical indexing is particularly useful in situations, in which missing data is coded using specific numbers (e.g., -99). 
+Just as with numerical indexing, we can also use logical indexing to save the obtained elements as a new object of their own, or we can overwrite the obtained elements. Let's focus on overwriting. Overwriting of values using logical indexing is particularly useful in situations, in which missing data is coded using specific numbers (e.g., -99). 
 
 Numeric values for missing data can cause problems if we do not detect it such as distorting some measures of central tendency (e.g., the mean) or variability (e.g., standard deviation, range). Ideally, we want missing data to be represented by *NA* when working with R. That means that we may end up having to replace certain values that code missing data with NAs manually. Logical indexing makes this a walk in the park as the following example shows.
 

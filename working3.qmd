@@ -651,13 +651,13 @@ Note that R has a slightly different way of showing that a  value is *NA* (not a
 If we inspect the object using RStudio's viewer, instead, all *NA* values will be shown as *NA* irrespective of their type.
 :::
 
-### Using numeric indexing to overwrite variable names
+### Using numerical indexing to overwrite variable names
 
 Remember the *names* function we used previously to assign new names to the variables in a data fame? This function allows us to obtain the current variable names of a data frame. If we call it and feed it the name of a data frame as its function argument, R will return of character vector containing the names of all column contained in the data frame. 
 
-The *names* function also allows us to overwrite the existing variables names if we redefine the object returned by the function call as a character vector of equal length (i.e., one element per column of the data frame). Back then we noticed that using the *name* function might become tedious if a data frame contained a lot of variables. However, by using numeric indexing, we can circumvent the need to explicitly rename each variable in a data frame.
+The *names* function also allows us to overwrite the existing variables names if we redefine the object returned by the function call as a character vector of equal length (i.e., one element per column of the data frame). Back then we noticed that using the *name* function might become tedious if a data frame contained a lot of variables. However, by using numerical indexing, we can circumvent the need to explicitly rename each variable in a data frame.
 
-Since the *name* function returns a character vector, we can use numeric indexing to pinpoint the variable names we are interested in. For example, we could ask R to tell us the name of the 2nd variable of a data frame or to overwrite the name of the 4th variable. Here is what the code would look like (we will be using the data frame we worked with above):
+Since the *name* function returns a character vector, we can use numerical indexing to pinpoint the variable names we are interested in. For example, we could ask R to tell us the name of the 2nd variable of a data frame or to overwrite the name of the 4th variable. Here is what the code would look like (we will be using the data frame we worked with above):
 
 ```{r}
 #| eval: false
