@@ -283,7 +283,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,                                   </span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">51</span>, <span class="dv">32</span>, <span class="dv">23</span>, <span class="dv">55</span>, <span class="dv">68</span>),</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">gender =</span> <span class="fu">c</span>(<span class="st">'m'</span>, <span class="st">'f'</span>, <span class="st">'nb'</span>, <span class="st">'f'</span>, <span class="st">'f'</span>, <span class="st">'m'</span>),</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">employed =</span> <span class="fu">c</span>(T, T, T, T, T, F)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">employment =</span> <span class="fu">c</span>(T, T, T, T, T, F)</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the first element of the age variable</span></span>
@@ -292,9 +292,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain elements 2:4 of the gender variable</span></span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>gender[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain all elements of the employed variable </span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain all elements of the employment variable </span></span>
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># except for the first and the last </span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>employed[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">6</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>employment[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">6</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is what the output in the console would look like:</p>
 <div class="alert alert-warning">
@@ -456,17 +456,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[1] 1 2 3 4 5 6</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  ID age gender employed
-2  2  51      f     TRUE
-3  3  32     nb     TRUE
-4  4  23      f     TRUE</code></pre>
+<pre><code>  ID age gender employment
+2  2  51      f       TRUE
+3  3  32     nb       TRUE
+4  4  23      f       TRUE</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  age gender employed
-3  32     nb     TRUE
-4  23      f     TRUE
-5  55      f     TRUE
-6  68      m    FALSE</code></pre>
+<pre><code>  age gender employment
+3  32     nb       TRUE
+4  23      f       TRUE
+5  55      f       TRUE
+6  68      m      FALSE</code></pre>
 </div>
 </div>
 </div>
@@ -635,7 +635,7 @@ $my_list$b
 <p>Let’s first look at the case in which we want to save parts of an object as an object of its own. For example, we might be interested in creating a reduced data frame, that contains only some of the variables of the original data frame. We will use the data frame defined above in this example.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a reduced data frame that omits the </span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co"># employed variable (4th column)</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co"># employment variable (4th column)</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>reduced_df <span class="ot">=</span> my_df[, <span class="sc">-</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Running the code above will create a new object called <em>reduced_df</em> in the <strong>Environment</strong>. As we can see, it consists of 6 observations of 3 variables as compared to the original data frames 6 observations of 4 variables (which makes perfect sense since we asked R to remove one variable.</p>
@@ -687,6 +687,45 @@ $my_list$b
 <div class="alert alert-warning">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
+<pre><code>  ID age gender employment
+1  1  41      M       TRUE
+2  2  51      F       TRUE
+3  3  32     NB       TRUE
+4  4  23      F       TRUE
+5  5  55      F       TRUE
+6 NA  NA   &lt;NA&gt;         NA</code></pre>
+</div>
+</div>
+</div>
+<div class="alert alert-info">
+<p>Note that R has a slightly different way of showing that a value is <em>NA</em> (not available, i.e., missing) in the console whenever the object type is a character string. Rather than simply showing <em>NA</em> as it does when objects are numeric or Boolean, R will instead show <em><na></na></em> for character strings. This is purely cosmetic, that is, it has no consequences for the way we write code or how R evaluates it.</p>
+<p>If we inspect the object using RStudio’s viewer, instead, all <em>NA</em> values will be shown as <em>NA</em> irrespective of their type.</p>
+</div>
+</section>
+<section id="using-numeric-indexing-to-overwrite-variable-names" class="level3">
+<h3 class="anchored" data-anchor-id="using-numeric-indexing-to-overwrite-variable-names">Using numeric indexing to overwrite variable names</h3>
+<p>Remember the <em>names</em> function we used previously to assign new names to the variables in a data fame? This function allows us to obtain the current variable names of a data frame. If we call it and feed it the name of a data frame as its function argument, R will return of character vector containing the names of all column contained in the data frame.</p>
+<p>The <em>names</em> function also allows us to overwrite the existing variables names if we redefine the object returned by the function call as a character vector of equal length (i.e., one element per column of the data frame). Back then we noticed that using the <em>name</em> function might become tedious if a data frame contained a lot of variables. However, by using numeric indexing, we can circumvent the need to explicitly rename each variable in a data frame.</p>
+<p>Since the <em>name</em> function returns a character vector, we can use numeric indexing to pinpoint the variable names we are interested in. For example, we could ask R to tell us the name of the 2nd variable of a data frame or to overwrite the name of the 4th variable. Here is what the code would look like (we will be using the data frame we worked with above):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the name of the data frame's 2nd variable</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(my_df)[<span class="dv">2</span>]</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co"># assign a new name to the 4th variable ('employed' instead of 'employment')</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(my_df)[<span class="dv">4</span>] <span class="ot">=</span> <span class="st">'employed'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running the code above prompts R to return the name of the data frame’s 2nd variable in the console:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "age"</code></pre>
+</div>
+</div>
+</div>
+<p>This is what the data frame looks like after renaming the 4th column.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
 <pre><code>  ID age gender employed
 1  1  41      M     TRUE
 2  2  51      F     TRUE
@@ -698,8 +737,14 @@ $my_list$b
 </div>
 </div>
 <div class="alert alert-info">
-<p>Note that R has a slightly different way of showing that a value is <em>NA</em> (not available, i.e., missing) in the console whenever the object type is a character string. Rather than simply showing <em>NA</em> as it does when objects are numeric or Boolean, R will instead show <em><na></na></em> for character strings. This is purely cosmetic, that is, it has no consequences for the way we write code or how R evaluates it.</p>
-<p>If we inspect the object using RStudio’s viewer, instead, all <em>NA</em> values will be shown as <em>NA</em> irrespective of their type.</p>
+<p>Technically, we must place the brackets used for indexing directly after the closing parentheses of the function call. Placing the brackets inside the parentheses instead resulted in error messages in previous versions of R. However, in the more recent versions of R, placing the brackets behind the name of the data frame inside the parentheses of the function call will also work. in other words, the two following lines of code produce identical results:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the names of the first three variables</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(my_df)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="co"># alternative code that yields the same result</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(my_df[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 
 

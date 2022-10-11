@@ -103,7 +103,7 @@ my_df = data.frame(
   ID = 1:6,                                   
   age = c(40, 51, 32, 23, 55, 68),
   gender = c('m', 'f', 'nb', 'f', 'f', 'm'),
-  employed = c(T, T, T, T, T, F)
+  employment = c(T, T, T, T, T, F)
   )
 
 # obtain the first element of the age variable
@@ -112,9 +112,9 @@ my_df$age[1]
 # obtain elements 2:4 of the gender variable
 my_df$gender[2:4]
 
-# obtain all elements of the employed variable 
+# obtain all elements of the employment variable 
 # except for the first and the last 
-my_df$employed[-c(1, 6)]
+my_df$employment[-c(1, 6)]
 ```
 Here is what the output in the console would look like:
 
@@ -128,7 +128,7 @@ my_df = data.frame(
   ID = 1:6,                                   
   age = c(40, 51, 32, 23, 55, 68),
   gender = c('m', 'f', 'nb', 'f', 'f', 'm'),
-  employed = c(T, T, T, T, T, F)
+  employment = c(T, T, T, T, T, F)
   )
 
 # obtain the first element of the age variable
@@ -137,9 +137,9 @@ my_df$age[1]
 # obtain elements 2:4 of the gender variable
 my_df$gender[2:4]
 
-# obtain all elements of the employed variable 
+# obtain all elements of the employment variable 
 # except for the first and the last 
-my_df$employed[-c(1, 6)]
+my_df$employment[-c(1, 6)]
 ```
 :::
 
@@ -557,7 +557,7 @@ Let's first look at the case in which we want to save parts of an object as an o
 #| echo: true
 #| code-overflow: wrap
 # create a reduced data frame that omits the 
-# employed variable (4th column)
+# employment variable (4th column)
 reduced_df = my_df[, -4]
 ```
 
@@ -573,7 +573,7 @@ Here is what the new data frame looks like in the console:
 #| echo: false
 #| code-overflow: wrap
 # create a reduced data frame that omits the 
-# employed variable (4th column)
+# employment variable (4th column)
 reduced_df = my_df[, -4]
 
 # display the data frame
@@ -649,4 +649,65 @@ my_df
 Note that R has a slightly different way of showing that a  value is *NA* (not available, i.e., missing) in the console whenever the object type is a character string. Rather than simply showing *NA* as it does when objects are numeric or Boolean, R will instead show *<NA>* for character strings. This is purely cosmetic, that is, it has no consequences for the way we write code or how R evaluates it.
 
 If we inspect the object using RStudio's viewer, instead, all *NA* values will be shown as *NA* irrespective of their type.
+:::
+
+### Using numeric indexing to overwrite variable names
+
+Remember the *names* function we used previously to assign new names to the variables in a data fame? This function allows us to obtain the current variable names of a data frame. If we call it and feed it the name of a data frame as its function argument, R will return of character vector containing the names of all column contained in the data frame. 
+
+The *names* function also allows us to overwrite the existing variables names if we redefine the object returned by the function call as a character vector of equal length (i.e., one element per column of the data frame). Back then we noticed that using the *name* function might become tedious if a data frame contained a lot of variables. However, by using numeric indexing, we can circumvent the need to explicitly rename each variable in a data frame.
+
+Since the *name* function returns a character vector, we can use numeric indexing to pinpoint the variable names we are interested in. For example, we could ask R to tell us the name of the 2nd variable of a data frame or to overwrite the name of the 4th variable. Here is what the code would look like (we will be using the data frame we worked with above):
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain the name of the data frame's 2nd variable
+names(my_df)[2]
+
+# assign a new name to the 4th variable ('employed' instead of 'employment')
+names(my_df)[4] = 'employed'
+```
+
+Running the code above prompts R to return the name of the data frame's 2nd variable in the console:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# obtain the name of the data frame's 2nd variable
+names(my_df)[2]
+
+# assign a new name to the 4th variable ('employed' instead of 'employment')
+names(my_df)[4] = 'employed'
+```
+:::
+
+This is what the data frame looks like after renaming the 4th column.
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# show the data frame
+my_df
+```
+:::
+
+:::{.alert .alert-info}
+Technically, we must place the brackets used for indexing directly after the closing parentheses of the function call. Placing the brackets inside the parentheses instead resulted in error messages in previous versions of R. However, in the more recent versions of R, placing the brackets behind the name of the data frame inside the parentheses of the function call will also work. in other words, the two following lines of code produce identical results:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain the names of the first three variables
+names(my_df)[1:3]
+
+# alternative code that yields the same result
+names(my_df[1:3])
+```
 :::
