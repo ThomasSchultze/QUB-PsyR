@@ -143,7 +143,7 @@ Just as with numeric indexing, we can also use logical indexing to save the obta
 Numeric values for missing data can cause problems if we do not detect it such as distorting some measures of central tendency (e.g., the mean) or variability (e.g., standard deviation, range). Ideally, we want missing data to be represented by *NA* when working with R. That means that we may end up having to replace certain values that code missing data with NAs manually. Logical indexing makes this a walk in the park as the following example shows.
 
 ```{r}
-#| eval: false
+#| eval: true
 #| echo: true
 #| code-overflow: wrap
 # add two more items to the data frame created above, both of which contain missing data coded as -99
@@ -168,10 +168,67 @@ Instead of - or in addition to - binary operators, we can also use functions for
 
 Second, there a several functions that conduct logical tests. For example, the function *is.na* tests whether an object is *NA*, the function *is.numeric* tests whether an object's type is numeric (either integer or double), and the function *is.finite* tests whether a numeric variable has a finite value. 
 
-:::{.alert .alert-sucess}
-**Note**: R has a neat way of reversing functions such as *is.na*, *is.numeric*, and *is.finite*. We can make R test the respective opposite by preceding the function call with an exclamation mark (similar to how we test inequality using the operator **!=**).
+:::{.alert .alert-success}
+**Note**: R has a neat way of reversing functions such as *is.na*, *is.numeric*, and *is.finite*. We can make R test the respective opposite by preceding the function call with an exclamation mark (similar to how the operator **!=** mean **not equal**).
 
 For example, calling *!is.na* tests whether an object is not missing, *!is.numeric* tests whether the object's type is different from numeric, and *!is.finite* tests whether a numeric value is infinite (or *Inf* in R terms).
 :::
+
+Let's look at a few examples of logical indexing using functions. We will do so with the data frame we created and modified above. Here is a quick update on how the data frame looks currently.
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+my_df
+```
+:::
+
+We will now obtain and overwrite some of the elements of this data frame using the *is.na* function and its inverse, *!is.na*. Note that the complete function call including the opening and closing parentheses must be contained within the brackets.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain the age of all participants whose responded to item4
+my_df$age[!is.na(my_df$item4)]
+
+# replace missing responses to items 4 with the average response (i.e., the mean of valid responses to that item across participants) 
+my_df$item5[is.na(my_df$item5)] = mean(my_df$item5, na.rm = T)
+```
+
+Running the first line of code above, yields the following output in the console:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# obtain the age of all participants whose responded to item4
+my_df$age[!is.na(my_df$item4)]
+
+# replace missing responses to items 4 and 5 with the respective average response to that item across participants 
+my_df$item4[is.na(my_df$item4)] = mean(my_df$item4, na.rm = T)
+my_df$item5[is.na(my_df$item5)] = mean(my_df$item5, na.rm = T)
+```
+:::
+
+
+And here is what the data frame looks like after we replaced the missing responses with the average response.
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# show the data frame in the console
+my_df
+```
+:::
+
+
+
+
 
 
