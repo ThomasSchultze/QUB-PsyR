@@ -173,7 +173,7 @@ m1
 ```
 :::
 
-Now let's look at few examples of numerial indexing using our matrix *m1*.
+Now let's look at few examples of numerical indexing using our matrix *m1*.
 
 ```{r}
 #| eval: false
