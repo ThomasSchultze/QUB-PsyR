@@ -182,8 +182,8 @@ Now let's look at few examples of numerical indexing using our matrix *m1*.
 # extract the element in the 2nd row and the 3rd column (10)
 m1[2, 3]
 
-# extract the element in the 1st row and 3rd column (9) a well
-# as the element in the 4th row and 2nd column (8)
+# extract all elements that are in rows 1 and 3 
+# and at the same time in columns 4 and 2
 m1[c(1, 3), c(4, 2)]
 
 # extract elements 1 to 3 in the 2nd row (2, 6, and 10)
@@ -202,8 +202,8 @@ m1 = matrix(1:16, nrow = 4)  # create a numeric 4x4 matrix
 # extract the element in the 2nd row and the 3rd column (10)
 m1[2, 3]
 
-# extract the element in the 1st row and 3rd column (9) a well
-# as the element in the 4th row and 2nd column (8)
+# extract all elements that are in rows 1 and 3 
+# and at the same time in columns 4 and 2
 m1[c(1, 3), c(4, 2)]
 
 # extract elements 1 to 3 in the 2nd row (2, 6, and 10)
