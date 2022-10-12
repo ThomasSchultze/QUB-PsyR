@@ -167,6 +167,9 @@ The matrix looks as follows:
 #| echo: false
 #| code-overflow: wrap
 m1 = matrix(1:16, nrow = 4)  # create a numeric 4x4 matrix
+
+# show the matrix in the console
+m1
 ```
 :::
 
