@@ -267,7 +267,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p>One neat thing about logical indexing is that we are not restricted to referring to the variable we want obtain elements from. As long as the outcome of the logical tests is an object of the same size as the object we want to obtain elements from, the ode will work.</p>
+<p>One neat thing about logical indexing is that we are not restricted to referring to the variable we want obtain elements from. As long as the outcome of the logical tests is an object of the same size as the object we want to obtain elements from, the code will work.</p>
 <p>What this means is that we can obtain all elements of an object that satisfy conditions in other equally sized objects. This is particularly useful when we want to obtain elements of a data frame. For example, we might want R to show us all elements of one variable that satisfy the condition that another variable equal a specific value. Let’s look at a few specific examples.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a data frame containing some demographic variables and responses to three 5-point Likert-scale items</span></span>
@@ -283,7 +283,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the responses to item 2 of all participants who are adults</span></span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>item2[my_df<span class="sc">$</span>age <span class="sc">&gt;=</span> <span class="dv">18</span>]</span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the gender of all participants who below 4 on items 1 and 3</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the gender of all participants who scored below 4 on items 1 and 3</span></span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>gender[my_df<span class="sc">$</span>item1 <span class="sc">&lt;</span> <span class="dv">4</span> <span class="sc">&amp;</span> my_df<span class="sc">$</span>item3 <span class="sc">&lt;</span> <span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is what the output in the console looks like:</p>
