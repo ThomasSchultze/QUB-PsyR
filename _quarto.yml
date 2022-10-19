@@ -29,6 +29,8 @@ website:
           href: working3.html
         - text: "Logical Indexing"
           href: working4.html
+        - text: "R Packages"
+          href: working5.html
         
       - text: "About"
         href: about.html
