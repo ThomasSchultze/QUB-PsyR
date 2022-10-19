@@ -221,14 +221,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Base R comes equipped with a range of useful functions. However, we might frequently find ourselves in situations in which base R does not provide solutions to our problems, or where the provided solutions are cumbersome. There is a solution to this problem: additional R packages.</p>
 <section id="what-are-r-packages" class="level2">
 <h2 class="anchored" data-anchor-id="what-are-r-packages">What are R packages?</h2>
-<p>R packages are a collection of R objects and/or functions not included in base R. They have been developed and are being maintained by people (often other academics) who believe that their package allows R users to do something that base R cannot do or to make life easier for users compared to using base R alone.</p>
+<p>R packages are a collection of R functions and/or R objects (such as data sets) not included in base R. They have been developed and are being maintained by people (often other academics) who believe that their package allows R users to do something that base R cannot do or to make life easier for users compared to using base R alone.</p>
 <p>R is modular in the sense that we can add as many packages to base R as we want. Due to the large R community, chances are that if you look for something specific there is an R package for it.</p>
 <p>Most R packages are available from CRAN (<strong>C</strong>omprehensive <strong>R</strong> <strong>A</strong>rchive <strong>N</strong>etwork). CRAN is a repository for R packages that ensures that the packages meet certain standards such as being propely documented, interfering as little as possible with other packages, being (largely) platform-independent and so on.</p>
 </section>
 <section id="installing-r-packages" class="level2">
 <h2 class="anchored" data-anchor-id="installing-r-packages">Installing R packages</h2>
 <p>In order to use an R package, we first need to install it on our computer. Installing an R package means that we download it from CRAN. We do not need to do anything else because R will do the actual installing on its own. Once we have downloaded an R package, our instance of R knows that this package exists on our machine. We can then find functions from that package when searching for functions using the <strong>??</strong> operator.</p>
-<p>When using RStudio, we can install R packages in two ways. The first is calling the function <em>install.packages</em> and feeding it the name of the R package we want to install as a character string. Here is what the syntax looks like:</p>
+<p>When using RStudio, we can install R packages in two ways. The first is calling the function <em>install.packages</em> and feeding it the name of the R package we want to install as a character string (or as a character vector if we want to install multiple packages). Here is what the syntax looks like:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install an R package</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"packageName"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -262,7 +262,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="loading-installed-libraries" class="level2">
 <h2 class="anchored" data-anchor-id="loading-installed-libraries">Loading installed libraries</h2>
-<p>In order to actually use the objects and/or functions included in a package, installing it is not sufficient. We also need top load the package.</p>
+<p>In order to actually use the objects and/or functions included in a package, installing it is not sufficient. We also need to load the package. Once we load an R package, we can access its content until we close RStudio. This also means that we need to load R packages again after closing and restarting RStudio.</p>
+<p>We can load R packages using the function <em>library</em> which takes the name of an installed R package as its function argument either as is or as a character string (calling the package name as is might be preferable because of RStudio’s code completion feature).</p>
+<p>For example, if we wanted to us the <em>psych</em> package we installed in the example above, we would need to load it using the <em>library</em> function. The syntax looks as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the library psych</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># alternative code that does the same</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'psych'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running either line of code will load the R package. We can now use its contained functions and/or objects.</p>
+</section>
+<section id="updating-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="updating-libraries">Updating libraries</h2>
+<p>Just as R and RStudio, (most) R packages are regularly updated. Using an outdated version of an R package is usually not a big problem. However, in some cases, it may lead to our code not running properly. This can happen whenever a function depends on functions from base R or another R package that have been modified such they have a different name or that their output format has changed.</p>
+<p>In some instances, R will let us know that our packages are outdated.</p>
 
 
 </section>

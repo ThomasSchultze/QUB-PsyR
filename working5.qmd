@@ -97,4 +97,7 @@ Running either line of code will load the R package. We can now use its containe
 
 ## Updating libraries
 
+Just as R and RStudio, (most) R packages are regularly updated. Using an outdated version of an R package is usually not a big problem. However, in some cases, it may lead to our code not running properly. This can happen whenever a function depends on functions from base R or another R package that have been modified such they have a different name or that their output format has changed. 
+
+In some instances, R will let us know that our packages are outdated.
 
