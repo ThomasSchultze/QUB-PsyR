@@ -117,6 +117,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -272,12 +273,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># alternative code that does the same</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'psych'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Running either line of code will load the R package. We can now use its contained functions and/or objects.</p>
+<p>Running either line of code will load the R package. If the package we are interested in has dependencies, loading it will also prompt R to load all other packages necessary for the focal package to run properly. One the package (and potentially its dependencies) are loaded, we can start using its contained functions and/or objects.</p>
 </section>
 <section id="updating-libraries" class="level2">
 <h2 class="anchored" data-anchor-id="updating-libraries">Updating libraries</h2>
 <p>Just as R and RStudio, (most) R packages are regularly updated. Using an outdated version of an R package is usually not a big problem. However, in some cases, it may lead to our code not running properly. This can happen whenever a function depends on functions from base R or another R package that have been modified such they have a different name or that their output format has changed.</p>
-<p>In some instances, R will let us know that our packages are outdated.</p>
+<p>In some instances, R will let us know that our packages are outdated, namely if a package was built in an older version of R than the one we are currently running on our machine. If we load a library that was built using a previous R version, we will receive a warning in the console upon loading is with the <em>libraries</em> function.</p>
+<div class="alert alert-info">
+<p>Just as error messages, warnings are displayed as red font in the console. However, while error messages tell us that the code we entered did not work, the code does run properly when we receive a warning. Warnings are a way for R to tell us that we may potentially - but not necessarily - run into problems.</p>
+</div>
+<p>RStudio has a quality-of-life feature that allows us to check whether there are updates available for the R packages we have currently installed. In the <strong>Packages</strong> tab of the <strong>Utility &amp; Help</strong> section, there is a button called <strong>Update</strong> (see below).</p>
+<p><img src="images/working/packages5.png" class="img-fluid"></p>
+<p>Klicking on the <strong>Update</strong> button will open a list of packages for which a more recent version is available. We can then select those packages we would like to update or tell RStudio to update all of them. once we have selected at least one package that requires updating, we can hit the button labelled <strong>Install Updates</strong>.</p>
+<p>What R will do is simply reinstall the package’s current version and overwrite the old version on our computer. In case all of our packages are up to date, RStudio will show us a message stating so.</p>
+</section>
+<section id="conflicts-between-packages" class="level2">
+<h2 class="anchored" data-anchor-id="conflicts-between-packages">Conflicts between packages</h2>
+<p>A final thing to consider when using R packages is that sometimes there can be conflicts between them, namely when they contain objects with identical names.</p>
+<p>For example, both the <em>ggplot2</em> package, which many people use for plotting in R has a function called <em>alpha</em> (regulates colour transparency in plots). So does the <em>psych</em> package (computes Cronbach’s <span class="math inline">\(\alpha\)</span>). If we load packages with such name conflicts, one of them will dominate the other.</p>
+<p>When loading a package that contains objects and/or functions with the same name as functions and/or objects of packages already loaded, R will ‘mask’ similarly named objects from already loaded packages. If a function or object is masked, we will not be able to call it in the usual manner because R will instead call the funciton or object of siialr name in the most recently loaded package.</p>
+<p>For example, if we first load the package <em>psych</em>, and then load <em>ggplot2</em>, R will tell us that the function <em>alpha</em> has been masked from <em>psych</em>. If we call <em>alpha</em> now, R will refer to the <em>ggplot2</em> version of <em>alpha</em> and assume that we want to manipulate the transparency of a colour. Has we first loaded <em>ggplot2</em> and then loaded <em>psych</em>, R would instead tell us that <em>alpha</em> has beenmasked from <em>ggplot2</em>, and calling the function would allow us to compute Cronbach’s <span class="math inline">\(\alpha\)</span>.</p>
+<p>The question now is: what if I need both functions or objects sharing the same name? The answer is that there we can specify which package we are calling a function from. To do so, we need to precede the function name with the package name and separate the two using double colons. The function of the double colon is not unlike that of the <strong>$</strong> operator. It tells R where to look for the function we are intereted in. The syntax looks as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># call function from package</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>packageName<span class="sc">::</span><span class="fu">functionName</span>(arguments)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For example, when loading both the <strong>ggplot2</strong> and <strong>psych</strong> packages, we can call both functions using the syntax above. Doing so will ensure that our code will run free of bugs no matter in which order we load the packages.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># call function alpha from ggplot2 and set the</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># transparency of the colour 'blue' to 50% (0.5)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">alpha</span>(<span class="st">'blue'</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># call the function alpha from psych and</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># compute Cronbach's alpha for a numeric </span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># matrix containing repsonses to a scale</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">alpha</span>(<span class="at">x =</span> data_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="alert alert-success">
+<p><strong>Fun fact</strong>: The notation with double colons also allows us to call functions from packages that are not currently loaded.</p>
+</div>
 
 
 </section>

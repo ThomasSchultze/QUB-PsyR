@@ -92,12 +92,62 @@ library(psych)
 library('psych')
 ```
 
-Running either line of code will load the R package. We can now use its contained functions and/or objects.
+Running either line of code will load the R package. If the package we are interested in has dependencies, loading it will also prompt R to load all other packages necessary for the focal package to run properly. One the package (and potentially its dependencies) are loaded, we can start using its contained functions and/or objects.
 
 
 ## Updating libraries
 
 Just as R and RStudio, (most) R packages are regularly updated. Using an outdated version of an R package is usually not a big problem. However, in some cases, it may lead to our code not running properly. This can happen whenever a function depends on functions from base R or another R package that have been modified such they have a different name or that their output format has changed. 
 
-In some instances, R will let us know that our packages are outdated.
+In some instances, R will let us know that our packages are outdated, namely if a package was built in an older version of R than the one we are currently running on our machine. If we load a library that was built using a previous R version, we will receive a warning in the console upon loading is with the *libraries* function.
 
+:::{.alert .alert-info}
+Just as error messages, warnings are displayed as red font in the console. However, while error messages tell us that the code we entered did not work, the code does run properly when we receive a warning. Warnings are a way for R to tell us that we may potentially - but not necessarily - run into problems.
+:::
+
+RStudio has a quality-of-life feature that allows us to check whether there are updates available for the R packages we have currently installed. In the **Packages** tab of the **Utility & Help** section, there is a button called **Update** (see below).
+
+![](images/working/packages5.png)
+
+Klicking on the **Update** button will open a list of packages for which a more recent version is available. We can then select those packages we would like to update or tell RStudio to update all of them. once we have selected at least one package that requires updating, we can hit the button labelled **Install Updates**.
+
+What R will do is simply reinstall the package's current version and overwrite the old version on our computer. In case all of our packages are up to date, RStudio will show us a message stating so.
+
+
+## Conflicts between packages
+
+A final thing to consider when using R packages is that sometimes there can be conflicts between them, namely when they contain objects with identical names.
+
+For example, both the *ggplot2* package, which many people use for plotting in R has a function called *alpha* (regulates colour transparency in plots). So does the *psych* package (computes Cronbach's $\alpha$). If we load packages with such name conflicts, one of them will dominate the other.
+
+When loading a package that contains objects and/or functions with the same name as functions and/or objects of packages already loaded, R will 'mask' similarly named objects from already loaded packages. If a function or object is masked, we will not be able to call it in the usual manner because R will instead call the funciton or object of siialr name in the most recently loaded package.
+
+For example, if we first load the package *psych*, and then load *ggplot2*, R will tell us that the function *alpha* has been masked from *psych*. If we call *alpha* now, R will refer to the *ggplot2* version of *alpha* and assume that we want to manipulate the transparency of a colour. Has we first loaded *ggplot2* and then loaded *psych*, R would instead tell us that *alpha* has beenmasked from *ggplot2*, and calling the function would allow us to compute Cronbach's $\alpha$.
+
+The question now is: what if I need both functions or objects sharing the same name? The answer is that there we can specify which package we are calling a function from. To do so, we need to precede the function name with the package name and separate the two using double colons. The function of the double colon is not unlike that of the **$** operator. It tells R where to look for the function we are intereted in. The syntax looks as follows:
+
+```{r}
+#| eval: false
+#| echo: true
+# call function from package
+packageName::functionName(arguments)
+```
+
+For example, when loading both the **ggplot2** and **psych** packages, we can call both functions using the syntax above. Doing so will ensure that our code will run free of bugs no matter in which order we load the packages.
+
+```{r}
+#| eval: false
+#| echo: true
+# call function alpha from ggplot2 and set the
+# transparency of the colour 'blue' to 50% (0.5)
+ggplot2::alpha('blue', alpha = 0.5)
+
+# call the function alpha from psych and
+# compute Cronbach's alpha for a numeric 
+# matrix containing repsonses to a scale
+psych::alpha(x = data_matrix)
+```
+
+:::{.alert .alert-success}
+**Fun fact**: The notation with double colons also allows us to call functions from packages that are not currently loaded. 
+:::
