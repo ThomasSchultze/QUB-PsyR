@@ -144,7 +144,7 @@ ggplot2::alpha('blue', alpha = 0.5)
 
 # call the function alpha from psych and
 # compute Cronbach's alpha for a numeric 
-# matrix containing repsonses to a scale
+# matrix containing responses to a scale
 psych::alpha(x = data_matrix)
 ```
 
