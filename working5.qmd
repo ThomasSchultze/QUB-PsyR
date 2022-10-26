@@ -120,16 +120,16 @@ A final thing to consider when using R packages is that sometimes there can be c
 
 For example, both the *ggplot2* package, which many people use for plotting in R has a function called *alpha* (regulates colour transparency in plots). So does the *psych* package (computes Cronbach's $\alpha$). If we load packages with such name conflicts, one of them will dominate the other.
 
-When loading a package that contains objects and/or functions with the same name as functions and/or objects of packages already loaded, R will 'mask' similarly named objects from already loaded packages. If a function or object is masked, we will not be able to call it in the usual manner because R will instead call the funciton or object of siialr name in the most recently loaded package.
+When loading a package that contains objects and/or functions with the same name as functions and/or objects of packages already loaded, R will 'mask' similarly named objects from already loaded packages. If a function or object is masked, we will not be able to call it in the usual manner because R will instead call the funciton or object of similar name in the most recently loaded package.
 
-For example, if we first load the package *psych*, and then load *ggplot2*, R will tell us that the function *alpha* has been masked from *psych*. If we call *alpha* now, R will refer to the *ggplot2* version of *alpha* and assume that we want to manipulate the transparency of a colour. Has we first loaded *ggplot2* and then loaded *psych*, R would instead tell us that *alpha* has beenmasked from *ggplot2*, and calling the function would allow us to compute Cronbach's $\alpha$.
+For example, if we first load the package *psych*, and then load *ggplot2*, R will tell us that the function *alpha* has been masked from *psych*. If we call *alpha* now, R will refer to the *ggplot2* version of *alpha* and assume that we want to manipulate the transparency of a colour. Has we first loaded *ggplot2* and then loaded *psych*, R would instead tell us that *alpha* has been masked from *ggplot2*, and calling the function would allow us to compute Cronbach's $\alpha$.
 
-The question now is: what if I need both functions or objects sharing the same name? The answer is that there we can specify which package we are calling a function from. To do so, we need to precede the function name with the package name and separate the two using double colons. The function of the double colon is not unlike that of the **$** operator. It tells R where to look for the function we are intereted in. The syntax looks as follows:
+The question now is: what if I need both functions or objects sharing the same name? The answer is that there we can specify which package we are calling a function from. This is called **namespacing**. To do so, we need to precede the function name with the package name and separate the two using double colons. The function of the double colon is not unlike that of the **$** operator. It tells R where to look for the function we are interested in. The syntax looks as follows:
 
 ```{r}
 #| eval: false
 #| echo: true
-# call function from package
+# call function from package by namespacing it
 packageName::functionName(arguments)
 ```
 
