@@ -1,0 +1,221 @@
+---
+title: "Chi"
+---
+
+
+The $\chi^2$-test allows us to test for deviations between observed and expected frequencies. The $\chi^2$ distribution is formalised as follows:
+
+$\chi^2 = \frac{(x_i - e_i)^2}{e_i}$ 
+
+Here, $x_i$ denote the observed frequencies in category *i* whereas *e_i* represents the expected frequencies given some assumed distribution. The most common analyses for which the $\chi^2$-test is used are:
+
+- tests of observed frequencies against chance (all outcomes are equally probable)
+- tests of observed frequencies against specific non-equal probabilities 
+- tests of systematic co-variation in contingency tables
+
+If we want to run any of these $\chi^2$-tests, we can use an R function called *chisq.test*. Which function argument the *chisq.test* function needs depends on what we want to do. Therefore, we will look at each case separately in the following.
+
+
+## Test of observed frequencies against chance
+
+This is the simplest form of the $\chi^2$-test. To run this test, we need only feed the *chisq.test* function a single function argument *x*, namely a numeric vector of length 2 or greater, containing the frequencies we want to analyse.
+
+The function has another argument called *p* which specifies the expected probabilities against which to test the observed frequencies. The default value of this argument is equi-probability. That is, if we do not specify it, R will automatically test whether the observed frequencies systematically differ from a chance distribution.
+
+Here is an example of how the syntax for this test looks:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# create a vector containing frequencies for three categories
+v1 = c(19, 33, 21)
+
+# test for deviation from equal probabilities
+chisq.test(x = v1)
+```
+
+If we run the syntax above, R will conduct the $\chi^2$-test by comparing the observed frequencies shown in *v1* against chance (expected frequencies are computed using a probability of one third for each of the three categories). The output looks as follows:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# create a vector containing frequencies for three categories
+v1 = c(19, 33, 21)
+
+# test for deviation from equal probabilities
+chisq.test(x = v1)
+```
+:::
+
+As we can see, R tells us which object it ran the test on (*v1*). It also tells us the empirical $\chi^2$ value (named X-squared), the degrees of freedom of this test (2 because *v1* has three categories), and the associated $p$-value. In our example, and given that we run the test using the conventional $\alpha$ level of 5%, the differences in the observed frequencies do not warrant rejecting the Null hypothesis. That is, we cannot state that some of the categories in *v1* are more likely than others.
+
+
+## Test of observed frequencies against a predefined probability
+
+Let's assume that we want to compare *v1* not against chance but against unequal probabilities for the three categories. For example, our Null hypothesis could state that the first and second category should occur in 25% of cases each while category three should account for the remaining 50%. To run this test, the only change we need to make to the way we called the *chisq.test* function in the example above is to specify the function argument *p* and define it as a numeric vector containing the probabilities. 
+
+This vector of probabilities needs to be of the same length as the vector of observed frequencies. In addition, since we are dealing with probabilities, all elements need to range between 0 and 1, and their sum must equal 1. Let's have a look at the syntax.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# test for deviation from pre-defined non-equal probabilities
+chisq.test(x = v1, p = c(0.25, 0.25, 0.50))
+```
+
+The output of the test looks very much like the one in the previous example. Again, R shows us the empirical $\chi^2$-value, the degrees of freedom, and the $p$-value (see below).
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+chisq.test(x = v1, p = c(0.25, 0.25, 0.50))
+```
+:::
+
+This time, the empirical $\chi^2$ value is greater, and the corresponding *p*-value is small enough to reject the Null hypothesis. That is, we can state that *v1* was not drawn from a population, in which category 3 is twice as frequent as categories 1 and 2. 
+
+
+## Tests for systematic covariation in contengency tables
+
+In some cases, we may not be interested in comparing observed frequencies against a (theoretical) distribution, but rather to compare observed frequencies across two variables (i.e., in a two-dimensional contingency table). Conceptually, this boils down to testing - row-by-row or column-by-column - whether the underlying distribution of one variable is equal across all levels of the other variable. 
+
+To do so, we need to feed the *chisq.test* function a matrix of frequencies as the function  argument *x*. We no longer need to specify the function argument *p* because the expected frequencies are computed from the marginal frequencies of the contingency table assuming stochastic independence. 
+
+Lets look at an example. First, we need some data in table format. We can create such data using the function *matrix* or by combining several vectors of equal length using either the function *cbind* or *rbind* (these functions stack equally long vectors of the same type by column or row). Let's go with the *rbind* version for now.  
+
+```{r}
+#| eval: false
+#| echo: true
+# create a 2x3 contingency table by stacking 
+# two vectors containing frequencies row-wise
+data1 = rbind(c(762, 327, 68), 
+        c(484, 239, 77))
+
+# run a chi² test on the data
+chisq.test(data1)
+```
+Running the code above will perform the $\chi^2$-test on the contingency table we created. Here is what the data looks like.
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+data1 = rbind(c(762, 327, 68), 
+        c(484, 239, 77))
+
+data1
+```
+:::
+
+The output in the console when running the $\chi^2$-test looks as follows:
+
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+chisq.test(data1)
+```
+:::
+
+Once more, R tells us the empirical $\chi^2$-value, the degrees of freedom (for $n\times m$ tables, the test has $n-1\times m-1$ degrees of freedom, which makes 2 in our example), and the $p$-value of the test. From the $p$-value, we can see that there is systematic co-variation, that is, some cells are more and others less frequent than we would expect if the two variables were unrelated.  
+
+
+## Extracting frequencies from data frames
+
+The data we want to feed into $\chi^2$-tests is usually contained in data frames. We can extract frequencies and even turn them into contingency tables using the *table* function. Let's consider an example, in which we have data from one thousand simulated ~~nerds~~ participants who told us their attitudes toward Star Trek and Star Wars (love, hate, indifferent).
+
+```{r}
+#| eval: true
+#| echo: false
+# simulate data for the example
+set.seed(12345) # for reproducibility
+my_df = data.frame(
+  ID = 1:1000,
+  starTrek = sample(c('love', 'hate', 'indifferent'), size = 1000,
+                    replace = T, prob = c(.60, .15, .25)),
+  starWars = sample(c('love', 'hate', 'indifferent'), size = 1000,
+                    replace = T, prob = c(.50, .15, .35))
+)
+```
+
+Let's say the data is contained in a data frame called *my_df*. We can use the function *head* to inspect the first six rows of the data frame to get a feeling for what the data looks like.
+
+```{r}
+#| eval: false
+#| echo: true
+# inspect the top of the data frame
+head(my_df)
+```
+
+Here is what appears in the consle:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# inspect the top of the data frame
+head(my_df)
+```
+:::
+
+We can now create a contingency table using the *table* function and define it as a new object. To this end, we need to feed the table function the two dimensions by which we want to organise the table as separate function arguments. Here is what the code looks like:
+
+```{r}
+#| eval: false
+#| echo: true
+# create a 3x3 contingency table of attitudes toward
+# Star Trek and Star Wars
+my_table = table(my_df$starTrek, my_df$starWars)
+
+# assign dimension names to the table (Star Trek goes first because
+# we entered it first into the table function above)
+# this step is optional but it makes the table more readable
+dimnames(my_table) = list(StarTrek = c('hate', 'indifferent', 'love'),
+                          StarWars = c('hate', 'indifferent', 'love'))
+```
+
+Once we have defined the new object, we can inspect the contingency table in the console by running its name as R code. Here is what it looks like:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# create a 3x3 contingency table of attitudes toward
+# Star Trek and Star Wars
+my_table = table(my_df$starTrek, my_df$starWars)
+
+# assign dimension names to the table (Star Trek goes first because
+# we entered it first into the table function above)
+dimnames(my_table) = list(StarTrek = c('hate', 'indifferent', 'love'),
+                          StarWars = c('hate', 'indifferent', 'love'))
+
+my_table
+```
+:::
+
+Now that we have created the contingency table from the data frame, we can feed it into the *chisq.test* function as its sol argument to test whether there is systematic co-variation between attitudes toward Star trek and Star Wars. Here is what the code looks like.
+
+```{r}
+#| eval: false
+#| echo: true
+chisq.test(my_table)
+```
+
+Here is the console output that results from running the test using the syntax above:
+
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# run a chi² test on the table
+chisq.test(my_table)
+```
+:::
+
+Running the test shows us the usual information in the console. In this specific example, the $p$-value does not allow rejecting the Null hypothesis. In other words, there is no evidence in our simulated data indicating that whether one's attitude toward Star Trek is in any way related on one's attitude toward Star Wars.

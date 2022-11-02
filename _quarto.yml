@@ -31,6 +31,10 @@ website:
           href: working4.html
         - text: "R Packages"
           href: working5.html
+      - text: "Statistical Inference"
+        menu:
+        - text: "The Chi²-test"
+          href: inference1.html
         
       - text: "About"
         href: about.html
