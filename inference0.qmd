@@ -22,7 +22,7 @@ The last part is the tricky bit because many people seem to forget that there is
 
 If the $p$-value of our test is smaller than our tolerated $\alpha$ level (e.g., .05), we consider the effect so be statistically significant. The reason is that the chance of obtaining a result at least as extreme as the one we observed is reasonably low if the effect did, in fact, not exist and $H_0$ were true. Therefore, we accept $H_1$, which states that the effect exists.
 
-Let's paraphrase that: **If p <.05, we decide to believe that the empirical result cannot be chance a finding, all the while knowing that it can be a chance finding!** We even know what the probability of encountering that chance finding are if $H_0$ is true, namely our tolerated $\alpha$-level.
+Let's paraphrase that: **If p <.05, we decide to believe that the empirical result cannot be a chance finding, all the while knowing that it can be a chance finding!** We even know what the probability of encountering that chance finding are if $H_0$ is true, namely our tolerated $\alpha$-level.
 
 In essence, we know that there are **two possible scenarios** that can result in a statistically significant test result:
 
