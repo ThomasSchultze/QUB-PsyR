@@ -1,0 +1,74 @@
+---
+title: "The (frequentist) Inference Game"
+---
+
+Before we have a look at specific types of statistical analyses, let's take a step back and remember what we learned about frequentist statistics when we were undergraduate students.
+
+## The general logic of frequentists tests
+
+In frequentist statistics, our inferences follow the same logic, irrespective of the kind of test we run. Specifically, we:
+
+- choose a test that is appropriate for the data (e.g., a $\chi^2$-test for the analysis of frequencies, or an independent samples $t$-test for comparing continuous data between two groups)
+- define a Null hypothesis $H_0$ (usually that the effect is zero) and an alternative hypothesis $H_1$ (usually that the effect is non-zero)
+- choose a tolerated type I error level $\alpha$ (usually 5%)
+- run the test and inspect the $p$-value it returns
+- ~~tinker with the data and analyses until $p$ drops below .05~~
+- make a statement about the effect of interest based on the $p$-value
+
+The last part is the tricky bit because many people seem to forget that there is an asymmetry in how informative results are when $p < .05$ as opposed to $p > .05$. Let's have a look at them separately.
+
+
+## Inference when p < .05
+
+If the $p$-value of our test is smaller than our tolerated $\alpha$ level (e.g., .05), we consider the effect so be statistically significant. The reason is that the chance of obtaining a result at least as extreme as the one we observed is reasonably low if the effect did, in fact, not exist and $H_0$ were true. Therefore, we accept $H_1$, which states that the effect exists.
+
+Let's paraphrase that: **If p <.05, we decide to believe that the empirical result cannot be chance a finding, all the while knowing that it can be a chance finding!** We even know what the probability of encountering that chance finding are if $H_0$ is true, namely our tolerated $\alpha$-level.
+
+In essence, we know that there are **two possible scenarios** that can result in a statistically significant test result:
+
+1. The effect does not exist, but we drew an unrepresentative sample.
+2. The effect does exist, and the sample accurately represents it.
+
+However, if we accept the fact that we may sometimes (namely in $\alpha$% of cases) make a mistake when interpreting significant findings as evidence of $H_1$ being true, we can essentially get rid of option 1 when interpreting our results.
+
+This laves us with the following interpretations whenever $p < .05$:
+
+1. ~~The effect does not exist, but we drew an unrepresentative sample.~~
+2. The effect does exist, and the sample accurately represents it.
+
+Accepting that we may sometimes err (without knowing where we erred), we have now created a situation, in which a statistically significant test result is unambiguous, that is, it has only one valid conclusion: the effect of interest exists ($H_0$ is true).
+
+
+## Inference when p > .05
+
+Let's now turn to the other side of the coin, namely situations, in which $p > .05$. Our intuition may tell us that we can conclude that $H_1$ must be wrong and that we can accept $H_0$ to be true. This would lead us to state that the effect we were investigating does not exist. However, this case is a bit more complicated.
+
+If we want to conclude that an effect does not exist, we must consider the type II error (overlooking an effect that actually exists). Logic would state that if we can reject $H_0$ when we tolerate a certain type I error level (e.g., $\alpha = .05$), then we can also reject $H_1$ if we tolerate the same type II error level (i.e., $\beta = .05$).
+
+So far so good. The problem is that the type II error level depends on the true size of the effect we are studying, and we do not know the true effect size (if we did, we would not have to run a test, in the first place). 
+
+What complicates things further is that the classic $H_1$ (the effect is non-zero) is a **composite hypothesis**. What does that mean? It means that $H_1$ comprises an infinite number of specific hypotheses, let's call them $H_{1_{i}}$, which differ from each other regarding the assumed true effect size. If any of the $H_{1_{i}}$ is true, then $H_1$ as a whole is true.
+
+If we run a statistical test on our data, there will be some $H_{1_{i}}$ postulating a true effect size that is large enough for the  associated type II error level to be smaller than the one we are willing to tolerate. However, there will always be some of $H_{1_{i}}$, for which the postulated effect size so small that the associated type II error level exceeds the one we are willing to accept.
+
+What this means is that we have **three possible scenarios** that can result in a statistically non-significant test result:
+
+1. The effect does not exist, and the sample accurately represents it.
+2. The effect exists, and its size is so large that the associated type II error level is below the level we are willing to tolerate.
+3. The effect exists, but its size is so small that the associated type II error level exceeds the level we are willing to tolerate.
+
+Using the same logic as above, we can eliminate option 2 because we are willing to accept a certain number of errors during our academic career. However, we cannot eliminate option 3 in the same fashion because the associated type II error chance is higher than what we are willing to tolerate. That leaves us with two possible scenarios:
+
+1. The effect does not exist, and the sample accurately represents it.
+2. ~~The effect exists, and its size is so large that the associated type II error level is below the level we are willing to tolerate.~~
+3. The effect exists, but its size is so small that the associated type II error level exceeds the level we are willing to tolerate.
+
+Because we do not know which of the remaining two scenarios led to our non-significant result, we must acknowledge that it is **uninformative**. We cannot decide whether the effect is actually zero or whether it is non-zero but too small for us to detect reliably. In other words, when interpreting a non-significant result, we **must not** conclude that we have shown the effect no to exist. Instead, our answer needs to be: we don't know (yet) whether the effect exists or not.
+
+:::{.alert .alert-success}
+There is an elegant solution to the problem of interpreting non-significant $p$-values. We can determine the effect size $x$ for which the type II error $\beta$ is equal to our tolerated type I error level $\alpha$. 
+
+We can then state - with the same confidence with which we decide to reject $H_0$ if $p < .05$ - that there is no effect greater than or equal to $x$.
+
+How useful that statement is, critically depends on the sample size of our study. With small samples, we may only be able to rule out huge effects. However, when our sample size is large enough, we may get to the point where we can rule out any non-trivial effect (what this means is that effect sizes we cannot rule out with the required confidence are too small to be of practical concern).
+:::

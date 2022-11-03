@@ -33,8 +33,12 @@ website:
           href: working5.html
       - text: "Statistical Inference"
         menu:
+        - text: "A Primer on Statistical Inference"
+          href: inference0.html
         - text: "The Chi²-test"
           href: inference1.html
+        - text: "Correlations"
+          href: inference2.html
         
       - text: "About"
         href: about.html
@@ -46,5 +50,5 @@ format:
       - cerulean
       - custom.scss
 
-
+  
 

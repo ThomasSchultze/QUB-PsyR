@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>QUB-PsyR - The Tidyverse</title>
+<title>QUB-PsyR - The (frequentist) Inference Game</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -59,6 +59,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -174,7 +175,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">The Tidyverse</h1>
+<h1 class="title">The (frequentist) Inference Game</h1>
 </div>
 
 
@@ -189,8 +190,65 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p>Before we have a look at specific types of statistical analyses, let’s take a step back and remember what we learned about frequentist statistics when we were undergraduate students.</p>
+<section id="the-general-logic-of-frequentists-tests" class="level2">
+<h2 class="anchored" data-anchor-id="the-general-logic-of-frequentists-tests">The general logic of frequentists tests</h2>
+<p>In frequentist statistics, our inferences follow the same logic, irrespective of the kind of test we run. Specifically, we:</p>
+<ul>
+<li>choose a test that is appropriate for the data (e.g., a <span class="math inline">\(\chi^2\)</span>-test for the analysis of frequencies, or an independent samples <span class="math inline">\(t\)</span>-test for comparing continuous data between two groups)</li>
+<li>define a Null hypothesis <span class="math inline">\(H_0\)</span> (usually that the effect is zero) and an alternative hypothesis <span class="math inline">\(H_1\)</span> (usually that the effect is non-zero)</li>
+<li>choose a tolerated type I error level <span class="math inline">\(\alpha\)</span> (usually 5%)</li>
+<li>run the test and inspect the <span class="math inline">\(p\)</span>-value it returns</li>
+<li><del>tinker with the data and analyses until <span class="math inline">\(p\)</span> drops below .05</del></li>
+<li>make a statement about the effect of interest based on the <span class="math inline">\(p\)</span>-value</li>
+</ul>
+<p>The last part is the tricky bit because many people seem to forget that there is an asymmetry in how informative results are when <span class="math inline">\(p &lt; .05\)</span> as opposed to <span class="math inline">\(p &gt; .05\)</span>. Let’s have a look at them separately.</p>
+</section>
+<section id="inference-when-p-.05" class="level2">
+<h2 class="anchored" data-anchor-id="inference-when-p-.05">Inference when p &lt; .05</h2>
+<p>If the <span class="math inline">\(p\)</span>-value of our test is smaller than our tolerated <span class="math inline">\(\alpha\)</span> level (e.g., .05), we consider the effect so be statistically significant. The reason is that the chance of obtaining a result at least as extreme as the one we observed is reasonably low if the effect did, in fact, not exist and <span class="math inline">\(H_0\)</span> were true. Therefore, we accept <span class="math inline">\(H_1\)</span>, which states that the effect exists.</p>
+<p>Let’s paraphrase that: <strong>If p &lt;.05, we decide to believe that the empirical result cannot be chance a finding, all the while knowing that it can be a chance finding!</strong> We even know what the probability of encountering that chance finding are if <span class="math inline">\(H_0\)</span> is true, namely our tolerated <span class="math inline">\(\alpha\)</span>-level.</p>
+<p>In essence, we know that there are <strong>two possible scenarios</strong> that can result in a statistically significant test result:</p>
+<ol type="1">
+<li>The effect does not exist, but we drew an unrepresentative sample.</li>
+<li>The effect does exist, and the sample accurately represents it.</li>
+</ol>
+<p>However, if we accept the fact that we may sometimes (namely in <span class="math inline">\(\alpha\)</span>% of cases) make a mistake when interpreting significant findings as evidence of <span class="math inline">\(H_1\)</span> being true, we can essentially get rid of option 1 when interpreting our results.</p>
+<p>This laves us with the following interpretations whenever <span class="math inline">\(p &lt; .05\)</span>:</p>
+<ol type="1">
+<li><del>The effect does not exist, but we drew an unrepresentative sample.</del></li>
+<li>The effect does exist, and the sample accurately represents it.</li>
+</ol>
+<p>Accepting that we may sometimes err (without knowing where we erred), we have now created a situation, in which a statistically significant test result is unambiguous, that is, it has only one valid conclusion: the effect of interest exists (<span class="math inline">\(H_0\)</span> is true).</p>
+</section>
+<section id="inference-when-p-.05-1" class="level2">
+<h2 class="anchored" data-anchor-id="inference-when-p-.05-1">Inference when p &gt; .05</h2>
+<p>Let’s now turn to the other side of the coin, namely situations, in which <span class="math inline">\(p &gt; .05\)</span>. Our intuition may tell us that we can conclude that <span class="math inline">\(H_1\)</span> must be wrong and that we can accept <span class="math inline">\(H_0\)</span> to be true. This would lead us to state that the effect we were investigating does not exist. However, this case is a bit more complicated.</p>
+<p>If we want to conclude that an effect does not exist, we must consider the type II error (overlooking an effect that actually exists). Logic would state that if we can reject <span class="math inline">\(H_0\)</span> when we tolerate a certain type I error level (e.g., <span class="math inline">\(\alpha = .05\)</span>), then we can also reject <span class="math inline">\(H_1\)</span> if we tolerate the same type II error level (i.e., <span class="math inline">\(\beta = .05\)</span>).</p>
+<p>So far so good. The problem is that the type II error level depends on the true size of the effect we are studying, and we do not know the true effect size (if we did, we would not have to run a test, in the first place).</p>
+<p>What complicates things further is that the classic <span class="math inline">\(H_1\)</span> (the effect is non-zero) is a <strong>composite hypothesis</strong>. What does that mean? It means that <span class="math inline">\(H_1\)</span> comprises an infinite number of specific hypotheses, let’s call them <span class="math inline">\(H_{1_{i}}\)</span>, which differ from each other regarding the assumed true effect size. If any of the <span class="math inline">\(H_{1_{i}}\)</span> is true, then <span class="math inline">\(H_1\)</span> as a whole is true.</p>
+<p>If we run a statistical test on our data, there will be some <span class="math inline">\(H_{1_{i}}\)</span> postulating a true effect size that is large enough for the associated type II error level to be smaller than the one we are willing to tolerate. However, there will always be some of <span class="math inline">\(H_{1_{i}}\)</span>, for which the postulated effect size so small that the associated type II error level exceeds the one we are willing to accept.</p>
+<p>What this means is that we have <strong>three possible scenarios</strong> that can result in a statistically non-significant test result:</p>
+<ol type="1">
+<li>The effect does not exist, and the sample accurately represents it.</li>
+<li>The effect exists, and its size is so large that the associated type II error level is below the level we are willing to tolerate.</li>
+<li>The effect exists, but its size is so small that the associated type II error level exceeds the level we are willing to tolerate.</li>
+</ol>
+<p>Using the same logic as above, we can eliminate option 2 because we are willing to accept a certain number of errors during our academic career. However, we cannot eliminate option 3 in the same fashion because the associated type II error chance is higher than what we are willing to tolerate. That leaves us with two possible scenarios:</p>
+<ol type="1">
+<li>The effect does not exist, and the sample accurately represents it.</li>
+<li><del>The effect exists, and its size is so large that the associated type II error level is below the level we are willing to tolerate.</del></li>
+<li>The effect exists, but its size is so small that the associated type II error level exceeds the level we are willing to tolerate.</li>
+</ol>
+<p>Because we do not know which of the remaining two scenarios led to our non-significant result, we must acknowledge that it is <strong>uninformative</strong>. We cannot decide whether the effect is actually zero or whether it is non-zero but too small for us to detect reliably. In other words, when interpreting a non-significant result, we <strong>must not</strong> conclude that we have shown the effect no to exist. Instead, our answer needs to be: we don’t know (yet) whether the effect exists or not.</p>
+<div class="alert alert-success">
+<p>There is an elegant solution to the problem of interpreting non-significant <span class="math inline">\(p\)</span>-values. We can determine the effect size <span class="math inline">\(x\)</span> for which the type II error <span class="math inline">\(\beta\)</span> is equal to our tolerated type I error level <span class="math inline">\(\alpha\)</span>.</p>
+<p>We can then state - with the same confidence with which we decide to reject <span class="math inline">\(H_0\)</span> if <span class="math inline">\(p &lt; .05\)</span> - that there is no effect greater than or equal to <span class="math inline">\(x\)</span>.</p>
+<p>How useful that statement is, critically depends on the sample size of our study. With small samples, we may only be able to rule out huge effects. However, when our sample size is large enough, we may get to the point where we can rule out any non-trivial effect (what this means is that effect sizes we cannot rule out with the required confidence are too small to be of practical concern).</p>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
