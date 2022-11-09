@@ -1,222 +1,347 @@
 ---
-title: "The Chi² Test"
+title: "The t-Test"
 ---
 
-The $\chi^2$-test allows us to test for deviations between observed and expected frequencies. The $\chi^2$ distribution is formalised as follows:
+The $t$-test is a parametric test designed to test whether the mean of a (approximately) normally distributed continuous variable $X$ with unknown variance $\sigma^2$ differs from a certain fixed value $\mu$, for example, zero.
 
-$\chi^2 = \frac{(x_i - e_i)^2}{e_i}$ 
+The test statistic $t$ is formally defined as follows:
 
-Here, $x_i$ denote the observed frequencies in category *i* whereas *e_i* represents the expected frequencies given some assumed distribution. In brief, the larger the discrepancies between the observed and expected frequencies, the larger the $\chi^2$-value becomes. If it exceeds a certain threshold (defined by the degrees of freedom of the specific test), we reject the Null hypothesis and decide to believe that the deviations of the observed from the expected frequencies are systematic.
+$t = \frac{\bar{X}-\mu}{\hat{\sigma}\sqrt{n}}$
 
-The most common analyses for which the $\chi^2$-test is used are:
+Here, $\bar{X}$ is the empirically determined sample mean of the variable $X$, $\mu$ is the assumed population parameter under $H_0$, $\hat{\sigma}$ is the estimate of the population standard deviation derived from the sample, and $n$ is the size of the sample the test is based on.
 
-- tests of observed frequencies against chance (all outcomes are equally probable)
-- tests of observed frequencies against specific non-equal probabilities 
-- tests of systematic co-variation in contingency tables
+Like many statistical test, the $t$-test is a **signal-to-noise ratio**. The numerator represents the signal (i.e., the effect we are interested in) while the denominator represents the noise (based on the sampling variance).
 
-If we want to run any of these $\chi^2$-tests, we can use an R function called *chisq.test*. Which function argument the *chisq.test* function needs depends on what we want to do. Therefore, we will look at each case separately in the following.
+The $t$-test comes in three flavours:
+
+- one-sample $t$-test of the mean against a constant
+- paired $t$-test of the mean difference of two variables within one group
+- independent samples $t$-test of the mean difference in one variable between two independent groups
+
+The only difference between the three types of $t$-tests is the definition of $\bar{X}$ and $\sigma^2$. For one-sample $t$-tests $X$ is the variable we are measuring, and $\sigma^2$ is its variance. 
+
+For the other two types of $t$-test, $X$ is the difference between two variables $Y$ and $Z$. Depending on the type of $t$-test, $Y$ and $Z$ are either two variables measured in the same group or one variable measured in two independent groups. In both cases, $\sigma^2$ is the variance of the difference $Y-Z$.
+
+:::{.alert .alert-success}
+We may remember from our undergraduate studies that the sum or difference of two normally distributed variables is, itself, a normally distributed variable. This is why the $t$-test works when testing for mean differences between two measurements or two groups.
+
+We may also remember that when $X = Y - Z$, the variance of $X$ can be decomposed as follows:
+
+$\sigma_X^2 = \sigma_Y^2 + \sigma_Z^2 - 2\times COV(Y,Z)$
+
+For paired $t$-tests this means that the noise is lower the more the two measures are positively correlated (correlation is the standardised covariance).
+
+In case of the independent samples $t$-test, we assume the covariance of $Y$ and $Z$ to be zero (which is the definition of statistical independence).
+:::
+
+We can run all three types of $t$-tests in R using the function *t.test*. This function is quite flexible. It has several function arguments that we can use to specify the type of $t$-test and how our $H_0$ and $H_1$ should look like. Let's have a look at the most important function arguments:
+
+- *x* (required) and *y* (optional): numeric vectors containing the data we want to analyse.
+- *mu* (optional): a numeric value indicating the mean of $X$ under $H_0$. The default is 0.
+- *alternative* (optional): the type of (unspecific) $H_1$. The default is "two.sided" ($H_1: \mu\not=0$), but we can also specify directional (one-tailed) tests by assigning the value "greater" ($H_1: \mu>0$) or "less" $H_1: \mu<0$.
+- *paired* (optional): a Boolean value; only applies if we specified *x* and *y*; if set to FALSE (the default), R will run an independent samples $t$-test; if set to TRUE, it will run a paired $t$-test.
+- *var.equal* (optional): a Boolean value; only applies when running independent samples $t$-tests; if set to TRUE (default), R will correct the degrees of freedom of the test to account for unequal variances.
+
+Now that we have a rough understanding of what we can do with the *t.test* function, let's give it a spin.
 
 
-## Test of observed frequencies against chance
+## The one-sample t-test
 
-This is the simplest form of the $\chi^2$-test. To run this test, we need only feed the *chisq.test* function a single function argument *x*, namely a numeric vector of length 2 or greater, containing the frequencies we want to analyse.
+For starters, we will consider the most simple case, namely the one-sample $t$-test. For example, we could test whether the mean of a vector of numbers differs from zero.
 
-The function has another argument called *p* which specifies the expected probabilities against which to test the observed frequencies. The default value of this argument is equi-probability. That is, if we do not specify it, R will automatically test whether the observed frequencies systematically differ from a chance distribution.
+:::{.alert .alert-info}
+We can generate some normally distributed data for our examples using the *rnorm* function. We simply need to feed the function three arguments: the size of the simulated sample (*n*), the true mean (*mean*), and the true standard deviation (*sd*). Calling the *rnorm* function will then result in R producing a pseudo-random sample drawn from the specified normal distribution.
 
-Here is an example of how the syntax for this test looks:
+If we want to create a reproducible pseudo-random sample, we can call the function *set.seed* before calling *rnorm*. If we feed the *set.seed* function an arbitrary number, the following pseudo-random draw will always be the same.
+:::
+
+Here is what the R code would look like:
 
 ```{r}
 #| eval: false
 #| echo: true
 #| code-overflow: wrap
-# create a vector containing frequencies for three categories
-v1 = c(19, 33, 21)
+# create some normally distributed data using the rnorm function.
+# use set.seed to make sure the outcome of the data simulation is reproducible
+set.seed(1234) 
 
-# test for deviation from equal probabilities
-chisq.test(x = v1)
+# simulate 50 data points drawn from a normal distribution with mean = 0.50 and sd = 1
+v1 = rnorm(n = 50, mean = 0.50, sd = 1)
+
+# run a one-sample t-test to test if the mean of v1 differs from zero
+t.test(x = v1)
 ```
 
-If we run the syntax above, R will conduct the $\chi^2$-test by comparing the observed frequencies shown in *v1* against chance (expected frequencies are computed using a probability of one third for each of the three categories). The output looks as follows:
+As we can see, the code for the two-tailed one-sample t-test is very simple. Now let's have a look at what appears in the console if we run the code above.
 
 :::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
-# create a vector containing frequencies for three categories
-v1 = c(19, 33, 21)
+# create some normally distributed data using the rnorm function.
+# use set.seed to make sure the outcome of the data simulation is reproducible
+set.seed(1234) 
 
-# test for deviation from equal probabilities
-chisq.test(x = v1)
+# simulate 50 data points drawn from a normal distribution with mean = 0.50 and sd = 1
+v1 = rnorm(n = 50, mean = 0.50, sd = 1)
+
+# run a one-sample t-test to test if the mean of v1 differs from zero
+t.test(x = v1)
 ```
 :::
 
-As we can see, R tells us which object it ran the test on (*v1*). It also tells us the empirical $\chi^2$ value (named X-squared), the degrees of freedom of this test (2 because *v1* has three categories), and the associated $p$-value. In our example, and given that we run the test using the conventional $\alpha$ level of 5%, the differences in the observed frequencies do not warrant rejecting the Null hypothesis. That is, we cannot state that some of the categories in *v1* are more likely than others.
+The output of the $t$-test function is actually a list (we can easily verify that by saving the output of the test as a new object). R displays the information contained in that list in an easily readable fashion in the console. In particular, R will tell us:
 
+- the type of $t$-test we ran (one-sample $t$-test)
+- the empirical $t$-value
+- the test's degrees of freedom (*n*-1)
+- the $p$-value
+- the type of $H_1$
+- the mean of $X$ and a 95% confidence interval around it
 
-## Test of observed frequencies against a predefined probability
+In the example above, the $p$-value is greater than the conventional significance level of .05. Accordingly, we cannot accept $H_1$ and have to retain $H_0$.
 
-Let's assume that we want to compare *v1* not against chance but against unequal probabilities for the three categories. For example, our Null hypothesis could state that the first and second category should occur in 25% of cases each while category three should account for the remaining 50%. To run this test, the only change we need to make to the way we called the *chisq.test* function in the example above is to specify the function argument *p* and define it as a numeric vector containing the probabilities. 
-
-This vector of probabilities needs to be of the same length as the vector of observed frequencies. In addition, since we are dealing with probabilities, all elements need to range between 0 and 1, and their sum must equal 1. Let's have a look at the syntax.
+Let's now consider a second example, in which we want to test whether the mean of a numeric vector exceeds 50.
 
 ```{r}
 #| eval: false
 #| echo: true
 #| code-overflow: wrap
-# test for deviation from pre-defined non-equal probabilities
-chisq.test(x = v1, p = c(0.25, 0.25, 0.50))
-```
+# generate normally distributed data (n = 100) with true mean = 60 and and sd = 10 (make the draw reproducible using set.seed)
+set.seed(2345)
+v2 = rnorm(n = 100, mean = 60, sd = 10)
 
-The output of the test looks very much like the one in the previous example. Again, R shows us the empirical $\chi^2$-value, the degrees of freedom, and the $p$-value (see below).
+# run a one-tailed one-sample t-test testing whether the mean of v2 exceeds 50
+t.test(x = v2, mu = 50, alternative = 'greater')
+```
+Let's have a look at the output in the console:
 
 :::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
-chisq.test(x = v1, p = c(0.25, 0.25, 0.50))
+# generate normally distributed data (n = 100) with true mean = 60 and and sd = 10 (make the draw reproducible using set.seed)
+set.seed(2345)
+v2 = rnorm(n = 100, mean = 60, sd = 10)
+
+# run a one-tailed one-sample t-test testing whether the mean of v2 exceeds 50
+t.test(x = v2, mu = 50, alternative = 'greater')
 ```
 :::
 
-This time, the empirical $\chi^2$ value is greater, and the corresponding *p*-value is small enough to reject the Null hypothesis. That is, we can state that *v1* was not drawn from a population, in which category 3 is twice as frequent as categories 1 and 2. 
+The output states correctly that we tested the a directional alternative hypothesis and what value we tested against ($H_1: \mu > 50$). Due to the directional nature of the test, the 95% confidence interval around the mean is one-tailed, too (its upper limit is "Inf", meaning infinite). 
+
+Of course, R also tells us the $t$-value, degrees of freedom, and $p$-value of the test. This time, we can reject $H_0$ and accept $H_1$, accordingly. 
 
 
-## Tests for systematic covariation in contengency tables
+## The paired t-test
 
-In some cases, we may not be interested in comparing observed frequencies against a (theoretical) distribution, but rather to compare observed frequencies across two variables (i.e., in a two-dimensional contingency table). Conceptually, this boils down to testing - row-by-row or column-by-column - whether the underlying distribution of one variable is equal across all levels of the other variable. 
+Let's now turn to cases, in which we want to test for the difference between two variables measured in the same group. This could be two variables measured at the same time, or the same variable measured at two times.
 
-To do so, we need to feed the *chisq.test* function a matrix of frequencies as the function  argument *x*. We no longer need to specify the function argument *p* because the expected frequencies are computed from the marginal frequencies of the contingency table assuming stochastic independence. 
+In order to run a paired $t$-test, we need to feed the *t.test* function two numerical vectors of the same length, *x* and *y*. R will pair each element of the first vector with the corresponding element of the second vector. Therefore, we need to ensure that the data for both vectors are in the same order (usually not a problem if we use data frames).
 
-Lets look at an example. First, we need some data in table format. We can create such data using the function *matrix* or by combining several vectors of equal length using either the function *cbind* or *rbind* (these functions stack equally long vectors of the same type by column or row). Let's go with the *rbind* version for now.  
+Let's look at an example, in which we want to test whether the stress level of 100 simulated people decreases between two measurement occasions *T1* and *T2*.
+
+:::{.alert .alert-info}
+Since we want to simulate correlated data, using the *rnorm* function won't help us. However, there is a useful function called *mvrnorm* in the *MASS* package. This function allows us to generate data from multivariate normal distributions.
+
+We can feed the *mvrnorm* the following arguments:
+
+- *n*: the number of observations
+- *mu*: a vector of length *k* containing the means of the generated variables
+- *Sigma*: the $k\times k$ variance-covariance matrix
+
+The function output will be a $n \times k$ matrix with each column containing the simulated data of one variable.  
+:::
+
+Here is the code for the simulated data:
 
 ```{r}
-#| eval: false
+#| eval: true
 #| echo: true
-# create a 2x3 contingency table by stacking 
-# two vectors containing frequencies row-wise
-data1 = rbind(c(762, 327, 68), 
-        c(484, 239, 77))
+#| code-overflow: wrap
+# load the package MASS for its function mvrnorm
+library(MASS)
 
-# run a chi² test on the data
-chisq.test(data1)
-```
-Running the code above will perform the $\chi^2$-test on the contingency table we created. Here is what the data looks like.
-
-:::{.alert .alert-warning}
-```{r}
-#| eval: true
-#| echo: false
-data1 = rbind(c(762, 327, 68), 
-        c(484, 239, 77))
-
-data1
-```
-:::
-
-The output in the console when running the $\chi^2$-test looks as follows:
-
-
-:::{.alert .alert-warning}
-```{r}
-#| eval: true
-#| echo: false
-chisq.test(data1)
-```
-:::
-
-Once more, R tells us the empirical $\chi^2$-value, the degrees of freedom (for $n\times m$ tables, the test has $n-1\times m-1$ degrees of freedom, which makes 2 in our example), and the $p$-value of the test. From the $p$-value, we can see that there is systematic co-variation, that is, some cells are more and others less frequent than we would expect if the two variables were unrelated.  
-
-
-## Extracting frequencies from data frames
-
-The data we want to feed into $\chi^2$-tests is usually contained in data frames. We can extract frequencies and even turn them into contingency tables using the *table* function. Let's consider an example, in which we have data from one thousand simulated ~~nerds~~ participants who told us their attitudes toward Star Trek and Star Wars (love, hate, indifferent).
-
-```{r}
-#| eval: true
-#| echo: false
-# simulate data for the example
-set.seed(12345) # for reproducibility
+# generate a data frame containing data for 100 simulated people who reported their stress levels twice
+# In this example, we will set the true stress level at T1 to 0.50, the one at T2 to 0.10, and the correlation of the to measurements to r = 0.50
+# we also use set.seed for reproducibility
+set.seed(3456)
 my_df = data.frame(
-  ID = 1:1000,
-  starTrek = sample(c('love', 'hate', 'indifferent'), size = 1000,
-                    replace = T, prob = c(.60, .15, .25)),
-  starWars = sample(c('love', 'hate', 'indifferent'), size = 1000,
-                    replace = T, prob = c(.50, .15, .35))
+  ID = 1:100,
+  stress = mvrnorm(
+    n = 100,
+    mu = c(0.50, 0.10),
+    Sigma = matrix(c(1, 0.50, 
+                     0.50, 1), nrow = 2)
+  )
 )
+
+# assign better names to the two stress variables
+names(my_df)[2:3] = c('stress_T1', 'stress_T2')
 ```
 
-Let's say the data is contained in a data frame called *my_df*. We can use the function *head* to inspect the first six rows of the data frame to get a feeling for what the data looks like.
+We can now run the paired $t$-test. Since we want to run a one-tailed test, we need to think carefully about how to specify our alternative hypothesis. Our hypothesis states that stress at *T2* should be lower than stress at *T1*. If we enter stress at T1 first, R will compute $X$ by subtracting *T2* stress levels from *T1* stress levels. If our hypothesis is correct, the difference of means should be positive. Therefore, we need to define the alternative hypothesis as "greater" (if we were to enter stress at *T2* first, we would need to specify it as "less", accordingly. Here is what the code looks like:
 
 ```{r}
 #| eval: false
 #| echo: true
-# inspect the top of the data frame
-head(my_df)
+#| code-overflow: wrap
+# test whether there is a significant decrease in stress form T1 to T2
+t.test(x = my_df$stress_T1, 
+       y = my_df$stress_T2, 
+       alternative = 'greater',
+       paired = T)
 ```
-
-Here is what appears in the consle:
+Here is the console output:
 
 :::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
-# inspect the top of the data frame
-head(my_df)
+# test whether there is a significant decrease in stress form T1 to T2
+t.test(x = my_df$stress_T1, y = my_df$stress_T2, alternative = 'greater',
+       paired = T)
 ```
 :::
 
-We can now create a contingency table using the *table* function and define it as a new object. To this end, we need to feed the table function the two dimensions by which we want to organise the table as separate function arguments. Here is what the code looks like:
+R will now inform us that we ran a paired $t-test$ (this is correct as we set the *paired* argument to "paired"; otherwise, R would have computed and independent samples $t$-test).
+
+It also tells us which alternative hypothesis we tested, namely that the difference between *T1* and *T2* stress levels was positive (greater than 0). Furthermore, R reports the mean difference, the one-tailed 95% confidence interval around it. 
+
+Finally, it shows is the empirical $t$-value, degrees of freedom (*n*-1, similar to the one-sample test), and the $p$-value. In this example, stress was significantly lower at *T2*than at *T1*, allowing us to accept $H_1$.
+
+:::{.alert .alert-success}
+The statistically well-versed reader may interject that a paired-sample $t$-test is the same as a one-sample $t$-test on the difference of the two variables involved. That is technically correct!
+
+We can easily verify it by computing a new variables as the difference between the two variables we want to compare. First, we run a paired-sample $t$-test by feeding the *t.test* function both variables. Then, we run a one-sample $t$-test and feed it only the new difference variable. The results of the two tests will be identical, ceteris paribus.
+:::
+
+
+## Independent samples t-test
+
+We will now turn to the last version of $t$-test, the $t$-test for independent samples. As with the paired $t$-test, we need to feed the *t.test* function two numeric vectors containing the data we want to compare. However, since the data are assumed to be independent, the two vectors need not be of the same length, and the order of the elements does not matter. 
+
+First, we are going to simulate a new data frame containing the data from 100 participants who were randomly assigned to two experimental conditions labelled "experimental" and "control" for lack of imagination. The only measured variable of interest is the dependent variable "dv".
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-overflow: wrap
+# generate data for 100 participants, half of which 
+# were assigned to an experimental condition while
+# the other half was assigned to the control group
+# we use set.seed for reproducible simulation
+set.seed(4567)
+
+my_df2 = data.frame(
+  ID = 1:100,
+  condition = rep(c('experimental', 'control'), each = 50),
+  dv = c(
+    rnorm(n = 50, mean = 0.50, sd = 1), # experimental group data
+    rnorm(n = 50, mean = 0, sd = 1)     # control group data
+  )
+)
+# The function rep repeats all elements of the vector
+# a number of time specified by the argument 'each'
+```
+
+Now that we have a proper simulated data set, we can run the independent samples $t$-test. Let's assume we want to test whether the groups differ, that is, our $H_1$ is unspecific, and we run a two-tailed $t$-test on the data. Here is what the code looks like:
 
 ```{r}
 #| eval: false
 #| echo: true
-# create a 3x3 contingency table of attitudes toward
-# Star Trek and Star Wars
-my_table = table(my_df$starTrek, my_df$starWars)
-
-# assign dimension names to the table (Star Trek goes first because
-# we entered it first into the table function above)
-# this step is optional but it makes the table more readable
-dimnames(my_table) = list(StarTrek = c('hate', 'indifferent', 'love'),
-                          StarWars = c('hate', 'indifferent', 'love'))
+#| code-overflow: wrap
+# test the hypothesis that the mean of dv differs
+# between the experimental and the control group
+t.test(x = my_df2$dv[my_df2$condition == 'experimental'],
+       y = my_df2$dv[my_df2$condition == 'control'],
+       paired = FALSE, var.equal = FALSE)
 ```
 
-Once we have defined the new object, we can inspect the contingency table in the console by running its name as R code. Here is what it looks like:
+Technically, we do not need to specify the *paired* and *var.equal* argument because FALSE is the default for both. Let's have alook at the output.
 
 :::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
-# create a 3x3 contingency table of attitudes toward
-# Star Trek and Star Wars
-my_table = table(my_df$starTrek, my_df$starWars)
-
-# assign dimension names to the table (Star Trek goes first because
-# we entered it first into the table function above)
-dimnames(my_table) = list(StarTrek = c('hate', 'indifferent', 'love'),
-                          StarWars = c('hate', 'indifferent', 'love'))
-
-my_table
+#| code-overflow: wrap
+# test the hypothesis that the mean of dv differs
+# between the experimental and the control group
+t.test(x = my_df2$dv[my_df2$condition == 'experimental'],
+       y = my_df2$dv[my_df2$condition == 'control'],
+       paired = FALSE, var.equal = FALSE)
 ```
 :::
 
-Now that we have created the contingency table from the data frame, we can feed it into the *chisq.test* function as its sol argument to test whether there is systematic co-variation between attitudes toward Star trek and Star Wars. Here is what the code looks like.
+R tells us that we ran a Welch two-sample $t$-test. That is R's way of letting us know that it corrected the test's degrees of freedom for unequal variances. The standard $t$-test for independent samples has $n-2$ degrees of freedom, so in our example, we would expect 98. However, due to slight differences in the empirically obtained variances between the two groups, the correction scales the degrees of freedom down to 94.704 (if you see a $t$-test with fractional degrees of freedom somewhere you now know what happened). The rest of the information is similar to what we saw in the previous examples. In our case, the data support accepting $H_1$. 
+If, for some reason, we do not want R to correct for unequal variances, we can set the *var.equal* argument to TRUE. Depending on how strong the inequality of variances is, this might have an impact on the $p$-value. Let's give it a try with the data above.
 
 ```{r}
 #| eval: false
 #| echo: true
-chisq.test(my_table)
+#| code-overflow: wrap
+# test the hypothesis that the mean of dv differs
+# between the experimental and the control group
+t.test(x = my_df2$dv[my_df2$condition == 'experimental'],
+       y = my_df2$dv[my_df2$condition == 'control'],
+       paired = FALSE, var.equal = TRUE)
 ```
 
-Here is the console output that results from running the test using the syntax above:
-
+Here is the console output:
 
 :::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
-# run a chi² test on the table
-chisq.test(my_table)
+#| code-overflow: wrap
+# test the hypothesis that the mean of dv differs
+# between the experimental and the control group
+t.test(x = my_df2$dv[my_df2$condition == 'experimental'],
+       y = my_df2$dv[my_df2$condition == 'control'],
+       paired = FALSE, var.equal = TRUE)
 ```
 :::
 
-Running the test shows us the usual information in the console. In this specific example, the $p$-value does not allow rejecting the Null hypothesis. In other words, there is no evidence in our simulated data indicating that whether one's attitude toward Star Trek is in any way related on one's attitude toward Star Wars.
+As we can see, R now states that we ran a "two sample $t$-test". The degrees of freedom amount to the expected 98, and the $p$-values differs slightly from that of the Welch $t$-test.
+
+If we run an independent samples $t$-test and our grouping variable (in our example the variable "condition") has only two levels, we can use an alternative syntax containing a **formula**.
+
+An R formula is a social type of R object that requires a specific syntax. Generally speaking this syntax looks like this:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# generic formula stating that y is a function of x
+y ~ x
+```
+What this means is that *y* is a function of *x*. Usually, R accepts only a single variable to the left of the tilde operator (**~**), whereas we can combine multiple variables on it's right side. We will return to formulae later when we discuss linear models. For now the simple version is sufficient.
+
+In case of an independent $t$-test, we can feed the *t.test* function a formula containing the variable names as well as another function argument called *data*, which requires a data frame as input. Here, we can tell R which data frame our variables are contained in. Let's have a look at the alternative syntax for our test above.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# test the hypothesis that the mean of dv differs
+# between the experimental and the control group
+t.test(dv ~ condition, data = my_df2,
+       paired = FALSE, var.equal = FALSE)
+```
+As we can see below, the output is the same as for the initial Welch $t$-test above. Which type of syntax we use depends on our personal preferences. 
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# test the hypothesis that the mean of dv differs
+# between the experimental and the control group
+t.test(dv ~ condition, data = my_df2,
+       paired = FALSE, var.equal = FALSE)
+```
+:::
+
+Congratulations, you are now able to do $t$-tests of all flavours in R!
+

@@ -1,0 +1,200 @@
+---
+title: "Correlations"
+---
+
+If we want to test whether there is a linear relation between two continuous variables $x$ and $y$, we can compute the correlation coefficient $r$ as a measure of the strength of that relation. The correlation coefficient is defined as follows:
+
+$r_{x,y} = \frac{cov(x,y)}{\sigma_x\sigma_y} = \frac{(x_i-\bar{x})(y_i-\bar{y})}{\sigma_x\sigma_y}$
+
+As we can see, the correlation coefficient is the standardised covariance of $x$ and $y$. The standardisation (dividing the covariance by the product of the standard deviations of $x$ and $y$) ensures that - unlike the covariance - the correlation coefficient is limited to the range from -1 to 1. Here, -1 indicates a perfect negative linear relationship, 1 indicates a perfect positive linear relationship, and 0 means that there is no linear relationship between $x$ and $y$.
+
+:::{.alert .alert-info}
+A common misconception is that a correlation of zero means that two variables are **unrelated**. This is not the case. The two variables could be strongly related, but if the relation is non-linear, a correlation coefficient may be unable to capture this relation.
+
+Many non-linear relations can be approximated - with some loss of precision - via a linear relation. That is, the resulting correlation coefficient is non-zero. However, a non-zero correlation coefficient is not evidence for the true relation of $x$ and $y$ being linear.
+:::
+
+
+## Computing correlations in R
+
+We can compute the correlation coefficient $\rho$ in R using the function *cor*. We can use the *cor* function in two ways:
+
+The first way is to feed the function two numerical vectors of the same length as two separate function arguments, *x* and *y*. R will then compute the correlation between *x* and *y*. Here is what the syntax looks like:
+
+```{r}
+#| echo: true
+#| eval: false
+# create a numeric vector
+v1 = -10:10
+
+# create a second numeric vector (square of v1)
+v2 = v1^2
+
+# compute the correlation of v1 and v2
+cor(x = v1, y = v2)
+
+```
+If we run this code, R will return the correlation coefficient a single number in the console (see blow).
+
+:::{.alert .alert-warning}
+```{r}
+#| echo: false
+#| eval: true
+# create a numeric vector
+v1 = -10:10
+
+# create a second numeric vector (square of v1)
+v2 = v1^2
+
+# compute the correlation of v1 and v2
+cor(v1, v2)
+
+```
+:::
+
+In our example, the correlation is zero despite *y* being a function of *x* ($y = x^2$). The reason is that the relationship of *x* and *y* is non-linear.
+
+The second way, in which we can use the *cor* function is to feed it a numeric matrix (or data frame that contains only numeric variables) as the sole function argument *x*. If we do that, R will correlate each column of the matrix (or data frame) with all other columns - including itself - and create a correlation matrix. Here is an example.
+
+```{r}
+#| eval: false
+#| echo: true
+# create three numeric vectors
+v1 = 1:10     # just the numbers from 1 to 10
+v2 = sqrt(v1) # the square root of v1
+v3 = log(v1)  # the natural logarithm of v1
+
+# generate a numeric 10x3 matrix from the
+# three vectors using the cbind function
+m1 = cbind(v1, v2, v3)
+
+# compute the correlation matrix for m1
+cor(x = m1)
+```
+
+Running this code will lead R to return a numeric matrix containing the correlations in the console. Since we fed the *cor* function a matrix with three columns, the output will be a $3\times3$ matrix (see below).
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# create three numeric vectors
+v1 = 1:10     # just the numbers from 1 to 10
+v2 = sqrt(v1) # the square root of v1
+v3 = log(v1)  # the natural logarithm of v1
+
+# generate a numeric 10x3 matrix from the
+# three vectors using the cbind function
+m1 = cbind(v1, v2, v3)
+
+# compute the correlation matrix for m1
+cor(x = m1)
+```
+:::
+
+Three things about the correlation matrix are noteworthy:
+
+1. In the diagonal of the matrix, each correlation is 1. This makes sense because in the diagonal, we correlate each variable with itself. 
+2. The number above the diagonal mirror those below it. This make sense, too. The correlation of *v1* and *v2* is the same as the correlation of *v2* and *v1* (the order of the variables does not matter when computing a correlation).
+3. Specific to our example, correlations between the three variables are close to perfect even though their relationships are non-linear. This shows how good linear approximations may be in some cases even thought the the assumption of a linear relationship is technically wrong.
+
+
+## Rank order correaltions
+
+The default correlation coefficient we can compute with the *cor* function is the product-moment correlation (as defined formally above). However, the *cor* function also allows us to compute rank order correlations if we so desire. Rank order correlations are robust against outliers, which makes them preferable to product-moment correlations in some situations (they are also sometimes referred to as non-parametric correlations).
+
+In order to change the type of correlation coefficient, we can specify the function argument *method* when calling the *cor* function. This argument has a default called "pearson", which computes the product-moment correlation. If we instead change it to "kendall" or "spearman", R will instead compute Kendall's $\tau$ or Spearman's $\rho$, both of which are rank order correlations.
+
+
+## How to handle missing data
+
+When we want to compute correlation coefficients using the *cor* function, we need to make sure that there are no missing values in the objects we feed the function. Otherwise, R will return *NA* whenever one of the contribution observations is *NA*. 
+In order to compute valid correlation coefficient, we need to use the function argument *use*. The default value is "everything", nut if some of our observations are *NA* we don't want to use everything. We have two options: "complete.obs" and "pairwise.complete.obs".
+
+If we want to compute the correlation of two variables, both options do the same: they remove all cases in which there is a missing value before computing the correlation coefficient.
+
+If we want R to compute correlation matrix for three or more variables instead, the two values for *use* differ slightly. Using "complete.obs" will prompt R to remove all cases with at least one *NA* in any of the variables. This will ensure equal sample sizes for all computed correlation coefficient but may result in an unnecessary loss of data. For example, when a person has a missing in only one variable, we can still use their data to compute correlations between the remaining variables.
+
+If we use "pairwise.complete.obs" instead, R will only exclude cases with an *NA* for the computation of those correlation coefficients which involve the missing response. That means, we use as many observations as possible to compute each correlation at the risk of creating slight imbalances between correlation coefficients regarding their underlying sample.
+
+
+## Testing for significant correlations
+
+So far, we have only computed correlation coefficients. However, most of the time, we will also want to know whether the correlations in our data are so strong that we can reject the Null hypothesis that there is no linear relationship between the variables.
+
+We can test for statistical significance using the function *cor.test*. This function takes two numeric vectors of the same length as function arguments *x* and *y*. It also automatically removes cases with *NA*s.
+
+Just as with the *cor* function, we can specify the type of correlation coefficient we want to test for significance using the function argument *method*. As with the *cor* function, the default is "pearson", but we can change it to "kendall" or "spearman" if we want.
+
+Since direction matters when dealing with correlations, we can also specify the type of our alternative hypothesis using the function argument *alternative*. The default is "two.sided", which tests whether the correlation is different from zero. We can change this argument to "greater" or "less" to test the directional hypotheses that *r* is positive or that it is negative, respectively.
+
+Let's look at an example, in which we ant to run a two-tailed significant test on a product-moment correlation. Here is what the code would look like:
+
+```{r}
+#| eval: false
+#| echo: true
+# create two numeric vectors
+v1 = 1:10     # just the numbers from 1 to 10
+v2 = exp(v1)  # e to the power of v1 (because why not)
+
+# test of significant correlation of v1 and v2
+cor.test(x = v1, y = v2)
+```
+
+Running this code will prompt R to return a lot if information in the console. Here is that the output looks like:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# create two numeric vectors
+v1 = 1:10     # just the numbers from 1 to 10
+v2 = exp(v1)  # e to the power of v1 (because why not)
+
+# test of significant correlation of v1 and v2
+cor.test(x = v1, y = v2)
+```
+:::
+
+From this output, we can tell:
+
+- the type of correlation we tested, namely the product-moment correlation (makes sense because this default,a nd we did not change it)
+- what data the correlation test is based on (*v1* and *v2*)
+- that our test was two-tailed because our alternative hypothesis was that $r$ is non-zero (also a default we did not change)
+- the test statistics of the underlying $t$-test, that is, the empirical $t$ value, its degrees of freedom, and the $p$-value
+- the correlation coefficient and a 95% confidence interval (we could change the confidence level to something else using the *conf.level* argument; 0.95 is the default)
+
+In the example above, the $p$-value of the test justifies rejecting the Null hypothesis.
+
+Let's look at another example, in which we run a one-tailed test of significance on Spearman's $\rho$, testing whether the correlation is greater than zero. Code as follows:
+
+```{r}
+#| eval: false
+#| echo: true
+# create two numeric vectors
+v1 = c(11, 14, 15, 10, 9, 4, 7, 8, 17, 6)
+v2 = c(12, 15, 17, 18, 5, 6, 9, 14, 8, 11)
+
+# test of significant correlation of v1 and v2
+cor.test(x = v1, y = v2, method = "spearman",
+         alternative = "greater")
+```
+The output in the console looks slightly different, mainly because we tested a rank order correlation (see below).
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# create two numeric vectors
+v1 = c(11, 14, 15, 10, 9, 4, 7, 8, 17, 6)
+v2 = c(12, 15, 17, 18, 5, 6, 9, 14, 8, 11)
+
+# test of significant correlation of v1 and v2
+cor.test(x = v1, y = v2, method = "spearman",
+         alternative = "greater")
+```
+:::
+
+As we can see, R again tells us which type of correlation we tested, and our alternative hypothesis looked like. Since we tested Spearman's $\rho$, the underlying statistical test is not a $t$-test (remember that this is a non-parametric correlation). Accordingly, R will show us a different test statistic names $S$ and the corresponding $p$-value. Finally, R will tell us the correlation coefficient, but there will be no 95% confidence interval (R cannot compute it without assuming an underlying parametric function).
+
+In this second example, Spearman's $\rho$ is not significantly greater than zero. Thus, we have to concede that the result is uninformative.

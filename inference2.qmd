@@ -1,200 +1,222 @@
 ---
-title: "Correlations"
+title: "The Chi² Test"
 ---
 
-If we want to test whether there is a linear relation between two continuous variables $x$ and $y$, we can compute the correlation coefficient $r$ as a measure of the strength of that relation. The correlation coefficient is defined as follows:
+The $\chi^2$-test allows us to test for deviations between observed and expected frequencies. The $\chi^2$ distribution is formalised as follows:
 
-$r_{x,y} = \frac{cov(x,y)}{\sigma_x\sigma_y} = \frac{(x_i-\bar{x})(y_i-\bar{y})}{\sigma_x\sigma_y}$
+$\chi^2 = \frac{(x_i - e_i)^2}{e_i}$ 
 
-As we can see, the correlation coefficient is the standardised covariance of $x$ and $y$. The standardisation (dividing the covariance by the product of the standard deviations of $x$ and $y$) ensures that - unlike the covariance - the correlation coefficient is limited to the range from -1 to 1. Here, -1 indicates a perfect negative linear relationship, 1 indicates a perfect positive linear relationship, and 0 means that there is no linear relationship between $x$ and $y$.
+Here, $x_i$ denote the observed frequencies in category *i* whereas *e_i* represents the expected frequencies given some assumed distribution. In brief, the larger the discrepancies between the observed and expected frequencies, the larger the $\chi^2$-value becomes. If it exceeds a certain threshold (defined by the degrees of freedom of the specific test), we reject the Null hypothesis and decide to believe that the deviations of the observed from the expected frequencies are systematic.
 
-:::{.alert .alert-info}
-A common misconception is that a correlation of zero means that two variables are **unrelated**. This is not the case. The two variables could be strongly related, but if the relation is non-linear, a correlation coefficient may be unable to capture this relation.
+The most common analyses for which the $\chi^2$-test is used are:
 
-Many non-linear relations can be approximated - with some loss of precision - via a linear relation. That is, the resulting correlation coefficient is non-zero. However, a non-zero correlation coefficient is not evidence for the true relation of $x$ and $y$ being linear.
-:::
+- tests of observed frequencies against chance (all outcomes are equally probable)
+- tests of observed frequencies against specific non-equal probabilities 
+- tests of systematic co-variation in contingency tables
+
+If we want to run any of these $\chi^2$-tests, we can use an R function called *chisq.test*. Which function argument the *chisq.test* function needs depends on what we want to do. Therefore, we will look at each case separately in the following.
 
 
-## Computing correlations in R
+## Test of observed frequencies against chance
 
-We can compute the correlation coefficient $\rho$ in R using the function *cor*. We can use the *cor* function in two ways:
+This is the simplest form of the $\chi^2$-test. To run this test, we need only feed the *chisq.test* function a single function argument *x*, namely a numeric vector of length 2 or greater, containing the frequencies we want to analyse.
 
-The first way is to feed the function two numerical vectors of the same length as two separate function arguments, *x* and *y*. R will then compute the correlation between *x* and *y*. Here is what the syntax looks like:
+The function has another argument called *p* which specifies the expected probabilities against which to test the observed frequencies. The default value of this argument is equi-probability. That is, if we do not specify it, R will automatically test whether the observed frequencies systematically differ from a chance distribution.
 
-```{r}
-#| echo: true
-#| eval: false
-# create a numeric vector
-v1 = -10:10
-
-# create a second numeric vector (square of v1)
-v2 = v1^2
-
-# compute the correlation of v1 and v2
-cor(x = v1, y = v2)
-
-```
-If we run this code, R will return the correlation coefficient a single number in the console (see blow).
-
-:::{.alert .alert-warning}
-```{r}
-#| echo: false
-#| eval: true
-# create a numeric vector
-v1 = -10:10
-
-# create a second numeric vector (square of v1)
-v2 = v1^2
-
-# compute the correlation of v1 and v2
-cor(v1, v2)
-
-```
-:::
-
-In our example, the correlation is zero despite *y* being a function of *x* ($y = x^2$). The reason is that the relationship of *x* and *y* is non-linear.
-
-The second way, in which we can use the *cor* function is to feed it a numeric matrix (or data frame that contains only numeric variables) as the sole function argument *x*. If we do that, R will correlate each column of the matrix (or data frame) with all other columns - including itself - and create a correlation matrix. Here is an example.
+Here is an example of how the syntax for this test looks:
 
 ```{r}
 #| eval: false
 #| echo: true
-# create three numeric vectors
-v1 = 1:10     # just the numbers from 1 to 10
-v2 = sqrt(v1) # the square root of v1
-v3 = log(v1)  # the natural logarithm of v1
+#| code-overflow: wrap
+# create a vector containing frequencies for three categories
+v1 = c(19, 33, 21)
 
-# generate a numeric 10x3 matrix from the
-# three vectors using the cbind function
-m1 = cbind(v1, v2, v3)
-
-# compute the correlation matrix for m1
-cor(x = m1)
+# test for deviation from equal probabilities
+chisq.test(x = v1)
 ```
 
-Running this code will lead R to return a numeric matrix containing the correlations in the console. Since we fed the *cor* function a matrix with three columns, the output will be a $3\times3$ matrix (see below).
+If we run the syntax above, R will conduct the $\chi^2$-test by comparing the observed frequencies shown in *v1* against chance (expected frequencies are computed using a probability of one third for each of the three categories). The output looks as follows:
 
 :::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
-# create three numeric vectors
-v1 = 1:10     # just the numbers from 1 to 10
-v2 = sqrt(v1) # the square root of v1
-v3 = log(v1)  # the natural logarithm of v1
+# create a vector containing frequencies for three categories
+v1 = c(19, 33, 21)
 
-# generate a numeric 10x3 matrix from the
-# three vectors using the cbind function
-m1 = cbind(v1, v2, v3)
-
-# compute the correlation matrix for m1
-cor(x = m1)
+# test for deviation from equal probabilities
+chisq.test(x = v1)
 ```
 :::
 
-Three things about the correlation matrix are noteworthy:
-
-1. In the diagonal of the matrix, each correlation is 1. This makes sense because in the diagonal, we correlate each variable with itself. 
-2. The number above the diagonal mirror those below it. This make sense, too. The correlation of *v1* and *v2* is the same as the correlation of *v2* and *v1* (the order of the variables does not matter when computing a correlation).
-3. Specific to our example, correlations between the three variables are close to perfect even though their relationships are non-linear. This shows how good linear approximations may be in some cases even thought the the assumption of a linear relationship is technically wrong.
+As we can see, R tells us which object it ran the test on (*v1*). It also tells us the empirical $\chi^2$ value (named X-squared), the degrees of freedom of this test (2 because *v1* has three categories), and the associated $p$-value. In our example, and given that we run the test using the conventional $\alpha$ level of 5%, the differences in the observed frequencies do not warrant rejecting the Null hypothesis. That is, we cannot state that some of the categories in *v1* are more likely than others.
 
 
-## Rank order correaltions
+## Test of observed frequencies against a predefined probability
 
-The default correlation coefficient we can compute with the *cor* function is the product-moment correlation (as defined formally above). However, the *cor* function also allows us to compute rank order correlations if we so desire. Rank order correlations are robust against outliers, which makes them preferable to product-moment correlations in some situations (they are also sometimes referred to as non-parametric correlations).
+Let's assume that we want to compare *v1* not against chance but against unequal probabilities for the three categories. For example, our Null hypothesis could state that the first and second category should occur in 25% of cases each while category three should account for the remaining 50%. To run this test, the only change we need to make to the way we called the *chisq.test* function in the example above is to specify the function argument *p* and define it as a numeric vector containing the probabilities. 
 
-In order to change the type of correlation coefficient, we can specify the function argument *method* when calling the *cor* function. This argument has a default called "pearson", which computes the product-moment correlation. If we instead change it to "kendall" or "spearman", R will instead compute Kendall's $\tau$ or Spearman's $\rho$, both of which are rank order correlations.
-
-
-## How to handle missing data
-
-When we want to compute correlation coefficients using the *cor* function, we need to make sure that there are no missing values in the objects we feed the function. Otherwise, R will return *NA* whenever one of the contribution observations is *NA*. 
-In order to compute valid correlation coefficient, we need to use the function argument *use*. The default value is "everything", nut if some of our observations are *NA* we don't want to use everything. We have two options: "complete.obs" and "pairwise.complete.obs".
-
-If we want to compute the correlation of two variables, both options do the same: they remove all cases in which there is a missing value before computing the correlation coefficient.
-
-If we want R to compute correlation matrix for three or more variables instead, the two values for *use* differ slightly. Using "complete.obs" will prompt R to remove all cases with at least one *NA* in any of the variables. This will ensure equal sample sizes for all computed correlation coefficient but may result in an unnecessary loss of data. For example, when a person has a missing in only one variable, we can still use their data to compute correlations between the remaining variables.
-
-If we use "pairwise.complete.obs" instead, R will only exclude cases with an *NA* for the computation of those correlation coefficients which involve the missing response. That means, we use as many observations as possible to compute each correlation at the risk of creating slight imbalances between correlation coefficients regarding their underlying sample.
-
-
-## Testing for significant correlations
-
-So far, we have only computed correlation coefficients. However, most of the time, we will also want to know whether the correlations in our data are so strong that we can reject the Null hypothesis that there is no linear relationship between the variables.
-
-We can test for statistical significance using the function *cor.test*. This function takes two numeric vectors of the same length as function arguments *x* and *y*. It also automatically removes cases with *NA*s.
-
-Just as with the *cor* function, we can specify the type of correlation coefficient we want to test for significance using the function argument *method*. As with the *cor* function, the default is "pearson", but we can change it to "kendall" or "spearman" if we want.
-
-Since direction matters when dealing with correlations, we can also specify the type of our alternative hypothesis using the function argument *alternative*. The default is "two.sided", which tests whether the correlation is different from zero. We can change this argument to "greater" or "less" to test the directional hypotheses that *r* is positive or that it is negative, respectively.
-
-Let's look at an example, in which we ant to run a two-tailed significant test on a product-moment correlation. Here is what the code would look like:
+This vector of probabilities needs to be of the same length as the vector of observed frequencies. In addition, since we are dealing with probabilities, all elements need to range between 0 and 1, and their sum must equal 1. Let's have a look at the syntax.
 
 ```{r}
 #| eval: false
 #| echo: true
-# create two numeric vectors
-v1 = 1:10     # just the numbers from 1 to 10
-v2 = exp(v1)  # e to the power of v1 (because why not)
-
-# test of significant correlation of v1 and v2
-cor.test(x = v1, y = v2)
+#| code-overflow: wrap
+# test for deviation from pre-defined non-equal probabilities
+chisq.test(x = v1, p = c(0.25, 0.25, 0.50))
 ```
 
-Running this code will prompt R to return a lot if information in the console. Here is that the output looks like:
+The output of the test looks very much like the one in the previous example. Again, R shows us the empirical $\chi^2$-value, the degrees of freedom, and the $p$-value (see below).
 
 :::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
-# create two numeric vectors
-v1 = 1:10     # just the numbers from 1 to 10
-v2 = exp(v1)  # e to the power of v1 (because why not)
-
-# test of significant correlation of v1 and v2
-cor.test(x = v1, y = v2)
+chisq.test(x = v1, p = c(0.25, 0.25, 0.50))
 ```
 :::
 
-From this output, we can tell:
+This time, the empirical $\chi^2$ value is greater, and the corresponding *p*-value is small enough to reject the Null hypothesis. That is, we can state that *v1* was not drawn from a population, in which category 3 is twice as frequent as categories 1 and 2. 
 
-- the type of correlation we tested, namely the product-moment correlation (makes sense because this default,a nd we did not change it)
-- what data the correlation test is based on (*v1* and *v2*)
-- that our test was two-tailed because our alternative hypothesis was that $r$ is non-zero (also a default we did not change)
-- the test statistics of the underlying $t$-test, that is, the empirical $t$ value, its degrees of freedom, and the $p$-value
-- the correlation coefficient and a 95% confidence interval (we could change the confidence level to something else using the *conf.level* argument; 0.95 is the default)
 
-In the example above, the $p$-value of the test justifies rejecting the Null hypothesis.
+## Tests for systematic covariation in contengency tables
 
-Let's look at another example, in which we run a one-tailed test of significance on Spearman's $\rho$, testing whether the correlation is greater than zero. Code as follows:
+In some cases, we may not be interested in comparing observed frequencies against a (theoretical) distribution, but rather to compare observed frequencies across two variables (i.e., in a two-dimensional contingency table). Conceptually, this boils down to testing - row-by-row or column-by-column - whether the underlying distribution of one variable is equal across all levels of the other variable. 
+
+To do so, we need to feed the *chisq.test* function a matrix of frequencies as the function  argument *x*. We no longer need to specify the function argument *p* because the expected frequencies are computed from the marginal frequencies of the contingency table assuming stochastic independence. 
+
+Lets look at an example. First, we need some data in table format. We can create such data using the function *matrix* or by combining several vectors of equal length using either the function *cbind* or *rbind* (these functions stack equally long vectors of the same type by column or row). Let's go with the *rbind* version for now.  
 
 ```{r}
 #| eval: false
 #| echo: true
-# create two numeric vectors
-v1 = c(11, 14, 15, 10, 9, 4, 7, 8, 17, 6)
-v2 = c(12, 15, 17, 18, 5, 6, 9, 14, 8, 11)
+# create a 2x3 contingency table by stacking 
+# two vectors containing frequencies row-wise
+data1 = rbind(c(762, 327, 68), 
+        c(484, 239, 77))
 
-# test of significant correlation of v1 and v2
-cor.test(x = v1, y = v2, method = "spearman",
-         alternative = "greater")
+# run a chi² test on the data
+chisq.test(data1)
 ```
-The output in the console looks slightly different, mainly because we tested a rank order correlation (see below).
+Running the code above will perform the $\chi^2$-test on the contingency table we created. Here is what the data looks like.
 
 :::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
-# create two numeric vectors
-v1 = c(11, 14, 15, 10, 9, 4, 7, 8, 17, 6)
-v2 = c(12, 15, 17, 18, 5, 6, 9, 14, 8, 11)
+data1 = rbind(c(762, 327, 68), 
+        c(484, 239, 77))
 
-# test of significant correlation of v1 and v2
-cor.test(x = v1, y = v2, method = "spearman",
-         alternative = "greater")
+data1
 ```
 :::
 
-As we can see, R again tells us which type of correlation we tested, and our alternative hypothesis looked like. Since we tested Spearman's $\rho$, the underlying statistical test is not a $t$-test (remember that this is a non-parametric correlation). Accordingly, R will show us a different test statistic names $S$ and the corresponding $p$-value. Finally, R will tell us the correlation coefficient, but there will be no 95% confidence interval (R cannot compute it without assuming an underlying parametric function).
+The output in the console when running the $\chi^2$-test looks as follows:
 
-In this second example, Spearman's $\rho$ is not significantly greater than zero. Thus, we have to concede that the result is uninformative.
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+chisq.test(data1)
+```
+:::
+
+Once more, R tells us the empirical $\chi^2$-value, the degrees of freedom (for $n\times m$ tables, the test has $n-1\times m-1$ degrees of freedom, which makes 2 in our example), and the $p$-value of the test. From the $p$-value, we can see that there is systematic co-variation, that is, some cells are more and others less frequent than we would expect if the two variables were unrelated.  
+
+
+## Extracting frequencies from data frames
+
+The data we want to feed into $\chi^2$-tests is usually contained in data frames. We can extract frequencies and even turn them into contingency tables using the *table* function. Let's consider an example, in which we have data from one thousand simulated ~~nerds~~ participants who told us their attitudes toward Star Trek and Star Wars (love, hate, indifferent).
+
+```{r}
+#| eval: true
+#| echo: false
+# simulate data for the example
+set.seed(12345) # for reproducibility
+my_df = data.frame(
+  ID = 1:1000,
+  starTrek = sample(c('love', 'hate', 'indifferent'), size = 1000,
+                    replace = T, prob = c(.60, .15, .25)),
+  starWars = sample(c('love', 'hate', 'indifferent'), size = 1000,
+                    replace = T, prob = c(.50, .15, .35))
+)
+```
+
+Let's say the data is contained in a data frame called *my_df*. We can use the function *head* to inspect the first six rows of the data frame to get a feeling for what the data looks like.
+
+```{r}
+#| eval: false
+#| echo: true
+# inspect the top of the data frame
+head(my_df)
+```
+
+Here is what appears in the consle:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# inspect the top of the data frame
+head(my_df)
+```
+:::
+
+We can now create a contingency table using the *table* function and define it as a new object. To this end, we need to feed the table function the two dimensions by which we want to organise the table as separate function arguments. Here is what the code looks like:
+
+```{r}
+#| eval: false
+#| echo: true
+# create a 3x3 contingency table of attitudes toward
+# Star Trek and Star Wars
+my_table = table(my_df$starTrek, my_df$starWars)
+
+# assign dimension names to the table (Star Trek goes first because
+# we entered it first into the table function above)
+# this step is optional but it makes the table more readable
+dimnames(my_table) = list(StarTrek = c('hate', 'indifferent', 'love'),
+                          StarWars = c('hate', 'indifferent', 'love'))
+```
+
+Once we have defined the new object, we can inspect the contingency table in the console by running its name as R code. Here is what it looks like:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# create a 3x3 contingency table of attitudes toward
+# Star Trek and Star Wars
+my_table = table(my_df$starTrek, my_df$starWars)
+
+# assign dimension names to the table (Star Trek goes first because
+# we entered it first into the table function above)
+dimnames(my_table) = list(StarTrek = c('hate', 'indifferent', 'love'),
+                          StarWars = c('hate', 'indifferent', 'love'))
+
+my_table
+```
+:::
+
+Now that we have created the contingency table from the data frame, we can feed it into the *chisq.test* function as its sol argument to test whether there is systematic co-variation between attitudes toward Star trek and Star Wars. Here is what the code looks like.
+
+```{r}
+#| eval: false
+#| echo: true
+chisq.test(my_table)
+```
+
+Here is the console output that results from running the test using the syntax above:
+
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# run a chi² test on the table
+chisq.test(my_table)
+```
+:::
+
+Running the test shows us the usual information in the console. In this specific example, the $p$-value does not allow rejecting the Null hypothesis. In other words, there is no evidence in our simulated data indicating that whether one's attitude toward Star Trek is in any way related on one's attitude toward Star Wars.

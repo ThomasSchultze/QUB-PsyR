@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.258">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>QUB-PsyR - Correlations</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/QUBlogoWsmall.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">QUB-PsyR</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-intro" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Intro</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-intro">    
+        <li>
+    <a class="dropdown-item" href="./intro1.html">
+ <span class="dropdown-text">R and RStudio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./intro2.html">
+ <span class="dropdown-text">Running Code in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./intro3.html">
+ <span class="dropdown-text">Objects and Functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./intro4.html">
+ <span class="dropdown-text">Data Frames and Lists</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./intro5.html">
+ <span class="dropdown-text">Saving and Loading Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-with-r-objects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Working with R Objects</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-working-with-r-objects">    
+        <li>
+    <a class="dropdown-item" href="./working1.html">
+ <span class="dropdown-text">Binary Operators</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./working2.html">
+ <span class="dropdown-text">Functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./working3.html">
+ <span class="dropdown-text">Numerical Indexing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./working4.html">
+ <span class="dropdown-text">Logical Indexing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./working5.html">
+ <span class="dropdown-text">R Packages</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-statistical-inference" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Statistical Inference</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-statistical-inference">    
+        <li>
+    <a class="dropdown-item" href="./inference0.html">
+ <span class="dropdown-text">A Primer on Statistical Inference</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference1.html">
+ <span class="dropdown-text">The t-test</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference2.html">
+ <span class="dropdown-text">The Chi²-test</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference3.html">
+ <span class="dropdown-text">Correlations</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Correlations</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>If we want to test whether there is a linear relation between two continuous variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, we can compute the correlation coefficient <span class="math inline">\(r\)</span> as a measure of the strength of that relation. The correlation coefficient is defined as follows:</p>
+<p><span class="math inline">\(r_{x,y} = \frac{cov(x,y)}{\sigma_x\sigma_y} = \frac{(x_i-\bar{x})(y_i-\bar{y})}{\sigma_x\sigma_y}\)</span></p>
+<p>As we can see, the correlation coefficient is the standardised covariance of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. The standardisation (dividing the covariance by the product of the standard deviations of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>) ensures that - unlike the covariance - the correlation coefficient is limited to the range from -1 to 1. Here, -1 indicates a perfect negative linear relationship, 1 indicates a perfect positive linear relationship, and 0 means that there is no linear relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
+<div class="alert alert-info">
+<p>A common misconception is that a correlation of zero means that two variables are <strong>unrelated</strong>. This is not the case. The two variables could be strongly related, but if the relation is non-linear, a correlation coefficient may be unable to capture this relation.</p>
+<p>Many non-linear relations can be approximated - with some loss of precision - via a linear relation. That is, the resulting correlation coefficient is non-zero. However, a non-zero correlation coefficient is not evidence for the true relation of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> being linear.</p>
+</div>
+<section id="computing-correlations-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="computing-correlations-in-r">Computing correlations in R</h2>
+<p>We can compute the correlation coefficient <span class="math inline">\(\rho\)</span> in R using the function <em>cor</em>. We can use the <em>cor</em> function in two ways:</p>
+<p>The first way is to feed the function two numerical vectors of the same length as two separate function arguments, <em>x</em> and <em>y</em>. R will then compute the correlation between <em>x</em> and <em>y</em>. Here is what the syntax looks like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a numeric vector</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create a second numeric vector (square of v1)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> v1<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the correlation of v1 and v2</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="at">x =</span> v1, <span class="at">y =</span> v2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If we run this code, R will return the correlation coefficient a single number in the console (see blow).</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+</div>
+<p>In our example, the correlation is zero despite <em>y</em> being a function of <em>x</em> (<span class="math inline">\(y = x^2\)</span>). The reason is that the relationship of <em>x</em> and <em>y</em> is non-linear.</p>
+<p>The second way, in which we can use the <em>cor</em> function is to feed it a numeric matrix (or data frame that contains only numeric variables) as the sole function argument <em>x</em>. If we do that, R will correlate each column of the matrix (or data frame) with all other columns - including itself - and create a correlation matrix. Here is an example.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create three numeric vectors</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>     <span class="co"># just the numbers from 1 to 10</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> <span class="fu">sqrt</span>(v1) <span class="co"># the square root of v1</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>v3 <span class="ot">=</span> <span class="fu">log</span>(v1)  <span class="co"># the natural logarithm of v1</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a numeric 10x3 matrix from the</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># three vectors using the cbind function</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">cbind</span>(v1, v2, v3)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the correlation matrix for m1</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="at">x =</span> m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running this code will lead R to return a numeric matrix containing the correlations in the console. Since we fed the <em>cor</em> function a matrix with three columns, the output will be a <span class="math inline">\(3\times3\)</span> matrix (see below).</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>          v1        v2        v3
+v1 1.0000000 0.9891838 0.9516624
+v2 0.9891838 1.0000000 0.9861685
+v3 0.9516624 0.9861685 1.0000000</code></pre>
+</div>
+</div>
+</div>
+<p>Three things about the correlation matrix are noteworthy:</p>
+<ol type="1">
+<li>In the diagonal of the matrix, each correlation is 1. This makes sense because in the diagonal, we correlate each variable with itself.</li>
+<li>The number above the diagonal mirror those below it. This make sense, too. The correlation of <em>v1</em> and <em>v2</em> is the same as the correlation of <em>v2</em> and <em>v1</em> (the order of the variables does not matter when computing a correlation).</li>
+<li>Specific to our example, correlations between the three variables are close to perfect even though their relationships are non-linear. This shows how good linear approximations may be in some cases even thought the the assumption of a linear relationship is technically wrong.</li>
+</ol>
+</section>
+<section id="rank-order-correaltions" class="level2">
+<h2 class="anchored" data-anchor-id="rank-order-correaltions">Rank order correaltions</h2>
+<p>The default correlation coefficient we can compute with the <em>cor</em> function is the product-moment correlation (as defined formally above). However, the <em>cor</em> function also allows us to compute rank order correlations if we so desire. Rank order correlations are robust against outliers, which makes them preferable to product-moment correlations in some situations (they are also sometimes referred to as non-parametric correlations).</p>
+<p>In order to change the type of correlation coefficient, we can specify the function argument <em>method</em> when calling the <em>cor</em> function. This argument has a default called “pearson”, which computes the product-moment correlation. If we instead change it to “kendall” or “spearman”, R will instead compute Kendall’s <span class="math inline">\(\tau\)</span> or Spearman’s <span class="math inline">\(\rho\)</span>, both of which are rank order correlations.</p>
+</section>
+<section id="how-to-handle-missing-data" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-handle-missing-data">How to handle missing data</h2>
+<p>When we want to compute correlation coefficients using the <em>cor</em> function, we need to make sure that there are no missing values in the objects we feed the function. Otherwise, R will return <em>NA</em> whenever one of the contribution observations is <em>NA</em>. In order to compute valid correlation coefficient, we need to use the function argument <em>use</em>. The default value is “everything”, nut if some of our observations are <em>NA</em> we don’t want to use everything. We have two options: “complete.obs” and “pairwise.complete.obs”.</p>
+<p>If we want to compute the correlation of two variables, both options do the same: they remove all cases in which there is a missing value before computing the correlation coefficient.</p>
+<p>If we want R to compute correlation matrix for three or more variables instead, the two values for <em>use</em> differ slightly. Using “complete.obs” will prompt R to remove all cases with at least one <em>NA</em> in any of the variables. This will ensure equal sample sizes for all computed correlation coefficient but may result in an unnecessary loss of data. For example, when a person has a missing in only one variable, we can still use their data to compute correlations between the remaining variables.</p>
+<p>If we use “pairwise.complete.obs” instead, R will only exclude cases with an <em>NA</em> for the computation of those correlation coefficients which involve the missing response. That means, we use as many observations as possible to compute each correlation at the risk of creating slight imbalances between correlation coefficients regarding their underlying sample.</p>
+</section>
+<section id="testing-for-significant-correlations" class="level2">
+<h2 class="anchored" data-anchor-id="testing-for-significant-correlations">Testing for significant correlations</h2>
+<p>So far, we have only computed correlation coefficients. However, most of the time, we will also want to know whether the correlations in our data are so strong that we can reject the Null hypothesis that there is no linear relationship between the variables.</p>
+<p>We can test for statistical significance using the function <em>cor.test</em>. This function takes two numeric vectors of the same length as function arguments <em>x</em> and <em>y</em>. It also automatically removes cases with <em>NA</em>s.</p>
+<p>Just as with the <em>cor</em> function, we can specify the type of correlation coefficient we want to test for significance using the function argument <em>method</em>. As with the <em>cor</em> function, the default is “pearson”, but we can change it to “kendall” or “spearman” if we want.</p>
+<p>Since direction matters when dealing with correlations, we can also specify the type of our alternative hypothesis using the function argument <em>alternative</em>. The default is “two.sided”, which tests whether the correlation is different from zero. We can change this argument to “greater” or “less” to test the directional hypotheses that <em>r</em> is positive or that it is negative, respectively.</p>
+<p>Let’s look at an example, in which we ant to run a two-tailed significant test on a product-moment correlation. Here is what the code would look like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create two numeric vectors</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>     <span class="co"># just the numbers from 1 to 10</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> <span class="fu">exp</span>(v1)  <span class="co"># e to the power of v1 (because why not)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># test of significant correlation of v1 and v2</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(<span class="at">x =</span> v1, <span class="at">y =</span> v2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running this code will prompt R to return a lot if information in the console. Here is that the output looks like:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's product-moment correlation
+
+data:  v1 and v2
+t = 2.9082, df = 8, p-value = 0.01964
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.159019 0.927748
+sample estimates:
+      cor 
+0.7168704 </code></pre>
+</div>
+</div>
+</div>
+<p>From this output, we can tell:</p>
+<ul>
+<li>the type of correlation we tested, namely the product-moment correlation (makes sense because this default,a nd we did not change it)</li>
+<li>what data the correlation test is based on (<em>v1</em> and <em>v2</em>)</li>
+<li>that our test was two-tailed because our alternative hypothesis was that <span class="math inline">\(r\)</span> is non-zero (also a default we did not change)</li>
+<li>the test statistics of the underlying <span class="math inline">\(t\)</span>-test, that is, the empirical <span class="math inline">\(t\)</span> value, its degrees of freedom, and the <span class="math inline">\(p\)</span>-value</li>
+<li>the correlation coefficient and a 95% confidence interval (we could change the confidence level to something else using the <em>conf.level</em> argument; 0.95 is the default)</li>
+</ul>
+<p>In the example above, the <span class="math inline">\(p\)</span>-value of the test justifies rejecting the Null hypothesis.</p>
+<p>Let’s look at another example, in which we run a one-tailed test of significance on Spearman’s <span class="math inline">\(\rho\)</span>, testing whether the correlation is greater than zero. Code as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create two numeric vectors</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">17</span>, <span class="dv">6</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">15</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">14</span>, <span class="dv">8</span>, <span class="dv">11</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># test of significant correlation of v1 and v2</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(<span class="at">x =</span> v1, <span class="at">y =</span> v2, <span class="at">method =</span> <span class="st">"spearman"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">alternative =</span> <span class="st">"greater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The output in the console looks slightly different, mainly because we tested a rank order correlation (see below).</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  v1 and v2
+S = 102, p-value = 0.1395
+alternative hypothesis: true rho is greater than 0
+sample estimates:
+      rho 
+0.3818182 </code></pre>
+</div>
+</div>
+</div>
+<p>As we can see, R again tells us which type of correlation we tested, and our alternative hypothesis looked like. Since we tested Spearman’s <span class="math inline">\(\rho\)</span>, the underlying statistical test is not a <span class="math inline">\(t\)</span>-test (remember that this is a non-parametric correlation). Accordingly, R will show us a different test statistic names <span class="math inline">\(S\)</span> and the corresponding <span class="math inline">\(p\)</span>-value. Finally, R will tell us the correlation coefficient, but there will be no 95% confidence interval (R cannot compute it without assuming an underlying parametric function).</p>
+<p>In this second example, Spearman’s <span class="math inline">\(\rho\)</span> is not significantly greater than zero. Thus, we have to concede that the result is uninformative.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

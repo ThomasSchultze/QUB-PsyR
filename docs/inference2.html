@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>QUB-PsyR - Correlations</title>
+<title>QUB-PsyR - The Chi² Test</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -210,10 +210,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>  
         <li>
     <a class="dropdown-item" href="./inference1.html">
- <span class="dropdown-text">The Chi²-test</span></a>
+ <span class="dropdown-text">The t-test</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./inference2.html">
+ <span class="dropdown-text">The Chi²-test</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference3.html">
  <span class="dropdown-text">Correlations</span></a>
   </li>  
     </ul>
@@ -238,7 +242,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Correlations</h1>
+<h1 class="title">The Chi² Test</h1>
 </div>
 
 
@@ -253,150 +257,168 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>If we want to test whether there is a linear relation between two continuous variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, we can compute the correlation coefficient <span class="math inline">\(r\)</span> as a measure of the strength of that relation. The correlation coefficient is defined as follows:</p>
-<p><span class="math inline">\(r_{x,y} = \frac{cov(x,y)}{\sigma_x\sigma_y} = \frac{(x_i-\bar{x})(y_i-\bar{y})}{\sigma_x\sigma_y}\)</span></p>
-<p>As we can see, the correlation coefficient is the standardised covariance of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. The standardisation (dividing the covariance by the product of the standard deviations of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>) ensures that - unlike the covariance - the correlation coefficient is limited to the range from -1 to 1. Here, -1 indicates a perfect negative linear relationship, 1 indicates a perfect positive linear relationship, and 0 means that there is no linear relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
-<div class="alert alert-info">
-<p>A common misconception is that a correlation of zero means that two variables are <strong>unrelated</strong>. This is not the case. The two variables could be strongly related, but if the relation is non-linear, a correlation coefficient may be unable to capture this relation.</p>
-<p>Many non-linear relations can be approximated - with some loss of precision - via a linear relation. That is, the resulting correlation coefficient is non-zero. However, a non-zero correlation coefficient is not evidence for the true relation of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> being linear.</p>
-</div>
-<section id="computing-correlations-in-r" class="level2">
-<h2 class="anchored" data-anchor-id="computing-correlations-in-r">Computing correlations in R</h2>
-<p>We can compute the correlation coefficient <span class="math inline">\(\rho\)</span> in R using the function <em>cor</em>. We can use the <em>cor</em> function in two ways:</p>
-<p>The first way is to feed the function two numerical vectors of the same length as two separate function arguments, <em>x</em> and <em>y</em>. R will then compute the correlation between <em>x</em> and <em>y</em>. Here is what the syntax looks like:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a numeric vector</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create a second numeric vector (square of v1)</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> v1<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the correlation of v1 and v2</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="at">x =</span> v1, <span class="at">y =</span> v2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>If we run this code, R will return the correlation coefficient a single number in the console (see blow).</p>
-<div class="alert alert-warning">
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-</div>
-</div>
-<p>In our example, the correlation is zero despite <em>y</em> being a function of <em>x</em> (<span class="math inline">\(y = x^2\)</span>). The reason is that the relationship of <em>x</em> and <em>y</em> is non-linear.</p>
-<p>The second way, in which we can use the <em>cor</em> function is to feed it a numeric matrix (or data frame that contains only numeric variables) as the sole function argument <em>x</em>. If we do that, R will correlate each column of the matrix (or data frame) with all other columns - including itself - and create a correlation matrix. Here is an example.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create three numeric vectors</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>     <span class="co"># just the numbers from 1 to 10</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> <span class="fu">sqrt</span>(v1) <span class="co"># the square root of v1</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>v3 <span class="ot">=</span> <span class="fu">log</span>(v1)  <span class="co"># the natural logarithm of v1</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a numeric 10x3 matrix from the</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># three vectors using the cbind function</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">cbind</span>(v1, v2, v3)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the correlation matrix for m1</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="at">x =</span> m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Running this code will lead R to return a numeric matrix containing the correlations in the console. Since we fed the <em>cor</em> function a matrix with three columns, the output will be a <span class="math inline">\(3\times3\)</span> matrix (see below).</p>
-<div class="alert alert-warning">
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>          v1        v2        v3
-v1 1.0000000 0.9891838 0.9516624
-v2 0.9891838 1.0000000 0.9861685
-v3 0.9516624 0.9861685 1.0000000</code></pre>
-</div>
-</div>
-</div>
-<p>Three things about the correlation matrix are noteworthy:</p>
-<ol type="1">
-<li>In the diagonal of the matrix, each correlation is 1. This makes sense because in the diagonal, we correlate each variable with itself.</li>
-<li>The number above the diagonal mirror those below it. This make sense, too. The correlation of <em>v1</em> and <em>v2</em> is the same as the correlation of <em>v2</em> and <em>v1</em> (the order of the variables does not matter when computing a correlation).</li>
-<li>Specific to our example, correlations between the three variables are close to perfect even though their relationships are non-linear. This shows how good linear approximations may be in some cases even thought the the assumption of a linear relationship is technically wrong.</li>
-</ol>
-</section>
-<section id="rank-order-correaltions" class="level2">
-<h2 class="anchored" data-anchor-id="rank-order-correaltions">Rank order correaltions</h2>
-<p>The default correlation coefficient we can compute with the <em>cor</em> function is the product-moment correlation (as defined formally above). However, the <em>cor</em> function also allows us to compute rank order correlations if we so desire. Rank order correlations are robust against outliers, which makes them preferable to product-moment correlations in some situations (they are also sometimes referred to as non-parametric correlations).</p>
-<p>In order to change the type of correlation coefficient, we can specify the function argument <em>method</em> when calling the <em>cor</em> function. This argument has a default called “pearson”, which computes the product-moment correlation. If we instead change it to “kendall” or “spearman”, R will instead compute Kendall’s <span class="math inline">\(\tau\)</span> or Spearman’s <span class="math inline">\(\rho\)</span>, both of which are rank order correlations.</p>
-</section>
-<section id="how-to-handle-missing-data" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-handle-missing-data">How to handle missing data</h2>
-<p>When we want to compute correlation coefficients using the <em>cor</em> function, we need to make sure that there are no missing values in the objects we feed the function. Otherwise, R will return <em>NA</em> whenever one of the contribution observations is <em>NA</em>. In order to compute valid correlation coefficient, we need to use the function argument <em>use</em>. The default value is “everything”, nut if some of our observations are <em>NA</em> we don’t want to use everything. We have two options: “complete.obs” and “pairwise.complete.obs”.</p>
-<p>If we want to compute the correlation of two variables, both options do the same: they remove all cases in which there is a missing value before computing the correlation coefficient.</p>
-<p>If we want R to compute correlation matrix for three or more variables instead, the two values for <em>use</em> differ slightly. Using “complete.obs” will prompt R to remove all cases with at least one <em>NA</em> in any of the variables. This will ensure equal sample sizes for all computed correlation coefficient but may result in an unnecessary loss of data. For example, when a person has a missing in only one variable, we can still use their data to compute correlations between the remaining variables.</p>
-<p>If we use “pairwise.complete.obs” instead, R will only exclude cases with an <em>NA</em> for the computation of those correlation coefficients which involve the missing response. That means, we use as many observations as possible to compute each correlation at the risk of creating slight imbalances between correlation coefficients regarding their underlying sample.</p>
-</section>
-<section id="testing-for-significant-correlations" class="level2">
-<h2 class="anchored" data-anchor-id="testing-for-significant-correlations">Testing for significant correlations</h2>
-<p>So far, we have only computed correlation coefficients. However, most of the time, we will also want to know whether the correlations in our data are so strong that we can reject the Null hypothesis that there is no linear relationship between the variables.</p>
-<p>We can test for statistical significance using the function <em>cor.test</em>. This function takes two numeric vectors of the same length as function arguments <em>x</em> and <em>y</em>. It also automatically removes cases with <em>NA</em>s.</p>
-<p>Just as with the <em>cor</em> function, we can specify the type of correlation coefficient we want to test for significance using the function argument <em>method</em>. As with the <em>cor</em> function, the default is “pearson”, but we can change it to “kendall” or “spearman” if we want.</p>
-<p>Since direction matters when dealing with correlations, we can also specify the type of our alternative hypothesis using the function argument <em>alternative</em>. The default is “two.sided”, which tests whether the correlation is different from zero. We can change this argument to “greater” or “less” to test the directional hypotheses that <em>r</em> is positive or that it is negative, respectively.</p>
-<p>Let’s look at an example, in which we ant to run a two-tailed significant test on a product-moment correlation. Here is what the code would look like:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create two numeric vectors</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>     <span class="co"># just the numbers from 1 to 10</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> <span class="fu">exp</span>(v1)  <span class="co"># e to the power of v1 (because why not)</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># test of significant correlation of v1 and v2</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(<span class="at">x =</span> v1, <span class="at">y =</span> v2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Running this code will prompt R to return a lot if information in the console. Here is that the output looks like:</p>
-<div class="alert alert-warning">
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    Pearson's product-moment correlation
-
-data:  v1 and v2
-t = 2.9082, df = 8, p-value = 0.01964
-alternative hypothesis: true correlation is not equal to 0
-95 percent confidence interval:
- 0.159019 0.927748
-sample estimates:
-      cor 
-0.7168704 </code></pre>
-</div>
-</div>
-</div>
-<p>From this output, we can tell:</p>
+<p>The <span class="math inline">\(\chi^2\)</span>-test allows us to test for deviations between observed and expected frequencies. The <span class="math inline">\(\chi^2\)</span> distribution is formalised as follows:</p>
+<p><span class="math inline">\(\chi^2 = \frac{(x_i - e_i)^2}{e_i}\)</span></p>
+<p>Here, <span class="math inline">\(x_i\)</span> denote the observed frequencies in category <em>i</em> whereas <em>e_i</em> represents the expected frequencies given some assumed distribution. In brief, the larger the discrepancies between the observed and expected frequencies, the larger the <span class="math inline">\(\chi^2\)</span>-value becomes. If it exceeds a certain threshold (defined by the degrees of freedom of the specific test), we reject the Null hypothesis and decide to believe that the deviations of the observed from the expected frequencies are systematic.</p>
+<p>The most common analyses for which the <span class="math inline">\(\chi^2\)</span>-test is used are:</p>
 <ul>
-<li>the type of correlation we tested, namely the product-moment correlation (makes sense because this default,a nd we did not change it)</li>
-<li>what data the correlation test is based on (<em>v1</em> and <em>v2</em>)</li>
-<li>that our test was two-tailed because our alternative hypothesis was that <span class="math inline">\(r\)</span> is non-zero (also a default we did not change)</li>
-<li>the test statistics of the underlying <span class="math inline">\(t\)</span>-test, that is, the empirical <span class="math inline">\(t\)</span> value, its degrees of freedom, and the <span class="math inline">\(p\)</span>-value</li>
-<li>the correlation coefficient and a 95% confidence interval (we could change the confidence level to something else using the <em>conf.level</em> argument; 0.95 is the default)</li>
+<li>tests of observed frequencies against chance (all outcomes are equally probable)</li>
+<li>tests of observed frequencies against specific non-equal probabilities</li>
+<li>tests of systematic co-variation in contingency tables</li>
 </ul>
-<p>In the example above, the <span class="math inline">\(p\)</span>-value of the test justifies rejecting the Null hypothesis.</p>
-<p>Let’s look at another example, in which we run a one-tailed test of significance on Spearman’s <span class="math inline">\(\rho\)</span>, testing whether the correlation is greater than zero. Code as follows:</p>
+<p>If we want to run any of these <span class="math inline">\(\chi^2\)</span>-tests, we can use an R function called <em>chisq.test</em>. Which function argument the <em>chisq.test</em> function needs depends on what we want to do. Therefore, we will look at each case separately in the following.</p>
+<section id="test-of-observed-frequencies-against-chance" class="level2">
+<h2 class="anchored" data-anchor-id="test-of-observed-frequencies-against-chance">Test of observed frequencies against chance</h2>
+<p>This is the simplest form of the <span class="math inline">\(\chi^2\)</span>-test. To run this test, we need only feed the <em>chisq.test</em> function a single function argument <em>x</em>, namely a numeric vector of length 2 or greater, containing the frequencies we want to analyse.</p>
+<p>The function has another argument called <em>p</em> which specifies the expected probabilities against which to test the observed frequencies. The default value of this argument is equi-probability. That is, if we do not specify it, R will automatically test whether the observed frequencies systematically differ from a chance distribution.</p>
+<p>Here is an example of how the syntax for this test looks:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create two numeric vectors</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">17</span>, <span class="dv">6</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">15</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">9</span>, <span class="dv">14</span>, <span class="dv">8</span>, <span class="dv">11</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># test of significant correlation of v1 and v2</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(<span class="at">x =</span> v1, <span class="at">y =</span> v2, <span class="at">method =</span> <span class="st">"spearman"</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">alternative =</span> <span class="st">"greater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a vector containing frequencies for three categories</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">19</span>, <span class="dv">33</span>, <span class="dv">21</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># test for deviation from equal probabilities</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="at">x =</span> v1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The output in the console looks slightly different, mainly because we tested a rank order correlation (see below).</p>
+<p>If we run the syntax above, R will conduct the <span class="math inline">\(\chi^2\)</span>-test by comparing the observed frequencies shown in <em>v1</em> against chance (expected frequencies are computed using a probability of one third for each of the three categories). The output looks as follows:</p>
 <div class="alert alert-warning">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>
-    Spearman's rank correlation rho
+    Chi-squared test for given probabilities
 
-data:  v1 and v2
-S = 102, p-value = 0.1395
-alternative hypothesis: true rho is greater than 0
-sample estimates:
-      rho 
-0.3818182 </code></pre>
+data:  v1
+X-squared = 4.7123, df = 2, p-value = 0.09478</code></pre>
 </div>
 </div>
 </div>
-<p>As we can see, R again tells us which type of correlation we tested, and our alternative hypothesis looked like. Since we tested Spearman’s <span class="math inline">\(\rho\)</span>, the underlying statistical test is not a <span class="math inline">\(t\)</span>-test (remember that this is a non-parametric correlation). Accordingly, R will show us a different test statistic names <span class="math inline">\(S\)</span> and the corresponding <span class="math inline">\(p\)</span>-value. Finally, R will tell us the correlation coefficient, but there will be no 95% confidence interval (R cannot compute it without assuming an underlying parametric function).</p>
-<p>In this second example, Spearman’s <span class="math inline">\(\rho\)</span> is not significantly greater than zero. Thus, we have to concede that the result is uninformative.</p>
+<p>As we can see, R tells us which object it ran the test on (<em>v1</em>). It also tells us the empirical <span class="math inline">\(\chi^2\)</span> value (named X-squared), the degrees of freedom of this test (2 because <em>v1</em> has three categories), and the associated <span class="math inline">\(p\)</span>-value. In our example, and given that we run the test using the conventional <span class="math inline">\(\alpha\)</span> level of 5%, the differences in the observed frequencies do not warrant rejecting the Null hypothesis. That is, we cannot state that some of the categories in <em>v1</em> are more likely than others.</p>
+</section>
+<section id="test-of-observed-frequencies-against-a-predefined-probability" class="level2">
+<h2 class="anchored" data-anchor-id="test-of-observed-frequencies-against-a-predefined-probability">Test of observed frequencies against a predefined probability</h2>
+<p>Let’s assume that we want to compare <em>v1</em> not against chance but against unequal probabilities for the three categories. For example, our Null hypothesis could state that the first and second category should occur in 25% of cases each while category three should account for the remaining 50%. To run this test, the only change we need to make to the way we called the <em>chisq.test</em> function in the example above is to specify the function argument <em>p</em> and define it as a numeric vector containing the probabilities.</p>
+<p>This vector of probabilities needs to be of the same length as the vector of observed frequencies. In addition, since we are dealing with probabilities, all elements need to range between 0 and 1, and their sum must equal 1. Let’s have a look at the syntax.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test for deviation from pre-defined non-equal probabilities</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="at">x =</span> v1, <span class="at">p =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The output of the test looks very much like the one in the previous example. Again, R shows us the empirical <span class="math inline">\(\chi^2\)</span>-value, the degrees of freedom, and the <span class="math inline">\(p\)</span>-value (see below).</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  v1
+X-squared = 18.534, df = 2, p-value = 9.448e-05</code></pre>
+</div>
+</div>
+</div>
+<p>This time, the empirical <span class="math inline">\(\chi^2\)</span> value is greater, and the corresponding <em>p</em>-value is small enough to reject the Null hypothesis. That is, we can state that <em>v1</em> was not drawn from a population, in which category 3 is twice as frequent as categories 1 and 2.</p>
+</section>
+<section id="tests-for-systematic-covariation-in-contengency-tables" class="level2">
+<h2 class="anchored" data-anchor-id="tests-for-systematic-covariation-in-contengency-tables">Tests for systematic covariation in contengency tables</h2>
+<p>In some cases, we may not be interested in comparing observed frequencies against a (theoretical) distribution, but rather to compare observed frequencies across two variables (i.e., in a two-dimensional contingency table). Conceptually, this boils down to testing - row-by-row or column-by-column - whether the underlying distribution of one variable is equal across all levels of the other variable.</p>
+<p>To do so, we need to feed the <em>chisq.test</em> function a matrix of frequencies as the function argument <em>x</em>. We no longer need to specify the function argument <em>p</em> because the expected frequencies are computed from the marginal frequencies of the contingency table assuming stochastic independence.</p>
+<p>Lets look at an example. First, we need some data in table format. We can create such data using the function <em>matrix</em> or by combining several vectors of equal length using either the function <em>cbind</em> or <em>rbind</em> (these functions stack equally long vectors of the same type by column or row). Let’s go with the <em>rbind</em> version for now.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a 2x3 contingency table by stacking </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># two vectors containing frequencies row-wise</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">=</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">762</span>, <span class="dv">327</span>, <span class="dv">68</span>), </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(<span class="dv">484</span>, <span class="dv">239</span>, <span class="dv">77</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># run a chi² test on the data</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(data1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running the code above will perform the <span class="math inline">\(\chi^2\)</span>-test on the contingency table we created. Here is what the data looks like.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]  762  327   68
+[2,]  484  239   77</code></pre>
+</div>
+</div>
+</div>
+<p>The output in the console when running the <span class="math inline">\(\chi^2\)</span>-test looks as follows:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  data1
+X-squared = 11.525, df = 2, p-value = 0.003143</code></pre>
+</div>
+</div>
+</div>
+<p>Once more, R tells us the empirical <span class="math inline">\(\chi^2\)</span>-value, the degrees of freedom (for <span class="math inline">\(n\times m\)</span> tables, the test has <span class="math inline">\(n-1\times m-1\)</span> degrees of freedom, which makes 2 in our example), and the <span class="math inline">\(p\)</span>-value of the test. From the <span class="math inline">\(p\)</span>-value, we can see that there is systematic co-variation, that is, some cells are more and others less frequent than we would expect if the two variables were unrelated.</p>
+</section>
+<section id="extracting-frequencies-from-data-frames" class="level2">
+<h2 class="anchored" data-anchor-id="extracting-frequencies-from-data-frames">Extracting frequencies from data frames</h2>
+<p>The data we want to feed into <span class="math inline">\(\chi^2\)</span>-tests is usually contained in data frames. We can extract frequencies and even turn them into contingency tables using the <em>table</em> function. Let’s consider an example, in which we have data from one thousand simulated <del>nerds</del> participants who told us their attitudes toward Star Trek and Star Wars (love, hate, indifferent).</p>
+<div class="cell">
+
+</div>
+<p>Let’s say the data is contained in a data frame called <em>my_df</em>. We can use the function <em>head</em> to inspect the first six rows of the data frame to get a feeling for what the data looks like.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect the top of the data frame</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(my_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is what appears in the consle:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID    starTrek    starWars
+1  1 indifferent        love
+2  2        hate indifferent
+3  3 indifferent        love
+4  4        hate        love
+5  5        love indifferent
+6  6        love        love</code></pre>
+</div>
+</div>
+</div>
+<p>We can now create a contingency table using the <em>table</em> function and define it as a new object. To this end, we need to feed the table function the two dimensions by which we want to organise the table as separate function arguments. Here is what the code looks like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a 3x3 contingency table of attitudes toward</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Star Trek and Star Wars</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>my_table <span class="ot">=</span> <span class="fu">table</span>(my_df<span class="sc">$</span>starTrek, my_df<span class="sc">$</span>starWars)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># assign dimension names to the table (Star Trek goes first because</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># we entered it first into the table function above)</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># this step is optional but it makes the table more readable</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(my_table) <span class="ot">=</span> <span class="fu">list</span>(<span class="at">StarTrek =</span> <span class="fu">c</span>(<span class="st">'hate'</span>, <span class="st">'indifferent'</span>, <span class="st">'love'</span>),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                          <span class="at">StarWars =</span> <span class="fu">c</span>(<span class="st">'hate'</span>, <span class="st">'indifferent'</span>, <span class="st">'love'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once we have defined the new object, we can inspect the contingency table in the console by running its name as R code. Here is what it looks like:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>             StarWars
+StarTrek      hate indifferent love
+  hate          28          49   71
+  indifferent   44          99  142
+  love          81         212  274</code></pre>
+</div>
+</div>
+</div>
+<p>Now that we have created the contingency table from the data frame, we can feed it into the <em>chisq.test</em> function as its sol argument to test whether there is systematic co-variation between attitudes toward Star trek and Star Wars. Here is what the code looks like.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(my_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is the console output that results from running the test using the syntax above:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  my_table
+X-squared = 2.5325, df = 4, p-value = 0.6388</code></pre>
+</div>
+</div>
+</div>
+<p>Running the test shows us the usual information in the console. In this specific example, the <span class="math inline">\(p\)</span>-value does not allow rejecting the Null hypothesis. In other words, there is no evidence in our simulated data indicating that whether one’s attitude toward Star Trek is in any way related on one’s attitude toward Star Wars.</p>
 
 
 </section>

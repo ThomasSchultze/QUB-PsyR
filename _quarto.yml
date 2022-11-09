@@ -35,10 +35,12 @@ website:
         menu:
         - text: "A Primer on Statistical Inference"
           href: inference0.html
-        - text: "The Chi²-test"
+        - text: "The t-test"
           href: inference1.html
-        - text: "Correlations"
+        - text: "The Chi²-test"
           href: inference2.html
+        - text: "Correlations"
+          href: inference3.html
         
       - text: "About"
         href: about.html
