@@ -57,6 +57,12 @@ Here, $J$ is the number of groups we compare, and $n_j$ is the sample size of gr
 $$SS_{within} = \sum_{j=1}^{J} \sum_{k = 1}^{n_j} (x_{jk} - \bar{x_j})$$
 Again, $J$ is the number of groups we compare, and $n_j$ is the sample size in group $j$. The $x_{jk}$ refers to the $k$th observation in group $j$. For the $SS_{within}$, we pretend that there is no variance between groups at all. We do so by substituting the *grand mean* for the respective group means $\bar{x_j}$. Thus, the $SS_within$ isolates the within-group variability of $x$.
 
+The final thing we need to understand before we can delve into the actual ANOVAs is the $F$-statistic. As we have seen above, we compute $F$ as a ratio of the $MS_{between}$ and the $MS_{within}$. This ratio is interesting in several ways:
+
+1. Since the $SS_{between}$ usually has much fewer degrees of freedom than that $SS_{within}$, the variability between groups does not have to be nearly as large as the variability within groups to produce a large $F$-value.
+2. The more groups we compare, the lower the $F$-ratio will be, ceteris paribus. However, this does not necessarily mean that it becomes more difficult to detect significant mean differences. The more groups we compare, and the more numerator degrees of freedom our test has, the lower the critical $F$-value past which we consider a result statistically significant.
+3. The larger our total sample, the more denominator degrees of freedom we have, and smaller the noise becomes in our signal-to-noise ratio, ceteris paribus. This makes intuitive sense: as the samples size increases, our measurement becomes more precise, making it easier to detect differences between group means.
+
 :::{.alert .alert-success}
 **Fun fact**: If we use an ANOVA to compare two means, we effectively run a $t$-test but discard its ability to indicate the direction of the effect. 
 
@@ -74,6 +80,135 @@ ANOVAs come in various flavours. In the following, we will look at some of them,
 ## One-factorial ANOVA
 
 In a one-factorial ANOVA, we compare two or more group means such that we consider each group to represent one level of the same grouping variable or factor. The Null hypothesis is that all group means are equal, and the alternative hypothesis is that not all group means are equal.
+
+Running ANOVAs in base R tends to be very clunky because R is more centered around classic regression models. Therefore, we won't be using base R to run ANOVAs, but instead use an R package called *afex* (Analysis of Factorial Experiment). That means, we need to install and load *afex* first. 
+
+```{r}
+#| eval: false
+#| echo: true 
+# install.packages("afex")
+library(afex)
+```
+
+```{r}
+#| eval: true
+#| echo: false
+suppressMessages(library(afex))
+```
+
+
+Once we have done that, we can start doing ANOVAs with one of several functions:
+
+- *aov_car*
+- *aov_4*
+- *aov_ez*
+
+The three functions serve the same goal and do the same things, but they differ in terms of the syntax. The function *aov_car* uses syntax that is most closely related the the (clunky) base R version of ANOVA. In contrast, *aov_4* uses syntax based on the popular *lme4* package that is widely used for the analysis of generalised mixed models. Thus, this function is ideally suited for users who are already familiar with *lme4*. Finally, *aov_ez* uses a completely string-based format, that is, it does not require a formula type object as a function argument. The advantage of *aov_ez* is that it is very convenient and easy to handle (thus the suffix "ez"). This comes at the cost of flexibility. The lack of a formula means that we are stuck with a full ANOVA model. The other two functions technically allow us to specify models that omit certain main effects or interactions. However, since we will rarely want to run these incomplete models, this is a drawback that usually causes no hassles. In the following, we will focus on the *aov_ez* function and leave exploration of the other functions to the discretion of the reader,
+
+Here are the most important function arguments of *aov_ez*:
+
+- *id* (necessary): a character value indicating the name of the variable that contains our subject ID
+- *dv* (required): another character value; the name of the variable containing the data the group means of which we want to compare
+- *data* (required): an R object of type data frame containing the data we want to analyse
+- *between* (optional): a character string or character vector indicating the name(s) of the variable(s) constituting the between-subjects factor(s) of our design; default is NULL meaning that there are no between-subjects factors
+- *within* (optional): a character string or character vector indicating the name(s) of the variable(s) constituting the within-subjects factor(s) of our design; default is NULL meaning that there are no within-subjects factors
+- covariate: a character value or vector indicating the name(s) of the covariate(s) in our analysis
+- factorize (optional): a logical value; determines if the between- and within-subject variables are turned into factors prior to the analysis; default is TRUE; if our design has at least one covariate, we need to set this to FALSE and make sure that all factors are defined as such manually
+- *anova_table* (optional): a list of further arguments passed to the function; the ones we may be interested in are *es* (effect size; default is 'ges', which yields $\eta^2$ as an effect size measure, but we can switch it to 'none' or to 'pes', which yields $\eta^2_p$) and *correction* (non-sphericity correction method; default is 'none', bu we can switch it to 'GG' for the Greenhouse-Geisser or 'HF' for the Huynh-Feldt correction)
+
+For the purpose of running a one-factorial between-subjects ANOVA, we can disregard some of the function arguments shown above. The only ones we need are *id*, *dv*, *between*, and possibly *anova_table* in case we want to obtain the effect size.
+
+:::{.alert .alert-danger}
+Now that we want to do ANOVAs, it is time to talk about **factors**. In R, **factors** are a special type of vector that contain both values and labels for those values. The different values of vectors are considered to be categories. Factors are important because the ANOVA-function we use here requires its between- and within-subject variables to be factors.
+
+We can create a factor using the *factor* function by feeding it the following function arguments:
+
+- *x*: a vector we want to turn into a factor
+- *levels*: a vector containing all possible values the factor can take
+- *labels*: a character vector assigning a label to each level of the factor
+:::
+
+Lets look at an example, in which we test whether the means of three groups are equal or not. First, we need to create some data.
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-overflow: wrap
+# create a data frame containing data from 30 subjects in three groups of 10 each; here, "id" is the subject identifier, "cond" is the between-subjects grouping variable, and "dv" contains the outcome variable we want to compare between groups
+
+my_df = data.frame(
+  # subject ID
+  ID = 1:30,      
+  # between-subjects-factor 'cond'
+  cond = factor(  
+    rep(x = 1:3, each = 10),
+    levels = 1:3,
+    labels = c('control', 'treatment1', 'treatment2')),
+  # outcome variable 'dv'
+  dv = c(
+    c(10, 12,  9, 14, 11, 15, 13, 15, 18, 12), # dv data for control
+    c( 9,  7, 15, 14,  8,  7, 16, 13, 11, 16), # dv data for treatment1
+    c(12, 11, 11,  9,  8, 13,  8,  6, 14,  7)) # dv data for treatment2
+)
+```
+
+We can inspect how the data frame looks using the *head* function. 
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+head(my_df)
+```
+:::
+
+Now that we have some data, we can run the ANOVA. The syntax looks as follows:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+aov_ez(id = 'ID', between = 'cond', dv = 'dv', data = my_df)
+```
+Here is what the output in the cosole looks like:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+aov_ez(id = 'ID', between = 'cond', dv = 'dv', data = my_df)
+```
+:::
+
+As we can see, R displays an ANOVA table in the console along with some additional information. The output is preceded by a message (this is NOT an error message; the code ran properly). This message informs us that the *aov_ez* function set the contrast type for our factor 'cond' to 'contr.sum'. What this means is that the contrast underling our factor was forced into effect coding because that is the format that ANOVAs use. We don't need to concern ourselves with that.
+
+Next, R will tell us that this output is an ANOVA table based on type-3 sum of squares. Type-3 sums of squares are what most statistics packages use. If your knowledge of statistics is so advanced that you can make an informed decision that you would prefer type-2 sums of squares, you can change it by setting the *type* function argument to 2.
+
+Now for the important bits. R shows us what the response variable in our model is, namely 'dv'. Below that information, it displays the ANOVA table. Because we ran a one-factorial ANOVA; this table contains only one row. Here, we can see the name of the between-subjects factor (*effect*), the numerator and denominator degrees of freedom for its $F$-value (*df*), the mean squares of the effect (*MSE*), the $F$-value, the generalised $\eta^2$ as a measure of the effect size, and the $p$-value.
+
+In our example, the mean difference is not statistically significant, which mans that we cannot reject the null hypothesis. In other words, we cannot say whether the true means between the three groups differ.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 :::{.alert .alert-info}
 Similar to the $\chi^2$-test, the $F$-test we use in an ANOVA is always a one-tailed test because it is based on squared variables. Therefore, the test has no 'direction' as a $t$-test would.
@@ -94,4 +229,3 @@ Why is this important? Sometimes, we might encounter a scientific article, in wh
 
 
 
-R is not well-suited to run ANOVAs. It is more centered around regression models. Therefore, we won't be using base R to run ANOVAs (the code is too clunky), but instead use an R package called *afex* (Analysis of Factorial Experiment). That
