@@ -4,9 +4,9 @@ title: "The Chi² Test"
 
 The $\chi^2$-test allows us to test for deviations between observed and expected frequencies. The $\chi^2$ distribution is formalised as follows:
 
-$\chi^2 = \frac{(x_i - e_i)^2}{e_i}$ 
+$\chi^2 = \frac{(o_i - e_i)^2}{e_i}$ 
 
-Here, $x_i$ denote the observed frequencies in category *i* whereas *e_i* represents the expected frequencies given some assumed distribution. In brief, the larger the discrepancies between the observed and expected frequencies, the larger the $\chi^2$-value becomes. If it exceeds a certain threshold (defined by the degrees of freedom of the specific test), we reject the Null hypothesis and decide to believe that the deviations of the observed from the expected frequencies are systematic.
+Here, $o_i$ denotes the observed frequencies in category $i$ whereas $e_i$ represents the expected frequencies given some assumed distribution. In brief, the larger the discrepancies between the observed and expected frequencies, the larger the $\chi^2$-value becomes. If it exceeds a certain threshold (defined by the degrees of freedom of the specific test), we reject the Null hypothesis and decide to believe that the deviations of the observed from the expected frequencies are systematic.
 
 The most common analyses for which the $\chi^2$-test is used are:
 

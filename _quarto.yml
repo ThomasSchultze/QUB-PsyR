@@ -41,6 +41,8 @@ website:
           href: inference2.html
         - text: "Correlations"
           href: inference3.html
+        - text: "Analysis of Variance"
+          href: inference4.html
         
       - text: "About"
         href: about.html

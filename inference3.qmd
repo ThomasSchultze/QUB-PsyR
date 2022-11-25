@@ -128,7 +128,7 @@ Just as with the *cor* function, we can specify the type of correlation coeffici
 
 Since direction matters when dealing with correlations, we can also specify the type of our alternative hypothesis using the function argument *alternative*. The default is "two.sided", which tests whether the correlation is different from zero. We can change this argument to "greater" or "less" to test the directional hypotheses that *r* is positive or that it is negative, respectively.
 
-Let's look at an example, in which we ant to run a two-tailed significant test on a product-moment correlation. Here is what the code would look like:
+Let's look at an example, in which we want to run a two-tailed significance test on a product-moment correlation. Here is what the code would look like:
 
 ```{r}
 #| eval: false
@@ -195,6 +195,6 @@ cor.test(x = v1, y = v2, method = "spearman",
 ```
 :::
 
-As we can see, R again tells us which type of correlation we tested, and our alternative hypothesis looked like. Since we tested Spearman's $\rho$, the underlying statistical test is not a $t$-test (remember that this is a non-parametric correlation). Accordingly, R will show us a different test statistic names $S$ and the corresponding $p$-value. Finally, R will tell us the correlation coefficient, but there will be no 95% confidence interval (R cannot compute it without assuming an underlying parametric function).
+As we can see, R again tells us which type of correlation we tested, and our alternative hypothesis looked like. Since we tested Spearman's $\rho$, the underlying statistical test is not a $t$-test (remember that this is a non-parametric correlation). Accordingly, R will show us a different test statistic named $S$ and the corresponding $p$-value. Finally, R will tell us the correlation coefficient, but there will be no 95% confidence interval (R cannot compute it without assuming an underlying parametric function).
 
 In this second example, Spearman's $\rho$ is not significantly greater than zero. Thus, we have to concede that the result is uninformative.

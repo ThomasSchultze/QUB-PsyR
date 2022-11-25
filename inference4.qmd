@@ -1,0 +1,97 @@
+---
+title: "The Ananlysis of Variance"
+editor: visual
+---
+
+The Analysis of Variance (ANOVA) is a generalisation of the $t$-Test. It is used to test the difference between two or more means against zero. When comparing groups using ANOVA, we partition the total variance inherent to the data (collapsed across all groups) into the variance between groups (i.e., the variance of the group means) and the variance within groups. 
+
+
+## The foundations of ANOVA
+
+A key concept in ANOVA is that of the **sum of squares**. To understand the sum of squares, let us consider the formal definition of the variance $\sigma^2$ of a variable, which looks as follows:
+
+$$\sigma^2_x = \frac{1}{n} \times \underbrace{\Sigma{(x_i - \bar{x})^2}}_\text{sum of squares}$$
+
+From this equation, we can see that the variance of the variable $x$ is the product of two components. One is the **sum of squares**, that is, the sum of the squared deviations of each observation $x_i$ from their mean $\bar{x$}. The second factor simply divides this sum of squares by the number of observations $n$. 
+
+When we estimate the true variance $\sigma^2_x$ from data we collected, using the formula above produces a slight bias. Specifically, our estimate of the true variance will be systematically too low. To arrive at an unbiased estimate, we need to divide the um of squares by $n-1$ instead of $n$, leading to the following formal definition of the **estimate of the variance** $\hat{\sigma}^2_x$: 
+
+$$\hat{\sigma}^2_x = \frac{1}{n-1}\Sigma{(x_i - \bar{x})^2}$$
+
+We can think of the terms $\frac{1}{n-1}$ as the degrees of freedom of our estimate of the variance. Dividing a sum of squares by its degrees of freedom yields the so called **mean squares**.
+
+:::{.alert .alert-success}
+**Fun fact** :When we divide a squared deviation by its degrees of freedom, the resulting variable follows a $\chi^2$-distribution with the respective degrees of freedom.
+:::
+
+
+## The logic of the ANOVA
+
+The whole idea of ANOVA rests on the fact that the variance can be partitioned into the the sum of its parts. This is also true for the the **sum of squares**. As a very basic rule, we can state that:
+
+$$SS_{total} = SS_{between} + SS_{within}$$
+
+Here, $SS_{total}$ is a measure of the total variability of a variable, $SS_{between}$ represents that part of the total variability that is due to  differences of the group means, and $SS_{within}$ represents the part of the total variability that results from heterogeneity within the groups. 
+
+Similar to the $t$-test, ANOVA is a signal to noise ratio, where we treat variability between groups as the signal and variability within groups as the noise. The test statistic we use to test for significant mean differences between groups is the $F$-value, which is formally defined as:
+
+$$F = \frac{VAR_{between}}{VAR_{within}}=\frac{\frac{SS_{between}}{df_{between}}}{\frac{SS_{within}}{df_{within}}} = \frac{MS_{between}}{MS_{within}}$$
+
+In the formula above, $MS$ is the corresponding *mean squares*. 
+
+:::{.alert .alert-success}
+**Fun fact**: Based on the formula above, we can easily derive that $F$ is the ratio of two $\chi^2$-distributed variables. Both the numerator and the denominator constitute a sum of squares divided by its degrees of freedom. That is also the reason why the $F$-distribution has two degrees of freedom, one for the numerator and one for the denominator.
+:::
+
+How we compute the mean squares depends on the type of ANOVA we run and the number of groups we compare in it. 
+
+However, we can state generally how we compute the different **sum of squares**. First of all, let's remember how we compute the total sum of squares, $SS_{total}$:
+
+$$SS_{total} = \sum_{i=1}^{N} (x_i - \bar{x})^2$$
+
+The total sum of squares represent the sum of the squared deviation of all $N$ observed data points from the grand mean $\bar{x}$. Now lets look at the formula for $SS_{between}$.
+
+$$SS_{between} = \sum_{j=1}^{J} n_j \times (\bar{x_j} - \bar{x})^2$$
+Here, $J$ is the number of groups we compare, and $n_j$ is the sample size of group $j$. For the $SS_{between}$ we pretend that there is no variance within the $J$ groups at all. Each observation is represented by its group's mean $\bar{x_j}$, and we compute the variability as the difference of these group means from the grand mean $\bar{x}$. Therefore, the $SS_{between}$ isolates the between-group part of the total variability of $x$. Let's now turn to the $SS_{within}$.
+
+$$SS_{within} = \sum_{j=1}^{J} \sum_{k = 1}^{n_j} (x_{jk} - \bar{x_j})$$
+Again, $J$ is the number of groups we compare, and $n_j$ is the sample size in group $j$. The $x_{jk}$ refers to the $k$th observation in group $j$. For the $SS_{within}$, we pretend that there is no variance between groups at all. We do so by substituting the *grand mean* for the respective group means $\bar{x_j}$. Thus, the $SS_within$ isolates the within-group variability of $x$.
+
+:::{.alert .alert-success}
+**Fun fact**: If we use an ANOVA to compare two means, we effectively run a $t$-test but discard its ability to indicate the direction of the effect. 
+
+In such cases $F = t^2$, and the $p$-value of both tests will be identical if we run a $t$-test assuming equal variances.
+:::
+
+ANOVAs come in various flavours. In the following, we will look at some of them, namely:
+
+- one-factorial ANOVAs (between-subjects)
+- two-factorial ANOVAs (between-subjects)
+- repeated-measures ANOVAs (within-subjects)
+- mixed ANOVAs (at least one between and within factor)
+
+
+## One-factorial ANOVA
+
+In a one-factorial ANOVA, we compare two or more group means such that we consider each group to represent one level of the same grouping variable or factor. The Null hypothesis is that all group means are equal, and the alternative hypothesis is that not all group means are equal.
+
+:::{.alert .alert-info}
+Similar to the $\chi^2$-test, the $F$-test we use in an ANOVA is always a one-tailed test because it is based on squared variables. Therefore, the test has no 'direction' as a $t$-test would.
+
+Why is this important? Sometimes, we might encounter a scientific article, in which the authors state that they ran a 'one-tailed' ANOVA test, but what they do in those articles is simply the divide their $p$-value by 2. This practice (often encountered when the regular $p$-value lies between .05 and .10) rests on the erroneous belief that all statistical tests are - per default - two-tailed and can, therefore, also be run as a one-tailed test with slightly greater power. 
+:::
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+R is not well-suited to run ANOVAs. It is more centered around regression models. Therefore, we won't be using base R to run ANOVAs (the code is too clunky), but instead use an R package called *afex* (Analysis of Factorial Experiment). That

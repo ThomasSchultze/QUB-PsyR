@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.258">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -220,6 +220,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="./inference3.html">
  <span class="dropdown-text">Correlations</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./inference4.html">
+ <span class="dropdown-text">Analysis of Variance</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -258,8 +262,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <p>The <span class="math inline">\(\chi^2\)</span>-test allows us to test for deviations between observed and expected frequencies. The <span class="math inline">\(\chi^2\)</span> distribution is formalised as follows:</p>
-<p><span class="math inline">\(\chi^2 = \frac{(x_i - e_i)^2}{e_i}\)</span></p>
-<p>Here, <span class="math inline">\(x_i\)</span> denote the observed frequencies in category <em>i</em> whereas <em>e_i</em> represents the expected frequencies given some assumed distribution. In brief, the larger the discrepancies between the observed and expected frequencies, the larger the <span class="math inline">\(\chi^2\)</span>-value becomes. If it exceeds a certain threshold (defined by the degrees of freedom of the specific test), we reject the Null hypothesis and decide to believe that the deviations of the observed from the expected frequencies are systematic.</p>
+<p><span class="math inline">\(\chi^2 = \frac{(o_i - e_i)^2}{e_i}\)</span></p>
+<p>Here, <span class="math inline">\(o_i\)</span> denotes the observed frequencies in category <span class="math inline">\(i\)</span> whereas <span class="math inline">\(e_i\)</span> represents the expected frequencies given some assumed distribution. In brief, the larger the discrepancies between the observed and expected frequencies, the larger the <span class="math inline">\(\chi^2\)</span>-value becomes. If it exceeds a certain threshold (defined by the degrees of freedom of the specific test), we reject the Null hypothesis and decide to believe that the deviations of the observed from the expected frequencies are systematic.</p>
 <p>The most common analyses for which the <span class="math inline">\(\chi^2\)</span>-test is used are:</p>
 <ul>
 <li>tests of observed frequencies against chance (all outcomes are equally probable)</li>

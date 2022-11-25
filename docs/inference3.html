@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.258">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -220,6 +220,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="./inference3.html">
  <span class="dropdown-text">Correlations</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./inference4.html">
+ <span class="dropdown-text">Analysis of Variance</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -337,7 +341,7 @@ v3 0.9516624 0.9861685 1.0000000</code></pre>
 <p>We can test for statistical significance using the function <em>cor.test</em>. This function takes two numeric vectors of the same length as function arguments <em>x</em> and <em>y</em>. It also automatically removes cases with <em>NA</em>s.</p>
 <p>Just as with the <em>cor</em> function, we can specify the type of correlation coefficient we want to test for significance using the function argument <em>method</em>. As with the <em>cor</em> function, the default is “pearson”, but we can change it to “kendall” or “spearman” if we want.</p>
 <p>Since direction matters when dealing with correlations, we can also specify the type of our alternative hypothesis using the function argument <em>alternative</em>. The default is “two.sided”, which tests whether the correlation is different from zero. We can change this argument to “greater” or “less” to test the directional hypotheses that <em>r</em> is positive or that it is negative, respectively.</p>
-<p>Let’s look at an example, in which we ant to run a two-tailed significant test on a product-moment correlation. Here is what the code would look like:</p>
+<p>Let’s look at an example, in which we want to run a two-tailed significance test on a product-moment correlation. Here is what the code would look like:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create two numeric vectors</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>     <span class="co"># just the numbers from 1 to 10</span></span>
@@ -399,7 +403,7 @@ sample estimates:
 </div>
 </div>
 </div>
-<p>As we can see, R again tells us which type of correlation we tested, and our alternative hypothesis looked like. Since we tested Spearman’s <span class="math inline">\(\rho\)</span>, the underlying statistical test is not a <span class="math inline">\(t\)</span>-test (remember that this is a non-parametric correlation). Accordingly, R will show us a different test statistic names <span class="math inline">\(S\)</span> and the corresponding <span class="math inline">\(p\)</span>-value. Finally, R will tell us the correlation coefficient, but there will be no 95% confidence interval (R cannot compute it without assuming an underlying parametric function).</p>
+<p>As we can see, R again tells us which type of correlation we tested, and our alternative hypothesis looked like. Since we tested Spearman’s <span class="math inline">\(\rho\)</span>, the underlying statistical test is not a <span class="math inline">\(t\)</span>-test (remember that this is a non-parametric correlation). Accordingly, R will show us a different test statistic named <span class="math inline">\(S\)</span> and the corresponding <span class="math inline">\(p\)</span>-value. Finally, R will tell us the correlation coefficient, but there will be no 95% confidence interval (R cannot compute it without assuming an underlying parametric function).</p>
 <p>In this second example, Spearman’s <span class="math inline">\(\rho\)</span> is not significantly greater than zero. Thus, we have to concede that the result is uninformative.</p>
 
 

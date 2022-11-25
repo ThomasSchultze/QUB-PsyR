@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>QUB-PsyR - Custom functions</title>
+<title>QUB-PsyR - The Ananlysis of Variance</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,69 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -122,6 +59,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -245,7 +183,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Custom functions</h1>
+<h1 class="title">The Ananlysis of Variance</h1>
 </div>
 
 
@@ -260,28 +198,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>Sometimes, we may not find an R function that does exactly what we want it to do in base R, and we may also run out of luck when browsing additional R packages in search od that function. In those cases, we can resort to writing our own functions using a special function called <em>function</em> (yes, very creative, I know).</p>
-<p>Writing R functions is easy, once we understand how R functions work (and we do know that from looking at the documentation of different functions). What we need to do when defining a custom function is to: - give it a name (ideally a unique name to avoid conflicts with existing functions) - tell R what function arguments the function should have - tell R whether any of the arguments should have default values - tell R what operations it should perform when we call the function</p>
-<p>When defining the function, we need to use a specific Syntax. Just as with R objects, we write the name of our custom function to the left of an equal sign. To its right we call the function <em>function</em>. This function does not have fixed arguments that we specifiy in parentheses. Instead, we write those arguments in parentheses that we <strong>want</strong> our our custom function to have. If we would like there to be a default value for a function argument, we can use an equal sign following the argument name and enter the respective value to its right.</p>
-<p>Finally, we use braces to define what the function should do, that is, which operations to run on the arguments we fed it. Here, sky is the limit to our creativity. We can use any binary operator or function (even other custom functions) to tell R what it it should do. The final line of code within the braces should be a call of the function <em>return</em>, which we can use to define the output of our custom function. Let’s look at a few examples.</p>
-<section id="example-1" class="level3">
-<h3 class="anchored" data-anchor-id="example-1">Example 1</h3>
-<p>In the first example, we will write a custom function that computed the <strong>uncorrected standard deviation</strong> of a numeric vector (remember that the function <em>sd</em> that is built into base R computed the bias-corrected standard deviation, which may not always be what we are looking for). We will call this function <em>sd_uncorrected</em> (any name is fine, but it may be prudent to choose a name that is informative of what the function does).</p>
-<p>The R code for defining this function could look as follows:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>sd_uncorrected <span class="ot">=</span> <span class="cf">function</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>){</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">=</span> <span class="fu">na.omit</span>(x)  <span class="co"># excludes elements of x that are NA (if any)</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">length</span>(x)   <span class="co"># sample size n is the length of the vector x</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  var_x <span class="ot">=</span> <span class="dv">1</span><span class="sc">/</span>n <span class="sc">*</span> <span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>)  <span class="co"># compute uncorrected variance of x</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  sd <span class="ot">=</span> <span class="fu">sqrt</span>(var_x)                    <span class="co"># take square root to get sd</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(sd)                          <span class="co"># return the object sd, which happens to be</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                                      <span class="co"># a single numeric value</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The Analysis of Variance (ANOVA) is a generalisation of the <span class="math inline">\(t\)</span>-Test. It is used to test the difference between two or more means against zero. When comparing groups using ANOVA, we partition the total variance inherent to the data (collapsed across all groups) into the variance between groups (i.e., the variance of the group means) and the variance within groups.</p>
+<section id="the-foundations-of-anova" class="level2">
+<h2 class="anchored" data-anchor-id="the-foundations-of-anova">The foundations of ANOVA</h2>
+<p>A key concept in ANOVA is that of the <strong>sum of squares</strong>. To understand the sum of squares, let us consider the formal definition of the variance <span class="math inline">\(\sigma^2\)</span> of a variable, which looks as follows:</p>
+<p><span class="math display">\[\sigma^2_x = \frac{1}{n} \times \underbrace{\Sigma{(x_i - \bar{x})^2}}_\text{sum of squares}\]</span></p>
+<p>From this equation, we can see that the variance of the variable <span class="math inline">\(x\)</span> is the product of two components. One is the <strong>sum of squares</strong>, that is, the sum of the squared deviations of each observation <span class="math inline">\(x_i\)</span> from their mean <span class="math inline">\(\bar{x\)</span>}. The second factor simply divides this sum of squares by the number of observations <span class="math inline">\(n\)</span>.</p>
+<p>When we estimate the true variance <span class="math inline">\(\sigma^2_x\)</span> from data we collected, using the formula above produces a slight bias. Specifically, our estimate of the true variance will be systematically too low. To arrive at an unbiased estimate, we need to divide the um of squares by <span class="math inline">\(n-1\)</span> instead of <span class="math inline">\(n\)</span>, leading to the following formal definition of the <strong>estimate of the variance</strong> <span class="math inline">\(\hat{\sigma}^2_x\)</span>:</p>
+<p><span class="math display">\[\hat{\sigma}^2_x = \frac{1}{n-1}\Sigma{(x_i - \bar{x})^2}\]</span></p>
+<p>We can think of the terms <span class="math inline">\(\frac{1}{n-1}\)</span> as the degrees of freedom of our estimate of the variance. Dividing a sum of squares by its degrees of freedom yields the so called <strong>mean squares</strong>.</p>
+<div class="alert alert-success">
+<p><strong>Fun fact</strong> :When we divide a squared deviation by its degrees of freedom, the resulting variable follows a <span class="math inline">\(\chi^2\)</span>-distribution with the respective degrees of freedom.</p>
 </div>
+</section>
+<section id="the-logic-of-the-anova" class="level2">
+<h2 class="anchored" data-anchor-id="the-logic-of-the-anova">The logic of the ANOVA</h2>
+<p>The whole idea of ANOVA rests on the fact that the variance can be partitioned into the the sum of its parts. This is also true for the the <strong>sum of squares</strong>. As a very basic rule, we can state that:</p>
+<p><span class="math display">\[SS_{total} = SS_{between} + SS_{within}\]</span></p>
+<p>Here, <span class="math inline">\(SS_{total}\)</span> is a measure of the total variability of a variable, <span class="math inline">\(SS_{between}\)</span> represents that part of the total variability that is due to differences of the group means, and <span class="math inline">\(SS_{within}\)</span> represents the part of the total variability that results from heterogeneity within the groups.</p>
+<p>Similar to the <span class="math inline">\(t\)</span>-test, ANOVA is a signal to noise ratio, where we treat variability between groups as the signal and variability within groups as the noise. The test statistic we use to test for significant mean differences between groups is the <span class="math inline">\(F\)</span>-value, which is formally defined as:</p>
+<p><span class="math display">\[F = \frac{VAR_{between}}{VAR_{within}}=\frac{\frac{SS_{between}}{df_{between}}}{\frac{SS_{within}}{df_{within}}} = \frac{MS_{between}}{MS_{within}}\]</span></p>
+<p>In the formula above, <span class="math inline">\(MS\)</span> is the corresponding <em>mean squares</em>.</p>
+<div class="alert alert-success">
+<p><strong>Fun fact</strong>: Based on the formula above, we can easily derive that <span class="math inline">\(F\)</span> is the ratio of two <span class="math inline">\(\chi^2\)</span>-distributed variables. Both the numerator and the denominator constitute a sum of squares divided by its degrees of freedom. That is also the reason why the <span class="math inline">\(F\)</span>-distribution has two degrees of freedom, one for the numerator and one for the denominator.</p>
+</div>
+<p>How we compute the mean squares depends on the type of ANOVA we run and the number of groups we compare in it.</p>
+<p>However, we can state generally how we compute the different <strong>sum of squares</strong>. First of all, let’s remember how we compute the total sum of squares, <span class="math inline">\(SS_{total}\)</span>:</p>
+<p><span class="math display">\[SS_{total} = \sum_{i=1}^{N} (x_i - \bar{x})^2\]</span></p>
+<p>The total sum of squares represent the sum of the squared deviation of all <span class="math inline">\(N\)</span> observed data points from the grand mean <span class="math inline">\(\bar{x}\)</span>. Now lets look at the formula for <span class="math inline">\(SS_{between}\)</span>.</p>
+<p><span class="math display">\[SS_{between} = \sum_{j=1}^{J} n_j \times (\bar{x_j} - \bar{x})^2\]</span> Here, <span class="math inline">\(J\)</span> is the number of groups we compare, and <span class="math inline">\(n_j\)</span> is the sample size of group <span class="math inline">\(j\)</span>. For the <span class="math inline">\(SS_{between}\)</span> we pretend that there is no variance within the <span class="math inline">\(J\)</span> groups at all. Each observation is represented by its group’s mean <span class="math inline">\(\bar{x_j}\)</span>, and we compute the variability as the difference of these group means from the grand mean <span class="math inline">\(\bar{x}\)</span>. Therefore, the <span class="math inline">\(SS_{between}\)</span> isolates the between-group part of the total variability of <span class="math inline">\(x\)</span>. Let’s now turn to the <span class="math inline">\(SS_{within}\)</span>.</p>
+<p><span class="math display">\[SS_{within} = \sum_{j=1}^{J} \sum_{k = 1}^{n_j} (x_{jk} - \bar{x_j})\]</span> Again, <span class="math inline">\(J\)</span> is the number of groups we compare, and <span class="math inline">\(n_j\)</span> is the sample size in group <span class="math inline">\(j\)</span>. The <span class="math inline">\(x_{jk}\)</span> refers to the <span class="math inline">\(k\)</span>th observation in group <span class="math inline">\(j\)</span>. For the <span class="math inline">\(SS_{within}\)</span>, we pretend that there is no variance between groups at all. We do so by substituting the <em>grand mean</em> for the respective group means <span class="math inline">\(\bar{x_j}\)</span>. Thus, the <span class="math inline">\(SS_within\)</span> isolates the within-group variability of <span class="math inline">\(x\)</span>.</p>
+<div class="alert alert-success">
+<p><strong>Fun fact</strong>: If we use an ANOVA to compare two means, we effectively run a <span class="math inline">\(t\)</span>-test but discard its ability to indicate the direction of the effect.</p>
+<p>In such cases <span class="math inline">\(F = t^2\)</span>, and the <span class="math inline">\(p\)</span>-value of both tests will be identical if we run a <span class="math inline">\(t\)</span>-test assuming equal variances.</p>
+</div>
+<p>ANOVAs come in various flavours. In the following, we will look at some of them, namely:</p>
+<ul>
+<li>one-factorial ANOVAs (between-subjects)</li>
+<li>two-factorial ANOVAs (between-subjects)</li>
+<li>repeated-measures ANOVAs (within-subjects)</li>
+<li>mixed ANOVAs (at least one between and within factor)</li>
+</ul>
+</section>
+<section id="one-factorial-anova" class="level2">
+<h2 class="anchored" data-anchor-id="one-factorial-anova">One-factorial ANOVA</h2>
+<p>In a one-factorial ANOVA, we compare two or more group means such that we consider each group to represent one level of the same grouping variable or factor. The Null hypothesis is that all group means are equal, and the alternative hypothesis is that not all group means are equal.</p>
+<div class="alert alert-info">
+<p>Similar to the <span class="math inline">\(\chi^2\)</span>-test, the <span class="math inline">\(F\)</span>-test we use in an ANOVA is always a one-tailed test because it is based on squared variables. Therefore, the test has no ‘direction’ as a <span class="math inline">\(t\)</span>-test would.</p>
+<p>Why is this important? Sometimes, we might encounter a scientific article, in which the authors state that they ran a ‘one-tailed’ ANOVA test, but what they do in those articles is simply the divide their <span class="math inline">\(p\)</span>-value by 2. This practice (often encountered when the regular <span class="math inline">\(p\)</span>-value lies between .05 and .10) rests on the erroneous belief that all statistical tests are - per default - two-tailed and can, therefore, also be run as a one-tailed test with slightly greater power.</p>
+</div>
+<p>R is not well-suited to run ANOVAs. It is more centered around regression models. Therefore, we won’t be using base R to run ANOVAs (the code is too clunky), but instead use an R package called <em>afex</em> (Analysis of Factorial Experiment). That</p>
 
 
 </section>
