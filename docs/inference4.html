@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.2.258">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -435,9 +435,6 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 <p>We will now see a new object called “model1” in the <strong>Environment</strong>. R will tell us that this object is a list. Entering the new object’s name as syntax will show us the result of the ANOVA just as if we had called the function as is instead of defining it as a new object. Here is the console output:</p>
 <div class="alert alert-warning">
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Contrasts set to contr.sum for the following variables: cond</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Anova Table (Type 3 tests)
 
@@ -455,9 +452,229 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 <p>(Credit for this metaphor goes to Prof.&nbsp;Dieter Heyer)</p>
 </div>
 <p>In order to disentangle a significant effect in an ANOVA with three or more groups, we need to run <strong>post-hoc</strong> analyses. There are many different ways to run such post-hoc analyses. We will look at three of them here:</p>
-<section id="pot-hoc-t-tests" class="level3">
-<h3 class="anchored" data-anchor-id="pot-hoc-t-tests">Pot hoc t-tests</h3>
+<section id="post-hoc-t-tests" class="level3">
+<h3 class="anchored" data-anchor-id="post-hoc-t-tests">Post-hoc t-tests</h3>
 <p>Perhaps the easiest way to disentangle significant effects in an ANOVA is running <span class="math inline">\(t\)</span>-tests to compare the means of the groups. We already know how to do this, namely by using the <em>t.test</em> function. The advantage, beyond the fact that it is easy, is that we can specify one-tailed <span class="math inline">\(t\)</span>-tests if they are theoretically justified and, ideally, preregistered as follow-up tests in case an ANOVA yields a significant result.</p>
+<p>In our specific example, let’s assume that we expected both treatments to be effective, which should manifest in higher mean scores as compare with the control condition. Let us further assume that we had no specific prediction regarding the relative effectiveness of the two treatments. In this case, we would run two one-tailed <span class="math inline">\(t\)</span>-tests, one comparing the first treatment condition with the control condition, and another comparing the second treatment with the control condition. For the final post-hoc comparison, we would run a two-tailed <span class="math inline">\(t\)</span>-test comparing the two treatment conditions.</p>
+<p>Lets have a look at the syntax first. It could look like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># one-tailed t-test, testing whether dv scores are higher in the first treatment condition than in the control condition</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(<span class="at">x =</span> my_df2<span class="sc">$</span>dv[my_df2<span class="sc">$</span>cond <span class="sc">==</span> <span class="st">'treat1'</span>],</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> my_df2<span class="sc">$</span>dv[my_df2<span class="sc">$</span>cond <span class="sc">==</span> <span class="st">'control'</span>],</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="st">'greater'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># one-tailed t-test, testing whether dv scores are higher in the second treatment condition than in the control condition</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(<span class="at">x =</span> my_df2<span class="sc">$</span>dv[my_df2<span class="sc">$</span>cond <span class="sc">==</span> <span class="st">'treat2'</span>],</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> my_df2<span class="sc">$</span>dv[my_df2<span class="sc">$</span>cond <span class="sc">==</span> <span class="st">'control'</span>],</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="st">'greater'</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># two-tailed t-test, testing whether dv scores differ between the two treatments</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(<span class="at">x =</span> my_df2<span class="sc">$</span>dv[my_df2<span class="sc">$</span>cond <span class="sc">==</span> <span class="st">'treat1'</span>],</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> my_df2<span class="sc">$</span>dv[my_df2<span class="sc">$</span>cond <span class="sc">==</span> <span class="st">'treat2'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is what R outputs in the console once we run the three tests:</p>
+<p>:::[.alert .alert-warning]</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  my_df2$dv[my_df2$cond == "treat1"] and my_df2$dv[my_df2$cond == "control"]
+t = 2.1864, df = 57.789, p-value = 0.01642
+alternative hypothesis: true difference in means is greater than 0
+95 percent confidence interval:
+ 1.232097      Inf
+sample estimates:
+mean of x mean of y 
+102.36667  97.13333 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  my_df2$dv[my_df2$cond == "treat2"] and my_df2$dv[my_df2$cond == "control"]
+t = 6.6635, df = 57.541, p-value = 5.552e-09
+alternative hypothesis: true difference in means is greater than 0
+95 percent confidence interval:
+ 12.13568      Inf
+sample estimates:
+mean of x mean of y 
+113.33333  97.13333 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  my_df2$dv[my_df2$cond == "treat1"] and my_df2$dv[my_df2$cond == "treat2"]
+t = -4.3842, df = 57.951, p-value = 4.968e-05
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -15.973871  -5.959462
+sample estimates:
+mean of x mean of y 
+ 102.3667  113.3333 </code></pre>
+</div>
+</div>
+<p>:::</p>
+<p>As we can see, all three tests show evidence of mean differences. That is, based on these post-hoc comparisons, we can now say why the ANOVA yielded a significant effect: all three means differ from each other.</p>
+<p>But wait! Don’t we need to correct for multiple comparisons? The answer is: it depends on your testing philosophy. If you want to treat the complete post-hoc analysis as a single analysis, then yes, you need to control your type-I error. The easiest way to do this is to use Bonferroni’s correction, that is, we divide the tolerated type-I error level <span class="math inline">\(\alpha\)</span> by the number of tests we ran <span class="math inline">\(k\)</span>.</p>
+<p>In our case, this means dividing the usual <span class="math inline">\(\alpha\)</span> level of .05 by three (the number of post-hoc tests we ran). We now consider a post-hoc <span class="math inline">\(t\)</span>-test significant only if the associated <span class="math inline">\(p\)</span>-value is smaller than .01667. In our example, correcting for multiple testing does not change the general pattern of results. All three tests still yield significant mean differences.</p>
+<div class="alert alert-danger">
+<p>In this example, things would look differently, had we used two-tailed tests to compare the treatments with the control condition. Specifically, the comparison of the first treatment condition with the control condition would have yielded a significant result when not correcting for multiple comparisons (the tests then yields a <span class="math inline">\(p\)</span>-value of .033).</p>
+<p>After using a Bonferroni correction, this comparison would no longer be statistically significant since the <span class="math inline">\(p\)</span>-value of the two-tailed tests exceeds the adjusted <span class="math inline">\(\alpha\)</span>-level of .01667.</p>
+</div>
+</section>
+<section id="tukeys-method-for-pairwise-comparisons" class="level3">
+<h3 class="anchored" data-anchor-id="tukeys-method-for-pairwise-comparisons">Tukey’s method for pairwise comparisons</h3>
+<p>Running pairwise comparisons using <span class="math inline">\(t\)</span>-tests is fine if we compare only few groups. However, as the number of groups we compare in an ANOVA increases, so does the number of possible pairwise comparisons. In fact, the number of comparisons is <span class="math inline">\((k^2-k)/2\)</span>, that is, it grows exponentially.</p>
+<p>An alternative to running individual tests is Tukey’s method, also known as Tukey’s honestly significant difference (HSD). In technical terms, HSD computes the critical mean difference for which a pairwise comparison is considered significant, and then judges each comparison by that difference. The test statistic <span class="math inline">\(q\)</span> follows the Studentised range distribution, the shape of which depends on the number of groups <span class="math inline">\(k\)</span> and the sample size <span class="math inline">\(n\)</span> (via the distribution’s degrees of freedom). Because the distribution of the <span class="math inline">\(q\)</span>-statistic considers the number of groups, the HSD adjusts for multiple comparisons.</p>
+<p>If we want to run post-hoc comparisons using HSD in R, we need another package called <em>emmeans</em>. This package contains two functions we need: <em>emmeans</em> (yes, it has the same name as the package) and <em>contrast</em>.</p>
+<p>Let’s first look at the <em>emmeans</em> function. When we call this function, we need to specify two function arguments. The first is called <em>object</em>. Here, we need to feed the function an R object containing the results of an ANOVA (good thing we saved our ANOVA as an R object). Second, we need to tell the function the name of grouping variable in our data. We do so by defining the function argument <em>spec</em> as a character string equalling the name of the respective variable (in our example, the grouping variable is ‘cond’).</p>
+<p>The second function, <em>contrast</em> also needs two function arguments to do what we want it to do. The first is, again, called <em>object</em>. However, the <em>contrast</em> function does not need an ANOVA type object. Instead, it needs the type of object that the <em>emmeans</em> function returns (it is called an “emmGrid” type object). As a second argument, we need to specify <em>method</em>, which determines the type of post-hoc comparisons the function computes. The default is “eff”, which tests each group against the mean of all groups, but this is not what we want R to do. In order to get the HSD comparisons, we need to set this argument to “tukey”.</p>
+<p>Let’s have a look at the code using the ANOVA model we saved as an R object above (“model1”). There are two ways of writing this code, one that creates a separate object of type “emmGrid” in the environment which we can feed to the <em>contrast</em> function, and another that omits creating this object by feeding the <em>contrast</em> function another function call as its <em>object</em> (the latter may be preferable because we won’t do much with an “emmGrid” type object).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># uncomment to install the package emmeans</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(emmeans)</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># load the library emmeans</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Alternative 1: save the emmGrid object separately</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># create an emmGrid object from the ANOVA</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>grid1 <span class="ot">=</span> <span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain Tukey's HSD using the function "contrast"</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">contrast</span>(<span class="at">object =</span> grid1, <span class="at">method =</span> <span class="st">'tukey'</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Alternative 2: don't create an emmGrid object</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain Tukey's HSD using the function "contrast"</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">contrast</span>(<span class="at">object =</span> <span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>), </span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">'tukey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running either version of the code, will produce the following output in the console:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast         estimate   SE df t.ratio p.value
+ control - treat1    -5.23 2.44 87  -2.143  0.0872
+ control - treat2   -16.20 2.44 87  -6.633  &lt;.0001
+ treat1 - treat2    -10.97 2.44 87  -4.490  0.0001
+
+P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
+</div>
+</div>
+</div>
+<p>As we can see, the output is a table that contains the result of the HSD post-hoc test. Here, R will tell us which groups were compared and what the estimated mean difference for the respective comparison is. It will also tell us the standard error of the mean differences and the degrees of freedom (total sample size <span class="math inline">\(n\)</span> minus the number of groups <span class="math inline">\(k\)</span>). Finally, there will be a <span class="math inline">\(t\)</span>-value and and <span class="math inline">\(p\)</span>-value for each of the pairwise comparisons.</p>
+<p>Based on the HSD post-hoc tests, we would conclude that scores are higher in treatment 2 than in both the control condition and treatment 1, but we cannot say whether scores in treatment 1 are different from those in the control condition.</p>
+</section>
+<section id="custom-post-hoc-contrasts" class="level3">
+<h3 class="anchored" data-anchor-id="custom-post-hoc-contrasts">Custom post-hoc contrasts</h3>
+<p>The third way to run post-hoc tests we will consider here is to run custom <span class="math inline">\(t\)</span>-contrasts. What this means is that we define ourselves how we want to compare the group means in case of a significant effect in the ANOVA. When using custom contrasts, we can choose how many comparisons we run, which means we want to compare, and how to compare them.</p>
+<p>What we are effectively doing here is to compute weighted means of our conditions such that the weights adds to zero. For example, we could compare two group means (just as we did with the two previously described methods), but we could also test whether two groups differ from a third.</p>
+<p>Let us go back to our ANOVA example and assume that we want to run two post-hoc tests. The first tests whether having any treatment leads to different scores than being in the control condition. The second tests whether the effectiveness of the two treatments differs. Here is what the two contrasts would look like:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th>control</th>
+<th>treatment 1</th>
+<th>treatment 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>contrast 1</td>
+<td>-1</td>
+<td>+0.5</td>
+<td>+0.5</td>
+</tr>
+<tr class="even">
+<td>contrast 2</td>
+<td>0</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+<p>Let’s dissect that! For contrast 1, we compare the control group with the mean of the two treatment groups. In contrast 2, we compare only the two treatment groups; the 0 weight for the control condition means that its mean does not play any role in this contrast.</p>
+<div class="alert alert-success">
+<p>In a design with three or more groups, contrasts comparing two group means have a distinct advantage over run-of-the-mill <span class="math inline">\(t\)</span>-tests that compare the same means.</p>
+<p>The reason is that - assuming equal variances in all groups - information from any group can be used to estimate the variance of the mean difference. While the group means of those conditions that receive a contrast weight of zero play no role in determining the signal, we can use the data from these groups to reduce the noise in our test.</p>
+<p>Therefore, a <span class="math inline">\(t\)</span>-contrast will usually be more powerful than a regular <span class="math inline">\(t\)</span>-test, although this advantage decreases with the sample size.</p>
+</div>
+<p>How do we tell R that we want to run custom contrasts? We can do so using the same <em>contrast</em> function we used to run the HSD test. To run custom contrasts, we simply need to change how we specify the function’s <em>method</em> argument. To be exact, we need to define this argument as a list in which each element is one contrast.</p>
+<p>When defining the list of contrasts, each contrast must be a numeric vector of length <span class="math inline">\(k\)</span>, where <span class="math inline">\(k\)</span> is the number of groups in the grouping variable that we fed into the <em>emmeans</em> function (in our case 3). If we chose the wrong vector length, we will receive an error message. We also need to make sure that the sum of each contrast vector is zero (R will not check this, and the function will work even if we input nonsensical weights). Finally, we can (but do not have to) create these vectors as named elements of the list. Naming the vectors may lead to output that is slightly easer to make sense of.</p>
+<p>Here, too, we need to decide whether we save the list of contrasts as a separate object or whether we feed the <em>contrast</em> function a call of the <em>list</em> function (the result will be the same, so it is simply a matter of preference). Now let’s look at the R code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Alternative 1: separate objects</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create an emmGrid object from the ANOVA</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>grid1 <span class="ot">=</span> <span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># create a list containing the custom contrasts</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>my_contrasts <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">treat_vs_control =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">treat1_vs_treat2 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co"># run the custom post-hoc tests using "contrast"</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="fu">contrast</span>(<span class="at">object =</span> grid1, <span class="at">method =</span> my_contrasts)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Alternative 2: don't create separate objects</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co"># run the custom post-hoc tests using "contrast"</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="fu">contrast</span>(<span class="at">object =</span> <span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>), </span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="fu">list</span>(</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">treat_vs_control =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">treat1_vs_treat2 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>             )</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running either version of the code will prompt R to test the contrasts, and we will receive the following console output:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast         estimate   SE df t.ratio p.value
+ treat_vs_control     10.7 2.12 87   5.066  &lt;.0001
+ treat1_vs_treat2    -11.0 2.44 87  -4.490  &lt;.0001</code></pre>
+</div>
+</div>
+</div>
+<p>As we can see, R returns a table with two contrast tests. Since we named the contrasts properly, it is easy to see what these contrasts tested. For each contrast, R will tell is the estimated mean difference, the associated standard error, and the degrees of freedom (<span class="math inline">\(n-k\)</span>, similar to the HSD test described above). It will also show us the <span class="math inline">\(t\)</span>-value and <span class="math inline">\(p\)</span>-value for each contrast. In our example, both contrasts are significant. This means, we can state - with the usual confidence - that the ANOVA was significant because a) getting a treatment leads to higher scores as compared with the control condition, and b) the treatments differ in effectiveness.</p>
+<p>But what about multiple comparisons? So far, we have not corrected for multiple comparisons, but we can do so if we want to. The good news is that we do not have to do it manually when using the <em>contrast</em> function. Instead, we can specify a third function argument called <em>adjust</em>. If we use custom contrasts, the default for this argument is “none”, but we can set it to “bonferroni” (for the classic Bonferroni correction) or “holm” (for the slightly lees concervative Holm-Bonferroni method) instead. Let’s go with Bonferroni. Here is the code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the custom post-hoc tests using "contrast" and correct</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for multiple comparisons using Bonferroni's method</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contrast</span>(<span class="at">object =</span> <span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>), </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="fu">list</span>(</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">treat_vs_control =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">treat1_vs_treat2 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>             ),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">adjust =</span> <span class="st">'bonferroni'</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s look at the console output:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast         estimate   SE df t.ratio p.value
+ treat_vs_control     10.7 2.12 87   5.066  &lt;.0001
+ treat1_vs_treat2    -11.0 2.44 87  -4.490  &lt;.0001
+
+P value adjustment: bonferroni method for 2 tests </code></pre>
+</div>
+</div>
+</div>
+<p>As we can see, not much has changed in terms of statistical significance, which makes sense because the unadjusted <span class="math inline">\(p\)</span>-values were already very low. However, R now tells us at the bottom of the table that <span class="math inline">\(p\)</span>-values were adjusted using the Bonferroni method.</p>
+<div class="alert alert-info">
+<p>Custom contrasts are really useful because of their flexibility. They allow us to test very specific hypotheses. In fact, if we can state in advance which means in our design should differ (for example, because we have a strong theory to base our hypotheses on), we can technically skip the ANOVA altogether and instead run only the contrast tests. In those cases, we speak of a-priori contrasts.</p>
+</div>
+</section>
+<section id="a-concluding-remark-on-post-hoc-comparisons" class="level3">
+<h3 class="anchored" data-anchor-id="a-concluding-remark-on-post-hoc-comparisons">A concluding remark on post-hoc comparisons</h3>
+<p>We started the journey into post-hoc analyses using the metaphor of the ANOVA as firing a shotgun into thick fog which - in case we hit something - necessitates wandering into the fog in order to find out what exactly we hit. As the examples above show, the answer to that crucial question depends on which post-hoc comparisons we run (pairwise comparisons vs.&nbsp;custom contrasts), the type of alternative hypotheses we test (one-tailed vs.&nbsp;two-tailed tests), and whether and how we control for type-I error inflation due to multiple comparisons.</p>
+<p>When trying to disentangle a significant effect in an ANOVA, we may find ourselves faced with multiple options, each of which is valid and can be argued for convincingly. However, even subtle differences between these options may lead to qualitatively different conclusions. The practical advice here is to preregister exactly which tests we will run in case an ANOVA yields a significant result (ideally by providing the R code for the post-hoc analysis).</p>
 
 
 </section>
