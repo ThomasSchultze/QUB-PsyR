@@ -269,9 +269,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>From this equation, we can see that the variance of the variable <span class="math inline">\(x\)</span> is the product of two components. One is the <strong>sum of squares</strong>, that is, the sum of the squared deviations of each observation <span class="math inline">\(x_i\)</span> from their mean <span class="math inline">\(\bar{x\)</span>}. The second factor simply divides this sum of squares by the number of observations <span class="math inline">\(n\)</span>.</p>
 <p>When we estimate the true variance <span class="math inline">\(\sigma^2_x\)</span> from data we collected, using the formula above produces a slight bias. Specifically, our estimate of the true variance will be systematically too low. To arrive at an unbiased estimate, we need to divide the um of squares by <span class="math inline">\(n-1\)</span> instead of <span class="math inline">\(n\)</span>, leading to the following formal definition of the <strong>estimate of the variance</strong> <span class="math inline">\(\hat{\sigma}^2_x\)</span>:</p>
 <p><span class="math display">\[\hat{\sigma}^2_x = \frac{1}{n-1}\Sigma{(x_i - \bar{x})^2}\]</span></p>
-<p>We can think of the terms <span class="math inline">\(\frac{1}{n-1}\)</span> as the degrees of freedom of our estimate of the variance. Dividing a sum of squares by its degrees of freedom yields the so called <strong>mean squares</strong>.</p>
 <div class="alert alert-success">
-<p><strong>Fun fact</strong> :When we divide a squared deviation by its degrees of freedom, the resulting variable follows a <span class="math inline">\(\chi^2\)</span>-distribution with the respective degrees of freedom.</p>
+<p><strong>Fun fact</strong>: Dividing a sum of squares by its degrees of freedom yields the so called <strong>mean squares</strong>. The mean squares follow a <span class="math inline">\(\chi^2\)</span>-distribution with the respective degrees of freedom.</p>
 </div>
 </section>
 <section id="the-logic-of-the-anova" class="level2">
@@ -410,8 +409,58 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 <p>Similar to the <span class="math inline">\(\chi^2\)</span>-test, the <span class="math inline">\(F\)</span>-test we use in an ANOVA is always a one-tailed test because it is based on squared variables. Therefore, the test has no ‘direction’ as a <span class="math inline">\(t\)</span>-test would.</p>
 <p>Why is this important? Sometimes, we might encounter a scientific article, in which the authors state that they ran a ‘one-tailed’ ANOVA test, but what they do in those articles is simply the divide their <span class="math inline">\(p\)</span>-value by 2. This practice (often encountered when the regular <span class="math inline">\(p\)</span>-value lies between .05 and .10) rests on the erroneous belief that all statistical tests are - per default - two-tailed and can, therefore, also be run as a one-tailed test with slightly greater power.</p>
 </div>
+</section>
+<section id="disentangling-significant-effects-in-anovas" class="level2">
+<h2 class="anchored" data-anchor-id="disentangling-significant-effects-in-anovas">Disentangling significant effects in ANOVAs</h2>
+<p>In the example above, we had to retain the Null hypothesis because the analysis did not show evidence that the three means were different from each other. In those cases, there is no need for further analyses. However, things look a bit different when the ANOVA yields a significant result. Let’s look at an example.</p>
+<p>In this example, we will compare two treatments and one control condition with data for 30 participants in each condition. The data is stored in a data frame called <em>my_df2</em>. Here is what the data looks like (we use the function <em>head</em> on the data frame to have R show us the first 6 lines).</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID    cond  dv
+1  1 control  88
+2  2  treat1 119
+3  3  treat2 119
+4  4 control 103
+5  5  treat1 103
+6  6  treat2 137</code></pre>
+</div>
+</div>
+</div>
+<p>We now run the ANOVA on the data. Other than before, we will define the result of the analysis as a new R object. This will make it easier for us to disentangle the effect later on. Here is the syntax:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run a one-factorial ANOVA and save its results as a new R object</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">dv =</span> <span class="st">'dv'</span>, <span class="at">between =</span> <span class="st">'cond'</span>, <span class="at">data =</span> my_df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We will now see a new object called “model1” in the <strong>Environment</strong>. R will tell us that this object is a list. Entering the new object’s name as syntax will show us the result of the ANOVA just as if we had called the function as is instead of defining it as a new object. Here is the console output:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Contrasts set to contr.sum for the following variables: cond</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type 3 tests)
+
+Response: dv
+  Effect    df   MSE         F  ges p.value
+1   cond 2, 87 89.48 22.91 *** .345   &lt;.001
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+<p>As we can see, the effect of <em>cond</em> (the grouping variable in our fictional data) is statistically significant. We can now state - with the usual confidence - that the means of the three groups are not equal. However, we cannot say anything else. Since an ANOVA uses the squared test statistic <span class="math inline">\(F\)</span>, we have no information on the direction of the mean differences, nor do we know which means differ. Thus, we need further analyses to get a clear picture of the mean differences the ANOVA detected.</p>
+<div class="alert alert-info">
+<p>As a useful - if somewhat brutish - metaphor, think of an ANOVA as firing a shotgun into think fog. A statistically significant effect means that we hit something, but we do not know what we hit. In order to find that out we need to venture into the fog and have a closer look.</p>
+<p>(Credit for this metaphor goes to Prof.&nbsp;Dieter Heyer)</p>
+</div>
+<p>In order to disentangle a significant effect in an ANOVA with three or more groups, we need to run <strong>post-hoc</strong> analyses. There are many different ways to run such post-hoc analyses. We will look at three of them here:</p>
+<section id="pot-hoc-t-tests" class="level3">
+<h3 class="anchored" data-anchor-id="pot-hoc-t-tests">Pot hoc t-tests</h3>
+<p>Perhaps the easiest way to disentangle significant effects in an ANOVA is running <span class="math inline">\(t\)</span>-tests to compare the means of the groups. We already know how to do this, namely by using the <em>t.test</em> function. The advantage, beyond the fact that it is easy, is that we can specify one-tailed <span class="math inline">\(t\)</span>-tests if they are theoretically justified and, ideally, preregistered as follow-up tests in case an ANOVA yields a significant result.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

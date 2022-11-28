@@ -18,10 +18,8 @@ When we estimate the true variance $\sigma^2_x$ from data we collected, using th
 
 $$\hat{\sigma}^2_x = \frac{1}{n-1}\Sigma{(x_i - \bar{x})^2}$$
 
-We can think of the terms $\frac{1}{n-1}$ as the degrees of freedom of our estimate of the variance. Dividing a sum of squares by its degrees of freedom yields the so called **mean squares**.
-
 :::{.alert .alert-success}
-**Fun fact** :When we divide a squared deviation by its degrees of freedom, the resulting variable follows a $\chi^2$-distribution with the respective degrees of freedom.
+**Fun fact**: Dividing a sum of squares by its degrees of freedom yields the so called **mean squares**. The mean squares follow a $\chi^2$-distribution with the respective degrees of freedom.
 :::
 
 
@@ -190,31 +188,84 @@ Now for the important bits. R shows us what the response variable in our model i
 In our example, the mean difference is not statistically significant, which mans that we cannot reject the null hypothesis. In other words, we cannot say whether the true means between the three groups differ.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 :::{.alert .alert-info}
 Similar to the $\chi^2$-test, the $F$-test we use in an ANOVA is always a one-tailed test because it is based on squared variables. Therefore, the test has no 'direction' as a $t$-test would.
 
 Why is this important? Sometimes, we might encounter a scientific article, in which the authors state that they ran a 'one-tailed' ANOVA test, but what they do in those articles is simply the divide their $p$-value by 2. This practice (often encountered when the regular $p$-value lies between .05 and .10) rests on the erroneous belief that all statistical tests are - per default - two-tailed and can, therefore, also be run as a one-tailed test with slightly greater power. 
 :::
+
+
+## Disentangling significant effects in ANOVAs
+
+In the example above, we had to retain the Null hypothesis because the analysis did not show evidence that the three means were different from each other. In those cases, there is no need for further analyses. However, things look a bit different when the ANOVA yields a significant result. Let's look at an example.
+
+In this example, we will compare two treatments and one control condition with data for 30 participants in each condition. The data is stored in a data frame called *my_df2*. Here is what the data looks like (we use the function *head* on the data frame to have R show us the first 6 lines).
+
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+### generate data for a one-factorial ANOVA design with three groups
+suppressMessages(library(MASS))
+suppressPackageStartupMessages(library(dplyr))
+
+set.seed(1234)
+my_df2 = data.frame(
+  ID = c(seq(1, 88, 3), seq(2, 89, 3), seq(3, 90, 3)),
+  cond = factor(rep(c('control', 'treat1', 'treat2'), each = 30)),
+  dv = round(c(rnorm(30, 100, 10), rnorm(30, 108, 10),
+               rnorm(30, 112, 10)))
+)
+
+my_df2 = my_df2 %>% arrange(ID)
+
+head(my_df2)
+```
+:::
+
+We now run the ANOVA on the data. Other than before, we will define the result of the analysis as a new R object. This will make it easier for us to disentangle the effect later on. Here is the syntax:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# run a one-factorial ANOVA and save its results as a new R object
+model1 = aov_ez(id = 'ID', dv = 'dv', between = 'cond', data = my_df2)
+```
+
+We will now see a new object called "model1" in the **Environment**. R will tell us that this object is a list. Entering the new object's name as syntax will show us the result of the ANOVA just as if we had called the function as is instead of defining it as a new object. Here is the console output:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# run a one-factorial ANOVA and save its results as a new R object
+model1 = aov_ez(id = 'ID', dv = 'dv', between = 'cond', data = my_df2)
+
+model1
+```
+:::
+
+As we can see, the effect of *cond* (the grouping variable in our fictional data) is statistically significant. We can now state - with the usual confidence - that the means of the three groups are not equal. However, we cannot say anything else. Since an ANOVA uses the squared test statistic $F$, we have no information on the direction of the mean differences, nor do we know which means differ. Thus, we need further analyses to get a clear picture of the mean differences the ANOVA detected.
+
+:::{.alert .alert-info}
+As a useful - if somewhat brutish - metaphor, think of an ANOVA as firing a shotgun into think fog. A statistically significant effect means that we hit something, but we do not know what we hit. In order to find that out we need to venture into the fog and have a closer look.
+
+(Credit for this metaphor goes to Prof. Dieter Heyer)
+:::
+
+
+In order to disentangle a significant effect in an ANOVA with three or more groups, we need to run **post-hoc** analyses. There are many different ways to run such post-hoc analyses. We will look at three of them here:
+
+
+### Pot hoc t-tests
+
+Perhaps the easiest way to disentangle significant effects in an ANOVA is running $t$-tests to compare the means of the groups. We already know how to do this, namely by using the *t.test* function. The advantage, beyond the fact that it is easy, is that we can specify one-tailed $t$-tests if they are theoretically justified and, ideally, preregistered as follow-up tests in case an ANOVA yields a significant result. 
+
+
+
+
 
 
 
