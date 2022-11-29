@@ -473,7 +473,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> my_df2<span class="sc">$</span>dv[my_df2<span class="sc">$</span>cond <span class="sc">==</span> <span class="st">'treat2'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is what R outputs in the console once we run the three tests:</p>
-<p>:::[.alert .alert-warning]</p>
+<div class="alert alert-warning">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -515,7 +515,7 @@ mean of x mean of y
  102.3667  113.3333 </code></pre>
 </div>
 </div>
-<p>:::</p>
+</div>
 <p>As we can see, all three tests show evidence of mean differences. That is, based on these post-hoc comparisons, we can now say why the ANOVA yielded a significant effect: all three means differ from each other.</p>
 <p>But wait! Don’t we need to correct for multiple comparisons? The answer is: it depends on your testing philosophy. If you want to treat the complete post-hoc analysis as a single analysis, then yes, you need to control your type-I error. The easiest way to do this is to use Bonferroni’s correction, that is, we divide the tolerated type-I error level <span class="math inline">\(\alpha\)</span> by the number of tests we ran <span class="math inline">\(k\)</span>.</p>
 <p>In our case, this means dividing the usual <span class="math inline">\(\alpha\)</span> level of .05 by three (the number of post-hoc tests we ran). We now consider a post-hoc <span class="math inline">\(t\)</span>-test significant only if the associated <span class="math inline">\(p\)</span>-value is smaller than .01667. In our example, correcting for multiple testing does not change the general pattern of results. All three tests still yield significant mean differences.</p>

@@ -146,7 +146,7 @@ my_df = data.frame(
 
 We can inspect how the data frame looks using the *head* function.
 
-::: {.alert .alert-warning}
+:::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -165,7 +165,7 @@ aov_ez(id = 'ID', between = 'cond', dv = 'dv', data = my_df)
 
 Here is what the output in the cosole looks like:
 
-::: {.alert .alert-warning}
+:::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -194,7 +194,7 @@ In the example above, we had to retain the Null hypothesis because the analysis 
 
 In this example, we will compare two treatments and one control condition with data for 30 participants in each condition. The data is stored in a data frame called *my_df2*. Here is what the data looks like (we use the function *head* on the data frame to have R show us the first 6 lines).
 
-::: {.alert .alert-warning}
+:::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -228,7 +228,7 @@ model1 = aov_ez(id = 'ID', dv = 'dv', between = 'cond', data = my_df2)
 
 We will now see a new object called "model1" in the **Environment**. R will tell us that this object is a list. Entering the new object's name as syntax will show us the result of the ANOVA just as if we had called the function as is instead of defining it as a new object. Here is the console output:
 
-::: {.alert .alert-warning}
+:::{.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -279,7 +279,7 @@ t.test(x = my_df2$dv[my_df2$cond == 'treat1'],
 
 Here is what R outputs in the console once we run the three tests:
 
-:::[.alert .alert-warning]
+:::{.alert .alert-warning}
 
 ```{r}
 #| eval: true
@@ -353,9 +353,9 @@ contrast(object = emmeans(object = model1, specs = 'cond'),
 
 ```
 
-Running either version of the code, will produce the following output in the console: 
+Running either version of the code, will produce the following output in the console:
 
-:::{.alert .alert-warning}
+::: {.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -377,7 +377,6 @@ As we can see, the output is a table that contains the result of the HSD post-ho
 
 Based on the HSD post-hoc tests, we would conclude that scores are higher in treatment 2 than in both the control condition and treatment 1, but we cannot say whether scores in treatment 1 are different from those in the control condition.
 
-
 ### Custom post-hoc contrasts
 
 The third way to run post-hoc tests we will consider here is to run custom $t$-contrasts. What this means is that we define ourselves how we want to compare the group means in case of a significant effect in the ANOVA. When using custom contrasts, we can choose how many comparisons we run, which means we want to compare, and how to compare them.
@@ -386,22 +385,22 @@ What we are effectively doing here is to compute weighted means of our condition
 
 Let us go back to our ANOVA example and assume that we want to run two post-hoc tests. The first tests whether having any treatment leads to different scores than being in the control condition. The second tests whether the effectiveness of the two treatments differs. Here is what the two contrasts would look like:
 
-|          | control | treatment 1 | treatment 2 | 
-|----------|---------|-------------|-------------|
-|contrast 1| -1      | +0.5        | +0.5        | 
-|contrast 2| 0       | 1           | -1          |
+|            | control | treatment 1 | treatment 2 |
+|------------|---------|-------------|-------------|
+| contrast 1 | -1      | +0.5        | +0.5        |
+| contrast 2 | 0       | 1           | -1          |
 
 Let's dissect that! For contrast 1, we compare the control group with the mean of the two treatment groups. In contrast 2, we compare only the two treatment groups; the 0 weight for the control condition means that its mean does not play any role in this contrast.
 
-:::{.alert .alert-success}
+::: {.alert .alert-success}
 In a design with three or more groups, contrasts comparing two group means have a distinct advantage over run-of-the-mill $t$-tests that compare the same means.
 
-The reason is that - assuming equal variances in all groups - information from any group can be used to estimate the variance of the mean difference. While the group means of those conditions that receive a contrast weight of zero play no role in determining the signal, we can use the data from these groups to reduce the noise in our test. 
+The reason is that - assuming equal variances in all groups - information from any group can be used to estimate the variance of the mean difference. While the group means of those conditions that receive a contrast weight of zero play no role in determining the signal, we can use the data from these groups to reduce the noise in our test.
 
 Therefore, a $t$-contrast will usually be more powerful than a regular $t$-test, although this advantage decreases with the sample size.
 :::
 
-How do we tell R that we want to run custom contrasts? We can do so using the same *contrast* function we used to run the HSD test. To run custom contrasts, we simply need to change how we specify the function's *method* argument. To be exact, we need to define this argument as a list in which each element is one contrast. 
+How do we tell R that we want to run custom contrasts? We can do so using the same *contrast* function we used to run the HSD test. To run custom contrasts, we simply need to change how we specify the function's *method* argument. To be exact, we need to define this argument as a list in which each element is one contrast.
 
 When defining the list of contrasts, each contrast must be a numeric vector of length $k$, where $k$ is the number of groups in the grouping variable that we fed into the *emmeans* function (in our case 3). If we chose the wrong vector length, we will receive an error message. We also need to make sure that the sum of each contrast vector is zero (R will not check this, and the function will work even if we input nonsensical weights). Finally, we can (but do not have to) create these vectors as named elements of the list. Naming the vectors may lead to output that is slightly easer to make sense of.
 
@@ -436,9 +435,10 @@ contrast(object = emmeans(object = model1, specs = 'cond'),
              )
          )
 ```
+
 Running either version of the code will prompt R to test the contrasts, and we will receive the following console output:
 
-:::{.alert .alert-warning}
+::: {.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -460,7 +460,6 @@ As we can see, R returns a table with two contrast tests. Since we named the con
 
 But what about multiple comparisons? So far, we have not corrected for multiple comparisons, but we can do so if we want to. The good news is that we do not have to do it manually when using the *contrast* function. Instead, we can specify a third function argument called *adjust*. If we use custom contrasts, the default for this argument is "none", but we can set it to "bonferroni" (for the classic Bonferroni correction) or "holm" (for the slightly lees concervative Holm-Bonferroni method) instead. Let's go with Bonferroni. Here is the code:
 
-
 ```{r}
 #| eval: false
 #| echo: true
@@ -476,9 +475,10 @@ contrast(object = emmeans(object = model1, specs = 'cond'),
          adjust = 'bonferroni'
          )
 ```
+
 Now let's look at the console output:
 
-:::{.alert .alert-warning}
+::: {.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -496,17 +496,14 @@ contrast(object = emmeans(object = model1, specs = 'cond'),
 ```
 :::
 
-As we can see, not much has changed in terms of statistical significance, which makes sense because the unadjusted $p$-values were already very low. However, R now tells us at the bottom of the table that $p$-values were adjusted using the Bonferroni method. 
+As we can see, not much has changed in terms of statistical significance, which makes sense because the unadjusted $p$-values were already very low. However, R now tells us at the bottom of the table that $p$-values were adjusted using the Bonferroni method.
 
-
-:::{.alert .alert-info}
+::: {.alert .alert-info}
 Custom contrasts are really useful because of their flexibility. They allow us to test very specific hypotheses. In fact, if we can state in advance which means in our design should differ (for example, because we have a strong theory to base our hypotheses on), we can technically skip the ANOVA altogether and instead run only the contrast tests. In those cases, we speak of a-priori contrasts.
 :::
-
 
 ### A concluding remark on post-hoc comparisons
 
 We started the journey into post-hoc analyses using the metaphor of the ANOVA as firing a shotgun into thick fog which - in case we hit something - necessitates wandering into the fog in order to find out what exactly we hit. As the examples above show, the answer to that crucial question depends on which post-hoc comparisons we run (pairwise comparisons vs. custom contrasts), the type of alternative hypotheses we test (one-tailed vs. two-tailed tests), and whether and how we control for type-I error inflation due to multiple comparisons.
 
-When trying to disentangle a significant effect in an ANOVA, we may find ourselves faced with multiple options, each of which is valid and can be argued for convincingly. However, even subtle differences between these options may lead to qualitatively different conclusions. The practical advice here is to preregister exactly which tests we will run in case an ANOVA yields a significant result (ideally by providing the R code for the post-hoc analysis). 
-
+When trying to disentangle a significant effect in an ANOVA, we may find ourselves faced with multiple options, each of which is valid and can be argued for convincingly. However, even subtle differences between these options may lead to qualitatively different conclusions. The practical advice here is to preregister exactly which tests we will run in case an ANOVA yields a significant result (ideally by providing the R code for the post-hoc analysis).
