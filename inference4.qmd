@@ -13,7 +13,7 @@ $$\sigma^2_x = \frac{1}{n} \times \underbrace{\Sigma{(x_i - \bar{x})^2}}_\text{s
 
 From this equation, we can see that the variance of the variable $x$ is the product of two components. One is the **sum of squares**, that is, the sum of the squared deviations of each observation $x_i$ from their mean $\bar{x$}. The second factor simply divides this sum of squares by the number of observations $n$.
 
-When we estimate the true variance $\sigma^2_x$ from data we collected, using the formula above produces a slight bias. Specifically, our estimate of the true variance will be systematically too low. To arrive at an unbiased estimate, we need to divide the um of squares by $n-1$ instead of $n$, leading to the following formal definition of the **estimate of the variance** $\hat{\sigma}^2_x$:
+When we estimate the true variance $\sigma^2_x$ from data we collected, using the formula above produces a slight bias. Specifically, our estimate of the true variance will be systematically too low. To arrive at an unbiased estimate, we need to divide the sum of squares by $n-1$ instead of $n$, leading to the following formal definition of the **estimate of the variance** $\hat{\sigma}^2_x$:
 
 $$\hat{\sigma}^2_x = \frac{1}{n-1}\Sigma{(x_i - \bar{x})^2}$$
 
@@ -23,7 +23,7 @@ $$\hat{\sigma}^2_x = \frac{1}{n-1}\Sigma{(x_i - \bar{x})^2}$$
 
 ## The logic of the ANOVA
 
-The whole idea of ANOVA rests on the fact that the variance can be partitioned into the the sum of its parts. This is also true for the the **sum of squares**. As a very basic rule, we can state that:
+The whole idea of ANOVA rests on the fact that the variance can be partitioned into the sum of its parts. This is also true for the the **sum of squares**. As a very basic rule, we can state that:
 
 $$SS_{total} = SS_{between} + SS_{within}$$
 
@@ -47,9 +47,9 @@ $$SS_{total} = \sum_{i=1}^{N} (x_i - \bar{x})^2$$
 
 The total sum of squares represent the sum of the squared deviation of all $N$ observed data points from the grand mean $\bar{x}$. Now lets look at the formula for $SS_{between}$.
 
-$$SS_{between} = \sum_{j=1}^{J} n_j \times (\bar{x_j} - \bar{x})^2$$ Here, $J$ is the number of groups we compare, and $n_j$ is the sample size of group $j$. For the $SS_{between}$ we pretend that there is no variance within the $J$ groups at all. Each observation is represented by its group's mean $\bar{x_j}$, and we compute the variability as the difference of these group means from the grand mean $\bar{x}$. Therefore, the $SS_{between}$ isolates the between-group part of the total variability of $x$. Let's now turn to the $SS_{within}$.
+$$SS_{between} = \sum_{j=1}^{J} n_j \times (\bar{x}_j - \bar{x})^2$$ Here, $J$ is the number of groups we compare, and $n_j$ is the sample size of group $j$. For the $SS_{between}$ we pretend that there is no variance within the $J$ groups at all. Each observation is represented by its group's mean $\bar{x}_j$, and we compute the variability as the difference of these group means from the grand mean $\bar{x}$. Therefore, the $SS_{between}$ isolates the between-group part of the total variability of $x$. Let's now turn to the $SS_{within}$.
 
-$$SS_{within} = \sum_{j=1}^{J} \sum_{k = 1}^{n_j} (x_{jk} - \bar{x_j})$$ Again, $J$ is the number of groups we compare, and $n_j$ is the sample size in group $j$. The $x_{jk}$ refers to the $k$th observation in group $j$. For the $SS_{within}$, we pretend that there is no variance between groups at all. We do so by substituting the *grand mean* for the respective group means $\bar{x_j}$. Thus, the $SS_within$ isolates the within-group variability of $x$.
+$$SS_{within} = \sum_{j=1}^{J} \sum_{k = 1}^{n_j} (x_{jk} - \bar{x}_j)$$ Again, $J$ is the number of groups we compare, and $n_j$ is the sample size in group $j$. The $x_{jk}$ refers to the $k$th observation in group $j$. For the $SS_{within}$, we pretend that there is no variance between groups at all. We do so by substituting the *grand mean* for the respective group means $\bar{x}_j$. Thus, the $SS_within$ isolates the within-group variability of $x$.
 
 The final thing we need to understand before we can delve into the actual ANOVAs is the $F$-statistic. As we have seen above, we compute $F$ as a ratio of the $MS_{between}$ and the $MS_{within}$. This ratio is interesting in several ways:
 
@@ -95,7 +95,7 @@ Once we have done that, we can start doing ANOVAs with one of several functions:
 -   *aov_4*
 -   *aov_ez*
 
-The three functions serve the same goal and do the same things, but they differ in terms of the syntax. The function *aov_car* uses syntax that is most closely related the the (clunky) base R version of ANOVA. In contrast, *aov_4* uses syntax based on the popular *lme4* package that is widely used for the analysis of generalised mixed models. Thus, this function is ideally suited for users who are already familiar with *lme4*. Finally, *aov_ez* uses a completely string-based format, that is, it does not require a formula type object as a function argument. The advantage of *aov_ez* is that it is very convenient and easy to handle (thus the suffix "ez"). This comes at the cost of flexibility. The lack of a formula means that we are stuck with a full ANOVA model. The other two functions technically allow us to specify models that omit certain main effects or interactions. However, since we will rarely want to run these incomplete models, this is a drawback that usually causes no hassles. In the following, we will focus on the *aov_ez* function and leave exploration of the other functions to the discretion of the reader,
+The three functions serve the same goal and do the same things, but they differ in terms of the syntax. The function *aov_car* uses syntax that is most closely related the the (clunky) base R version of ANOVA. In contrast, *aov_4* uses syntax based on the popular *lme4* package that is widely used for the analysis of generalised mixed models. Thus, this function is ideally suited for users who are already familiar with *lme4*. Finally, *aov_ez* uses a completely string-based format, that is, it does not require a formula type object as a function argument. The advantage of *aov_ez* is that it is very convenient and easy to handle (thus the suffix "ez"). This comes at the cost of flexibility. The lack of a formula means that we are stuck with a full ANOVA model. The other two functions technically allow us to specify models that omit certain main effects or interactions. However, since we will rarely want to run these incomplete models, this is a drawback that usually causes no hassles. In the following, we will focus on the *aov_ez* function and leave exploration of the other functions to the discretion of the reader.
 
 Here are the most important function arguments of *aov_ez*:
 
@@ -104,8 +104,8 @@ Here are the most important function arguments of *aov_ez*:
 -   *data* (required): an R object of type data frame containing the data we want to analyse
 -   *between* (optional): a character string or character vector indicating the name(s) of the variable(s) constituting the between-subjects factor(s) of our design; default is NULL meaning that there are no between-subjects factors
 -   *within* (optional): a character string or character vector indicating the name(s) of the variable(s) constituting the within-subjects factor(s) of our design; default is NULL meaning that there are no within-subjects factors
--   covariate: a character value or vector indicating the name(s) of the covariate(s) in our analysis
--   factorize (optional): a logical value; determines if the between- and within-subject variables are turned into factors prior to the analysis; default is TRUE; if our design has at least one covariate, we need to set this to FALSE and make sure that all factors are defined as such manually
+-   *covariate*: a character value or vector indicating the name(s) of the covariate(s) in our analysis
+-   *factorize* (optional): a logical value; determines if the between- and within-subject variables are turned into factors prior to the analysis; default is TRUE; if our design has at least one covariate, we need to set this to FALSE and make sure that all factors are defined as such manually
 -   *anova_table* (optional): a list of further arguments passed to the function; the ones we may be interested in are *es* (effect size; default is 'ges', which yields $\eta^2$ as an effect size measure, but we can switch it to 'none' or to 'pes', which yields $\eta^2_p$) and *correction* (non-sphericity correction method; default is 'none', bu we can switch it to 'GG' for the Greenhouse-Geisser or 'HF' for the Huynh-Feldt correction)
 
 For the purpose of running a one-factorial between-subjects ANOVA, we can disregard some of the function arguments shown above. The only ones we need are *id*, *dv*, *between*, and possibly *anova_table* in case we want to obtain the effect size.
@@ -146,7 +146,7 @@ my_df = data.frame(
 
 We can inspect how the data frame looks using the *head* function.
 
-:::{.alert .alert-warning}
+::: {.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -163,9 +163,9 @@ Now that we have some data, we can run the ANOVA. The syntax looks as follows:
 aov_ez(id = 'ID', between = 'cond', dv = 'dv', data = my_df)
 ```
 
-Here is what the output in the cosole looks like:
+Here is what the output in the console looks like:
 
-:::{.alert .alert-warning}
+::: {.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -194,7 +194,7 @@ In the example above, we had to retain the Null hypothesis because the analysis 
 
 In this example, we will compare two treatments and one control condition with data for 30 participants in each condition. The data is stored in a data frame called *my_df2*. Here is what the data looks like (we use the function *head* on the data frame to have R show us the first 6 lines).
 
-:::{.alert .alert-warning}
+::: {.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -228,7 +228,7 @@ model1 = aov_ez(id = 'ID', dv = 'dv', between = 'cond', data = my_df2)
 
 We will now see a new object called "model1" in the **Environment**. R will tell us that this object is a list. Entering the new object's name as syntax will show us the result of the ANOVA just as if we had called the function as is instead of defining it as a new object. Here is the console output:
 
-:::{.alert .alert-warning}
+::: {.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -247,141 +247,152 @@ As a useful - if somewhat brutish - metaphor, think of an ANOVA as firing a shot
 (Credit for this metaphor goes to Prof. Dieter Heyer)
 :::
 
-In order to disentangle a significant effect in an ANOVA with three or more groups, we need to run **post-hoc** analyses. There are many different ways to run such post-hoc analyses. We will look at three of them here:
+In order to disentangle a significant effect in an ANOVA with three or more groups, we need to run **post-hoc** analyses. There are many different ways to run such post-hoc analyses. Here, we will focus on **post-hoc contrasts**.
 
 ### Post-hoc t-tests
 
-Perhaps the easiest way to disentangle significant effects in an ANOVA is running $t$-tests to compare the means of the groups. We already know how to do this, namely by using the *t.test* function. The advantage, beyond the fact that it is easy, is that we can specify one-tailed $t$-tests if they are theoretically justified and, ideally, preregistered as follow-up tests in case an ANOVA yields a significant result.
+Before we delve into **post-hoc** contrasts, it is worth mentioning that one easy way to disentangle significant effects in an ANOVA is running $t$-tests to compare the means of the groups. We already know how to do this, namely by using the *t.test* function.
 
-In our specific example, let's assume that we expected both treatments to be effective, which should manifest in higher mean scores as compare with the control condition. Let us further assume that we had no specific prediction regarding the relative effectiveness of the two treatments. In this case, we would run two one-tailed $t$-tests, one comparing the first treatment condition with the control condition, and another comparing the second treatment with the control condition. For the final post-hoc comparison, we would run a two-tailed $t$-test comparing the two treatment conditions.
+However, there are three downsides to using simple $t$-tests. First, they are less powerful than contrasts because their estimate of the error variance is based on only a part of the total sample. Second, if we want to control the type-I error rate by adjusting for multiple comparisons, we need to do so manually (this may be easy for Bonferroni's method, but more challenging for less conservative adjustment methods). Third, as the number of groups we compare in an ANOVA increases, so does the number of possible pairwise comparisons. In fact, the number of comparisons is $(k^2-k)/2$, that is, it grows exponentially. Thereofre, the amount of code we need to write also increases accordingly.
 
-Lets have a look at the syntax first. It could look like this:
+### Pairwise comparisons using contrasts
 
-```{r}
-#| eval: false
-#| echo: true
-#| code-overflow: wrap
-# one-tailed t-test, testing whether dv scores are higher in the first treatment condition than in the control condition
-t.test(x = my_df2$dv[my_df2$cond == 'treat1'],
-       y = my_df2$dv[my_df2$cond == 'control'],
-       alternative = 'greater')
+An alternative to running individual $t$-tests is to do pairwise comparisons using post-hoc contrasts. A contrast is a weighted average of the group means $\bar{x}_j$ of the $J$ groups we compare.
 
-# one-tailed t-test, testing whether dv scores are higher in the second treatment condition than in the control condition
-t.test(x = my_df2$dv[my_df2$cond == 'treat2'],
-       y = my_df2$dv[my_df2$cond == 'control'],
-       alternative = 'greater')
+$$\hat{\psi} = \sum_{j=1}^{J} c_j \bar{x}_j$$
 
-# two-tailed t-test, testing whether dv scores differ between the two treatments
-t.test(x = my_df2$dv[my_df2$cond == 'treat1'],
-       y = my_df2$dv[my_df2$cond == 'treat2'])
+It must satisfy the condition that the weights $c_j$ add to zero:
 
-```
+$$\sum_{j=1}^{J} c_j = 0$$
 
-Here is what R outputs in the console once we run the three tests:
+The standard error of a contrast $\hat{\psi}$ is computed based on **all data**. That is why contrasts are usually more powerful than run-og-the-mill $t$-tests. The standard error is defined as:
 
-:::{.alert .alert-warning}
+$$S_{\hat{\psi}} = \sqrt{MS_{within} \sum_{j=1}^{J} \frac{c_j^2}{n_j}}$$
 
-```{r}
-#| eval: true
-#| echo: false
-#| code-overflow: wrap
-# one-tailed t-test, testing whether dv scores are higher in the first treatment condition than in the control condition
-t.test(x = my_df2$dv[my_df2$cond == 'treat1'],
-       y = my_df2$dv[my_df2$cond == 'control'],
-       alternative = 'greater')
+Dividing a contrast $\hat{\psi}$ by its standard error $S_{\hat{\psi}}$ yields a variable that follows a $t$-distribution with $N-J$ degrees of freedom, where $N$ is the total sample size, and $J$ is the umber of groups.
 
-# one-tailed t-test, testing whether dv scores are higher in the second treatment condition than in the control condition
-t.test(x = my_df2$dv[my_df2$cond == 'treat2'],
-       y = my_df2$dv[my_df2$cond == 'control'],
-       alternative = 'greater')
+$$\frac{\hat{\psi}}{S_{\hat{\psi}}} \sim t_{N-J}$$ Testing a contrast comes down to running a one-sample $t$-test to test (for example):
 
-# two-tailed t-test, testing whether dv scores differ between the two treatments
-t.test(x = my_df2$dv[my_df2$cond == 'treat1'],
-       y = my_df2$dv[my_df2$cond == 'treat2'])
-```
+$H_0: \hat{\psi} = 0$
 
-:::
+$H_1: \hat{\psi} \ne 0$
 
-As we can see, all three tests show evidence of mean differences. That is, based on these post-hoc comparisons, we can now say why the ANOVA yielded a significant effect: all three means differ from each other.
+If we want to analyse contrasts in R, we need another R package called *emmeans*. This package contains a function called *emmeans* (yes, it has the same name as the package) that allows us to run a contrast analysis. Let's have a look at the *emmeans* function. When we call it to analyse contrasts, we need to specify a few arguments:
 
-But wait! Don't we need to correct for multiple comparisons? The answer is: it depends on your testing philosophy. If you want to treat the complete post-hoc analysis as a single analysis, then yes, you need to control your type-I error. The easiest way to do this is to use Bonferroni's correction, that is, we divide the tolerated type-I error level $\alpha$ by the number of tests we ran $k$.
+-   *object* (required): an R object containing the results of an ANOVA (good thing we saved our ANOVA as an R object).
+-   *spec* (required): a character string or vector containing the name(s) of the grouping variable(s) in our data (in our example, the grouping variable is 'cond').
+-   *contr* (optional): a character value or list indicating the type of post-hoc comparisons; the default is NULL, but we can set it to "pairwise", or we can define it as a list of vectors representing custom contrasts.
+-   *adjust* (optional): a character value indicating which method should be used to control for type-I error inflation due to multiple comparisons; default is "tukey" for Tukey's method, but we can set it to "none" if we don't want to adjust our $p$-values, or we can choose a different adjustment method such as "holm" (the the Holm-Tukey method) or Bonferroni (for the Bonferroni correction).
 
-In our case, this means dividing the usual $\alpha$ level of .05 by three (the number of post-hoc tests we ran). We now consider a post-hoc $t$-test significant only if the associated $p$-value is smaller than .01667. In our example, correcting for multiple testing does not change the general pattern of results. All three tests still yield significant mean differences.
+Let's dive in an run pairwise comparisons on our ANOVA. We can tell the *emmeans* function to run pairwise contrasts by seeting the *contr* argument to "pairwise". The function will then set up the following contrasts:
 
-::: {.alert .alert-danger}
-In this example, things would look differently, had we used two-tailed tests to compare the treatments with the control condition. Specifically, the comparison of the first treatment condition with the control condition would have yielded a significant result when not correcting for multiple comparisons (the tests then yields a $p$-value of .033).
+|            | control | treatment 1 | treatment 2 |
+|------------|---------|-------------|-------------|
+| contrast 1 | 1       | -1          | 0           |
+| contrast 2 | 1       | 0           | -1          |
+| contrast 3 | 0       | 1           | -1          |
 
-After using a Bonferroni correction, this comparison would no longer be statistically significant since the $p$-value of the two-tailed tests exceeds the adjusted $\alpha$-level of .01667.
-:::
-
-### Tukey's method for pairwise comparisons
-
-Running pairwise comparisons using $t$-tests is fine if we compare only few groups. However, as the number of groups we compare in an ANOVA increases, so does the number of possible pairwise comparisons. In fact, the number of comparisons is $(k^2-k)/2$, that is, it grows exponentially.
-
-An alternative to running individual tests is Tukey's method, also known as Tukey's honestly significant difference (HSD). In technical terms, HSD computes the critical mean difference for which a pairwise comparison is considered significant, and then judges each comparison by that difference. The test statistic $q$ follows the Studentised range distribution, the shape of which depends on the number of groups $k$ and the sample size $n$ (via the distribution's degrees of freedom). Because the distribution of the $q$-statistic considers the number of groups, the HSD adjusts for multiple comparisons.
-
-If we want to run post-hoc comparisons using HSD in R, we need another package called *emmeans*. This package contains two functions we need: *emmeans* (yes, it has the same name as the package) and *contrast*.
-
-Let's first look at the *emmeans* function. When we call this function, we need to specify two function arguments. The first is called *object*. Here, we need to feed the function an R object containing the results of an ANOVA (good thing we saved our ANOVA as an R object). Second, we need to tell the function the name of grouping variable in our data. We do so by defining the function argument *spec* as a character string equalling the name of the respective variable (in our example, the grouping variable is 'cond').
-
-The second function, *contrast* also needs two function arguments to do what we want it to do. The first is, again, called *object*. However, the *contrast* function does not need an ANOVA type object. Instead, it needs the type of object that the *emmeans* function returns (it is called an "emmGrid" type object). As a second argument, we need to specify *method*, which determines the type of post-hoc comparisons the function computes. The default is "eff", which tests each group against the mean of all groups, but this is not what we want R to do. In order to get the HSD comparisons, we need to set this argument to "tukey".
-
-Let's have a look at the code using the ANOVA model we saved as an R object above ("model1"). There are two ways of writing this code, one that creates a separate object of type "emmGrid" in the environment which we can feed to the *contrast* function, and another that omits creating this object by feeding the *contrast* function another function call as its *object* (the latter may be preferable because we won't do much with an "emmGrid" type object).
+In the first example, we will go with the unadjusted $p$-values. Let's have a look at the code using the ANOVA model we saved as an R object above ("model1"). Here is the syntax.
 
 ```{r}
 #| eval: false
 #| echo: true
 #| code-overflow: wrap
-# uncomment to install the package emmeans
-# install.packages(emmeans)
-# load the library emmeans
+# uncomment the next line to install the package emmeans
+# install.packages("emmeans")
+# load emmeans
 library(emmeans)
 
-## Alternative 1: save the emmGrid object separately
-
-# create an emmGrid object from the ANOVA
-grid1 = emmeans(object = model1, specs = 'cond')
-
-# obtain Tukey's HSD using the function "contrast"
-contrast(object = grid1, method = 'tukey')
-
-## Alternative 2: don't create an emmGrid object
-
-# obtain Tukey's HSD using the function "contrast"
-contrast(object = emmeans(object = model1, specs = 'cond'), 
-         method = 'tukey')
-
+# pairwise comparisons without type-I error adjustment
+emmeans(object = model1, specs = 'cond',
+        contr = 'pairwise', adjust = 'none')
 ```
 
-Running either version of the code, will produce the following output in the console:
+One we run the code above, R will return some information in the console. Here is what it looks like:
 
-::: {.alert .alert-warning}
+::: {.alert .alret-warning}
 ```{r}
 #| eval: true
 #| echo: false
 #| code-overflow: wrap
-# uncomment to install the package emmeans
-# install.packages(emmeans)
-# load the library emmeans
-suppressMessages(library(emmeans))
+# uncomment the next line to install the package emmeans
+# install.packages("emmeans")
+# load emmeans
+suppressWarnings(library(emmeans))
 
-## Alternative 2: don't create an emmGrid object
-
-# obtain Tukey's HSD using the function "contrast"
-contrast(object = emmeans(object = model1, specs = 'cond'), 
-         method = 'tukey')
+# pairwise comparisons without type-I error adjustment
+emmeans(object = model1, specs = 'cond',
+        contr = 'pairwise', adjust = 'none')
 ```
 :::
 
-As we can see, the output is a table that contains the result of the HSD post-hoc test. Here, R will tell us which groups were compared and what the estimated mean difference for the respective comparison is. It will also tell us the standard error of the mean differences and the degrees of freedom (total sample size $n$ minus the number of groups $k$). Finally, there will be a $t$-value and and $p$-value for each of the pairwise comparisons.
+The information we are interested in, is contained in the lower half of the output. There, we can see three contrasts, each comparing two of the three levels of our between-subjects variable 'cond'. The output contains an estimate of the respective mean difference (this is the contrast value $\hat{\psi}$) and its associated standard error (this is $S_{\hat{\psi}}$). It also shows us the empirical $t$-value for the contrast (dividing $\hat{\psi}$ by $S_{\hat{\psi}}$ yields this exact value) and its degrees of freedom. Here, we can see that the contrast has more degrees of freedom than a simple $t$-test would have. Finally, the output contains the $p$-value for each contrast. Based on this analysis, we would conclude that the effect of condition on our ANOVA was significant because all three means differ from one another.
 
-Based on the HSD post-hoc tests, we would conclude that scores are higher in treatment 2 than in both the control condition and treatment 1, but we cannot say whether scores in treatment 1 are different from those in the control condition.
+Now let's rerun the analysis while correcting for multiple comparisons. As mentioned above, we can choose from several methods that control type-I inflation. Let's say we want to go with a classic and opt for Bonferroni's method. This method adjusts the threshold at witch we consider an effect to be statistically significant. We now accept $H_1$ only if $p < \frac{\alpha}{k}$, where $\alpha$ is our tolerated type-I error level (e.g., $\alpha = .05$), and $k$ is the number of post-hoc contrasts we test. What R does instead, is multiplying the unadjusted $p$-values by $k$. This makes it somewhat more convenient because we can keep comparing the now corrected $p$-values to our usual tolerated type-I error level.
+
+::: {.alert .alert-sucess}
+Are wondering what would happen if the unadjusted $p$-value is already so large that multiplying it by the number of tests $k$ would propel it above 1? The simple answer is: nothing terrible: R caps the adjusted $p$-values at 1 in order not to violate the laws of probability. While it is technically 'wrong', it is of little concerns to because the $p$-values it concerns are so large they we would not accept $H_1$ in either the adjusted or unadjusted case.
+:::
+
+Here is the code for the pairwise comparisons using Bonferroni's method for controlling type-I error inflation (the only thing we need to change is the *adjust* argument).
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# pairwise comparisons with Bonferroni adjustment
+emmeans(object = model1, specs = 'cond',
+        contr = 'pairwise', adjust = 'bonferroni')
+```
+
+Let's have a look at the output in the console:
+
+::: {.alert .alret-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+
+# pairwise comparisons with Bonferroni adjustment
+emmeans(object = model1, specs = 'cond',
+        contr = 'pairwise', adjust = 'bonferroni')
+```
+:::
+
+The information looks very similar to what we saw when we ran the uncorrected pairwise comparisons. The are only two differences: first, R will state at the bottom of the table that the $p$-values were adjusted using Bonferroni's method for three tests. Second, the $p$-values differ. From looking at the first $p$-value (the one for the contrast comparing treatment 1 to the control group) we can confirm that R has tripled the original $p$-value (the difference at the fourth decimal is due to rounding). If we choose to use a Bonferroni correction for the post-hoc comparisons, our conclusions about the result of the ANOVA change slightly. Now, we would state - with the usual confidence - that the significant effect the ANOVA is due to the mean of the second treatment group differing from both the control group's mean and that from treatment 1. However, we cannot say whether scores in treatment 1 differ from the control group.
+
+Finally, let's consider using a less conservative adjustment method, namely Tukey's method, also known as Tukey's honestly significant difference (HSD). In technical terms, HSD computes the critical mean difference for which a pairwise comparison is considered significant, and then judges each comparison by that difference. The test statistic $q$ follows the Studentised range distribution, the shape of which depends on the number of groups $k$ and the sample size $N$ (via the distribution's degrees of freedom). Because the distribution of the $q$-statistic considers the number of groups, the HSD adjusts for multiple comparisons. Again, the oly theing we need to change about our syntax is the *adjust* argument (see below):
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# pairwise comparisons using Tukey's method
+emmeans(object = model1, specs = 'cond',
+        contr = 'pairwise', adjust = 'tukey')
+```
+
+Let's again inspect the console output
+
+::: {.alert .alret-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+
+# pairwise comparisons with Bonferroni adjustment
+emmeans(object = model1, specs = 'cond',
+        contr = 'pairwise', adjust = 'tukey')
+```
+:::
+
+Once more, the output remains largely the same, the only difference being the $p$-values and the statement about how the $p$-values were adjusted. We can see that - similar to the Bonferroni - correction, R uses a multiplier on the $p$-values rather than lowering the tolerated type-I error level, which makes life a little easier for us because we can still use our conventional $\alpha$-level to asses the statistical significance of the tests. Although the Tukey correction is less severe than the Bonferroni correction, the result is qualitatively similar: we can confirm that treatment 2 scores differ from those of the other two conditions, but we cannot say whether scores in treatment 1 differ from those in the control group.
 
 ### Custom post-hoc contrasts
 
-The third way to run post-hoc tests we will consider here is to run custom $t$-contrasts. What this means is that we define ourselves how we want to compare the group means in case of a significant effect in the ANOVA. When using custom contrasts, we can choose how many comparisons we run, which means we want to compare, and how to compare them.
+The final way to run post-hoc tests we will consider here is to run custom contrasts. What this means is that we define ourselves how we want to compare the group means in case of a significant effect in the ANOVA. When using custom contrasts, we can choose how many comparisons we run, which means we want to compare, and how to compare them.The only thing we need to keep in mind is that the contrast weights must add to zero (R does not check this for us; the code will run even if the contrast sum does not add to zero, but the result may be nonsense).
 
-What we are effectively doing here is to compute weighted means of our conditions such that the weights adds to zero. For example, we could compare two group means (just as we did with the two previously described methods), but we could also test whether two groups differ from a third.
+For example, we could compare two group means (just as we did with the pairwise comparisons), but we could also test whether two groups differ from a third.
 
 Let us go back to our ANOVA example and assume that we want to run two post-hoc tests. The first tests whether having any treatment leads to different scores than being in the control condition. The second tests whether the effectiveness of the two treatments differs. Here is what the two contrasts would look like:
 
@@ -392,19 +403,11 @@ Let us go back to our ANOVA example and assume that we want to run two post-hoc 
 
 Let's dissect that! For contrast 1, we compare the control group with the mean of the two treatment groups. In contrast 2, we compare only the two treatment groups; the 0 weight for the control condition means that its mean does not play any role in this contrast.
 
-::: {.alert .alert-success}
-In a design with three or more groups, contrasts comparing two group means have a distinct advantage over run-of-the-mill $t$-tests that compare the same means.
+How do we tell R that we want to run custom contrasts? We can do so using the *contr* argument of the *emmeans* function. To be specific, we need to define this argument as a list in which each element is one contrast.
 
-The reason is that - assuming equal variances in all groups - information from any group can be used to estimate the variance of the mean difference. While the group means of those conditions that receive a contrast weight of zero play no role in determining the signal, we can use the data from these groups to reduce the noise in our test.
+When defining the list of contrasts, each contrast must be a numeric vector of length $k$, where $k$ is the number of groups in the grouping variable that we fed into the *emmeans* function (in our case 3). If we chose the wrong vector length, we will receive an error message. We also need to make sure that the sum of each contrast vector is zero (see above). Finally, we can (but do not have to) create these vectors as named elements of the list. Naming the vectors may lead to output that is slightly easier to make sense of.
 
-Therefore, a $t$-contrast will usually be more powerful than a regular $t$-test, although this advantage decreases with the sample size.
-:::
-
-How do we tell R that we want to run custom contrasts? We can do so using the same *contrast* function we used to run the HSD test. To run custom contrasts, we simply need to change how we specify the function's *method* argument. To be exact, we need to define this argument as a list in which each element is one contrast.
-
-When defining the list of contrasts, each contrast must be a numeric vector of length $k$, where $k$ is the number of groups in the grouping variable that we fed into the *emmeans* function (in our case 3). If we chose the wrong vector length, we will receive an error message. We also need to make sure that the sum of each contrast vector is zero (R will not check this, and the function will work even if we input nonsensical weights). Finally, we can (but do not have to) create these vectors as named elements of the list. Naming the vectors may lead to output that is slightly easer to make sense of.
-
-Here, too, we need to decide whether we save the list of contrasts as a separate object or whether we feed the *contrast* function a call of the *list* function (the result will be the same, so it is simply a matter of preference). Now let's look at the R code.
+Here, we need to decide whether we save the list of contrasts as a separate object or whether we feed the *emmeans* function a call of the *list* function (the result will be the same, so it is simply a matter of preference). Now let's look at the R code.
 
 ```{r}
 #| eval: false
@@ -413,52 +416,51 @@ Here, too, we need to decide whether we save the list of contrasts as a separate
 
 ## Alternative 1: separate objects
 
-# create an emmGrid object from the ANOVA
-grid1 = emmeans(object = model1, specs = 'cond')
-
 # create a list containing the custom contrasts
 my_contrasts = list(
   treat_vs_control = c(-1, 0.5, 0.5),
   treat1_vs_treat2 = c(0, 1, -1)
 )
 
-# run the custom post-hoc tests using "contrast"
-contrast(object = grid1, method = my_contrasts)
+# run the custom post-hoc tests
+emmeans(object = model1, specs = 'cond',
+        contr = my_contrasts, adjust = 'none')
 
-## Alternative 2: don't create separate objects
+## Alternative 2: don't create a separate list
 
-# run the custom post-hoc tests using "contrast"
-contrast(object = emmeans(object = model1, specs = 'cond'), 
-         method = list(
-             treat_vs_control = c(-1, 0.5, 0.5),
-             treat1_vs_treat2 = c(0, 1, -1)
-             )
-         )
+# run the custom post-hoc tests
+emmeans(object = model1, specs = 'cond',
+        contr = list(
+          treat_vs_control = c(-1, 0.5, 0.5),
+          treat1_vs_treat2 = c(0, 1, -1)), 
+  adjust = 'none')
 ```
 
-Running either version of the code will prompt R to test the contrasts, and we will receive the following console output:
+Running either version of the code will prompt R to test the contrasts and adjust the $p$-values according to Bonferroni's method (of course we could select a different adjustment method or turn if off by changing the *adjust* argument accordingly). We will receive the following console output:
 
 ::: {.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
 #| code-overflow: wrap
+## Alternative 2: don't create a separate list
 
-## Alternative 2: don't create separate objects
-
-# run the custom post-hoc tests using "contrast"
-contrast(object = emmeans(object = model1, specs = 'cond'), 
-         method = list(
-             treat_vs_control = c(-1, 0.5, 0.5),
-             treat1_vs_treat2 = c(0, 1, -1)
-             )
-         )
+# run the custom post-hoc tests with Bonferroni's method
+emmeans(object = model1, specs = 'cond',
+        contr = list(
+          treat_vs_control = c(-1, 0.5, 0.5),
+          treat1_vs_treat2 = c(0, 1, -1)), 
+  adjust = 'none')
 ```
 :::
 
-As we can see, R returns a table with two contrast tests. Since we named the contrasts properly, it is easy to see what these contrasts tested. For each contrast, R will tell is the estimated mean difference, the associated standard error, and the degrees of freedom ($n-k$, similar to the HSD test described above). It will also show us the $t$-value and $p$-value for each contrast. In our example, both contrasts are significant. This means, we can state - with the usual confidence - that the ANOVA was significant because a) getting a treatment leads to higher scores as compared with the control condition, and b) the treatments differ in effectiveness.
+As we can see, R now returns a table with two contrast tests. Since we named the contrasts properly, it is easy to see what these contrasts tested. For each contrast, R will tell us the estimated mean difference, the associated standard error, and the degrees of freedom ($n-k$, similar to the pairwise comparisons described above). It will also show us the $t$-value and $p$-value for each contrast.
 
-But what about multiple comparisons? So far, we have not corrected for multiple comparisons, but we can do so if we want to. The good news is that we do not have to do it manually when using the *contrast* function. Instead, we can specify a third function argument called *adjust*. If we use custom contrasts, the default for this argument is "none", but we can set it to "bonferroni" (for the classic Bonferroni correction) or "holm" (for the slightly lees concervative Holm-Bonferroni method) instead. Let's go with Bonferroni. Here is the code:
+In our example, both contrasts are significant. This means, we can state - with the usual confidence - that the ANOVA was significant because a) getting a treatment leads to different scores than getting no no treatment (control condition), and b) the treatments differ in effectiveness.
+
+But what about multiple comparisons? So far, we have not corrected our custom contrasts for multiple comparisons, but we can do so if we want to. The only thing we need to consider is that we cannot use Tukey's method as it is specific to pairwise comparisons (oddly enough, Tukey's method won't work even if we manually specify pairwise comparisons - if we want to use the HSD method,m we need to set the *contr* argument to "pairwise").
+
+To adjust for multiple comparisons, we can again specify the argument *adjust*. If we use custom contrasts, the default for this argument is actually "none", but we can set it to "bonferroni" (for the classic Bonferroni correction) or "holm" (for the slightly lees conservative Holm-Bonferroni method) instead. Let's go with Bonferroni. Here is the code:
 
 ```{r}
 #| eval: false
@@ -467,13 +469,11 @@ But what about multiple comparisons? So far, we have not corrected for multiple 
 
 # run the custom post-hoc tests using "contrast" and correct
 # for multiple comparisons using Bonferroni's method
-contrast(object = emmeans(object = model1, specs = 'cond'), 
-         method = list(
-             treat_vs_control = c(-1, 0.5, 0.5),
-             treat1_vs_treat2 = c(0, 1, -1)
-             ),
-         adjust = 'bonferroni'
-         )
+emmeans(object = model1, specs = 'cond',
+        contr = list(
+          treat_vs_control = c(-1, 0.5, 0.5),
+          treat1_vs_treat2 = c(0, 1, -1)), 
+  adjust = 'bonferroni' )
 ```
 
 Now let's look at the console output:
@@ -486,13 +486,11 @@ Now let's look at the console output:
 
 # run the custom post-hoc tests using "contrast" and correct
 # for multiple comparisons using Bonferroni's method
-contrast(object = emmeans(object = model1, specs = 'cond'), 
-         method = list(
-             treat_vs_control = c(-1, 0.5, 0.5),
-             treat1_vs_treat2 = c(0, 1, -1)
-             ),
-         adjust = 'bonferroni'
-         )
+emmeans(object = model1, specs = 'cond',
+        contr = list(
+          treat_vs_control = c(-1, 0.5, 0.5),
+          treat1_vs_treat2 = c(0, 1, -1)), 
+  adjust = 'bonferroni' )
 ```
 :::
 
@@ -504,6 +502,6 @@ Custom contrasts are really useful because of their flexibility. They allow us t
 
 ### A concluding remark on post-hoc comparisons
 
-We started the journey into post-hoc analyses using the metaphor of the ANOVA as firing a shotgun into thick fog which - in case we hit something - necessitates wandering into the fog in order to find out what exactly we hit. As the examples above show, the answer to that crucial question depends on which post-hoc comparisons we run (pairwise comparisons vs. custom contrasts), the type of alternative hypotheses we test (one-tailed vs. two-tailed tests), and whether and how we control for type-I error inflation due to multiple comparisons.
+We started the journey into post-hoc analyses using the metaphor of the ANOVA as firing a shotgun into thick fog which - in case we hit something - necessitates wandering into the fog in order to find out what exactly we hit. As the examples above show, the answer to that crucial question depends on which post-hoc comparisons we run (simple $t$-tests, pairwise comparison contrasts, or custom contrasts) and whether and how we control for type-I error inflation due to multiple comparisons.
 
 When trying to disentangle a significant effect in an ANOVA, we may find ourselves faced with multiple options, each of which is valid and can be argued for convincingly. However, even subtle differences between these options may lead to qualitatively different conclusions. The practical advice here is to preregister exactly which tests we will run in case an ANOVA yields a significant result (ideally by providing the R code for the post-hoc analysis).
