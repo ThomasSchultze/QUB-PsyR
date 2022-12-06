@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>QUB-PsyR - The Ananlysis of Variance</title>
+<title>QUB-PsyR - The one-factorial ANOVA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -222,7 +222,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>  
         <li>
     <a class="dropdown-item" href="./inference4.html">
- <span class="dropdown-text">Analysis of Variance</span></a>
+ <span class="dropdown-text">One-factorial Analysis of Variance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference5.html">
+ <span class="dropdown-text">Two-factorial Analysis of Variance</span></a>
   </li>  
     </ul>
   </li>
@@ -246,7 +250,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">The Ananlysis of Variance</h1>
+<h1 class="title">The one-factorial ANOVA</h1>
 </div>
 
 
@@ -288,8 +292,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>However, we can state generally how we compute the different <strong>sum of squares</strong>. First of all, let’s remember how we compute the total sum of squares, <span class="math inline">\(SS_{total}\)</span>:</p>
 <p><span class="math display">\[SS_{total} = \sum_{i=1}^{N} (x_i - \bar{x})^2\]</span></p>
 <p>The total sum of squares represent the sum of the squared deviation of all <span class="math inline">\(N\)</span> observed data points from the grand mean <span class="math inline">\(\bar{x}\)</span>. Now lets look at the formula for <span class="math inline">\(SS_{between}\)</span>.</p>
-<p><span class="math display">\[SS_{between} = \sum_{j=1}^{J} n_j \times (\bar{x}_j - \bar{x})^2\]</span> Here, <span class="math inline">\(J\)</span> is the number of groups we compare, and <span class="math inline">\(n_j\)</span> is the sample size of group <span class="math inline">\(j\)</span>. For the <span class="math inline">\(SS_{between}\)</span> we pretend that there is no variance within the <span class="math inline">\(J\)</span> groups at all. Each observation is represented by its group’s mean <span class="math inline">\(\bar{x}_j\)</span>, and we compute the variability as the difference of these group means from the grand mean <span class="math inline">\(\bar{x}\)</span>. Therefore, the <span class="math inline">\(SS_{between}\)</span> isolates the between-group part of the total variability of <span class="math inline">\(x\)</span>. Let’s now turn to the <span class="math inline">\(SS_{within}\)</span>.</p>
-<p><span class="math display">\[SS_{within} = \sum_{j=1}^{J} \sum_{k = 1}^{n_j} (x_{jk} - \bar{x}_j)\]</span> Again, <span class="math inline">\(J\)</span> is the number of groups we compare, and <span class="math inline">\(n_j\)</span> is the sample size in group <span class="math inline">\(j\)</span>. The <span class="math inline">\(x_{jk}\)</span> refers to the <span class="math inline">\(k\)</span>th observation in group <span class="math inline">\(j\)</span>. For the <span class="math inline">\(SS_{within}\)</span>, we pretend that there is no variance between groups at all. We do so by substituting the <em>grand mean</em> for the respective group means <span class="math inline">\(\bar{x}_j\)</span>. Thus, the <span class="math inline">\(SS_within\)</span> isolates the within-group variability of <span class="math inline">\(x\)</span>.</p>
+<p><span class="math display">\[SS_{between} = \sum_{j=1}^{J} n_j \times (\bar{x}_j - \bar{x})^2\]</span></p>
+<p>Here, <span class="math inline">\(J\)</span> is the number of groups we compare, and <span class="math inline">\(n_j\)</span> is the sample size of group <span class="math inline">\(j\)</span>. For the <span class="math inline">\(SS_{between}\)</span> we pretend that there is no variance within the <span class="math inline">\(J\)</span> groups at all. Each observation is represented by its group’s mean <span class="math inline">\(\bar{x}_j\)</span>, and we compute the variability as the difference of these group means from the grand mean <span class="math inline">\(\bar{x}\)</span>. Therefore, the <span class="math inline">\(SS_{between}\)</span> isolates the between-group part of the total variability of <span class="math inline">\(x\)</span>. Let’s now turn to the <span class="math inline">\(SS_{within}\)</span>.</p>
+<p><span class="math display">\[SS_{within} = \sum_{j=1}^{J} \sum_{i = 1}^{n_j} (x_{ij} - \bar{x}_j)\]</span></p>
+<p>Again, <span class="math inline">\(J\)</span> is the number of groups we compare, and <span class="math inline">\(n_j\)</span> is the sample size in group <span class="math inline">\(j\)</span>. The <span class="math inline">\(x_{ij}\)</span> refers to the <span class="math inline">\(i\)</span>th observation in group <span class="math inline">\(j\)</span>. For the <span class="math inline">\(SS_{within}\)</span>, we pretend that there is no variance between groups at all. We do so by substituting the <em>grand mean</em> for the respective group means <span class="math inline">\(\bar{x}_j\)</span>. Thus, the <span class="math inline">\(SS_within\)</span> isolates the within-group variability of <span class="math inline">\(x\)</span>.</p>
 <p>The final thing we need to understand before we can delve into the actual ANOVAs is the <span class="math inline">\(F\)</span>-statistic. As we have seen above, we compute <span class="math inline">\(F\)</span> as a ratio of the <span class="math inline">\(MS_{between}\)</span> and the <span class="math inline">\(MS_{within}\)</span>. This ratio is interesting in several ways:</p>
 <ol type="1">
 <li>Since the <span class="math inline">\(SS_{between}\)</span> usually has much fewer degrees of freedom than that <span class="math inline">\(SS_{within}\)</span>, the variability between groups does not have to be nearly as large as the variability within groups to produce a large <span class="math inline">\(F\)</span>-value.</li>

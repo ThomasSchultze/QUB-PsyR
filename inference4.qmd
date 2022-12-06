@@ -1,5 +1,5 @@
 ---
-title: "The Ananlysis of Variance"
+title: "The one-factorial ANOVA"
 editor: visual
 ---
 
@@ -47,9 +47,13 @@ $$SS_{total} = \sum_{i=1}^{N} (x_i - \bar{x})^2$$
 
 The total sum of squares represent the sum of the squared deviation of all $N$ observed data points from the grand mean $\bar{x}$. Now lets look at the formula for $SS_{between}$.
 
-$$SS_{between} = \sum_{j=1}^{J} n_j \times (\bar{x}_j - \bar{x})^2$$ Here, $J$ is the number of groups we compare, and $n_j$ is the sample size of group $j$. For the $SS_{between}$ we pretend that there is no variance within the $J$ groups at all. Each observation is represented by its group's mean $\bar{x}_j$, and we compute the variability as the difference of these group means from the grand mean $\bar{x}$. Therefore, the $SS_{between}$ isolates the between-group part of the total variability of $x$. Let's now turn to the $SS_{within}$.
+$$SS_{between} = \sum_{j=1}^{J} n_j \times (\bar{x}_j - \bar{x})^2$$ 
 
-$$SS_{within} = \sum_{j=1}^{J} \sum_{k = 1}^{n_j} (x_{jk} - \bar{x}_j)$$ Again, $J$ is the number of groups we compare, and $n_j$ is the sample size in group $j$. The $x_{jk}$ refers to the $k$th observation in group $j$. For the $SS_{within}$, we pretend that there is no variance between groups at all. We do so by substituting the *grand mean* for the respective group means $\bar{x}_j$. Thus, the $SS_within$ isolates the within-group variability of $x$.
+Here, $J$ is the number of groups we compare, and $n_j$ is the sample size of group $j$. For the $SS_{between}$ we pretend that there is no variance within the $J$ groups at all. Each observation is represented by its group's mean $\bar{x}_j$, and we compute the variability as the difference of these group means from the grand mean $\bar{x}$. Therefore, the $SS_{between}$ isolates the between-group part of the total variability of $x$. Let's now turn to the $SS_{within}$.
+
+$$SS_{within} = \sum_{j=1}^{J} \sum_{i = 1}^{n_j} (x_{ij} - \bar{x}_j)$$
+
+Again, $J$ is the number of groups we compare, and $n_j$ is the sample size in group $j$. The $x_{ij}$ refers to the $i$th observation in group $j$. For the $SS_{within}$, we pretend that there is no variance between groups at all. We do so by substituting the *grand mean* for the respective group means $\bar{x}_j$. Thus, the $SS_within$ isolates the within-group variability of $x$.
 
 The final thing we need to understand before we can delve into the actual ANOVAs is the $F$-statistic. As we have seen above, we compute $F$ as a ratio of the $MS_{between}$ and the $MS_{within}$. This ratio is interesting in several ways:
 
