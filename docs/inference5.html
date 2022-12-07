@@ -395,23 +395,33 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 <section id="disentangling-effects-in-a-two-factorial-anova" class="level2">
 <h2 class="anchored" data-anchor-id="disentangling-effects-in-a-two-factorial-anova">Disentangling effects in a two-factorial ANOVA</h2>
 <p>Similar to the one-factorial ANOVA, the tests we run in a two-factorial ANOVA are unspecific in the sense that they do not tell us which means differ from one another. However, disentangling effect in two-factorial ANOVAs is non-trivial. Which effects we need to disentangle and how we go about it depends on a) whether there is a significant interaction and b) how many levels our factors have.</p>
+<section id="interactions-and-the-interpretation-of-main-effects" class="level3">
+<h3 class="anchored" data-anchor-id="interactions-and-the-interpretation-of-main-effects">Interactions and the interpretation of main effects</h3>
 <p>Let’s first consider what difference it makes whether there is a significant interaction. In order to do that, we first need to consider what a main effect is in a two-factor ANOVA. Here, we must distinguish between the statistical main effect as returned by the ANOVA and an actual main effect in the psychological sense. <strong>We speak of an actual main effect if the order of the levels of one factor holds across all levels of the other factor.</strong> For example, in a <span class="math inline">\(2 \times 2\)</span>-design, we would speak of a main effect of factor <span class="math inline">\(A\)</span> if the first level of <span class="math inline">\(A\)</span> was associated with higher (or lower) scores than its second level, irrespective of whether we look at the first or the second level of factor <span class="math inline">\(B\)</span>.</p>
 <p>Here is the problem: because the statistical main effect of a factor in an ANOVA is computed by collapsing across the levels of the other factor, there are different patterns that produce a significant mean difference but do not satisfy the condition described in the previous paragraph. When can those pattern occur? The answer is: when there is an interaction of the two factors.</p>
 <p>What does this mean for us? First for the easy case in which there is no interaction. If the interaction effect is not significant, we cannot accept <span class="math inline">\(H_{1_{A\times B}}\)</span>. That means we retain <span class="math inline">\(H_{0_{A\times B}}\)</span> for now (without believing that it is true because the non-significant finding is uninformative). Retaining <span class="math inline">\(H_{0_{A\times B}}\)</span> implies that if there are any significant main effects in the ANOVA, we can interpret them as is and disentangle them similar to effects in a one-factorial ANOVA.</p>
-<p>Now let’s assume that we found a significant interaction effect. This is where things become difficult. Let’s look at a few graphs to understand this issue better. All of the situations below constituent cases where there is an interaction (we can tell this from the lines not running parallel) and where we also have main effects of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> (we can tell this from the marginal means differing). However, not all of these situations permit us to interpret the data in terms of actual main effects.</p>
-<p><img src="images/inference/2x2aov_1.png" class="img-fluid"> In this first case, we can see that there is an interaction because the lines to not run parallel. We can also see that there are main effects of factors <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. The main effect of factor <span class="math inline">\(A\)</span> becomes evident from the marginal means <span class="math inline">\(\bar{x}_{j\cdot}\)</span>, which we can derive by averaging across the blue and orange points for each level of <span class="math inline">\(A\)</span>. As we can see from the right side of the graph, there is a considerable distance between the two means <span class="math inline">\(\bar{x}_{1\cdot}\)</span> and <span class="math inline">\(\bar{x}_{2\cdot}\)</span>. This difference is the main effect of factor <span class="math inline">\(A\)</span> in the 2$$2 ANOVA. We can also see from the left side of the graph that the two marginal means <span class="math inline">\(\bar{x}_{\cdot 1}\)</span> and <span class="math inline">\(\bar{x}_{\cdot 2}\)</span> differ (we can obtain them by taking the averages of the same-coloured points). This is the main effect of factor <span class="math inline">\(B\)</span>.</p>
-<p><strong>Importantly</strong>, despite the interaction effect, the order of the factor levels does not change. Irrespective of the level of factor <span class="math inline">\(B\)</span>, we obtain higher values when the level of factor <span class="math inline">\(A\)</span> is <span class="math inline">\(j=2\)</span> instead of <span class="math inline">\(j=1\)</span>. Similarly, irrespective of the level of factor <span class="math inline">\(A\)</span>, values are higher when factor <span class="math inline">\(B\)</span>’s level is <span class="math inline">\(k=2\)</span> instead of <span class="math inline">\(k=1\)</span>. Therefore, we can interpret the statistical main effects as actual main effects and state that the level of our dependent variables is <strong>generally higher</strong> for one level of factor <span class="math inline">\(A\)</span> than for the other. Similarly, we can state that the values are <strong>generally higher</strong> for on level of factor <span class="math inline">\(B\)</span> than for the other.</p>
+<p>Now let’s assume that we found a significant interaction effect. This is where things become difficult. Let’s look at a few graphs to understand this issue better. All of the situations below constitute cases where an ANOVA would show a significant interaction an two significant main effects However, not all of these situations permit us to interpret the data in terms of actual main effects.</p>
+<p><img src="images/inference/2x2aov_1.png" class="img-fluid"> In this first case, we can see that there is an interaction because the lines to not run parallel. We can also see that there are main effects of factors <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. The main effect of factor <span class="math inline">\(A\)</span> becomes evident from the marginal means <span class="math inline">\(\bar{x}_{j\cdot}\)</span>, which we can derive by averaging across the blue and orange points for each level of <span class="math inline">\(A\)</span>. As we can see from the right side of the graph, there is a considerable distance between the two means <span class="math inline">\(\bar{x}_{1\cdot}\)</span> and <span class="math inline">\(\bar{x}_{2\cdot}\)</span>. This difference is the main effect of factor <span class="math inline">\(A\)</span> in the <span class="math inline">\(2\times 2\)</span> ANOVA. We can also see from the left side of the graph that the two marginal means <span class="math inline">\(\bar{x}_{\cdot 1}\)</span> and <span class="math inline">\(\bar{x}_{\cdot 2}\)</span> differ (we can obtain them by taking the averages of the same-coloured points). This is the main effect of factor <span class="math inline">\(B\)</span>.</p>
+<p><strong>Importantly</strong>, despite the interaction effect, the order of the factor levels does not change. We call this an <strong>ordinal interaction</strong>. Irrespective of the level of factor <span class="math inline">\(B\)</span>, we obtain higher values when the level of factor <span class="math inline">\(A\)</span> is <span class="math inline">\(j=2\)</span> instead of <span class="math inline">\(j=1\)</span>. Similarly, irrespective of the level of factor <span class="math inline">\(A\)</span>, values are higher when factor <span class="math inline">\(B\)</span>’s level is <span class="math inline">\(k=2\)</span> instead of <span class="math inline">\(k=1\)</span>. Therefore, we can interpret the statistical main effects as actual main effects and state that the level of our dependent variables is <strong>generally higher</strong> for one level of factor <span class="math inline">\(A\)</span> than for the other. Similarly, we can state that the values are <strong>generally higher</strong> for on level of factor <span class="math inline">\(B\)</span> than for the other.</p>
 <p>So far, so good. Now lets’ look at the next case.</p>
 <p><img src="images/inference/2x2aov_2.png" class="img-fluid"></p>
-<p>In this scenario, an NOVA would also show an interaction effect (non-parallel lines) and two main effects (evidenced by differences between the marginal means). The difference to the previous scenario is the effect of factor <span class="math inline">\(A\)</span> when we fix factor <span class="math inline">\(B\)</span> at level <span class="math inline">\(k=2\)</span>. This effect is a flat line. Although the values differ slightly, the pattern for factor <span class="math inline">\(B\)</span> remains similar with <span class="math inline">\(k=2\)</span> yielding higher values of the dependent variable than <span class="math inline">\(k=1\)</span> irrespective of the level of factor <span class="math inline">\(A\)</span>. How does this change our interpretation of the main effect? We would still state that the values are <strong>generally higher</strong> for on level of factor <span class="math inline">\(B\)</span> than for the other. However, we cannot state the same for factor <span class="math inline">\(A\)</span>. As we can see, whether one level of <span class="math inline">\(A\)</span> is associated with higher levels of the dependent variable in <strong>conditional</strong> on the level of factor <span class="math inline">\(B\)</span>. We see an effect fo factor <span class="math inline">\(A\)</span> when we fix <span class="math inline">\(B\)</span> at level <span class="math inline">\(k=1\)</span>, but if we fix it at <span class="math inline">\(k=2\)</span> instead, there is no longer a difference between the two levels of factor <span class="math inline">\(A\)</span>. Therefore, we cannot interpret the data as showing an actual main effect of factor <span class="math inline">\(A\)</span> even though this effect may show up in the ANOVA.</p>
+<p>In this scenario, an ANOVA would also show an interaction effect (non-parallel lines) and two main effects (evidenced by differences between the marginal means). The difference to the previous scenario is the effect of factor <span class="math inline">\(A\)</span> when we fix factor <span class="math inline">\(B\)</span> at level <span class="math inline">\(k=2\)</span>. This effect is a flat line. Although the values differ slightly, the pattern for factor <span class="math inline">\(B\)</span> remains similar with <span class="math inline">\(k=2\)</span> yielding higher values of the dependent variable than <span class="math inline">\(k=1\)</span> irrespective of the level of factor <span class="math inline">\(A\)</span>. We call this type of interaction <strong>semi-disordinal</strong> because order is only maintained for one factor and not inverted for the other. How does this change our interpretation of the main effect?</p>
+<p>We would still state that the values are <strong>generally higher</strong> for on level of factor <span class="math inline">\(B\)</span> than for the other. However, we cannot state the same for factor <span class="math inline">\(A\)</span>. As we can see, whether one level of <span class="math inline">\(A\)</span> is associated with higher levels of the dependent variable in <strong>conditional</strong> on the level of factor <span class="math inline">\(B\)</span>. We see an effect fo factor <span class="math inline">\(A\)</span> when we fix <span class="math inline">\(B\)</span> at level <span class="math inline">\(k=1\)</span>, but if we fix it at <span class="math inline">\(k=2\)</span> instead, there is no longer a difference between the two levels of factor <span class="math inline">\(A\)</span>. Therefore, we cannot interpret the data as showing an actual main effect of factor <span class="math inline">\(A\)</span> even though this effect may show up in the ANOVA.</p>
 <p>Let’s now look at the third scenario.</p>
 <p><img src="images/inference/2x2aov_3.png" class="img-fluid"></p>
-<p>As in the previous scenarios, an ANOVA would show a significant interaction (non-parallel lines) and two main effects (see the marginal means). This time, <strong>both factor’s main effects are conditional</strong> on the level of the other factor. Factor <span class="math inline">\(A\)</span> only has an effect on the dependent variable if we fix factor <span class="math inline">\(B\)</span> at level <span class="math inline">\(k=1\)</span>, and factor B only has an effect when factor <span class="math inline">\(A\)</span>’s level is <span class="math inline">\(j=\)</span>“. In this case, we cannot interpret either of the two significant main effects in the ANOVA as actual main effect.</p>
+<p>As in the previous scenarios, an ANOVA would show a significant interaction (non-parallel lines) and two main effects (see the marginal means). This time, <strong>both factor’s main effects are conditional</strong> on the level of the other factor. Factor <span class="math inline">\(A\)</span> only has an effect on the dependent variable if we fix factor <span class="math inline">\(B\)</span> at level <span class="math inline">\(k=1\)</span>, and factor B only has an effect when factor <span class="math inline">\(A\)</span>’s level is <span class="math inline">\(j=2\)</span>. In this case, we cannot interpret either of the two significant main effects in the ANOVA as actual main effect. Note that although order is maintained nor neither factor, we would still consider this a <strong>semi-disordinal</strong> interaction because there is no inversion of the factor’s order.</p>
 <p>Now for the grand finale:</p>
-<p><img src="images/inference/2x2aov_4.png" class="img-fluid"> Again, an ANOVA would tell us that there is a significant interaction and two significant main effects. However, as we can see, the notion of main effects is maximally misleading here. If we look at factor <span class="math inline">\(A\)</span>, we will see that its effect can be positive (in the sense that it leads to higher levels of the dependent variable), or it can be negative. Whether the effect is positive or negative depends on the level of factor <span class="math inline">\(B\)</span>. The same is true for factor <span class="math inline">\(B\)</span>. Whether this factor has a positive or negative effect on the level of the dependent variable depends on the level of factor <span class="math inline">\(A\)</span>. This means that - similar to the previous scenario - we cannot interpret the statistical main effects to be actual main effects.</p>
-<p>Let’s first consider the main effects. When a factor has only two levels, the case is clear, because we the difference must be between those two levels.</p>
-<p>If we have three or more levels, we need to disentangle the main effect in the same way we disentangled them in a one-factorial case. That means we can run pairwise comparisons or custom contrasts on that factor (thus collapsing across all levels of the other factor) using the <em>emmeans</em> function from the package <em>emmeans</em>.</p>
-<p>In our example, the factor “demands” had three levels, so we need to investigate where exactly the mean differences originate. We will go with pairwise comparisons adjusted for multiple testing using Bonferroni’s method. Here is the syntax:</p>
+<p><img src="images/inference/2x2aov_4.png" class="img-fluid"> Again, an ANOVA would tell us that there is a significant interaction and two significant main effects. However, as we can see, the notion of main effects is maximally misleading here. If we look at factor <span class="math inline">\(A\)</span>, we will see that its effect can be positive (in the sense that it leads to higher levels of the dependent variable), or it can be negative. Whether the effect is positive or negative depends on the level of factor <span class="math inline">\(B\)</span>. The same is true for factor <span class="math inline">\(B\)</span>. Whether this factor has a positive or negative effect on the level of the dependent variable depends on the level of factor <span class="math inline">\(A\)</span>. We call this a <strong>disordinal</strong> interaction because the order of factor levels (in terms of which has the higher values of the dependent variable) reverses for each factor depending on the levels of the other factor. This means that - similar to the previous scenario - we cannot interpret the statistical main effects to be actual main effects.</p>
+<div class="alert alert-danger">
+<p>The bottom line here is that we should only bother disentangling <strong>actual main effects</strong> and not any main effect that is statistically significant in a 2-factorial ANOVA.</p>
+<p>This means that we should disentangle main effects only if there is no evidence of an interaction or is the interaction is ordinal.</p>
+</div>
+</section>
+<section id="disentangling-main-effects" class="level3">
+<h3 class="anchored" data-anchor-id="disentangling-main-effects">Disentangling main effects</h3>
+<p>Let’s first consider the disentangling of main effects (assuming that there is no significant interaction or an ordinal interaction). When a factor has only two levels, the case is clear, because the difference must be between those two levels.</p>
+<p>If we have three or more levels, we need to disentangle the main effect in the same way we disentangled them in a one-factorial case. That means we can run pairwise comparisons or custom contrasts on that factor’s marginal means (i.e., collapsing across all levels of the other factor) using the <em>emmeans</em> function from the package <em>emmeans</em>.</p>
+<p>In our example from far above, the factor “demands” has only two levels, but we can still use the data to show how the syntax and output would look like:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library emmeans</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
@@ -443,15 +453,213 @@ Results are averaged over the levels of: control </code></pre>
 </div>
 </div>
 </div>
-<p>Similar to the one-factorial case, the output will consist of two tables, with the second of them containing the desired information. In this case, both moderate and high demands lead to higher levels of stress (we can interpret this effect causally because we simulated experimental data), but we cannot say whether stress levels differ between moderate and high demands.</p>
+<p>Similar to the one-factorial case, the output will consist of two tables, with the second of them containing the desired information. In this case, we have only one entry here because the factor “demands” has only two levels (however, the logic of the post-hoc comparisons would not differ from the one-factorial case had we more than two levels).</p>
+<p>There are two few things worth noting: First, when we feed the the <em>emmeans</em> a single variable as its <em>specs</em> argument, the output will contain a message stating that we collapsed across the other factor (in our case “control”). Thus, we know that we are talking about the marginal means of the “demands”. Second, when we call the <em>emmeans</em> function on a main effect in an ANOVA design with at least two factors, R will also return a message informing us that the results of our pairwise comparisons may be misleading due to involvement in potential interactions (we already know this by now).</p>
+<p>Since we have two factors in a <span class="math inline">\(2 \times 2\)</span>-design, we need to consider that we may have two significant interpretable main effects. Generally speaking, we need to disentangle each significant main effect via its marginal means, granted that the interaction pattern (absent or ordinal interaction) permits it.</p>
+</section>
+<section id="disentangling-interactions" class="level3">
+<h3 class="anchored" data-anchor-id="disentangling-interactions">Disentangling interactions</h3>
+<p>If a <span class="math inline">\(2 \times 2\)</span>-ANOVA reveals a significant interaction, we need to disentangle it. The reason is that - as we have seen from the different graphs above - there are various patterns that can produce an interaction effect, and we need to identify which one lead to the significant interaction. If the interaction is not significant, there is - of course - no need to disentangle the effect.</p>
+<p>Before we try to answer the question how to disentangle an interaction effect, it helps to understand better what we actually test when testing an interaction effect. The best way to do that is to have a look at the contrasts underlying the tests of main effects and interaction in a <span class="math inline">\(2 \times 2\)</span> ANOVA. Note that we need to turn our two-factorial design into a one-factorial design for the purpose of defining the contrasts. The contrasts for the three tests look as follows:</p>
+<table class="table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 18%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(j=1\)</span>; <span class="math inline">\(k=1\)</span></th>
+<th><span class="math inline">\(j=2\)</span>, <span class="math inline">\(k=1\)</span></th>
+<th><span class="math inline">\(j=1\)</span>; <span class="math inline">\(k=2\)</span></th>
+<th><span class="math inline">\(j=2\)</span>; <span class="math inline">\(k=2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>main effect of <span class="math inline">\(A\)</span></td>
+<td>1</td>
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+<tr class="even">
+<td>main effect of <span class="math inline">\(B\)</span></td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+</tr>
+<tr class="odd">
+<td>interaction effect</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Let’s digest this. For the main effect of <span class="math inline">\(A\)</span>, we can see that we compare the marginal means of its two levels because we average across the two levels of factor <span class="math inline">\(B\)</span>. Likewise, we can see that are comparing the marginal means of <span class="math inline">\(B\)</span> because we average across both levels of <span class="math inline">\(A\)</span>. Finally, and most importantly, we can see what the interaction contrast does. It tests whether the difference between the two levels of <span class="math inline">\(A\)</span> when <span class="math inline">\(B\)</span> is fixed at <span class="math inline">\(k=1\)</span> differs from the the same difference when <span class="math inline">\(B\)</span> is fixed at <span class="math inline">\(k=2\)</span>. This is equivalent to testing whether the difference between the two levels of <span class="math inline">\(B\)</span> when <span class="math inline">\(A\)</span> is fixed at <span class="math inline">\(j=1\)</span> differ from the difference between the two levels of <span class="math inline">\(B\)</span> when <span class="math inline">\(A\)</span> is fixed at <span class="math inline">\(j=2\)</span>.</p>
 <div class="alert alert-danger">
-<p><strong>Note</strong>: when we call the <em>emmeans</em> function on a main effect in an ANOVA design with at least two factors, R will also return a message informing us that the results of our pairwise comparisons may be misleading due to involvement in potential interactions.</p>
-<p>What does this mean? It means that we should be cautious when interpreting main effects in an ANOVA that contains interaction effects. The reason is that there can be cases, in which there is a statistically significant main effect, but we would not interpret this effect as such.</p>
-<p>In brief, we should only accept a main effect as such if the order of the means remains the same on all levels of the other factor(s). However, since the contrasts analysis of a main effect makes general statements about the relations of the individual factor levels while collapsing across all levels of the other factor(s), we cannot say without further analysis whether this relation holds for all levels of the other factor(s).</p>
+<p>We can now see the analogy between the two-factorial ANOVA and the one-factorial ANOVA.</p>
+<p>Disentangling a main effect in a two-factorial ANOVA is like disentangling an effect in a one-factorial ANOVA, the only difference being that we use the respective factor’s marginal means instead of cell means.</p>
+<p>Disentangling the interaction is also similar to disentangling an effect in a one-factorial ANOVA, the only difference being that we use the mean differences between the two factors instead of cell means.</p>
 </div>
-<p>The other effect that needs to be disentangled is the interaction effect. The reason is that there are various patterns that can produce an interaction effect, and we need to identify which one lead to the significant interaction (if the interaction is not significant, there is no need to disentangle the effect).</p>
+<p>We can easily verify that using the contrasts specified above leads to the same results as running the ANOVA, provided that we do not adjust the p-values for multiple comparisons. Let’s quickly recap the ANOVA results from our simulated experiment on job demands and control. Here is the ANOVA output.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type 3 tests)
+
+Response: stress
+           Effect     df    MSE         F  ges p.value
+1         demands 1, 196 455.82 43.92 *** .183   &lt;.001
+2         control 1, 196 455.82 20.02 *** .093   &lt;.001
+3 demands:control 1, 196 455.82    4.15 * .021    .043
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+<p>Now let’s run a custom contrast analysis on the ANOVA object using <em>emmeans</em> and coapre it to the ANOVA results. Here is the syntax:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># analyse contrasts for main effects and interactions in a 2x2 </span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ANOVA without correcting for type-I error inflation</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> my_ANOVA, <span class="at">specs =</span> <span class="fu">c</span>(<span class="st">'demands'</span>, <span class="st">'control'</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="fu">list</span>(</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">demands =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">control =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">interaction =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is the output:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+ demands control emmean   SE  df lower.CL upper.CL
+ low     low      103.6 3.02 196     97.6      110
+ high    low      129.7 3.02 196    123.8      136
+ low     high      96.2 3.02 196     90.3      102
+ high    high     110.1 3.02 196    104.1      116
+
+Confidence level used: 0.95 
+
+$contrasts
+ contrast    estimate   SE  df t.ratio p.value
+ demands        -40.0 6.04 196  -6.627  &lt;.0001
+ control         27.0 6.04 196   4.475  &lt;.0001
+ interaction    -12.3 6.04 196  -2.037  0.0430</code></pre>
+</div>
+</div>
+</div>
+<p>When we compare the ANOVA results to the results of the custom contrast analysis, we can see that there is only one difference. The ANOVA uses <span class="math inline">\(F\)</span>-statistics whereas the contrasts are analysed using <span class="math inline">\(t\)</span>-statistics. The <span class="math inline">\(F\)</span>-values reported in the ANOVA are the exact squares of the corresponding <span class="math inline">\(t\)</span>-values, and while the <span class="math inline">\(p\)</span>-values of the two main effects are too small to compare them visually between the two analyses, we can see that the <span class="math inline">\(p\)</span>-value of the interaction effect is the same.</p>
+<p>What do we do with this knowledge? First of all, we know now what we can state once an interaction in a two-factorial ANOVA is significant: there is a difference of differences. Put differently, we know now that the magnitude of the effects of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> differ depending on which level of the other factor we look at. This knowledge in mind, we can now start to disentangle the interaction by looking at the <strong>simple effects</strong>.</p>
+<p>A <strong>simple effect</strong> is the main effect of one factor when fixing the other factor at a specific level. In a <span class="math inline">\(2 \times 2\)</span>-ANOVA, there are four simple effects:</p>
+<ul>
+<li>the effect of <span class="math inline">\(A\)</span> when <span class="math inline">\(B\)</span> is fixed at <span class="math inline">\(k=1\)</span></li>
+<li>the effect of <span class="math inline">\(A\)</span> when <span class="math inline">\(B\)</span> is fixed at <span class="math inline">\(k=2\)</span></li>
+<li>the effect of <span class="math inline">\(B\)</span> when <span class="math inline">\(A\)</span> is fixed at <span class="math inline">\(j=1\)</span></li>
+<li>the effect of <span class="math inline">\(B\)</span> when <span class="math inline">\(A\)</span> is fixed at <span class="math inline">\(j=2\)</span></li>
+</ul>
+<p>In order to understand how a significant interaction effect came about, we need to inspect all four of these simple effects. It may come as no surprise that we will do so using custom contrasts. Here is what the contrast weights would look like:</p>
+<table class="table">
+<colgroup>
+<col style="width: 39%">
+<col style="width: 15%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(j=1\)</span>; <span class="math inline">\(k=1\)</span></th>
+<th><span class="math inline">\(j=2\)</span>, <span class="math inline">\(k=1\)</span></th>
+<th><span class="math inline">\(j=1\)</span>; <span class="math inline">\(k=2\)</span></th>
+<th><span class="math inline">\(j=2\)</span>; <span class="math inline">\(k=2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>simple effect of <span class="math inline">\(A\)</span> for <span class="math inline">\(k=1\)</span></td>
+<td>1</td>
+<td>-1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>simple effect of <span class="math inline">\(A\)</span> for <span class="math inline">\(k=2\)</span></td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+<tr class="odd">
+<td>simple effect of <span class="math inline">\(B\)</span> for <span class="math inline">\(j=1\)</span></td>
+<td>1</td>
+<td>0</td>
+<td>-1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>simple effect of <span class="math inline">\(B\)</span> for <span class="math inline">\(j=2\)</span></td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+<p>As we an see, simple effects are a subset of the pairwise comparisons. Now let’s have a look at the syntax for the simple effect analysis:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># analysis of the simple effects using custom contrasts</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> my_ANOVA, <span class="at">specs =</span> <span class="fu">c</span>(<span class="st">'demands'</span>, <span class="st">'control'</span>),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="fu">list</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">demands_for_low_control =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">demands_for_high_control =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">control_for_low_demands =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">control_for_high_demands =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is what the output looks like:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+ demands control emmean   SE  df lower.CL upper.CL
+ low     low      103.6 3.02 196     97.6      110
+ high    low      129.7 3.02 196    123.8      136
+ low     high      96.2 3.02 196     90.3      102
+ high    high     110.1 3.02 196    104.1      116
+
+Confidence level used: 0.95 
+
+$contrasts
+ contrast                 estimate   SE  df t.ratio p.value
+ demands_for_low_control    -26.16 4.27 196  -6.127  &lt;.0001
+ demands_for_high_control   -13.86 4.27 196  -3.246  0.0014
+ control_for_low_demands      7.36 4.27 196   1.724  0.0863
+ control_for_high_demands    19.66 4.27 196   4.604  &lt;.0001</code></pre>
+</div>
+</div>
+</div>
+<p>As we can see, all but one of the simple effects are significant. Since the output also shows an estimate of the contrast value for each of the simple effect contrasts, we can now interpret the interaction pattern.</p>
+<p><strong>Here is a valid interpretation</strong>: there is an interaction because the effect of job demands on stress is greater when control is low than when it is high.</p>
+<p><strong>Another valid interpretation</strong>: there is an interaction because control has an effect on stress when job demands are high, but this effect is weaker when demands are low to the extant that we cannot say based on the data whether it still exists.</p>
+<p>As we can see, we can interpret the interaction from the viewpoint of both factors. Which interpretation we need to choose depends on the specific nature of our interaction hypothesis.</p>
+</section>
+<section id="disentangling-interactions-in-two-factorial-anovas-with-more-than-two-levels" class="level3">
+<h3 class="anchored" data-anchor-id="disentangling-interactions-in-two-factorial-anovas-with-more-than-two-levels">Disentangling interactions in two-factorial ANOVAs with more than two levels</h3>
+<p>As soon as our design has at least one factor with three or more levels, we need one more step to make sense of the interaction. Let’s consider - for the sake of simplicity - the case of a <span class="math inline">\(2 \times 3\)</span>-ANOVA that yields a significant interaction effect. Now, an analysis of the simple effects is not straightforward because one factor has three levels. While we can easily inspect the simple effect of the two-level factor for all three levels of the other factor, we do not know which pairwise comparison to focus on for the three-level factor.</p>
+<p>To narrow things down, we need to remember what exactly an interaction test does: to test for differences between differences. In a <span class="math inline">\(2 \times 3\)</span>-design, this boils down to computing the difference between the two levels of first factor and testing whether this difference (the effect of factor <span class="math inline">\(A\)</span>) differs as a function of the second factor (the one with three levels). Since we now have three levels of factor <span class="math inline">\(B\)</span>, there are three possible pairwise comparisons for the effect of <span class="math inline">\(A\)</span>. The effect of <span class="math inline">\(A\)</span> could differ between the first and second level of <span class="math inline">\(B\)</span>, between its first and third level, or between the second and third level. Of course, it is also possible that two or even all three of these pairwise comparisons point toward differences.</p>
+<p>Why is this pairwise comparisons of differences relevant? It allows us to decompose the overall interaction effect into smaller parts that we already know how to handle, namely <span class="math inline">\(2 \times 2\)</span>-interactions. Once we know, which of the three possible <span class="math inline">\(2 \times 2\)</span>-interactions in our <span class="math inline">\(2 \times 3\)</span>-design is significant, we can then proceed by disentangling them in the way described above, namely by inspecting the simple effects.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
