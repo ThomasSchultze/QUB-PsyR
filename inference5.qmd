@@ -11,6 +11,11 @@ If we ensure, in addition, that all cells of our design have the same sample siz
 
 ## General logic of the two-factorial ANOVA
 
+The model underlying the two-factorial ANOVA looks like this:
+
+$$\mu_{jk} = \mu+\alpha_j+\beta_k+\gamma_{jk}$$
+Here, $\mu_{jk}$ is the true mean or a combination of the $j$th level of factor $A$ and the $kth$ level of factor $B$, $\mu$ is the true grand mean (i.e., the population mean across all groups), $\alpha_j$ is the true effect of the $j$th level of factor $A$, $\beta_k$ is the true effect of the $k$th level of factor $B$, and $\gamma_{jk}$ is the true effect of combining the $j$th level of $A$ with the $k$th level of $B$ that goes beyond the independent contributions of the two factors ($\alpha_j$ and $\beta_k$).
+
 Just as with the one-factorial ANOVA, its two-factorial cousin partitions the variance of the outcome variable $\sigma_x^2$ into signal and noise. The signal is the variance that stems from differences between groups, and the noise is the variance that is due to differences within the groups. Here, too, we can simplify the partition of variances by partitioning the sums of squares instead. As with the one-factorial ANOVA, we can state that:
 
 $$SS_{total} = SS_{between} + SS_{within}$$
@@ -64,6 +69,7 @@ $$SS_{between} = \sum_{j=1}^{J} \sum_{k=1}^{K} n_{jk} \times (\bar{x}_{jk} - \ba
 Computing the $SS_{within}$ is also similar to the one-factorial ANOVA. We pretend that there is no variation between groups by replacing the grand mean $\bar{x}$ with the cell means $\bar{x}_{jk}$ in the formula for the total sum of squares. 
 
 $$SS_{within} = \sum_{j=1}^{J} \sum_{k=1}^{K} \sum_{i = 1}^{n_{jk}}  (x_{ijk} - \bar{x}_{jk})$$ 
+
 So far, so good. We have now partitioned $SS_{total}$ into the $SS_{between}$ and the $SS_{within}$. However, since we have a $2 \times 2$-design, we are not merely interested in *whether* there is substantial variation between the groups, but also *where* this variation originates. Thus, we need to partition the sums of squares further.
 
 We first compute $SS_A$, that is, the variation that is solely due to differences in factor $A$. We do so by pretending that a) there is no factor $B$, and b) there is no variation within cells. The latter is necessary because $SS_A$ is part of $SS_{between}$. The good thing is that we already know how to do it, namely by replacing individual observations with a mean score. But how do we pretend that there is no factor $B$? Effectively, we collapse across all levels of $B$ and combine them into one big cell for each level of $A$. Here is what our $2 \times 2$-design would look like in our minds now:
@@ -164,7 +170,7 @@ $H_{0_A}: \alpha_j = 0 \quad \forall j$
 
 $H_{1_A}: \lnot H_{0_A}$
 
-Here, $\alpha_j$ is the true effect of the $j$th level of $A$ such that:
+Remember that $\alpha_j$ is the true effect of the $j$th level of $A$, which means that:
 
 $\mu_{j\cdot} = \mu+\alpha_j$
 
@@ -182,7 +188,7 @@ $H_{0_B}: \beta_k = 0 \quad \forall k$
 
 $H_{1_B}: \lnot H_{0_B}$
 
-Here, $\beta_k$ is the true effect of the $k$th level of B, which is formally defined such that:
+Again, $\beta_k$ is the true effect of the $k$th level of B. We can state that:
 
 $\mu_{\cdot k} = \mu + \beta_k$
 
@@ -201,12 +207,225 @@ $H_{0_{A \times B}}: \gamma_{A \times = 0 \quad \forall j,k}$
 
 $H_{1_B}: \lnot H_{0_{A\times B}}$
 
-Here, $\gamma_{jk}$ is the effect that combining the $j$th level of $A$ and the $k$th level of $B$ has on the population mean \mu **beyond** the respective main effects $\alpha_j$ and $\beta_k$. We define $\gamma_{A \times B}$ such that:
+As mentioned above, $\gamma_{jk}$ is the effect that combining the $j$th level of $A$ and the $k$th level of $B$ has on the population mean $\mu$ **beyond** the respective main effects $\alpha_j$ and $\beta_k$. We define $\gamma_{A \times B}$ such that:
 
 
 $$\mu_{jk} = \mu + \alpha_j + \beta_k + \gamma_{jk} = 0$$
 
+This means that when we look at individual cells of our design instead of collapsing across rows or columns, we can obtain the respective true cell mean $\mu_{jk}$ by taking the true grand mean $\mu$ and adding not only $\alpha_j$ and $\beta_k$ but also $\gamma_{jk}$.  
+
+
 ## Running a two-factorial ANOVA in R
+
+When we want to run a two-factorial ANOVA in R, we can use the same package and function we used for the one-factorial case. That is, we use the *aov_ez* function of the package *afex*. Before we can run the analysis, we first need data from a two-factorial design. 
+
+Let's say, we have data from an experimental $2 \times 2"$-design in which we manipulated two factors: job *demands* (low vs. high) and *autonomy* (low. vs. high). The dependent variable is the experienced level of job *stress*. Let's further assume that we have gathered data from 50 participants in each of the four cells of our design and stored it i a data frame called "my_df". Here is an except of the data.
+
+```{r}
+#| eval: true
+#| echo: false
+suppressMessages(library(dplyr))
+suppressMessages(library(afex))
+suppressMessages(library(emmeans))
+
+set.seed(12345)
+my_df = data.frame(
+  ID = c(seq(1,197,4),
+         seq(2,198,4),
+         seq(3,199,4),
+         seq(4,200,4)),
+  demands = factor(rep(1:2, each = 100), levels = 1:2, labels = c('low', 'high')),
+  control = factor(rep(rep(1:2, each = 50), 2), levels =1:2, labels = c('low', 'high')),
+  stress = round(c(
+    rnorm(50, 100, 20),
+    rnorm(50, 90, 20),
+    rnorm(50, 130, 20),
+    rnorm(50, 108, 20)))
+  
+)
+
+my_df = my_df %>% arrange(ID)
+
+head(my_df)
+
+```
+The difference to a one-factorial ANOVA is that we need to feed the *aov_ez* function a vector containing two variable names as its *between* argument (in the one-factorial case it was a single character value). Here is what the syntax looks like:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# load library afex
+library(afex)
+
+# run a two-factorial ANOVA with demands and control as the 
+# independent variables and stress as the dependent variable
+my_ANOVA = aov_ez(id = 'ID', between = c('demands', 'control'), 
+       dv = 'stress', data = my_df)
+
+# display the results of the ANOVA
+my_ANOVA
+```
+
+Running this code will create an ANOVA object called "my_ANOVA" in the environment and then display the results of the analysis in the console. Here is what the output looks like:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+
+# run a two-factorial ANOVA with demands and control as the 
+# independent variables and stress as the dependent variable
+my_ANOVA = aov_ez(id = 'ID', between = c('demands', 'control'), 
+       dv = 'stress', data = my_df)
+
+# display the results of the ANOVA
+my_ANOVA
+```
+:::
+
+As we can see, the output is an ANOVA table. R tells us that the tests are based on type-3 sums of squares and tells us what the outcome variable was in our analysis (stress). The table itself contains three effects: a main effect of demands (the first variable we entered as a between-subjects factor), a main effect of control (the second between-subjects factor), and the interaction of the two variables denoted by "demands:control" (in R, the colon often indicates an interaction effect).
+
+For each effect, R displays the numerator and denominator degrees of freedom, the $MS_within$ (they are necessarily equal for all three effects), the $F$-value, an estimate of the effect size $\eta^2$, and the $p$-value. In our example, all three effects are statistically significant. Statistically speaking, we can now reject all of the Null hypotheses, that is, we would conclude that the level of demands has an effect on stress, that the level of control has an effect on stress, and that there is an interaction of the two variables.
+
+
+## Disentangling effects in a two-factorial ANOVA
+
+Similar to the one-factorial ANOVA, the tests we run in a two-factorial ANOVA are unspecific in the sense that they do not tell us which means differ from one another. However, disentangling effect in two-factorial ANOVAs is non-trivial. Which effects we need to disentangle and how we go about it depends on a) whether there is a significant interaction and b) how many levels our factors have.
+
+Let's first consider what difference it makes whether there is a significant interaction. In order to do that, we first need to consider what a main effect is in a two-factor ANOVA. Here, we must distinguish between the statistical main effect as returned by the ANOVA and an actual main effect in the psychological sense. **We speak of an actual main effect if the order of the levels of one factor holds across all levels of the other factor.** For example, in a $2 \times 2$-design, we would speak of a main effect of factor $A$ if the first level of $A$ was associated with higher (or lower) scores than its second level, irrespective of whether we look at the first or the second level of factor $B$.
+
+Here is the problem: because the statistical main effect of a factor in an ANOVA is computed by collapsing across the levels of the other factor, there are different patterns that produce a significant mean difference but do not satisfy the condition described in the previous paragraph. When can those pattern occur? The answer is: when there is an interaction of the two factors.
+
+What does this mean for us? First for the easy case in which there is no interaction. If the interaction effect is not significant, we cannot accept $H_{1_{A\times B}}$. That means we retain $H_{0_{A\times B}}$ for now (without believing that it is true because the non-significant finding is uninformative). Retaining $H_{0_{A\times B}}$ implies that if there are any significant main effects in the ANOVA, we can interpret them as is and disentangle them similar to effects in a one-factorial ANOVA.
+
+Now let's assume that we found a significant interaction effect. This is where things become difficult. Let's look at a few graphs to understand this issue better. All of the situations below constituent cases where there is an interaction (we can tell this from the lines not running parallel), but where we may also find significant main effects in an interaction.
+
+```{r}
+#| eval: true
+#| echo: false
+
+int_plot = function(){
+  
+  layout(t(1:3))
+  
+  par(mar = c(4,4,1,1))
+
+  plot(1,1, col = 'white', axes = F, ylab = "", xlab = "", xlim = c(0,2),
+       ylim = c(0,10))
+  box(bty = 'L')
+  axis(1, at = c(0.25, 1.75), labels = c("j = 1", "j = 2"), padj = -0.75, tcl = -0.2, cex.axis = 1.15)
+  axis(2, at = seq(0, 10, 2.5), padj = 0.75, tcl = -.2, cex.axis = 1.15)
+  mtext("Factor A", side = 1, padj = 1.85, cex = 1.5, font = 2)
+  mtext("dependent variable", side = 2, padj = -1.85, cex = 1.75, font = 2)
+  lines(x = c(0.25, 1.75), y = c(2, 6), lty = 1, lwd = 2)
+  lines(x = c(0.25, 1.75), y = c(5, 7), lty = 1, lwd = 2)
+  points(x = c(0.25, 1.75), y = c(2, 6), pch = 21, bg = '#00A1E1', cex = 1.5)
+  points(x = c(0.25, 1.75), y = c(5, 7), pch = 21, bg = '#F18903', cex = 1.5)
+  legend('topright', legend = c('k = 1', 'k = 2'), bty = 'n', pch = 21, 
+         pt.bg = c('#00A1E1', '#F18903'), pt.cex = 1.5, title = "Factor B",
+         title.cex = 1.2, title.font = 2)
+  lines(x = c(1,1), y = c(4,6), lty = 3)
+  
+  
+  
+  plot(1,1, col = 'white', axes = F, ylab = "", xlab = "", xlim = c(0,2),
+       ylim = c(0,10))
+  box(bty = 'L')
+  axis(1, at = c(0.25, 1.75), labels = c("j = 1", "j = 2"), padj = -0.75, tcl = -0.2, cex.axis = 1.15)
+  axis(2, at = seq(0, 10, 2.5), padj = 0.75, tcl = -.2, cex.axis = 1.15)
+  mtext("Factor A", side = 1, padj = 1.85, cex = 1.5, font = 2)
+  mtext("dependent variable", side = 2, padj = -1.85, cex = 1.75, font = 2)
+  lines(x = c(0.25, 1.75), y = c(2, 6), lty = 1, lwd = 2)
+  lines(x = c(0.25, 1.75), y = c(7, 7), lty = 1, lwd = 2)
+  points(x = c(0.25, 1.75), y = c(2, 6), pch = 21, bg = '#00A1E1', cex = 1.5)
+  points(x = c(0.25, 1.75), y = c(7, 7), pch = 21, bg = '#F18903', cex = 1.5)
+  legend('topright', legend = c('k = 1', 'k = 2'), bty = 'n', pch = 21, 
+         pt.bg = c('#00A1E1', '#F18903'), pt.cex = 1.5, title = "Factor B",
+         title.cex = 1.2, title.font = 2)
+  lines(x = c(1,1), y = c(4,7), lty = 3)
+  
+  
+  plot(1,1, col = 'white', axes = F, ylab = "", xlab = "", xlim = c(0,2),
+       ylim = c(0,10))
+  box(bty = 'L')
+  axis(1, at = c(0.25, 1.75), labels = c("j = 1", "j = 2"), padj = -0.75, tcl = -0.2, cex.axis = 1.15)
+  axis(2, at = seq(0, 10, 2.5), padj = 0.75, tcl = -.2, cex.axis = 1.15)
+  mtext("Factor A", side = 1, padj = 1.85, cex = 1.5, font = 2)
+  mtext("dependent variable", side = 2, padj = -1.85, cex = 1.75, font = 2)
+  lines(x = c(0.25, 1.75), y = c(2, 6), lty = 1, lwd = 2)
+  lines(x = c(0.25, 1.75), y = c(6, 6), lty = 1, lwd = 2)
+  points(x = c(0.25, 1.75), y = c(2, 6), pch = 21, bg = '#00A1E1', cex = 1.5)
+  points(x = c(0.25, 1.75), y = c(6, 6), pch = 21, bg = '#F18903', cex = 1.5)
+  legend('topright', legend = c('k = 1', 'k = 2'), bty = 'n', pch = 21, 
+         pt.bg = c('#00A1E1', '#F18903'), pt.cex = 1.5, title = "Factor B",
+         title.cex = 1.2, title.font = 2)
+  lines(x = c(1,1), y = c(4,6), lty = 3)
+}
+
+int_plot()
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+Let's first consider the main effects. When a factor has only two levels, the case is clear, because we the difference must be between those two levels.
+
+If we have three or more levels, we need to disentangle the main effect in the same way we disentangled them in a one-factorial case. That means we can run pairwise comparisons or custom contrasts on that factor (thus collapsing across all levels of the other factor) using the *emmeans* function from the package *emmeans*.
+
+In our example, the factor "demands" had three levels, so we need to investigate where exactly the mean differences originate. We will go with pairwise comparisons adjusted for multiple testing using Bonferroni's method. Here is the syntax:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# load library emmeans
+library(emmeans)
+
+# pairwise comparisons on the demands factor with Bonferroni correction
+emmeans(object = my_ANOVA, specs = 'demands',
+        contr = 'pairwise', adjust = 'bonferroni')
+```
+
+Running the code above will yield the following console output:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# pairwise comparisons on the demands factor with Bonferroni correction
+emmeans(object = my_ANOVA, specs = 'demands',
+        contr = 'pairwise', adjust = 'bonferroni')
+```
+:::
+Similar to the one-factorial case, the output will consist of two tables, with the second of them containing the desired information. In this case, both moderate and high demands lead to higher levels of stress (we can interpret this effect causally because we simulated experimental data), but we cannot say whether stress levels differ between moderate and high demands.
+
+:::{.alert .alert-danger}
+**Note**: when we call the *emmeans* function on a main effect in an ANOVA design with at least two factors, R will also return a message informing us that the results of our pairwise comparisons may be misleading due to involvement in potential interactions.
+
+What does this mean? It means that we should be cautious when interpreting main effects in an ANOVA that contains interaction effects. The reason is that there can be cases, in which there is a statistically significant main effect, but we would not interpret this effect as such.
+
+In brief, we should only accept a main effect as such if the order of the means remains the same on all levels of the other factor(s). However, since the contrasts analysis of a main effect makes general statements about the relations of the individual factor levels while collapsing across all levels of the other factor(s), we cannot say without further analysis whether this relation holds for all levels of the other factor(s).
+:::
+
+The other effect that needs to be disentangled is the interaction effect. The reason is that there are various patterns that can produce an interaction effect, and we need to identify which one lead to the significant interaction (if the interaction is not significant, there is no need to disentangle the effect).
+
+
+
+
+
 
 
 

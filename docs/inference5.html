@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -207,6 +270,8 @@ ul.task-list li input[type="checkbox"] {
 <p>If we ensure, in addition, that all cells of our design have the same sample size, we call our design <strong>orthogonal</strong>. Orthogonality is not required for running a two-factorial ANOVA, but it comes with an advantage: equal sample sizes make the ANOVA robust against violating the assumption of equal variances.</p>
 <section id="general-logic-of-the-two-factorial-anova" class="level2">
 <h2 class="anchored" data-anchor-id="general-logic-of-the-two-factorial-anova">General logic of the two-factorial ANOVA</h2>
+<p>The model underlying the two-factorial ANOVA looks like this:</p>
+<p><span class="math display">\[\mu_{jk} = \mu+\alpha_j+\beta_k+\gamma_{jk}\]</span> Here, <span class="math inline">\(\mu_{jk}\)</span> is the true mean or a combination of the <span class="math inline">\(j\)</span>th level of factor <span class="math inline">\(A\)</span> and the <span class="math inline">\(kth\)</span> level of factor <span class="math inline">\(B\)</span>, <span class="math inline">\(\mu\)</span> is the true grand mean (i.e., the population mean across all groups), <span class="math inline">\(\alpha_j\)</span> is the true effect of the <span class="math inline">\(j\)</span>th level of factor <span class="math inline">\(A\)</span>, <span class="math inline">\(\beta_k\)</span> is the true effect of the <span class="math inline">\(k\)</span>th level of factor <span class="math inline">\(B\)</span>, and <span class="math inline">\(\gamma_{jk}\)</span> is the true effect of combining the <span class="math inline">\(j\)</span>th level of <span class="math inline">\(A\)</span> with the <span class="math inline">\(k\)</span>th level of <span class="math inline">\(B\)</span> that goes beyond the independent contributions of the two factors (<span class="math inline">\(\alpha_j\)</span> and <span class="math inline">\(\beta_k\)</span>).</p>
 <p>Just as with the one-factorial ANOVA, its two-factorial cousin partitions the variance of the outcome variable <span class="math inline">\(\sigma_x^2\)</span> into signal and noise. The signal is the variance that stems from differences between groups, and the noise is the variance that is due to differences within the groups. Here, too, we can simplify the partition of variances by partitioning the sums of squares instead. As with the one-factorial ANOVA, we can state that:</p>
 <p><span class="math display">\[SS_{total} = SS_{between} + SS_{within}\]</span></p>
 <p>The difference to the one-factorial ANVOA is that we can now partition the signal (the <span class="math inline">\(SS_{between}\)</span>) even further. Specifically, we can partition the variability between groups into variability that is due to the first factor <span class="math inline">\(A\)</span>, variability that is due to the second factor <span class="math inline">\(B\)</span>, and variability that results from the interaction of the two factors <span class="math inline">\(A \times B\)</span>. We can state this formally as follows:</p>
@@ -221,7 +286,8 @@ ul.task-list li input[type="checkbox"] {
 <p>When we want to partition the sum of squares in a two-factorial design, we first need to compute the total sum of squares. We do so, by collapsing across all cells of our design and summing the squared deviations of all observations from the grand mean <span class="math inline">\(\bar{x}\)</span> (i.e., the mean computed across all observations irrespective of which cell they stem from). We can formalise this as:</p>
 <p><span class="math display">\[SS_{total} = \sum_{j=1}^{J} \sum_{k=1}^{K} \sum_{i=1}^{n_{jk}} (x_{ijk}-\bar{x})^2\]</span> The next step is computing <span class="math inline">\(SS_{between}\)</span> by pretending that there is no variance within groups. Computing the <span class="math inline">\(SS_{between}\)</span> works similar to the one-factorial ANOVA. That means, we replace each observation <span class="math inline">\(x_{ijk}\)</span> with the mean of its cell <span class="math inline">\(\bar{x}_{jk}\)</span> before computing the sum of the squared deviations from the grand mean <span class="math inline">\(\bar{x}_{jk}\)</span>.</p>
 <p><span class="math display">\[SS_{between} = \sum_{j=1}^{J} \sum_{k=1}^{K} n_{jk} \times (\bar{x}_{jk} - \bar{x})^2\]</span> Computing the <span class="math inline">\(SS_{within}\)</span> is also similar to the one-factorial ANOVA. We pretend that there is no variation between groups by replacing the grand mean <span class="math inline">\(\bar{x}\)</span> with the cell means <span class="math inline">\(\bar{x}_{jk}\)</span> in the formula for the total sum of squares.</p>
-<p><span class="math display">\[SS_{within} = \sum_{j=1}^{J} \sum_{k=1}^{K} \sum_{i = 1}^{n_{jk}}  (x_{ijk} - \bar{x}_{jk})\]</span> So far, so good. We have now partitioned <span class="math inline">\(SS_{total}\)</span> into the <span class="math inline">\(SS_{between}\)</span> and the <span class="math inline">\(SS_{within}\)</span>. However, since we have a <span class="math inline">\(2 \times 2\)</span>-design, we are not merely interested in <em>whether</em> there is substantial variation between the groups, but also <em>where</em> this variation originates. Thus, we need to partition the sums of squares further.</p>
+<p><span class="math display">\[SS_{within} = \sum_{j=1}^{J} \sum_{k=1}^{K} \sum_{i = 1}^{n_{jk}}  (x_{ijk} - \bar{x}_{jk})\]</span></p>
+<p>So far, so good. We have now partitioned <span class="math inline">\(SS_{total}\)</span> into the <span class="math inline">\(SS_{between}\)</span> and the <span class="math inline">\(SS_{within}\)</span>. However, since we have a <span class="math inline">\(2 \times 2\)</span>-design, we are not merely interested in <em>whether</em> there is substantial variation between the groups, but also <em>where</em> this variation originates. Thus, we need to partition the sums of squares further.</p>
 <p>We first compute <span class="math inline">\(SS_A\)</span>, that is, the variation that is solely due to differences in factor <span class="math inline">\(A\)</span>. We do so by pretending that a) there is no factor <span class="math inline">\(B\)</span>, and b) there is no variation within cells. The latter is necessary because <span class="math inline">\(SS_A\)</span> is part of <span class="math inline">\(SS_{between}\)</span>. The good thing is that we already know how to do it, namely by replacing individual observations with a mean score. But how do we pretend that there is no factor <span class="math inline">\(B\)</span>? Effectively, we collapse across all levels of <span class="math inline">\(B\)</span> and combine them into one big cell for each level of <span class="math inline">\(A\)</span>. Here is what our <span class="math inline">\(2 \times 2\)</span>-design would look like in our minds now:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -250,7 +316,7 @@ ul.task-list li input[type="checkbox"] {
 <p><span class="math display">\[\frac{MS_A}{MS_{wihtin}} \sim F_{J-1;N-J\times K}\]</span> We use it to test the following hypotheses:</p>
 <p><span class="math inline">\(H_{0_A}: \alpha_j = 0 \quad \forall j\)</span></p>
 <p><span class="math inline">\(H_{1_A}: \lnot H_{0_A}\)</span></p>
-<p>Here, <span class="math inline">\(\alpha_j\)</span> is the true effect of the <span class="math inline">\(j\)</span>th level of <span class="math inline">\(A\)</span> such that:</p>
+<p>Remember that <span class="math inline">\(\alpha_j\)</span> is the true effect of the <span class="math inline">\(j\)</span>th level of <span class="math inline">\(A\)</span>, which means that:</p>
 <p><span class="math inline">\(\mu_{j\cdot} = \mu+\alpha_j\)</span></p>
 <p>In other words, when we add <span class="math inline">\(\alpha_j\)</span> to the overall population mean <span class="math inline">\(\mu\)</span> (the true value of <span class="math inline">\(\bar{x}\)</span>), we obtain the expectancy of the mean for the <span class="math inline">\(j\)</span>th level of <span class="math inline">\(A\)</span> (collapsed over all levels of <span class="math inline">\(B\)</span>).</p>
 </section>
@@ -260,7 +326,7 @@ ul.task-list li input[type="checkbox"] {
 <p><span class="math display">\[\frac{MS_B}{MS_{wihtin}} \sim F_{K-1;N-J\times K}\]</span> The corresponding hypotheses are:</p>
 <p><span class="math inline">\(H_{0_B}: \beta_k = 0 \quad \forall k\)</span></p>
 <p><span class="math inline">\(H_{1_B}: \lnot H_{0_B}\)</span></p>
-<p>Here, <span class="math inline">\(\beta_k\)</span> is the true effect of the <span class="math inline">\(k\)</span>th level of B, which is formally defined such that:</p>
+<p>Again, <span class="math inline">\(\beta_k\)</span> is the true effect of the <span class="math inline">\(k\)</span>th level of B. We can state that:</p>
 <p><span class="math inline">\(\mu_{\cdot k} = \mu + \beta_k\)</span></p>
 <p>This means that adding <span class="math inline">\(\beta_k\)</span> to the true population mean <span class="math inline">\(\mu\)</span> will result in the expected mean of the <span class="math inline">\(k\)</span>th level of factor <span class="math inline">\(B\)</span> (collapsed across all levels of <span class="math inline">\(A\)</span>).</p>
 </section>
@@ -271,12 +337,114 @@ ul.task-list li input[type="checkbox"] {
 <p>We use this <span class="math inline">\(F\)</span>-statistic to test the final hypothesis, which is very similar to the main effect hypotheses:</p>
 <p><span class="math inline">\(H_{0_{A \times B}}: \gamma_{A \times = 0 \quad \forall j,k}\)</span></p>
 <p><span class="math inline">\(H_{1_B}: \lnot H_{0_{A\times B}}\)</span></p>
-<p>Here, <span class="math inline">\(\gamma_{jk}\)</span> is the effect that combining the <span class="math inline">\(j\)</span>th level of <span class="math inline">\(A\)</span> and the <span class="math inline">\(k\)</span>th level of <span class="math inline">\(B\)</span> has on the population mean *beyond** the respective main effects <span class="math inline">\(\alpha_j\)</span> and <span class="math inline">\(\beta_k\)</span>. We define <span class="math inline">\(\gamma_{A \times B}\)</span> such that:</p>
+<p>As mentioned above, <span class="math inline">\(\gamma_{jk}\)</span> is the effect that combining the <span class="math inline">\(j\)</span>th level of <span class="math inline">\(A\)</span> and the <span class="math inline">\(k\)</span>th level of <span class="math inline">\(B\)</span> has on the population mean <span class="math inline">\(\mu\)</span> <strong>beyond</strong> the respective main effects <span class="math inline">\(\alpha_j\)</span> and <span class="math inline">\(\beta_k\)</span>. We define <span class="math inline">\(\gamma_{A \times B}\)</span> such that:</p>
 <p><span class="math display">\[\mu_{jk} = \mu + \alpha_j + \beta_k + \gamma_{jk} = 0\]</span></p>
+<p>This means that when we look at individual cells of our design instead of collapsing across rows or columns, we can obtain the respective true cell mean <span class="math inline">\(\mu_{jk}\)</span> by taking the true grand mean <span class="math inline">\(\mu\)</span> and adding not only <span class="math inline">\(\alpha_j\)</span> and <span class="math inline">\(\beta_k\)</span> but also <span class="math inline">\(\gamma_{jk}\)</span>.</p>
 </section>
 </section>
 <section id="running-a-two-factorial-anova-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="running-a-two-factorial-anova-in-r">Running a two-factorial ANOVA in R</h2>
+<p>When we want to run a two-factorial ANOVA in R, we can use the same package and function we used for the one-factorial case. That is, we use the <em>aov_ez</em> function of the package <em>afex</em>. Before we can run the analysis, we first need data from a two-factorial design.</p>
+<p>Let’s say, we have data from an experimental <span class="math inline">\(2 \times 2"\)</span>-design in which we manipulated two factors: job <em>demands</em> (low vs.&nbsp;high) and <em>autonomy</em> (low. vs.&nbsp;high). The dependent variable is the experienced level of job <em>stress</em>. Let’s further assume that we have gathered data from 50 participants in each of the four cells of our design and stored it i a data frame called “my_df”. Here is an except of the data.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID demands control stress
+1  1     low     low    112
+2  2     low    high     79
+3  3    high     low    134
+4  4    high    high     76
+5  5     low     low    114
+6  6     low    high    129</code></pre>
+</div>
+</div>
+<p>The difference to a one-factorial ANOVA is that we need to feed the <em>aov_ez</em> function a vector containing two variable names as its <em>between</em> argument (in the one-factorial case it was a single character value). Here is what the syntax looks like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library afex</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run a two-factorial ANOVA with demands and control as the </span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># independent variables and stress as the dependent variable</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>my_ANOVA <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">between =</span> <span class="fu">c</span>(<span class="st">'demands'</span>, <span class="st">'control'</span>), </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">dv =</span> <span class="st">'stress'</span>, <span class="at">data =</span> my_df)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># display the results of the ANOVA</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>my_ANOVA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running this code will create an ANOVA object called “my_ANOVA” in the environment and then display the results of the analysis in the console. Here is what the output looks like:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Contrasts set to contr.sum for the following variables: demands, control</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type 3 tests)
+
+Response: stress
+           Effect     df    MSE         F  ges p.value
+1         demands 1, 196 455.82 43.92 *** .183   &lt;.001
+2         control 1, 196 455.82 20.02 *** .093   &lt;.001
+3 demands:control 1, 196 455.82    4.15 * .021    .043
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+<p>As we can see, the output is an ANOVA table. R tells us that the tests are based on type-3 sums of squares and tells us what the outcome variable was in our analysis (stress). The table itself contains three effects: a main effect of demands (the first variable we entered as a between-subjects factor), a main effect of control (the second between-subjects factor), and the interaction of the two variables denoted by “demands:control” (in R, the colon often indicates an interaction effect).</p>
+<p>For each effect, R displays the numerator and denominator degrees of freedom, the <span class="math inline">\(MS_within\)</span> (they are necessarily equal for all three effects), the <span class="math inline">\(F\)</span>-value, an estimate of the effect size <span class="math inline">\(\eta^2\)</span>, and the <span class="math inline">\(p\)</span>-value. In our example, all three effects are statistically significant. Statistically speaking, we can now reject all of the Null hypotheses, that is, we would conclude that the level of demands has an effect on stress, that the level of control has an effect on stress, and that there is an interaction of the two variables.</p>
+</section>
+<section id="disentangling-effects-in-a-two-factorial-anova" class="level2">
+<h2 class="anchored" data-anchor-id="disentangling-effects-in-a-two-factorial-anova">Disentangling effects in a two-factorial ANOVA</h2>
+<p>Similar to the one-factorial ANOVA, the tests we run in a two-factorial ANOVA are unspecific in the sense that they do not tell us which means differ from one another. However, disentangling effect in two-factorial ANOVAs is non-trivial. Which effects we need to disentangle and how we go about it depends on a) whether there is a significant interaction and b) how many levels our factors have.</p>
+<p>Let’s first consider what difference it makes whether there is a significant interaction. In order to do that, we first need to consider what a main effect is in a two-factor ANOVA. Here, we must distinguish between the statistical main effect as returned by the ANOVA and an actual main effect in the psychological sense. <strong>We speak of an actual main effect if the order of the levels of one factor holds across all levels of the other factor.</strong> For example, in a <span class="math inline">\(2 \times 2\)</span>-design, we would speak of a main effect of factor <span class="math inline">\(A\)</span> if the first level of <span class="math inline">\(A\)</span> was associated with higher (or lower) scores than its second level, irrespective of whether we look at the first or the second level of factor <span class="math inline">\(B\)</span>.</p>
+<p>Here is the problem: because the statistical main effect of a factor in an ANOVA is computed by collapsing across the levels of the other factor, there are different patterns that produce a significant mean difference but do not satisfy the condition described in the previous paragraph. When can those pattern occur? The answer is: when there is an interaction of the two factors.</p>
+<p>What does this mean for us? First for the easy case in which there is no interaction. If the interaction effect is not significant, we cannot accept <span class="math inline">\(H_{1_{A\times B}}\)</span>. That means we retain <span class="math inline">\(H_{0_{A\times B}}\)</span> for now (without believing that it is true because the non-significant finding is uninformative). Retaining <span class="math inline">\(H_{0_{A\times B}}\)</span> implies that if there are any significant main effects in the ANOVA, we can interpret them as is and disentangle them similar to effects in a one-factorial ANOVA.</p>
+<p>Now let’s assume that we found a significant interaction effect. This is where things become difficult. Let’s look at a few graphs to understand this issue better. All of the situations below constituent cases where there is an interaction (we can tell this from the lines not running parallel), but where we may also find significant main effects in an interaction.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="inference5_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let’s first consider the main effects. When a factor has only two levels, the case is clear, because we the difference must be between those two levels.</p>
+<p>If we have three or more levels, we need to disentangle the main effect in the same way we disentangled them in a one-factorial case. That means we can run pairwise comparisons or custom contrasts on that factor (thus collapsing across all levels of the other factor) using the <em>emmeans</em> function from the package <em>emmeans</em>.</p>
+<p>In our example, the factor “demands” had three levels, so we need to investigate where exactly the mean differences originate. We will go with pairwise comparisons adjusted for multiple testing using Bonferroni’s method. Here is the syntax:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library emmeans</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># pairwise comparisons on the demands factor with Bonferroni correction</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> my_ANOVA, <span class="at">specs =</span> <span class="st">'demands'</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'bonferroni'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running the code above will yield the following console output:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>NOTE: Results may be misleading due to involvement in interactions</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+ demands emmean   SE  df lower.CL upper.CL
+ low       99.9 2.13 196     95.7      104
+ high     119.9 2.13 196    115.7      124
+
+Results are averaged over the levels of: control 
+Confidence level used: 0.95 
+
+$contrasts
+ contrast   estimate   SE  df t.ratio p.value
+ low - high      -20 3.02 196  -6.627  &lt;.0001
+
+Results are averaged over the levels of: control </code></pre>
+</div>
+</div>
+</div>
+<p>Similar to the one-factorial case, the output will consist of two tables, with the second of them containing the desired information. In this case, both moderate and high demands lead to higher levels of stress (we can interpret this effect causally because we simulated experimental data), but we cannot say whether stress levels differ between moderate and high demands.</p>
+<div class="alert alert-danger">
+<p><strong>Note</strong>: when we call the <em>emmeans</em> function on a main effect in an ANOVA design with at least two factors, R will also return a message informing us that the results of our pairwise comparisons may be misleading due to involvement in potential interactions.</p>
+<p>What does this mean? It means that we should be cautious when interpreting main effects in an ANOVA that contains interaction effects. The reason is that there can be cases, in which there is a statistically significant main effect, but we would not interpret this effect as such.</p>
+<p>In brief, we should only accept a main effect as such if the order of the means remains the same on all levels of the other factor(s). However, since the contrasts analysis of a main effect makes general statements about the relations of the individual factor levels while collapsing across all levels of the other factor(s), we cannot say without further analysis whether this relation holds for all levels of the other factor(s).</p>
+</div>
+<p>The other effect that needs to be disentangled is the interaction effect. The reason is that there are various patterns that can produce an interaction effect, and we need to identify which one lead to the significant interaction (if the interaction is not significant, there is no need to disentangle the effect).</p>
 
 
 </section>

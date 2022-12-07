@@ -316,7 +316,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="one-factorial-anova" class="level2">
 <h2 class="anchored" data-anchor-id="one-factorial-anova">One-factorial ANOVA</h2>
-<p>In a one-factorial ANOVA, we compare two or more group means such that we consider each group to represent one level of the same grouping variable or factor. The Null hypothesis is that all group means are equal, and the alternative hypothesis is that not all group means are equal.</p>
+<p>In a one-factorial ANOVA, we compare two or more group means such that we consider each group to represent one level of the same grouping variable or factor <span class="math inline">\(A\)</span>. The underlying model assumes that the true mean of each of the <span class="math inline">\(j\)</span> groups <span class="math inline">\(\mu_j\)</span> is the sum of the true grand mean and the effect of the <span class="math inline">\(j\)</span>th level of factor <span class="math inline">\(A\)</span> on that mean. We call these effects <span class="math inline">\(\alpha_j\)</span>.</p>
+<p><span class="math inline">\(\mu_j = \mu + \alpha_j\)</span></p>
+<p>This is equivalent to:</p>
+<p><span class="math inline">\(\alpha_j = \mu_j - \mu\)</span></p>
+<p>In other words, the effect of the <span class="math inline">\(j\)</span>th level of factor <span class="math inline">\(A\)</span> is the difference between the true group mean <span class="math inline">\(\mu_j\)</span> and the true grand mean <span class="math inline">\(\mu\)</span>. Accordingly, if <span class="math inline">\(\mu_j\)</span> exceeds <span class="math inline">\(\mu\)</span>, the respective <span class="math inline">\(\alpha_j\)</span> is positive.</p>
+<p>The Null hypothesis is that all group means are equal. This equivalent to stating that all <span class="math inline">\(\alpha_j\)</span> are zero. The alternative hypothesis is that not all group means are equal or, put differently, that at least oe of the <span class="math inline">\(\alpha_j\)</span> is non-zero.</p>
+<p><span class="math inline">\(H0:\alpha_j = 0 \quad \forall j\)</span></p>
+<p><span class="math inline">\(H1: \lnot H_0\)</span></p>
 <p>Running ANOVAs in base R tends to be very clunky because R is more centered around classic regression models. Therefore, we won’t be using base R to run ANOVAs, but instead use an R package called <em>afex</em> (Analysis of Factorial Experiment). That means, we need to install and load <em>afex</em> first.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("afex")</span></span>
