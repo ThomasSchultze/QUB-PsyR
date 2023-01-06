@@ -45,6 +45,8 @@ website:
           href: inference4.html
         - text: "Two-factorial Analysis of Variance"
           href: inference5.html
+        - text: "Repeated measures and mixed ANOVAs"
+          href: inference6.html
         
       - text: "About"
         href: about.html

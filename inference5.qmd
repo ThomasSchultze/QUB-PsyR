@@ -2,7 +2,7 @@
 title: "The two-factorial ANOVA"
 ---
 
-The two-factorial analysis of variance (ANOVA) in an extension of the one-factorial ANOVA. It allows us to test how the mean of a continuous variable differs as a function for two categorical variables $A$ and $B$. In a two-factorial ANOVA, we can not only test for the independent effects of the two variables on the outcome, but also a possible interaction of the two variables $A \times B$. Here, interaction means that the magnitude and/or direction of the effect of one of the variables depends on the level of the second variable.
+The two-factorial analysis of variance (ANOVA) in an extension of the one-factorial ANOVA. It allows us to test how the mean of a continuous variable differs as a function of two categorical variables $A$ and $B$. In a two-factorial ANOVA, we can not only test for the independent effects of the two variables on the outcome, but also a possible interaction of the two variables $A \times B$. Here, interaction means that the magnitude and/or direction of the effect of one of the variables depends on the level of the second variable.
 
 A two-factorial design requires that the two variables $A$ and $B$ are "crossed". That means that each level of the first factor $A$ must be combined with each level of the second second factor $B$. If $A$ has three levels and $B$ has two levels, our design has a total of 6 cells, and we would refer to it as a $3 \times 2$-design.
 
@@ -203,9 +203,9 @@ $$\frac{MS_{A \times B}}{MS_{wihtin}} \sim F_{(J-1)(K-1);N-J\times K}$$
 
 We use this $F$-statistic to test the final hypothesis, which is very similar to the main effect hypotheses:
 
-$H_{0_{A \times B}}: \gamma_{A \times = 0 \quad \forall j,k}$
+$H_{0_{A \times B}}: \gamma_{A \times B} = 0 \quad \forall j,k$
 
-$H_{1_B}: \lnot H_{0_{A\times B}}$
+$H_{1_{A \times B}}: \lnot H_{0_{A\times B}}$
 
 As mentioned above, $\gamma_{jk}$ is the effect that combining the $j$th level of $A$ and the $k$th level of $B$ has on the population mean $\mu$ **beyond** the respective main effects $\alpha_j$ and $\beta_k$. We define $\gamma_{A \times B}$ such that:
 
@@ -219,7 +219,7 @@ This means that when we look at individual cells of our design instead of collap
 
 When we want to run a two-factorial ANOVA in R, we can use the same package and function we used for the one-factorial case. That is, we use the *aov_ez* function of the package *afex*. Before we can run the analysis, we first need data from a two-factorial design. 
 
-Let's say, we have data from an experimental $2 \times 2"$-design in which we manipulated two factors: job *demands* (low vs. high) and *autonomy* (low. vs. high). The dependent variable is the experienced level of job *stress*. Let's further assume that we have gathered data from 50 participants in each of the four cells of our design and stored it i a data frame called "my_df". Here is an except of the data.
+Let's say, we have data from an experimental $2 \times 2$-design in which we manipulated two factors: job *demands* (low vs. high) and *autonomy* (low. vs. high). The dependent variable is the experienced level of job *stress*. Let's further assume that we have gathered data from 50 participants in each of the four cells of our design and stored it in a data frame called "my_df". Here is an except of the data.
 
 ```{r}
 #| eval: true
@@ -333,7 +333,7 @@ Again, an ANOVA would tell us that there is a significant interaction and two si
 :::{.alert .alert-danger}
 The bottom line here is that we should only bother disentangling **actual main effects** and not any main effect that is statistically significant in a 2-factorial ANOVA. 
 
-This means that we should disentangle main effects only if there is no evidence of an interaction or is the interaction is ordinal.
+This means that we should disentangle main effects only if there is no evidence of an interaction or if the interaction is ordinal.
 :::
 
 

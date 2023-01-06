@@ -228,6 +228,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="./inference5.html">
  <span class="dropdown-text">Two-factorial Analysis of Variance</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./inference6.html">
+ <span class="dropdown-text">Repeated measures and mixed ANOVAs</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -265,7 +269,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>The two-factorial analysis of variance (ANOVA) in an extension of the one-factorial ANOVA. It allows us to test how the mean of a continuous variable differs as a function for two categorical variables <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. In a two-factorial ANOVA, we can not only test for the independent effects of the two variables on the outcome, but also a possible interaction of the two variables <span class="math inline">\(A \times B\)</span>. Here, interaction means that the magnitude and/or direction of the effect of one of the variables depends on the level of the second variable.</p>
+<p>The two-factorial analysis of variance (ANOVA) in an extension of the one-factorial ANOVA. It allows us to test how the mean of a continuous variable differs as a function of two categorical variables <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. In a two-factorial ANOVA, we can not only test for the independent effects of the two variables on the outcome, but also a possible interaction of the two variables <span class="math inline">\(A \times B\)</span>. Here, interaction means that the magnitude and/or direction of the effect of one of the variables depends on the level of the second variable.</p>
 <p>A two-factorial design requires that the two variables <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are “crossed”. That means that each level of the first factor <span class="math inline">\(A\)</span> must be combined with each level of the second second factor <span class="math inline">\(B\)</span>. If <span class="math inline">\(A\)</span> has three levels and <span class="math inline">\(B\)</span> has two levels, our design has a total of 6 cells, and we would refer to it as a <span class="math inline">\(3 \times 2\)</span>-design.</p>
 <p>If we ensure, in addition, that all cells of our design have the same sample size, we call our design <strong>orthogonal</strong>. Orthogonality is not required for running a two-factorial ANOVA, but it comes with an advantage: equal sample sizes make the ANOVA robust against violating the assumption of equal variances.</p>
 <section id="general-logic-of-the-two-factorial-anova" class="level2">
@@ -335,8 +339,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The <span class="math inline">\(F\)</span>-statistic for the interaction effect <span class="math inline">\(A \times B\)</span> is defined as follows:</p>
 <p><span class="math display">\[\frac{MS_{A \times B}}{MS_{wihtin}} \sim F_{(J-1)(K-1);N-J\times K}\]</span></p>
 <p>We use this <span class="math inline">\(F\)</span>-statistic to test the final hypothesis, which is very similar to the main effect hypotheses:</p>
-<p><span class="math inline">\(H_{0_{A \times B}}: \gamma_{A \times = 0 \quad \forall j,k}\)</span></p>
-<p><span class="math inline">\(H_{1_B}: \lnot H_{0_{A\times B}}\)</span></p>
+<p><span class="math inline">\(H_{0_{A \times B}}: \gamma_{A \times B} = 0 \quad \forall j,k\)</span></p>
+<p><span class="math inline">\(H_{1_{A \times B}}: \lnot H_{0_{A\times B}}\)</span></p>
 <p>As mentioned above, <span class="math inline">\(\gamma_{jk}\)</span> is the effect that combining the <span class="math inline">\(j\)</span>th level of <span class="math inline">\(A\)</span> and the <span class="math inline">\(k\)</span>th level of <span class="math inline">\(B\)</span> has on the population mean <span class="math inline">\(\mu\)</span> <strong>beyond</strong> the respective main effects <span class="math inline">\(\alpha_j\)</span> and <span class="math inline">\(\beta_k\)</span>. We define <span class="math inline">\(\gamma_{A \times B}\)</span> such that:</p>
 <p><span class="math display">\[\mu_{jk} = \mu + \alpha_j + \beta_k + \gamma_{jk} = 0\]</span></p>
 <p>This means that when we look at individual cells of our design instead of collapsing across rows or columns, we can obtain the respective true cell mean <span class="math inline">\(\mu_{jk}\)</span> by taking the true grand mean <span class="math inline">\(\mu\)</span> and adding not only <span class="math inline">\(\alpha_j\)</span> and <span class="math inline">\(\beta_k\)</span> but also <span class="math inline">\(\gamma_{jk}\)</span>.</p>
@@ -345,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="running-a-two-factorial-anova-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="running-a-two-factorial-anova-in-r">Running a two-factorial ANOVA in R</h2>
 <p>When we want to run a two-factorial ANOVA in R, we can use the same package and function we used for the one-factorial case. That is, we use the <em>aov_ez</em> function of the package <em>afex</em>. Before we can run the analysis, we first need data from a two-factorial design.</p>
-<p>Let’s say, we have data from an experimental <span class="math inline">\(2 \times 2"\)</span>-design in which we manipulated two factors: job <em>demands</em> (low vs.&nbsp;high) and <em>autonomy</em> (low. vs.&nbsp;high). The dependent variable is the experienced level of job <em>stress</em>. Let’s further assume that we have gathered data from 50 participants in each of the four cells of our design and stored it i a data frame called “my_df”. Here is an except of the data.</p>
+<p>Let’s say, we have data from an experimental <span class="math inline">\(2 \times 2\)</span>-design in which we manipulated two factors: job <em>demands</em> (low vs.&nbsp;high) and <em>autonomy</em> (low. vs.&nbsp;high). The dependent variable is the experienced level of job <em>stress</em>. Let’s further assume that we have gathered data from 50 participants in each of the four cells of our design and stored it in a data frame called “my_df”. Here is an except of the data.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID demands control stress
@@ -414,7 +418,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 <p><img src="images/inference/2x2aov_4.png" class="img-fluid"> Again, an ANOVA would tell us that there is a significant interaction and two significant main effects. However, as we can see, the notion of main effects is maximally misleading here. If we look at factor <span class="math inline">\(A\)</span>, we will see that its effect can be positive (in the sense that it leads to higher levels of the dependent variable), or it can be negative. Whether the effect is positive or negative depends on the level of factor <span class="math inline">\(B\)</span>. The same is true for factor <span class="math inline">\(B\)</span>. Whether this factor has a positive or negative effect on the level of the dependent variable depends on the level of factor <span class="math inline">\(A\)</span>. We call this a <strong>disordinal</strong> interaction because the order of factor levels (in terms of which has the higher values of the dependent variable) reverses for each factor depending on the levels of the other factor. This means that - similar to the previous scenario - we cannot interpret the statistical main effects to be actual main effects.</p>
 <div class="alert alert-danger">
 <p>The bottom line here is that we should only bother disentangling <strong>actual main effects</strong> and not any main effect that is statistically significant in a 2-factorial ANOVA.</p>
-<p>This means that we should disentangle main effects only if there is no evidence of an interaction or is the interaction is ordinal.</p>
+<p>This means that we should disentangle main effects only if there is no evidence of an interaction or if the interaction is ordinal.</p>
 </div>
 </section>
 <section id="disentangling-main-effects" class="level3">

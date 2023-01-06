@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.258">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>QUB-PsyR - Repeated measures and mixed ANOVAs</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/QUBlogoWsmall.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">QUB-PsyR</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-intro" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Intro</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-intro">    
+        <li>
+    <a class="dropdown-item" href="./intro1.html">
+ <span class="dropdown-text">R and RStudio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./intro2.html">
+ <span class="dropdown-text">Running Code in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./intro3.html">
+ <span class="dropdown-text">Objects and Functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./intro4.html">
+ <span class="dropdown-text">Data Frames and Lists</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./intro5.html">
+ <span class="dropdown-text">Saving and Loading Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-with-r-objects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Working with R Objects</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-working-with-r-objects">    
+        <li>
+    <a class="dropdown-item" href="./working1.html">
+ <span class="dropdown-text">Binary Operators</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./working2.html">
+ <span class="dropdown-text">Functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./working3.html">
+ <span class="dropdown-text">Numerical Indexing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./working4.html">
+ <span class="dropdown-text">Logical Indexing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./working5.html">
+ <span class="dropdown-text">R Packages</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-statistical-inference" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Statistical Inference</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-statistical-inference">    
+        <li>
+    <a class="dropdown-item" href="./inference0.html">
+ <span class="dropdown-text">A Primer on Statistical Inference</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference1.html">
+ <span class="dropdown-text">The t-test</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference2.html">
+ <span class="dropdown-text">The Chi²-test</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference3.html">
+ <span class="dropdown-text">Correlations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference4.html">
+ <span class="dropdown-text">One-factorial Analysis of Variance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference5.html">
+ <span class="dropdown-text">Two-factorial Analysis of Variance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference6.html">
+ <span class="dropdown-text">Repeated measures and mixed ANOVAs</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Repeated measures and mixed ANOVAs</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>So far, we have covered ANOVAs for designs, in which the explanatory variables varied between subjects. We will now turn to cases, in which all or at least some of these factors vary within subjects. Although these cases are a little more complicated, they follow the same logic of taking the overall variance of the outcome of interest and partitioning it.</p>
+<section id="repeated-measures-anova" class="level2">
+<h2 class="anchored" data-anchor-id="repeated-measures-anova">Repeated measures ANOVA</h2>
+<p>In a repeated measures ANOVA (also sometimes referred to as within-subjects ANOVA), we are interested in whether there are mean differences between two or more variables measured among the same participants. This could be the same variable we measure at different times, for example when we are interested in changes over time, or responses to different questions we asked our participants, for example how much they like various colours.</p>
+<section id="one-factorial-repeated-measures-anova" class="level3">
+<h3 class="anchored" data-anchor-id="one-factorial-repeated-measures-anova">One-factorial repeated measures ANOVA</h3>
+<p>The one-factorial case of the repeated measures ANOVA is an extension of the paired <span class="math inline">\(t\)</span>-test. The difference to the one-factorial between-subjects ANOVA is that each participant provides a response at all levels of the within-subjects factor (if at least one of the responses is missing, that participant is lost for the analysis). The question now is how to partition the variance of the observations or - to be more precise - the corresponding sums of squares.</p>
+<p>In a first step, we can partition the total sum of squares into variability between participants and variability within participants:</p>
+<p><span class="math display">\[SS_{total} = SS_{betweenP} + SS_{withinP}\]</span></p>
+<p>Here, <span class="math inline">\(SS_{betweenP}\)</span> represents variability that we can attribute to idiosyncrasies of our participants, meaning that participants differ systematically in their responses. Depending on what we are investigating the reasons for such systematic differences could be inter-individual differences in terms of personality, gender, education, or general cognitive ability. They could also stem from differences in task-related aptitude or current motivational or affective states. Whatever the reasons, if there is variation between participants, we can state that, averaged across all levels of our factor, some participants have higher or lower levels in our outcome variable than others.</p>
+<p>In most cases, we are more interested in variability within participants represented by the <span class="math inline">\(SS_{withinP}\)</span>. The reason is that this variability contains not only the measurement error (i.e., unsystematic or unexplained variability of responses each participants provides), but also systematic variability between the levels of our within-subjects factor. This means that we can further partition the <span class="math inline">\(SS_{withinP}\)</span> as follows:</p>
+<p><span class="math display">\[SS_{withinP} = SS_{betweenC} + SS_{error}\]</span> Here, <span class="math inline">\(SS_{betweenC}\)</span> represent the part of the total variability of <span class="math inline">\(X\)</span> that we can attribute to the variation of our within-subjects factor. This is what we are ultimately interested in when we run a repeated measures ANOVA. The error term <span class="math inline">\(SS_{error}\)</span> accordingly includes all variability that we cannot attribute to the variation in the within-subjects factor. In sum, we can partition the total sum of squares as follows:</p>
+<p><span class="math display">\[SS_{total} = SS_{betweenP} + SS_{betweenC} + SS_{error}\]</span> The first step is to compute the total sum of squares. We do so by collapsing across all participants <span class="math inline">\(i\)</span> and all levels of the within-subjects factor. Thus, our total sum of squares looks as usual:</p>
+<p><span class="math display">\[SS_{total} = \sum_{i=1}^{N} (x_i - \bar{x})^2\]</span></p>
+<p>We next compute the <span class="math inline">\(SS_{betweenP}\)</span>, for the sake of completeness. Technically, we do not really need it because the information we are actually interested in lies completely within participants. In order to compute the <span class="math inline">\(SS_{betweenP}\)</span>, we pretend that there is no more variability within participants. We can so by replicate each participants’ responses by their mean across all factor levels. That is, we pretend that a participant always responds with the exact same score on all measurements.</p>
+<p><span class="math display">\[SS_{betweenP} = J\sum_{i = 1}^{N}(\bar{x_i}-\bar{x})^2 \]</span></p>
+<p>Here, <span class="math inline">\(J\)</span> is the number of factor levels and <span class="math inline">\(N\)</span> is the sample size.</p>
+<p>We next compute the <span class="math inline">\(SS_{withinP}\)</span>. Since we are only interested in how much variation there is in the various responses participants provided, we must pretend that there is no more variability between participants. We do so by substituting the grand mean <span class="math inline">\(\bar{x}\)</span> with each participant’s own mean response across all factor levels <span class="math inline">\(\bar{x_i}\)</span>:</p>
+<p><span class="math display">\[SS_{withinP} = \sum_{i=1}^{N}\sum_{j=1}^{J}(x_{ij}-\bar{x_i})^2\]</span> Here, <span class="math inline">\(N\)</span> is again the sample size, <span class="math inline">\(J\)</span> is the number of factor levels, <span class="math inline">\(X_{ij}\)</span> is the response of the <span class="math inline">\(i\)</span>th participant to the <span class="math inline">\(j\)</span>th level of our factor, and <span class="math inline">\(\bar{x_i}\)</span> is the mean response of the <span class="math inline">\(i\)</span>th participant across all factor levels.</p>
+<p>Now that we have computed the <span class="math inline">\(SS_{withinP}\)</span>, it is time to compute the variability in our data that is attributable to the variation of our factor, namely <span class="math inline">\(SS_{betweenC}\)</span>. We compute is in the same fashion in which we computed the <span class="math inline">\(SS_{between}\)</span> in the one-factorial case, that is, we substitute each individual response within one factor level by the respective mean response.</p>
+<p><span class="math display">\[SS_{betweenC} = N\sum_{j=1}^{J}(\bar{x_j}-\bar{x})^2\]</span> Here, <span class="math inline">\(N\)</span> is the sample size, <span class="math inline">\(J\)</span> is the number of factor levels, <span class="math inline">\(\bar{x}\)</span> is the grand mean, and <span class="math inline">\(\bar{x_j}\)</span> is the cell mean for the <span class="math inline">\(j\)</span>th factor level.</p>
+<p>Now that we know both the variability within participants <span class="math inline">\(SS_{withinP}\)</span> and that part of it that we can attribute to variability in our factor <span class="math inline">\(SS_{betweenC}\)</span>, we can compute <span class="math inline">\(SS_{error}\)</span> via simple subtraction:</p>
+<p><span class="math display">\[SS_{error} = SS_{withinP} - SS_{betweenC}\]</span>.</p>
+<p>We can now compute the <span class="math inline">\(F\)</span>-statistic that will tell us whether the variability between the factor levels is large enough to constitute a significant effect. To do so, we compute the <span class="math inline">\(MS_{betweenC}\)</span> and <span class="math inline">\(MS_{error}\)</span> by dividing the respective sums of squares by their degrees of freedom and then take their ratio:</p>
+<p><span class="math display">\[\frac{MS_{betweenC}}{MS_{error}} = \frac{\frac{SS_{betweenC}}{J-1}}{\frac{SS_{error}}{(J-1)\times(N-1)}} = F_{J-1;(J-1)\times{(N-1)}}\]</span> Just as in the between-subjects case, we can now test whether the within-subjects factor, let’s call it <span class="math inline">\(A\)</span>, has an effect on the outcome variable. Remember that:</p>
+<p><span class="math inline">\(\alpha_j = \mu_j - \mu\)</span></p>
+<p>This means that the effect of the <span class="math inline">\(j\)</span>th level of factor <span class="math inline">\(A\)</span>, <span class="math inline">\(\alpha_j\)</span> is the difference between the true group mean <span class="math inline">\(\mu_j\)</span> and the true grand mean <span class="math inline">\(\mu\)</span>.</p>
+<p>Just as in the between-subjects ANOVA, the Null hypothesis is that all <span class="math inline">\(\alpha_j\)</span> are zero (i.e., all cell means are equal). The alternative hypothesis is that not all group means are equal or, put differently, that at least one of the <span class="math inline">\(\alpha_j\)</span> is non-zero.</p>
+<p><span class="math inline">\(H0:\alpha_j = 0 \quad \forall j\)</span></p>
+<p><span class="math inline">\(H1: \lnot H_0\)</span></p>
+</section>
+<section id="running-a-repeated-measure-anova-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="running-a-repeated-measure-anova-in-r">Running a repeated measure ANOVA in R</h3>
+<p>Since we already know how to run between-subjects ANOVAs in R, it is fairly easy to run a repeated measures ANOVA. We will use the same package and function we used for the between-subjects ANOVAs, namely the <em>aov_ez</em> function from R package <em>afex</em>. The only difference is that we will use the function argument <em>wihtin</em> instead of <em>between</em> to tell R the name of our within-subjects factor.</p>
+<p>As always, we need some data first. Let’s assume that we ran a study with a within-subjects design, in which 30 participants worked three memory tasks that only differ in difficulty (let’s assume that we counterbalanced the order so we do not need to concern ourselves with order effects). In other words, we have a within-subjects factor called <em>difficulty</em> with three levels, and we can now test whether participants’ task performance differs according this factor. We will call the data frame containnig the data <em>df1</em>. Here is what the data looks like.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID difficulty performance
+1  1       easy   2.1646466
+2  1   moderate   0.7448755
+3  1       hard   1.3471731
+4  2       easy   2.0451407
+5  2   moderate  -0.2245538
+6  2       hard  -1.2001469</code></pre>
+</div>
+</div>
+<p>We can now run the repeated measures ANOVA using the following syntax:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the library afex</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the ANOVA and save it as a new object</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>aov1 <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">dv =</span> <span class="st">'performance'</span>, </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">within =</span> <span class="st">'difficulty'</span>, <span class="at">data =</span> df1)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># return the result of the ANOVA</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>aov1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If we run the code above, R will produce the following output in the console:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type 3 tests)
+
+Response: performance
+      Effect          df  MSE         F  ges p.value
+1 difficulty 1.91, 55.25 0.49 27.22 *** .255   &lt;.001
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
+
+Sphericity correction method: GG </code></pre>
+</div>
+</div>
+<p>The information is similar to the one we got in the between-subjects case, that is, R displays the name of our factor, <span class="math inline">\(F\)</span>-statistic and its degrees of freedom, an estimate of the effect size <span class="math inline">\(\eta_2\)</span>, and the <span class="math inline">\(p\)</span>-value.</p>
+<p>Note that he analysis yields <strong>fractional degrees of freedom</strong> that are slightly lower then the ones we would have expected based on the descriptions above. The reason is that the <em>aov_ez</em> function corrects for violations of the <strong>sphericity assumption</strong> per default using the Greenhouse-Geisser method.</p>
+<div class="alert alert-success">
+<p>As you may recall, <strong>sphericity</strong> is one of the assumptions we make in order for repeated measures ANOVAs to provide meaningful results. Sphericity means that the variances of all pairwise differences of our factor levels are equal. In a design with a three-level factor, this means that we have three possible differences: <span class="math inline">\(\Delta_{1;2}\)</span> is the difference between factor levels 1 and 2, <span class="math inline">\(\Delta_{1;3}\)</span> is the difference between factor levels 1 and 3, and <span class="math inline">\(\Delta_{2;3}\)</span> is the difference between levels 2 and 3. The assumption of sphericity in this case states that if we computed the variances of each of the <span class="math inline">\(\Delta\)</span>a, they would all be equal.</p>
+<p>Often, people test whether this assumption is violated and decide only to control for its violation when the respective test does not justify retaining the Null hypothesis that the variances of the pairwise differences between factor levels are equal. However, similar to the paired <span class="math inline">\(t\)</span>-test, R takes a different approach and corrects the degrees of freedom for non-sphericity unless we explicitly ask it not to.</p>
+</div>
+<p>Generally speaking, there is no reason to turn off the default Greenhouse-Geisser correction. However, in some cases, we may want to run the ANOVA without correcting for egocentricity (for example, when trying to reproduce results of published studies), or we may want to change the correction method to the Huynh-Feldt method.</p>
+<p>We can change the default for the correction of non-sphericity using function argument of the <em>aov_ez</em> function called <em>anova-table</em>. This argument is a list that allows us to change several aspects of the ANOVA, but for now we only need to define one parameter in that list called <em>correction</em>, which is a character string indicating how we want to correct for non-sphericity in an aNOVA with at least one within-subjects factor. It defaults to “GG” (Greenhouse-Geisser method), but we can alternative set it to “none” (9no correction) or HF(Huynh-Feldt method).</p>
+<p>Let’s say we want ot turn off the non-spheticity correction. Here is what the syntax looks like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the library afex</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the ANOVA and save it as a new object;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># also turn off correction for non-sphericity</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>aov1b <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">dv =</span> <span class="st">'performance'</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">within =</span> <span class="st">'difficulty'</span>, <span class="at">data =</span> df1,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">anova_table =</span> <span class="fu">list</span>(<span class="at">correction =</span> <span class="st">'none'</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># return the result of the new ANOVA</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>aov1b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As we can see in the console, the degrees of freedom now match the ones stated above. Since the violation of sphericity was not severe in the first place (we can see this from the corrected degrees of freedom being very close to the uncorrected ones), the results remain qualitatively similar.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type 3 tests)
+
+Response: performance
+      Effect    df  MSE         F  ges p.value
+1 difficulty 2, 58 0.47 27.22 *** .255   &lt;.001
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="disentangling-significant-effects-in-repeated-measures-anovas" class="level3">
+<h3 class="anchored" data-anchor-id="disentangling-significant-effects-in-repeated-measures-anovas">Disentangling significant effects in repeated measures ANOVAs</h3>
+<p>As in the between-subjects case, a significant effect in a repeated measures ANOVA becomes difficult to interpret without further analysis once we have three or more factor levels. The simple conclusion that “not all means are equal” is rarely satisfactory. Therefore, we need to investigate where exactly the mean differences originate using post-hoc comparisons.</p>
+<p>The good news is that it works pretty much in the same fashion as it does for between-subjects ANOVAs. That is, we can use the <em>emmeans</em> function from the <em>emmeans</em> package to test pairwise comparisons or custom contrasts for statistical significance. If we were, for example, interested in the priwise comparisons, the syntax would look as follows:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+ difficulty  emmean    SE df lower.CL upper.CL
+ easy        1.1221 0.148 29    0.820    1.424
+ moderate    0.9778 0.181 29    0.608    1.347
+ hard       -0.0738 0.177 29   -0.435    0.288
+
+Confidence level used: 0.95 
+
+$contrasts
+ contrast        estimate    SE df t.ratio p.value
+ easy - moderate    0.144 0.194 29   0.743  0.7402
+ easy - hard        1.196 0.160 29   7.472  &lt;.0001
+ moderate - hard    1.052 0.175 29   6.006  &lt;.0001
+
+P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
+</div>
+</div>
+<p>Note that since ‘tukey’ is the default for the <em>correction</em> argument, we could have omitted it. Now let’s have a look at the console output.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(emmeans))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(aov1, <span class="at">specs =</span> <span class="st">'difficulty'</span>, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">correction =</span> <span class="st">'tukey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>One thing is worth noting here: other than in the between-subjects case, the post-hoc contrasts do not benefit from increased degrees of freedom. Instead, they are equivalent to simple paired <span class="math inline">\(t\)</span>-tests. The reason is that, here, we already use information from all available participants when estimating the error term of the pairwise comparisons.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
