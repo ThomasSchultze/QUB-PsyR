@@ -292,7 +292,29 @@ ggplot(data = df2, aes(x = severity, y = forgive, fill = SES)) +
 
 The graphical inspection already suggests that we do not have an ordinal interaction, which means that we should focus on the interaction when interpreting the results and not interpret the main effect of severity. Of course, we could also run a statistical analysis instead of the visual inspection by checking for each level of the severity factor whether there is a significant effect of SES in the same direction.
 
-We can do that using the *emmeans* function. In a first step, we would only focus on the effect of SES for each level of severity.
+We can do that using the *emmeans* function. However, we will use the *specs* argument in a slightly different way. Instead of defining it as a character vector containing our two factors, we will define it as a **formula**. Specifically, we will tell the *emmeans* function to compare the means of the factor for which the ANOVA yielded a significant main effect (severity) separately for each level of the other factor (SES). Here is that the syntax looks like:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# obtain pairwise comparisons for SES for each level of severity
+emmeans(aov2, specs = ~ severity|SES, 
+        contr = 'pairwise', adjust = 'tukey')
+
+```
+Here, R will know that we enter a formula when specifying the *specs* argument because we lead with a **tilde** operator (**~**). The rest of the definition of *specs* reads as **SES by severity**. Now let's have a look at the output:
+
+```{r}
+#| eval: true
+#| echo: false
+# obtain pairwise comparisons for SES for each level of severity
+emmeans(aov2, specs = ~ severity|SES, 
+        contr = 'pairwise', adjust = 'tukey')
+```
+As usual, calling the *emmeans* function yields two tables, one containing the means (in this case the means of each level of SES for each level of severity), and another containing the contrast tests we asked for. In our case, there are three contrasts for each level of SES since we run pairwise comparisons on a three-level factor (severity). As we can see, the severity of the transgression has statistically significant effects only when SES is low. Here, the willingness to forgive is higher when severity is low as compared with highly severe transgressions or when it is moderately severe instead of highly severe. Since the corresponding comparisons are not significant for high SES, we cannot say whether there is a true main effect of severity. That is, the statistical analysis confirms the graphical analysis and tells us not to interpret the main effect of severity.
+
+
 
 
 

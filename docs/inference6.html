@@ -463,7 +463,47 @@ Sphericity correction method: GG </code></pre>
 </div>
 </div>
 <p>The graphical inspection already suggests that we do not have an ordinal interaction, which means that we should focus on the interaction when interpreting the results and not interpret the main effect of severity. Of course, we could also run a statistical analysis instead of the visual inspection by checking for each level of the severity factor whether there is a significant effect of SES in the same direction.</p>
-<p>We can do that using the <em>emmeans</em> function. In a first step, we would only focus on the effect of SES for each level of severity.</p>
+<p>We can do that using the <em>emmeans</em> function. However, we will use the <em>specs</em> argument in a slightly different way. Instead of defining it as a character vector containing our two factors, we will define it as a <strong>formula</strong>. Specifically, we will tell the <em>emmeans</em> function to compare the means of the factor for which the ANOVA yielded a significant main effect (severity) separately for each level of the other factor (SES). Here is that the syntax looks like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain pairwise comparisons for SES for each level of severity</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(aov2, <span class="at">specs =</span> <span class="sc">~</span> severity<span class="sc">|</span>SES, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'tukey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here, R will know that we enter a formula when specifying the <em>specs</em> argument because we lead with a <strong>tilde</strong> operator (<strong>~</strong>). The rest of the definition of <em>specs</em> reads as <strong>SES by severity</strong>. Now let’s have a look at the output:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+SES = high:
+ severity emmean    SE df lower.CL upper.CL
+ low        3.78 0.162 49     3.45     4.11
+ moderate   3.68 0.152 49     3.37     3.99
+ high       3.64 0.151 49     3.34     3.94
+
+SES = low:
+ severity emmean    SE df lower.CL upper.CL
+ low        3.96 0.148 49     3.66     4.26
+ moderate   3.72 0.134 49     3.45     3.99
+ high       3.18 0.139 49     2.90     3.46
+
+Confidence level used: 0.95 
+
+$contrasts
+SES = high:
+ contrast        estimate    SE df t.ratio p.value
+ low - moderate      0.10 0.188 49   0.532  0.8559
+ low - high          0.14 0.157 49   0.894  0.6463
+ moderate - high     0.04 0.143 49   0.280  0.9577
+
+SES = low:
+ contrast        estimate    SE df t.ratio p.value
+ low - moderate      0.24 0.166 49   1.450  0.3237
+ low - high          0.78 0.129 49   6.061  &lt;.0001
+ moderate - high     0.54 0.115 49   4.694  0.0001
+
+P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
+</div>
+</div>
+<p>As usual, calling the <em>emmeans</em> function yields two tables, one containing the means (in this case the means of each level of SES for each level of severity), and another containing the contrast tests we asked for. In our case, there are three contrasts for each level of SES since we run pairwise comparisons on a three-level factor (severity). As we can see, the severity of the transgression has statistically significant effects only when SES is low. Here, the willingness to forgive is higher when severity is low as compared with highly severe transgressions or when it is moderately severe instead of highly severe. Since the corresponding comparisons are not significant for high SES, we cannot say whether there is a true main effect of severity. That is, the statistical analysis confirms the graphical analysis and tells us not to interpret the main effect of severity.</p>
 
 
 </section>
