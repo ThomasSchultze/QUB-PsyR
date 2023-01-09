@@ -270,11 +270,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <p>So far, we have covered ANOVAs for designs, in which the explanatory variables varied between subjects. We will now turn to cases, in which all or at least some of these factors vary within subjects. Although these cases are a little more complicated, they follow the same logic of taking the overall variance of the outcome of interest and partitioning it.</p>
-<section id="repeated-measures-anova" class="level2">
-<h2 class="anchored" data-anchor-id="repeated-measures-anova">Repeated measures ANOVA</h2>
 <p>In a repeated measures ANOVA (also sometimes referred to as within-subjects ANOVA), we are interested in whether there are mean differences between two or more variables measured among the same participants. This could be the same variable we measure at different times, for example when we are interested in changes over time, or responses to different questions we asked our participants, for example how much they like various colours.</p>
-<section id="one-factorial-repeated-measures-anova" class="level3">
-<h3 class="anchored" data-anchor-id="one-factorial-repeated-measures-anova">One-factorial repeated measures ANOVA</h3>
+<section id="one-factorial-repeated-measures-anova" class="level2">
+<h2 class="anchored" data-anchor-id="one-factorial-repeated-measures-anova">One-factorial repeated measures ANOVA</h2>
 <p>The one-factorial case of the repeated measures ANOVA is an extension of the paired <span class="math inline">\(t\)</span>-test. The difference to the one-factorial between-subjects ANOVA is that each participant provides a response at all levels of the within-subjects factor (if at least one of the responses is missing, that participant is lost for the analysis). The question now is how to partition the variance of the observations or - to be more precise - the corresponding sums of squares.</p>
 <p>In a first step, we can partition the total sum of squares into variability between participants and variability within participants:</p>
 <p><span class="math display">\[SS_{total} = SS_{betweenP} + SS_{withinP}\]</span></p>
@@ -299,7 +297,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Just as in the between-subjects ANOVA, the Null hypothesis is that all <span class="math inline">\(\alpha_j\)</span> are zero (i.e., all cell means are equal). The alternative hypothesis is that not all group means are equal or, put differently, that at least one of the <span class="math inline">\(\alpha_j\)</span> is non-zero.</p>
 <p><span class="math inline">\(H0:\alpha_j = 0 \quad \forall j\)</span></p>
 <p><span class="math inline">\(H1: \lnot H_0\)</span></p>
-</section>
 <section id="running-a-repeated-measure-anova-in-r" class="level3">
 <h3 class="anchored" data-anchor-id="running-a-repeated-measure-anova-in-r">Running a repeated measure ANOVA in R</h3>
 <p>Since we already know how to run between-subjects ANOVAs in R, it is fairly easy to run a repeated measures ANOVA. We will use the same package and function we used for the between-subjects ANOVAs, namely the <em>aov_ez</em> function from R package <em>afex</em>. The only difference is that we will use the function argument <em>wihtin</em> instead of <em>between</em> to tell R the name of our within-subjects factor.</p>
@@ -385,16 +382,16 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 <pre><code>$emmeans
  difficulty  emmean    SE df lower.CL upper.CL
  easy        1.1221 0.148 29    0.820    1.424
- moderate    0.9778 0.181 29    0.608    1.347
  hard       -0.0738 0.177 29   -0.435    0.288
+ moderate    0.9778 0.181 29    0.608    1.347
 
 Confidence level used: 0.95 
 
 $contrasts
  contrast        estimate    SE df t.ratio p.value
- easy - moderate    0.144 0.194 29   0.743  0.7402
  easy - hard        1.196 0.160 29   7.472  &lt;.0001
- moderate - hard    1.052 0.175 29   6.006  &lt;.0001
+ easy - moderate    0.144 0.194 29   0.743  0.7402
+ hard - moderate   -1.052 0.175 29  -6.006  &lt;.0001
 
 P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
 </div>
@@ -407,6 +404,66 @@ P value adjustment: tukey method for comparing a family of 3 estimates </code></
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">correction =</span> <span class="st">'tukey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>One thing is worth noting here: other than in the between-subjects case, the post-hoc contrasts do not benefit from increased degrees of freedom. Instead, they are equivalent to simple paired <span class="math inline">\(t\)</span>-tests. The reason is that, here, we already use information from all available participants when estimating the error term of the pairwise comparisons.</p>
+</section>
+</section>
+<section id="repeated-measures-anovas-with-multiple-factors" class="level2">
+<h2 class="anchored" data-anchor-id="repeated-measures-anovas-with-multiple-factors">Repeated measures ANOVAs with multiple factors</h2>
+<p>Just as in the between-subjects case, we can run a repeated measures ANOVA with two or more within-subjects factors. Here, we will focus on the two-factorial case, but from there, we can easily extrapolate to more complex designs.</p>
+<p>If we have two within-subjects factors <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, systematic variance between conditions can stem from the main effects of these factors or their interaction. As such, we can decompose the variability between conditions represented by <span class="math inline">\(SS_{betweenC}\)</span> as follows:</p>
+<p><span class="math display">\[SS_{betweenC} = SS_A + SS_B + SS_{A \times B}\]</span> The test logic is, again, similar to that of the two-factorial between-subjects ANOVA, that is, we can test the two main effects and the interaction effect for statistical significance using <span class="math inline">\(F\)</span>-ratios. To do so, we first need to compute the <span class="math inline">\(MS\)</span> of the effect we are interested in as the ratio of its <span class="math inline">\(SS\)</span> and its degrees of freedom, and the divide this <span class="math inline">\(MS\)</span> by the <span class="math inline">\(MS_{error}\)</span> which we compute in the exact same way as we did in the one-factorial repeated measures ANOVA (see above).</p>
+<p>Using that approach, we can test: <span class="math inline">\(H_{0_A}\)</span> (all marginal means of factor A are equal), <span class="math inline">\(H_{0_B}\)</span> (all marginal means of factor B are equal), and <span class="math inline">\(H_{0_{A \times B}}\)</span> (the combination of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> has no effect beyond the the respective main effects of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>).</p>
+<section id="running-two-factorial-repeated-measures-anovas-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="running-two-factorial-repeated-measures-anovas-in-r">Running two-factorial repeated measures ANOVAS in R</h3>
+<p>Before we can look at the code for a two-factorial repeated measures ANOVA, we need some data. Let’s assume we ran an experiment studying 50 participants’ willingness to forgive a transgression by another person in a fictional situation on a scale from 1 (not at all) to 6 (certainly). Let’s further assume that we manipulate two variables: the severity of the transgression (low, moderate, or high) and the apparent socio-economic status (SES) of the other person (low vs.&nbsp;high). This leaves us with a <span class="math inline">\(2 \ times 3\)</span> within-subjects design. Here is an excerpt of some simulated data for this study which are contained in the data <em>df2</em>.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID severity  SES forgive
+1  1      low high       3
+2  2      low high       3
+3  3      low high       3
+4  4      low high       3
+5  5      low high       3
+6  6      low high       4</code></pre>
+</div>
+</div>
+<p>We can now run the two-factorial repeated measures ANOVA using the <em>aov_ez</em> function. Since we have two within-subjects factors, we need to feed the function a character vector containing both factor’s names as the <em>within</em> argument. here is what the code looks like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run a two-factorial within-subjects ANOVA</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>aov2 <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">within =</span> <span class="fu">c</span>(<span class="st">'severity'</span>, <span class="st">'SES'</span>), </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> df2, <span class="at">dv =</span> <span class="st">'forgive'</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># display the ANOVA results</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>aov2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once we run the code above, here is what appears in the console as output:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type 3 tests)
+
+Response: forgive
+        Effect          df  MSE         F  ges p.value
+1     severity 1.93, 94.57 0.53 10.57 *** .032   &lt;.001
+2          SES       1, 49 0.34      1.40 .001    .243
+3 severity:SES 1.55, 76.13 0.81    4.47 * .017    .022
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
+
+Sphericity correction method: GG </code></pre>
+</div>
+</div>
+<p>As we can see, the ANOVA table R returns contains information on the two main effects and the interaction. For the two significant effects, the main effect of the severity of the transgression and the interaction of severity and SES, we can also see that the <em>aov_ez</em> function adjusted the degrees of freedom to adjust non-sphericity. There is no such adjustment for the main effect of SES because it has only two levels (if we wanted to turn the adjustment off or set it to the Huynh-Feldt method, we could do it using the <em>anova_table</em> argument, see above).</p>
+</section>
+<section id="disentangling-effects-in-a-two-factorial-repeated-measure-anova" class="level3">
+<h3 class="anchored" data-anchor-id="disentangling-effects-in-a-two-factorial-repeated-measure-anova">Disentangling effects in a two-factorial repeated measure ANOVA</h3>
+<p>Similar to the between-subjects case, how we go about disentangling the effects in a two-factorial repeated measure ANVOA depends critically on whether the interaction was statistically significant. Remember that, as general rule, we should only interpret main effects if there is either no evidence of an interaction in our analysis or if the interaction is ordinal.</p>
+<p>Let’s have a look at the results using a violin plot (the black dots show the means for each condition while the lines behind them represent the 95% confidence intervals):</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="inference6_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The graphical inspection already suggests that we do not have an ordinal interaction, which means that we should focus on the interaction when interpreting the results and not interpret the main effect of severity. Of course, we could also run a statistical analysis instead of the visual inspection by checking for each level of the severity factor whether there is a significant effect of SES in the same direction.</p>
+<p>We can do that using the <em>emmeans</em> function. In a first step, we would only focus on the effect of SES for each level of severity.</p>
 
 
 </section>
