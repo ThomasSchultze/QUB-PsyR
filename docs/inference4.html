@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.258">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -334,7 +334,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'afex' was built under R version 4.2.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lme4' was built under R version 4.2.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'Matrix' was built under R version 4.2.1</code></pre>
+</div>
 </div>
 <p>Once we have done that, we can start doing ANOVAs with one of several functions:</p>
 <ul>
@@ -366,22 +374,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Lets look at an example, in which we test whether the means of three groups are equal or not. First, we need to create some data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a data frame containing data from 30 subjects in three groups of 10 each; here, "id" is the subject identifier, "cond" is the between-subjects grouping variable, and "dv" contains the outcome variable we want to compare between groups</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>my_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># subject ID</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>,      </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># between-subjects-factor 'cond'</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cond =</span> <span class="fu">factor</span>(  </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">each =</span> <span class="dv">10</span>),</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'control'</span>, <span class="st">'treatment1'</span>, <span class="st">'treatment2'</span>)),</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># outcome variable 'dv'</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">dv =</span> <span class="fu">c</span>(</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>,  <span class="dv">9</span>, <span class="dv">14</span>, <span class="dv">11</span>, <span class="dv">15</span>, <span class="dv">13</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">12</span>), <span class="co"># dv data for control</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>( <span class="dv">9</span>,  <span class="dv">7</span>, <span class="dv">15</span>, <span class="dv">14</span>,  <span class="dv">8</span>,  <span class="dv">7</span>, <span class="dv">16</span>, <span class="dv">13</span>, <span class="dv">11</span>, <span class="dv">16</span>), <span class="co"># dv data for treatment1</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">11</span>, <span class="dv">11</span>,  <span class="dv">9</span>,  <span class="dv">8</span>, <span class="dv">13</span>,  <span class="dv">8</span>,  <span class="dv">6</span>, <span class="dv">14</span>,  <span class="dv">7</span>)) <span class="co"># dv data for treatment2</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a data frame containing data from 30 subjects in three groups of 10 each; here, "id" is the subject identifier, "cond" is the between-subjects grouping variable, and "dv" contains the outcome variable we want to compare between groups</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>my_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># subject ID</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>,      </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># between-subjects-factor 'cond'</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cond =</span> <span class="fu">factor</span>(  </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rep</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">each =</span> <span class="dv">10</span>),</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'control'</span>, <span class="st">'treatment1'</span>, <span class="st">'treatment2'</span>)),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># outcome variable 'dv'</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">dv =</span> <span class="fu">c</span>(</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>,  <span class="dv">9</span>, <span class="dv">14</span>, <span class="dv">11</span>, <span class="dv">15</span>, <span class="dv">13</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">12</span>), <span class="co"># dv data for control</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>( <span class="dv">9</span>,  <span class="dv">7</span>, <span class="dv">15</span>, <span class="dv">14</span>,  <span class="dv">8</span>,  <span class="dv">7</span>, <span class="dv">16</span>, <span class="dv">13</span>, <span class="dv">11</span>, <span class="dv">16</span>), <span class="co"># dv data for treatment1</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">11</span>, <span class="dv">11</span>,  <span class="dv">9</span>,  <span class="dv">8</span>, <span class="dv">13</span>,  <span class="dv">8</span>,  <span class="dv">6</span>, <span class="dv">14</span>,  <span class="dv">7</span>)) <span class="co"># dv data for treatment2</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can inspect how the data frame looks using the <em>head</em> function.</p>
 <div class="alert alert-warning">
@@ -399,7 +407,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Now that we have some data, we can run the ANOVA. The syntax looks as follows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">between =</span> <span class="st">'cond'</span>, <span class="at">dv =</span> <span class="st">'dv'</span>, <span class="at">data =</span> my_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">between =</span> <span class="st">'cond'</span>, <span class="at">dv =</span> <span class="st">'dv'</span>, <span class="at">data =</span> my_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is what the output in the console looks like:</p>
 <div class="alert alert-warning">
@@ -433,6 +441,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 <p>In this example, we will compare two treatments and one control condition with data for 30 participants in each condition. The data is stored in a data frame called <em>my_df2</em>. Here is what the data looks like (we use the function <em>head</em> on the data frame to have R show us the first 6 lines).</p>
 <div class="alert alert-warning">
 <div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.2.1</code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID    cond  dv
 1  1 control  88
@@ -446,8 +457,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 </div>
 <p>We now run the ANOVA on the data. Other than before, we will define the result of the analysis as a new R object. This will make it easier for us to disentangle the effect later on. Here is the syntax:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run a one-factorial ANOVA and save its results as a new R object</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">dv =</span> <span class="st">'dv'</span>, <span class="at">between =</span> <span class="st">'cond'</span>, <span class="at">data =</span> my_df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run a one-factorial ANOVA and save its results as a new R object</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">dv =</span> <span class="st">'dv'</span>, <span class="at">between =</span> <span class="st">'cond'</span>, <span class="at">data =</span> my_df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We will now see a new object called “model1” in the <strong>Environment</strong>. R will tell us that this object is a list. Entering the new object’s name as syntax will show us the result of the ANOVA just as if we had called the function as is instead of defining it as a new object. Here is the console output:</p>
 <div class="alert alert-warning">
@@ -526,14 +537,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 </table>
 <p>In the first example, we will go with the unadjusted <span class="math inline">\(p\)</span>-values. Let’s have a look at the code using the ANOVA model we saved as an R object above (“model1”). Here is the syntax.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># uncomment the next line to install the package emmeans</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("emmeans")</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># load emmeans</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># pairwise comparisons without type-I error adjustment</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>,</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># uncomment the next line to install the package emmeans</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("emmeans")</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># load emmeans</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># pairwise comparisons without type-I error adjustment</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>One we run the code above, R will return some information in the console. Here is what it looks like:</p>
 <div class="alert alret-warning">
@@ -562,9 +573,9 @@ $contrasts
 </div>
 <p>Here is the code for the pairwise comparisons using Bonferroni’s method for controlling type-I error inflation (the only thing we need to change is the <em>adjust</em> argument).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pairwise comparisons with Bonferroni adjustment</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'bonferroni'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pairwise comparisons with Bonferroni adjustment</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'bonferroni'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s have a look at the output in the console:</p>
 <div class="alert alret-warning">
@@ -591,9 +602,9 @@ P value adjustment: bonferroni method for 3 tests </code></pre>
 <p>The information looks very similar to what we saw when we ran the uncorrected pairwise comparisons. The are only two differences: first, R will state at the bottom of the table that the <span class="math inline">\(p\)</span>-values were adjusted using Bonferroni’s method for three tests. Second, the <span class="math inline">\(p\)</span>-values differ. From looking at the first <span class="math inline">\(p\)</span>-value (the one for the contrast comparing treatment 1 to the control group) we can confirm that R has tripled the original <span class="math inline">\(p\)</span>-value (the difference at the fourth decimal is due to rounding). If we choose to use a Bonferroni correction for the post-hoc comparisons, our conclusions about the result of the ANOVA change slightly. Now, we would state - with the usual confidence - that the significant effect the ANOVA is due to the mean of the second treatment group differing from both the control group’s mean and that from treatment 1. However, we cannot say whether scores in treatment 1 differ from the control group.</p>
 <p>Finally, let’s consider using a less conservative adjustment method, namely Tukey’s method, also known as Tukey’s honestly significant difference (HSD). In technical terms, HSD computes the critical mean difference for which a pairwise comparison is considered significant, and then judges each comparison by that difference. The test statistic <span class="math inline">\(q\)</span> follows the Studentised range distribution, the shape of which depends on the number of groups <span class="math inline">\(k\)</span> and the sample size <span class="math inline">\(N\)</span> (via the distribution’s degrees of freedom). Because the distribution of the <span class="math inline">\(q\)</span>-statistic considers the number of groups, the HSD adjusts for multiple comparisons. Again, the oly theing we need to change about our syntax is the <em>adjust</em> argument (see below):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pairwise comparisons using Tukey's method</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'tukey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pairwise comparisons using Tukey's method</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'tukey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s again inspect the console output</p>
 <div class="alert alret-warning">
@@ -653,26 +664,26 @@ P value adjustment: tukey method for comparing a family of 3 estimates </code></
 <p>When defining the list of contrasts, each contrast must be a numeric vector of length <span class="math inline">\(k\)</span>, where <span class="math inline">\(k\)</span> is the number of groups in the grouping variable that we fed into the <em>emmeans</em> function (in our case 3). If we chose the wrong vector length, we will receive an error message. We also need to make sure that the sum of each contrast vector is zero (see above). Finally, we can (but do not have to) create these vectors as named elements of the list. Naming the vectors may lead to output that is slightly easier to make sense of.</p>
 <p>Here, we need to decide whether we save the list of contrasts as a separate object or whether we feed the <em>emmeans</em> function a call of the <em>list</em> function (the result will be the same, so it is simply a matter of preference). Now let’s look at the R code.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Alternative 1: separate objects</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create a list containing the custom contrasts</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>my_contrasts <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">treat_vs_control =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">treat1_vs_treat2 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># run the custom post-hoc tests</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>,</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> my_contrasts, <span class="at">adjust =</span> <span class="st">'none'</span>)</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Alternative 2: don't create a separate list</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co"># run the custom post-hoc tests</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>,</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="fu">list</span>(</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>          <span class="at">treat_vs_control =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>          <span class="at">treat1_vs_treat2 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)), </span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Alternative 1: separate objects</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create a list containing the custom contrasts</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>my_contrasts <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">treat_vs_control =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">treat1_vs_treat2 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># run the custom post-hoc tests</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> my_contrasts, <span class="at">adjust =</span> <span class="st">'none'</span>)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Alternative 2: don't create a separate list</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co"># run the custom post-hoc tests</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="fu">list</span>(</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>          <span class="at">treat_vs_control =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>          <span class="at">treat1_vs_treat2 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)), </span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Running either version of the code will prompt R to test the contrasts and adjust the <span class="math inline">\(p\)</span>-values according to Bonferroni’s method (of course we could select a different adjustment method or turn if off by changing the <em>adjust</em> argument accordingly). We will receive the following console output:</p>
 <div class="alert alert-warning">
@@ -698,13 +709,13 @@ $contrasts
 <p>But what about multiple comparisons? So far, we have not corrected our custom contrasts for multiple comparisons, but we can do so if we want to. The only thing we need to consider is that we cannot use Tukey’s method as it is specific to pairwise comparisons (oddly enough, Tukey’s method won’t work even if we manually specify pairwise comparisons - if we want to use the HSD method,m we need to set the <em>contr</em> argument to “pairwise”).</p>
 <p>To adjust for multiple comparisons, we can again specify the argument <em>adjust</em>. If we use custom contrasts, the default for this argument is actually “none”, but we can set it to “bonferroni” (for the classic Bonferroni correction) or “holm” (for the slightly lees conservative Holm-Bonferroni method) instead. Let’s go with Bonferroni. Here is the code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the custom post-hoc tests using "contrast" and correct</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for multiple comparisons using Bonferroni's method</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="fu">list</span>(</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">treat_vs_control =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">treat1_vs_treat2 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)), </span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">adjust =</span> <span class="st">'bonferroni'</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the custom post-hoc tests using "contrast" and correct</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for multiple comparisons using Bonferroni's method</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> model1, <span class="at">specs =</span> <span class="st">'cond'</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="fu">list</span>(</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">treat_vs_control =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">treat1_vs_treat2 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)), </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">adjust =</span> <span class="st">'bonferroni'</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s look at the console output:</p>
 <div class="alert alert-warning">
