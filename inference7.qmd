@@ -1,0 +1,299 @@
+---
+title: "Linear Regression"
+editor: visual
+---
+
+In linear regression, we "predict" one variable $Y$ (the **criterion**) from one or more other variables $X$ (the **predictors**), given that data on both $Y$ and $X$ is available in the same sample (think of regression as a within-subjects approach to inferential statistics). If we say predict in the context of regression, we mean this in a strictly statistical sense, meaning that the regression analysis itself does not allow any statements about the potential causal patterns in the data.
+
+Prediction simply means that we use information from the $X$ variables to make the best possible guess about the corresponding values of $Y$. The best possible guess, in this case, is the one that minimizes the prediction error across the whole range of observations. That is, we may still be quite far off for individual values of $Y$ when using this best guess, but in the long run (or across the board) it will be our best option.
+
+Linear regression is conceptually close to correlation analysis as it assumes a strictly linear relationship between $X$ and $Y$. In fact, in cases with only one predictor variable, correlation and linear regression convey the exact same information, albeit being presented in a slightly different manner.
+
+## The basics of linear regression
+
+The core idea of linear regression is that we can express the criterion variable $Y$ as a linear function of the predictor variables $X$. Let us first consider the simple case with one predictor. The general equation is:
+
+$$Y = b_0 + b_1\times X + \epsilon$$
+
+Here, $\b_0$ is some constant denoting the intercept of the linear function, and $b_1$ is its slope. We call $b_1$ a regression weight. It indicates how well we can predict $Y$ from $X$ (think of $b_1$ as a measure of the covariation of $X$ and $Y$). Finally, $\epsilon$ is the prediction error, also called the **residual**. We assume that:
+
+$$\epsilon \sim N(0, \sigma^2)$$
+
+That is, the residual is assumed to have a mean of zero and some nonzero variance. We consider $\epsilon$ to be unsystematic, which means that it is not part of our actual prediction.
+
+::: {.alert .alert-info}
+Treating $\epsilon$ as unsystematic is an oversimplification in most regression models. The reason is that the residual term contains not only the true unsystematic measurement error but also systematic variability of $Y$ that is not captured in our $X$ variables. In other words, $\epsilon$ contains both unsystematic and unexplained variability of $Y$.
+:::
+
+Let's call the prediction of $Y$ from our predictor variable $X$ by a different name, namely $\hat{Y}$. Since $\epsilon$ is not part of this prediction, we can state:
+
+$$\hat{Y} = b_0 + b_1\times X$$ This also means that:
+
+$$\epsilon = Y-\hat{Y} $$
+
+The trick to linear regression is to choose the parameters of the regression model, $b_0$ and $b_1$, so that they minimise the residual $\epsilon$. We do that using the **method of least squares**, which is why linear regression is sometimes referred to as **ordinary least squares (OLS) regression**. To understand the method of least squares, it help to move from the variable-level formulation of the regression model to the level of observations.
+
+$$y_i = b_0 + b_1 \times x_i + \epsilon_i$$
+
+What this means is that our prediction of the magnitude of $Y$ for the $i$th observation is based on the corresponding value of $X$, that is, $x_i$ and our prediction error for that specific observation $\epsilon_i$. The method of least squares states that the best combination of parameters $b_0$ and $b_1$ is the one that minimises the sum of the squared residuals $\epsilon_i$.
+
+It can be shown that the residual is minimised for:
+
+$$b_1 = \frac{COV(X,Y)}{\sigma_x^2} = r_{XY} \times \frac{\sigma_Y}{\sigma_X}$$ And:
+
+$$b_0 = \bar{Y} - b_1 \times \bar{X}$$
+
+As we can see from the choice of the optimal $b_1$, it is a linear transformation of the covariance of $X$ and $Y$, which means that we can also express it as a linear transformation of their correlation. Since linear transformations only change the units of measurement while leaving the strength of the linear relationship untouched, we can see that the linear regression with a single predictor variable $X$ contains the exact same information as the correlation, but it is expressed differently.
+
+Specifically, the expression we use in linear regression allows us to predict specific values $\hat{y}_i$ whereas the correlation tells us how many standard deviations $Y$ increases if $X$ is increased by one standard deviation. With that in mind, we can now state that we would expect $\hat{Y}$ to take the value $b_0$ if $X$ were zero. We can also say that $\hat{Y}$ increases by $b_1$ units if we increase $X$ by one unit.
+
+### Testing regression coefficients for significance
+
+We can test the fixed parameters of a regression model (i.e., the intercept and the regression weights of the predictor variables $X$) for statistical significance using $t$-statistics. For each of the parameters the following is true
+
+$$\frac{b_i - \beta_i}{SE_{b_i}} \sim t_{N-k}$$
+
+Here, $b_i$ is the parameter of interest, $\beta_i$ is the expected value under $H_0$ (typically zero, but we can can technically test against non-zero values if we wanted to), and $SE_{b_i}$ is the standard error of that parameter. The degrees of freedom of the resulting $t$-distribution equal the sample size $N$ minus the number of the estimated parameters $k$.
+
+We are not going to go into the formula for the standard error of the regression coefficients here because they are a) somewhat complicated and b) R computes them for us. Instead, we will turn to one more important statistic used in regression models, namely the coefficient of determination $R^2$:
+
+$$R^2 = \frac{S_{\hat{Y}}^2}{S_{Y}^2}$$
+
+Here, $S_{\hat{Y}}^2$ is our estimate of the variance of the model predictions $\hat{Y}$, whereas $S_{Y}^2$ is our estimate of the variance of the criterion variable $Y$. In the case with only one predictor, the coefficient of determination is the squared correlation coefficient between predictor $X$ and criterion $Y$. In the case with multiple predictor variables we, therefore, also refer to $R$ the **multiple correlation coefficient**. In any case, $R^2$ tells us which proportion of the variance of the criterion $Y$ we can account for with the predictions of our regression model $\hat{Y}$.
+
+We already know from the chapters on ANOVA that such ratios of variances can also be expressed as ratios of sums of squares. In the case of linear regression, it looks like this:
+
+$$R^2 = \frac{S_{\hat{Y}}^2}{S_{Y}^2} = \frac{\frac{1}{N-k}\sum_{i=1}^{N}(\hat{y}_i - \bar{\hat{y}}_i)^2}{\frac{1}{N-k}\sum_{i=1}^{N}(y_i - \bar{y}_i)^2}$$
+
+We can simplify this equation by dropping the $\frac{1}{N-k}$ which results in:
+
+$$R^2 = \frac{\sum_{i=1}^{N}(\hat{y}_i - \bar{\hat{y}}_i)^2}{\sum_{i=1}^{N}(y_i - \bar{y}_i)^2} = \frac{SS_{regression}}{SS_{total}}$$ Now that we know that we are dealing with sums of squares again, we can easily compute the residual sum of squares (or error sum of squares):
+
+$$SS_{residual} = SS_{total} - SS{regression}$$ :::{.alert .alert-success} If at this point you are wondering why we are back to sums of squares even though we are not dealing with ANOVAs anymore: regression and ANOVA are the same.
+
+Or, to be precise: they are both special cases of the general linear model. We use ANOVAs when our predictors are categorical variables, but we could easily set up the same model as a regression model. The output of the respective analysis and the specific parameter tests we run may differ, but the underlying information is the same. :::
+
+Back to $R^2$: we can test for significance of $R^2$ using an $F$-test based o the mean squares not unlike the ones we used in ANOVAs. It can be shown that:
+
+$$\frac{MS_{regression}}{MS_{error}} =  \frac{\frac{SS_{regression}}{k-1}}{\frac{SS_{error}}{N-k}} \sim F_{k-1; N-k}$$
+
+This $F$-test tells us whether our regression model as a whole - that is, irrespective of the statistical significance of its individual regression weights - allows for an above-chance prediction of the criterion variable.
+
+Adding more predictor variables to a regression model will necessarily increase the proportion of variance explained by the model $R^2$ even if the new parameter is not statistically significant individually. To counter this problem, we can adjust $R2$ and essentially "punish" a model for containing too many weak predictors. Here is the formula for the adjusted $R^2$:
+
+$$R_{adjusted}^2 = 1-\frac{\frac{SS_{error}}{df_{error}}}{\frac{SS_{total}}{df_{total}}} = \frac{MS_{error}}{MS_{total}}$$
+
+### Running a regression analysis in R
+
+We can run regression analyses in R using the *lm* function (linear model). The function has several arguments. We will use only the following two:
+
+-   *formula* (required): a formula type object telling the function which variable to predict and which combination of variables to use as predictors
+-   *data* (optional): a data frame containing the variables we feed into the formula; if we do not specify this argument, R will assume that the variables we fed into the formula argument exist as objects in our environment
+
+### Excurse: formula type objects
+
+Before we delve into examples of linear regressions, we need to have a look at the syntax of **formula** type R objects. We already know that these objects use the **\~** operator (tilde) and have the general form:
+
+```{r}
+#| eval: false
+#| echo: true
+# general syntax of a formula
+y ~ x
+```
+
+That means, we define $y$ as a function of $x$. Of course, a formula can be much more complex than that because we can use combinations of multiple variables on the right hand side. In regression models, the formula is generally an additive combination of predictors, each of which then receives its own regression weight. We can combine multiple predictors using the **+** operator.
+
+The first thing we need to know now is that a regression formula in R typically omits the **intercept** although the *lm* function models it. This is purely a convenience feature. The actual formula looks like this:
+
+```{r}
+#| eval: false
+#| echo: true
+# formula explicating that the model contains an intercept
+y ~ 1 + x
+```
+
+Here, the $1$ represents the intercept. If we omit it, R will read the function as if we had written it, meaning that the function will estimate the intercept $b_0$ both when we add the $1$ in our formula and when we leave it out.
+
+::: {.alert .alert-success}
+In some situations, we might want to force a regression through the origin. In other words, we want the intercept of the model to be zero. In those cases, we can replace the $1$ in our regression model with a $0$, so R will know that the intercept must be 0 in the model.
+:::
+
+We can now make the formula even more complex by adding more predictors (see example below).
+
+```{r}
+#| eval: false
+#| echo: true
+# formula treating y as an additive function of x1 and x2
+y ~ x1 + x2
+```
+
+In the example above, we have two additive effects (think of them as main effects) of $x_1$ and $x_2$ on $y$. But what if we wanted to add an interaction as well? In this case, we can combine the two predictors using the **:** operator. If we use this operator, R will compute the interaction term as the product of the two variables and use it as a predictor in the model. Here is what the syntax would look like:
+
+```{r}
+#| eval: false
+#| echo: true
+# formula treating y as a function of x1 and x2
+# as well as their interaction
+y ~ x1 + x2 + x1:x2
+```
+
+In the above example, we have the **full model**, that is, it contains all possible effects that a regression model with two predictors can have. However, it is also possible to feed a reduced model into the *lm* function. For example, we might want to estimate a regression model that entails only the main effect of $x_1$ and the interaction effect, but not the main effect of $x_2$. In this case, the model would look like this:
+
+```{r}
+#| eval: false
+#| echo: true
+# formula treating y as an additive function of x1 
+# and the interaction of x1 and x2
+y ~ x1 + x1:x2
+```
+
+R has a neat way of making regression model formulae more parsimonious, namely using the **\*** operator. If we combine tow or more variables with this operator, R will include all main effects and interactions of these variables. Here are some examples:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+## formula for a full regression model with two predictors
+# this:
+y ~ x1*x2
+
+# reads as this:
+y ~ x1 + x2 + x1:x2
+
+
+## formlua for a full regression model with three predictors
+# this:
+y ~ x1*x2*x3
+
+# reads as this:
+y ~ x1 + x2 + x3 + x1:x2 + x1:x3 + x2:x3 + x1:x2:x3
+
+
+## formula for a three-predictor models with the 
+## third predictor as a purely additive effect
+# this:
+y ~ x1*x2 + x3
+
+# reads as this:
+y ~ x1 + x2 + x1:x2 + x3
+```
+
+As we can see, the **\*** operator can make our lives a bit easier whenever models involve multiple predictors. A final thing we need to know about formulae is that we can also perform arithmetic operations other than multiplication to create predictors from the variables in our data frame. One example would be polynomial regression, in which we predict $y$ not only from $x$ but also from exponentiated versions of $x$. Another example are difference scores as predictors (note that using difference scores as predictors in regression models is not trivial, so great care is needed when making sense of the results).
+
+It is important to note that all arithmetic operations save multiplication require a special syntax in order for R to understand what we are trying to do. Specifically, we need to call a function named *I* (capital I) within the formula and feed it the mathematical expression we want to use as a predictor in the model as its sole argument. Let's look at an example for a polynomial regression of the 4th order:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# formula for a model predicting y from x in 
+# a 4th order polynomial regression
+y ~ x + I(x^2) + I(x^3) + I(x^4)
+```
+
+And here is what the formula would look like in a model where we want to predict $y$ from the difference between two variables $x_1$ and $x_2$:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# formula for a model predicting y from the difference 
+# between x1 and x2
+y ~ I(x1 - x2)
+```
+
+### Back to regressions in R
+
+Now that we have a rough understanding of formula type objects in R, we can go back to running linear regressions in R. Let's first create some data for the simple case with one predictor variable. Let's assume we gathered data from 40 people on two variables, love of cats and love of dogs. Both variables are measured on scales ranging from -3 (can't stand them) to +3 (love them). We will use a linear regression to predict participant's attitude toward cats from their attitude toward dogs.
+
+::: {.alert .alert-danger}
+This data example is very prototypical for psychology in the sense that it violates two of the assumptions of linear regression, namely that the criterion $y$ is continuous and measured on an interval scale (meaning that the increase from, say, 1 to 2 is equal to the increase from, say, 4 to 5).
+
+Rating scales, as they are often used in psychological research, do not satisfy these conditions. Neither is the scale continuous (in fact,it is restricted to a few discrete values), nor can we say for certain whether the steps between scale points mark equal psychological distances.
+
+In practice, we generally dismiss this violating of assumptions and pretend that it is not an issue. For those who find that unsatisfying, it may be worthwhile to use a different type of regression model that is better suited to this kind of data, namely ordinal regression.
+:::
+
+Let's first have a brief look at the fictional data (stored in a data frame called *df1*):
+
+```{r}
+#| echo: false
+#| eval: true
+# load library
+suppressMessages(library(MultiRNG))
+
+# set seed
+set.seed(1234)
+
+# generate correlated uniform variables
+tmp = draw.d.variate.uniform(no.row = 40, d = 2,
+                             cov.mat = matrix(c(1, 0.5, 0.5, 1), nrow = 2))
+
+# rescale variables to the range from -3 to 3 and round them
+tmp = round(tmp*6-3)
+
+# create a data frame
+df1 = data.frame(
+  ID = 1:40,
+  love_dogs = tmp[,1],
+  love_cats = tmp[,2]
+)
+
+# show excerpt of the data
+head(df1)
+
+```
+
+We can now call the *lm* function to run an ordinary least squares regression of participants' love for cats from their love for dogs. Similar to ANOVAs, we will define the regression model as an object. Here is what the syntax might look like:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# regression of participants' love for cats on their love for dogs
+model1 = lm(formula = love_cats ~ 1 + love_dogs,
+            data = df1)
+```
+
+Once we run that code, an object called "model1" will appear in our environment. R will inform us that this object is a **list of 12**. We can now call the object's name and have a look at what R outputs in the console:
+
+::: {.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# regression of participants' love for cats on their love for dogs
+model1 = lm(formula = love_cats ~ 1 + love_dogs,
+            data = df1)
+
+model1
+```
+:::
+
+As we can see, the output is relatively sparse. We can see the function call we entered as well as estimates of the two regression parameters $b_0$ (intercept) and $b_1$ (the regression weight for love of dogs).
+
+While we now know the parameter values of the linear regression, this information is slightly underwhelming. If we want more information, particularly about the statistical significance of the parameters, we need to feed the regression model into another function called *summary*. The *summary* function takes a fitted model as its sole argument. Here is the syntax:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# display detailed output for the regression model
+summary(model1)
+```
+
+Here is hat the console output looks like when we call the *summary* function on our regression model:
+
+::: {.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# display detailed output for the regression model
+summary(model1)
+```
+:::
+
+As we can see, R now displays substantially more information. In addition to the function call, we can now also see information on the distribution of the residuals (quartiles). For each of the fixed parameters of the model, we can now see the estimate, its standard error, the resulting $t$-value, and the $p$-value of a two-tailed $t$-test of the parameter against zero. Below the parameter estimates, there is some more information on the model, the most important of which are the $R^2$ and adjusted $R^2$ values as well as the results of the $F$-test testing whether $R^2$ is greater than zero.
+
+In our example, love of dogs is not a significant predictor of participant's love for cats. The model as a whole also does not explain a significant proportion of the variance in participants' love for cats indicated by the non-significant $F$-test. This is not surprising because the model only contains one predictor, love for dogs, and this predictor is not significantly related to the criterion. As we can see, the $p$-value for the $t$-test of the single predictor (love for dogs) is exactly equal to the $F$-test of the whole model since love for dogs is the only variable that can possibly explain variability in the love for cats in our data set.

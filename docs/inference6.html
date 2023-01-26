@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.2.258">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -232,6 +232,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="./inference6.html">
  <span class="dropdown-text">Repeated measures and mixed ANOVAs</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./inference7.html">
+ <span class="dropdown-text">Linear regression</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -303,9 +307,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>As always, we need some data first. Let’s assume that we ran a study with a within-subjects design, in which 30 participants worked three memory tasks that only differ in difficulty (let’s assume that we counterbalanced the order so we do not need to concern ourselves with order effects). In other words, we have a within-subjects factor called <em>difficulty</em> with three levels, and we can now test whether participants’ task performance differs according this factor. We will call the data frame containnig the data <em>df1</em>. Here is what the data looks like.</p>
 <div class="alert alert-warning">
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.2.1</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID difficulty performance
 1  1       easy   2.1646466
@@ -319,28 +320,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>We can now run the repeated measures ANOVA using the following syntax:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the library afex</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the ANOVA and save it as a new object</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>aov1 <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">dv =</span> <span class="st">'performance'</span>, </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">within =</span> <span class="st">'difficulty'</span>, <span class="at">data =</span> df1)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># return the result of the ANOVA</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>aov1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the library afex</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the ANOVA and save it as a new object</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>aov1 <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">dv =</span> <span class="st">'performance'</span>, </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">within =</span> <span class="st">'difficulty'</span>, <span class="at">data =</span> df1)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># return the result of the ANOVA</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>aov1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If we run the code above, R will produce the following output in the console:</p>
 <div class="alert alert-warning">
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'afex' was built under R version 4.2.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'lme4' was built under R version 4.2.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'Matrix' was built under R version 4.2.1</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Anova Table (Type 3 tests)
 
@@ -364,17 +356,17 @@ Sphericity correction method: GG </code></pre>
 <p>We can change the default for the correction of non-sphericity using function argument of the <em>aov_ez</em> function called <em>anova-table</em>. This argument is a list that allows us to change several aspects of the ANOVA, but for now we only need to define one parameter in that list called <em>correction</em>, which is a character string indicating how we want to correct for non-sphericity in an aNOVA with at least one within-subjects factor. It defaults to “GG” (Greenhouse-Geisser method), but we can alternative set it to “none” (no correction) or HF(Huynh-Feldt method).</p>
 <p>Let’s say we want to turn off the non-sphericity correction. Here is what the syntax looks like:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the library afex</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the ANOVA and save it as a new object;</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># also turn off correction for non-sphericity</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>aov1b <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">dv =</span> <span class="st">'performance'</span>, </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">within =</span> <span class="st">'difficulty'</span>, <span class="at">data =</span> df1,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">anova_table =</span> <span class="fu">list</span>(<span class="at">correction =</span> <span class="st">'none'</span>))</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># return the result of the new ANOVA</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>aov1b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the library afex</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the ANOVA and save it as a new object;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># also turn off correction for non-sphericity</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>aov1b <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">dv =</span> <span class="st">'performance'</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">within =</span> <span class="st">'difficulty'</span>, <span class="at">data =</span> df1,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">anova_table =</span> <span class="fu">list</span>(<span class="at">correction =</span> <span class="st">'none'</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># return the result of the new ANOVA</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>aov1b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As we can see in the console, the degrees of freedom now match the ones stated above. Since the violation of sphericity was not severe in the first place (we can see this from the corrected degrees of freedom being very close to the uncorrected ones), the results remain qualitatively similar.</p>
 <div class="alert alert-warning">
@@ -396,19 +388,16 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 <p>As in the between-subjects case, a significant effect in a repeated measures ANOVA becomes difficult to interpret without further analysis once we have three or more factor levels. The simple conclusion that “not all means are equal” is rarely satisfactory. Therefore, we need to investigate where exactly the mean differences originate using post-hoc comparisons.</p>
 <p>The good news is that it works pretty much in the same fashion as it does for between-subjects ANOVAs. That is, we can use the <em>emmeans</em> function from the <em>emmeans</em> package to test pairwise comparisons or custom contrasts for statistical significance. If we were, for example, interested in the pairwise comparisons, the syntax would look as follows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the library emmeans</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># compute pairwise comparisons for the within-subjects factor</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(aov1, <span class="at">specs =</span> <span class="st">'difficulty'</span>, </span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">correction =</span> <span class="st">'tukey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the library emmeans</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># compute pairwise comparisons for the within-subjects factor</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(aov1, <span class="at">specs =</span> <span class="st">'difficulty'</span>, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">correction =</span> <span class="st">'tukey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that since ‘tukey’ is the default for the <em>correction</em> argument, we could have omitted it. Now let’s have a look at the console output.</p>
 <div class="alert alert-warning">
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'emmeans' was built under R version 4.2.2</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$emmeans
  difficulty  emmean    SE df lower.CL upper.CL
@@ -455,12 +444,12 @@ P value adjustment: tukey method for comparing a family of 3 estimates </code></
 </div>
 <p>We can now run the two-factorial repeated measures ANOVA using the <em>aov_ez</em> function. Since we have two within-subjects factors, we need to feed the function a character vector containing both factor’s names as the <em>within</em> argument. here is what the code looks like:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run a two-factorial within-subjects ANOVA</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>aov2 <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">within =</span> <span class="fu">c</span>(<span class="st">'severity'</span>, <span class="st">'SES'</span>), </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> df2, <span class="at">dv =</span> <span class="st">'forgive'</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># display the ANOVA results</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>aov2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run a two-factorial within-subjects ANOVA</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>aov2 <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">within =</span> <span class="fu">c</span>(<span class="st">'severity'</span>, <span class="st">'SES'</span>), </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> df2, <span class="at">dv =</span> <span class="st">'forgive'</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># display the ANOVA results</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>aov2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Once we run the code above, here is what appears in the console as output:</p>
 <div class="alert alert-warning">
@@ -494,9 +483,9 @@ Sphericity correction method: GG </code></pre>
 <p>The graphical inspection already suggests that we do not have an ordinal interaction, which means that we should focus on the interaction when interpreting the results and not interpret the main effect of severity. Of course, we could also run a statistical analysis instead of the visual inspection by checking for each level of the severity factor whether there is a significant effect of SES in the same direction.</p>
 <p>We can do that using the <em>emmeans</em> function. However, we will use the <em>specs</em> argument in a slightly different way. Instead of defining it as a character vector containing our two factors, we will define it as a <strong>formula</strong>. Specifically, we will tell the <em>emmeans</em> function to compare the means of the factor for which the ANOVA yielded a significant main effect (severity) separately for each level of the other factor (SES). Here is that the syntax looks like:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain pairwise comparisons for SES for each level of severity</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="sc">~</span> severity<span class="sc">|</span>SES, </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'tukey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain pairwise comparisons for SES for each level of severity</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="sc">~</span> severity<span class="sc">|</span>SES, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'tukey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here, R will know that we enter a formula when specifying the <em>specs</em> argument because we lead with a <strong>tilde</strong> operator (<strong>~</strong>). The rest of the definition of <em>specs</em> reads as <strong>SES by severity</strong>. Now let’s have a look at the output:</p>
 <div class="alert alert-warning">
@@ -544,24 +533,24 @@ P value adjustment: tukey method for comparing a family of 3 estimates </code></
 <p>Now that we know that there is an interaction in our data that is not ordinal, we know that we should not interpret the main effects. We do, however, need to understand the nature of the interaction effect. We already know something about the interaction because we ran pairwise comparisons of the three levels of our severity factor for each level of SES.</p>
 <p>We can now run the complementary analysis by testing for differences between the two levels of SES for each level of severity of the transgression. If we do not want to adjust for multiple comparisons, we can use the formula-based approach to specifying the <em>specs</em> argument (since there is only one comparison for each level of severity, the function will not adjust the <span class="math inline">\(p\)</span>-values). Here is what the syntax looks like:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run pairwise comparisons of SES for each level of severity</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="sc">~</span> SES<span class="sc">|</span>severity,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run pairwise comparisons of SES for each level of severity</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="sc">~</span> SES<span class="sc">|</span>severity,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s have a look at the output:</p>
 <div class="alert alert-warning">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run pairwise comparisons of SES for each level of severity</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="sc">~</span> SES<span class="sc">|</span>severity,</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run pairwise comparisons of SES for each level of severity</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="sc">~</span> SES<span class="sc">|</span>severity,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>As we can see, only one of the comparisons is statistically significant. That is, while we cannot say based on the data whether SES affects the willingness to forgive slightly or moderately severe transgressions, SES makes a difference when transgressions are severe.</p>
 <p>Finally, let’s consider the scenario, in which there is no significant interaction between the two within-subjects variables or in which the interaction turns out to be ordinal. In this case, we can actually interpret main effects. This means that we also need to disentangle main effects if the respective variable has more than two levels. We can, once again, do that using the <em>emmeans</em> function by running pairwise comparisons on the marginal means. To this end, we need to specify the <em>specs</em> argument as the name of the factor we are interested in and omitting the other factor. Let’s do that using the example data (neglecting for a moment that the interaction was not ordinal). Here is what the code would look like:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run pairwise comparisons on the marginal means of severity of transgressions by collapsing across the two levels of SES</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="st">"severity"</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span><span class="st">'tukey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run pairwise comparisons on the marginal means of severity of transgressions by collapsing across the two levels of SES</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="st">"severity"</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span><span class="st">'tukey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s have a look at the output:</p>
 <div class="alert alert-warning">
@@ -619,13 +608,13 @@ P value adjustment: tukey method for comparing a family of 3 estimates </code></
 </div>
 <p>Now that we have some data, we can actually run the mixed ANOVA. Here is the syntax:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run a mixed 2 by 2 ANOVA and save it as an object</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>aov2 <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">between =</span> <span class="st">'cond'</span>,</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">within =</span> <span class="st">'time'</span>, <span class="at">dv =</span> <span class="st">'score'</span>,</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> df2)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># show the results in the console</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>aov2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run a mixed 2 by 2 ANOVA and save it as an object</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>aov2 <span class="ot">=</span> <span class="fu">aov_ez</span>(<span class="at">id =</span> <span class="st">'ID'</span>, <span class="at">between =</span> <span class="st">'cond'</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">within =</span> <span class="st">'time'</span>, <span class="at">dv =</span> <span class="st">'score'</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> df2)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># show the results in the console</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>aov2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Once we run that code, we will get the following console output:</p>
 <div class="alert alert-warning">
@@ -655,10 +644,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 <p>The good news is that there is another elegant way to run analyses of the simple effects behind an interaction, namely providing the <em>emmeans</em> function with a *formula** when defining the <em>specs</em> argument.</p>
 <p>Generally speaking, when we use a formula to specify <em>specs</em> we are telling the function to run certain contrasts on one variable (or even more than one) for each level of another (or for each combination of several others). Here is what the syntax looks like in the case of simple effects:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run pairwise comparisons for the between-factor </span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 'cond' for each level of the within-factor 'time'</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="sc">~</span> cond <span class="sc">|</span> time,</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run pairwise comparisons for the between-factor </span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 'cond' for each level of the within-factor 'time'</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="sc">~</span> cond <span class="sc">|</span> time,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can read the formula we fed the <em>emmeans</em> function as its <em>spec</em> argument as: run contrasts on <em>cond</em> for each level of <em>time</em>. Which contrasts to run is, once again, specified using the <em>contr</em> argument, in our case pairwise comparisons.</p>
 <p>Let’s have a look at the console output:</p>
@@ -678,10 +667,10 @@ time = post:
 <p>As we can see, the output tells us which effect the experimental condition (treatment vs.&nbsp;control) has for each time point (pre. vs.&nbsp;post). Here, we can only confirm an effect after the treatment (post), but our data do not allow conclusions before treatment (pre).</p>
 <p>In order to get the full picture of the interaction, we also need to inspect the effect of time by condition. To this end, we simply switch the two variables in our formula specification of <em>specs</em> (see syntax below).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run pairwise comparisons for the between-factor </span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 'cond' for each level of the within-factor 'time'</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="sc">~</span> time <span class="sc">|</span> cond,</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run pairwise comparisons for the between-factor </span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 'cond' for each level of the within-factor 'time'</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="sc">~</span> time <span class="sc">|</span> cond,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="alert alert-warning">
 <div class="cell">
@@ -704,9 +693,9 @@ cond = control:
 <p>In addition, since we have only two factor levels for “time”, there would be no need to disentangle the effects (we could just look at the means to infer the direction of the effect). If we were interested in disentangling a main effect, however, we could do it using <em>emmeans</em> just like we did it in the case of the two-factorial between-subjects ANOVA.</p>
 <p>In order to disentangle a main effect, we need to run pairwise comparisons on its <strong>marginal means</strong> (i.e., the means when collapsing across the levels of other factors). We can do so by feeding the <em>emmeans</em> function only the factor of interest when defining <em>specs</em> (omitting the other factors).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># disentangle the main effect of time</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="st">'time'</span>,</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># disentangle the main effect of time</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(<span class="at">object =</span> aov2, <span class="at">specs =</span> <span class="st">'time'</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">contr =</span> <span class="st">'pairwise'</span>, <span class="at">adjust =</span> <span class="st">'none'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is wehat appears in the console once we run that code:</p>
 <div class="alert alert-warning">
