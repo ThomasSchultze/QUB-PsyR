@@ -1,0 +1,30 @@
+---
+title: "Nonlinear regression models"
+---
+
+
+
+
+A final thing we need to know about formulae is that we can also perform arithmetic operations other than multiplication to create predictors from the variables in our data frame. One example would be polynomial regression, in which we predict $Y$ not only from $X$ but also from exponentiated versions of $X$. Another example are difference scores as predictors (note that using difference scores as predictors in regression models is not trivial, so great care is needed when making sense of the results).
+
+It is important to note that all arithmetic operations save multiplication require a special syntax in order for R to understand what we are trying to do. Specifically, we need to call a function named *I* (capital I) within the formula and feed it the mathematical expression we want to use as a predictor in the model as its sole argument. Let's look at an example for a polynomial regression of the 4th order:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# formula for a model predicting y from x in 
+# a 4th order polynomial regression
+y ~ x + I(x^2) + I(x^3) + I(x^4)
+```
+
+And here is what the formula would look like in a model where we want to predict $y$ from the difference between two variables $x_1$ and $x_2$:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# formula for a model predicting y from the difference 
+# between x1 and x2
+y ~ I(x1 - x2)
+```

@@ -1,0 +1,181 @@
+---
+title: "Multiple Regression"
+---
+
+So far,w e have considered linear regression models with a single predictor. We will now turn to cses with two or more predcitors. As soon as a regression model has more then one predictor, we speak of **multiple regression**. 
+
+Multiple regression is a straightforward extension of the simple linear regression. Generally speaking the regression model looks like this:
+
+$$Y = b_0 + b_1X_1+b_2X_2+...+b_kX_k +\epsilon$$
+Here, $b_0$ is the intercept, $X_1$ to $X_k$ are the predcitors, and $b_1$ to $b_k$ are their respective regression weights. As always, $\epsilon$ is the residual. We can test each parameter of our model for significance via a $t$-test:
+
+$$\frac{b_i - \beta_i}{SE_{b_i}} \sim t_{N-k}$$
+
+Just as in simple linear regression, we compute the difference between the observed regresison parameter and its expected value under $H_0$ and divide this difference by the parameters' standard error $SE_{b_i}$. The resulting variable follows a $t$-distrbutiobn with $N-k$ degrees of freedom where $k$ is the number of parameters.
+
+Just as in simple linear regression, $\hat{Y}$ is the predcition of our model:
+
+$$\hat{Y} = b_0 + b_1X_1+b_2X_2+...+b_jXj$$
+Since we can compute $\hat{Y}$, we can also compute the coefficient of determination $R^2$ and its adjusted version using the exact same formulae. The only conceptual difference is that - since we now have more than one predictor - $R^2$ is no longer the square of a ordinary correlation coefficient. For this reason $R$ (note the capital R) is also referred to as the **multiple correlation coefficient**. Importantly, however, this does not change how we interpret $R^2$. It is still our measure of the proportion of variance of your criterion $Y$ explained by our regression model as a whole. The statistical test of $R^2$ remains unchanged, as well, that is we test for significance of $R^2$ using an $F$-distribution with $k-1$ numerator degrees of freedom and $N-k$ denominator degrees of freedom.
+
+
+### Multiple regression in R
+
+The function we will use to do multiple regression analysis is the same we used for simple linear regression, namely the function *lm*. The only difference is that we now specify the formula argument of the *lm* function such that it contains two or more predictors.
+
+Before we delve into multiple regression in R, we first need to understand how to define the formula object if we have several predictors. Let's first look at cases, in which we want to predict $Y$ from two predictors $X_1$ and $X_2$
+
+```{r}
+#| eval: false
+#| echo: true
+# formula treating y as an additive function of x1 and x2
+y ~ x1 + x2
+```
+
+In the example above, we have two additive effects (think of them as main effects) of $X_1$ and $X_2$ on $Y$. But what if we wanted to add an interaction as well? In this case, we can combine the two predictors using the **:** operator. If we use this operator, R will compute the interaction term as the product of the two variables and use it as a predictor in the model. Here is what the syntax would look like:
+
+```{r}
+#| eval: false
+#| echo: true
+# formula treating y as a function of x1 and x2
+# as well as their interaction
+y ~ x1 + x2 + x1:x2
+```
+
+In the above example, we have the **full model**, that is, it contains all possible effects that a regression model with two predictors can have. However, it is also possible to feed a reduced model into the *lm* function. For example, we might want to estimate a regression model that entails only the main effect of $X_1$ and the interaction effect, but not the main effect of $X_2$. In this case, the model would look like this:
+
+```{r}
+#| eval: false
+#| echo: true
+# formula treating y as an additive function of x1 
+# and the interaction of x1 and x2
+y ~ x1 + x1:x2
+```
+
+R has a neat way of making regression model formulae more parsimonious, namely using the **\*** operator. If we combine tow or more variables with this operator, R will include all main effects and interactions of these variables. Here are some examples:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+## formula for a full regression model with two predictors
+# this:
+y ~ x1*x2
+
+# reads as this:
+y ~ x1 + x2 + x1:x2
+
+
+## formula for a full regression model with three predictors
+# this:
+y ~ x1*x2*x3
+
+# reads as this:
+y ~ x1 + x2 + x3 + x1:x2 + x1:x3 + x2:x3 + x1:x2:x3
+
+
+## formula for a three-predictor models with the 
+## third predictor as a purely additive effect
+# this:
+y ~ x1*x2 + x3
+
+# reads as this:
+y ~ x1 + x2 + x1:x2 + x3
+```
+
+As we can see, the **\*** operator can make our lives a bit easier whenever models involve multiple predictors. 
+
+
+### Multiple Regression in R
+
+Let's now look at the syntax for a multiple regression model. We will use some made-up data to run a regression model with two predictors $X_1$and $X_2$. Here is what  the data look like:
+
+```{r}
+#| eval: true
+#| echo: false
+suppressMessages(library(MASS))
+set.seed(1234)
+tmp = round(mvrnorm(100, mu = c(0, 0, 0), 
+                    Sigma = matrix(c(1, .4, .4, .4, 1, .1, .4, .1, 1), nrow = 3)), 2)
+
+df1 = data.frame(ID = 1:100, Y = tmp[,1], X1 = tmp[,2], X2 = tmp[,3])
+
+head(df1)
+```
+
+We now have to make a choice: we can either predict $Y$ from $X-1$ and $X_2$ in a purely additive model, or we can include the interaction term $X_1 \times X_2$ as a third predictor in the model. Let's first run the simpler model that omits the interaction effect. Here is the syntax:
+
+```{r}
+#| eval: false
+#| echo: true
+# predict Y from X1 and X2 in a multiple regression
+mod1 = lm(formula = Y ~ X1 + X2, data = df1)
+
+# display the results
+summary(mod1)
+```
+
+Once we run that code, R will produce the following console output:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| evho: false
+# predict Y from X1 and X2 in a multiple regression
+mod1 = lm(formula = Y ~ X1 + X2, data = df1)
+
+# display the results
+summary(mod1)
+
+```
+:::
+
+As we can see, the section of the output names "coefficients" contains information on the intercept and the regression weights for the two predictors. In this example both of them are significantly related to the criterion $Y$. Note that since we have three parameters in the model and the total sample size $N$ is 100, the $t$-tests for each parameter have 97 degrees of freedom, and the $F$-test of $R^2$ against zero has 2 numerator and 97 denominator degrees of freedom. 
+
+How do we interpret the regression model? The answer is: pretty much like a simple linear regression. The intercept $b_0$ indicates the level of $\hat{Y}$ (that is, the predictor level of $Y$) when both $X_1$ and $X_2$ are fixed at zero. Since we did not model and interaction of the two predictors, the regression weights $b_1$ and $b_2$ are straightforward to interpret: $b_1$ tells us much $\hat{Y}$ increases when we increase $X_1$ by one unit, irrespective of the current level of $X_2$; $b_2$ tells us the same for increases in $X_2$. 
+
+Let's now look at the full model that includes the interaction of $X_1$ and $X_2$ as a third predictor. As explained above, there are two ways to define the formula object:
+
+```{r}
+#| eval: false
+#| echo: true
+# predict Y from X1, X2, and their interaction
+# Version A:
+mod2 = lm(formula = Y ~ X1 + X2 + X1:X2, data = df1)
+
+# Version B:
+mod2 = lm(formula = Y ~ X1*X2, data = df1)
+
+# display the results
+summary(mod2)
+```
+
+Running the code above yields the following output in the console:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# predict Y from X1, X2, and their interaction
+# Version A:
+mod2 = lm(formula = Y ~ X1 + X2 + X1:X2, data = df1)
+
+# Version B:
+mod2 = lm(formula = Y ~ X1*X2, data = df1)
+
+# display the results
+summary(mod2)
+```
+:::
+
+The output now shows four parameters in the "coefficients" section. Adding a third predictor cost us one degree of freedom for both the individual $t$-tests of the model parameters and and $F$-test of $R^2$ when compared with the previous model.
+
+The interpretation of the model parameters is the same as before for the main effects of $X_1$ and $X_2$. Since the interaction term is simply another predictor from the vantage point of the model, it indicates how much $\hat{Y}$ increases if we increase the product of $X_1$ and $X_2$ by one unit. While this statement is mathematically true, it is often difficult to grasp what these products represent conceptually (e.g., what is the product of one's experienced stress and available resources?). The important thing to keep in mind about interaction terms in multiple regression is the following: if this interaction is statistically significant, we ~~know~~ decide to believe that the magnitude of the relation of $X_1$ and $Y$ depends on the level of $X_2$ (and that the strength of the relation of $X_2$ and $Y$ depends on the level of $X_1$). 
+
+
+
+
+
+
+
+

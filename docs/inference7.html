@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>QUB-PsyR - Linear Regression</title>
+<title>QUB-PsyR - Simple Linear Regression</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -234,7 +234,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>  
         <li>
     <a class="dropdown-item" href="./inference7.html">
- <span class="dropdown-text">Linear regression</span></a>
+ <span class="dropdown-text">Simple linear regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference8.html">
+ <span class="dropdown-text">Multiple linear regression</span></a>
   </li>  
     </ul>
   </li>
@@ -258,7 +262,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Linear Regression</h1>
+<h1 class="title">Simple Linear Regression</h1>
 </div>
 
 
@@ -308,14 +312,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We already know from the chapters on ANOVA that such ratios of variances can also be expressed as ratios of sums of squares. In the case of linear regression, it looks like this:</p>
 <p><span class="math display">\[R^2 = \frac{S_{\hat{Y}}^2}{S_{Y}^2} = \frac{\frac{1}{N-k}\sum_{i=1}^{N}(\hat{y}_i - \bar{\hat{y}}_i)^2}{\frac{1}{N-k}\sum_{i=1}^{N}(y_i - \bar{y}_i)^2}\]</span></p>
 <p>We can simplify this equation by dropping the <span class="math inline">\(\frac{1}{N-k}\)</span> which results in:</p>
-<p><span class="math display">\[R^2 = \frac{\sum_{i=1}^{N}(\hat{y}_i - \bar{\hat{y}}_i)^2}{\sum_{i=1}^{N}(y_i - \bar{y}_i)^2} = \frac{SS_{regression}}{SS_{total}}\]</span> Now that we know that we are dealing with sums of squares again, we can easily compute the residual sum of squares (or error sum of squares):</p>
-<p><span class="math display">\[SS_{residual} = SS_{total} - SS{regression}\]</span> :::{.alert .alert-success} If at this point you are wondering why we are back to sums of squares even though we are not dealing with ANOVAs anymore: regression and ANOVA are the same.</p>
+<p><span class="math display">\[R^2 = \frac{\sum_{i=1}^{N}(\hat{y}_i - \bar{\hat{y}}_i)^2}{\sum_{i=1}^{N}(y_i - \bar{y}_i)^2} = \frac{SS_{regression}}{SS_{total}}\]</span></p>
+<p>Now that we know that we are dealing with sums of squares again, we can easily compute the residual sum of squares (or error sum of squares):</p>
+<p><span class="math display">\[SS_{residual} = SS_{total} - SS_{regression}\]</span></p>
+<p>:::{.alert .alert-success} If at this point you are wondering why we are back to sums of squares even though we are not dealing with ANOVAs anymore: regression and ANOVA are the same.</p>
 <p>Or, to be precise: they are both special cases of the general linear model. We use ANOVAs when our predictors are categorical variables, but we could easily set up the same model as a regression model. The output of the respective analysis and the specific parameter tests we run may differ, but the underlying information is the same. :::</p>
 <p>Back to <span class="math inline">\(R^2\)</span>: we can test for significance of <span class="math inline">\(R^2\)</span> using an <span class="math inline">\(F\)</span>-test based o the mean squares not unlike the ones we used in ANOVAs. It can be shown that:</p>
 <p><span class="math display">\[\frac{MS_{regression}}{MS_{error}} =  \frac{\frac{SS_{regression}}{k-1}}{\frac{SS_{error}}{N-k}} \sim F_{k-1; N-k}\]</span></p>
 <p>This <span class="math inline">\(F\)</span>-test tells us whether our regression model as a whole - that is, irrespective of the statistical significance of its individual regression weights - allows for an above-chance prediction of the criterion variable.</p>
 <p>Adding more predictor variables to a regression model will necessarily increase the proportion of variance explained by the model <span class="math inline">\(R^2\)</span> even if the new parameter is not statistically significant individually. To counter this problem, we can adjust <span class="math inline">\(R2\)</span> and essentially “punish” a model for containing too many weak predictors. Here is the formula for the adjusted <span class="math inline">\(R^2\)</span>:</p>
-<p><span class="math display">\[R_{adjusted}^2 = 1-\frac{\frac{SS_{error}}{df_{error}}}{\frac{SS_{total}}{df_{total}}} = \frac{MS_{error}}{MS_{total}}\]</span></p>
+<p><span class="math display">\[R_{adjusted}^2 = 1-\frac{\frac{SS_{error}}{df_{error}}}{\frac{SS_{total}}{df_{total}}} = 1- \frac{MS_{error}}{MS_{total}}\]</span></p>
 </section>
 <section id="running-a-regression-analysis-in-r" class="level3">
 <h3 class="anchored" data-anchor-id="running-a-regression-analysis-in-r">Running a regression analysis in R</h3>
@@ -342,62 +348,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="alert alert-success">
 <p>In some situations, we might want to force a regression through the origin. In other words, we want the intercept of the model to be zero. In those cases, we can replace the <span class="math inline">\(1\)</span> in our regression model with a <span class="math inline">\(0\)</span>, so R will know that the intercept must be 0 in the model.</p>
 </div>
-<p>We can now make the formula even more complex by adding more predictors (see example below).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># formula treating y as an additive function of x1 and x2</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1 <span class="sc">+</span> x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>In the example above, we have two additive effects (think of them as main effects) of <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> on <span class="math inline">\(y\)</span>. But what if we wanted to add an interaction as well? In this case, we can combine the two predictors using the <strong>:</strong> operator. If we use this operator, R will compute the interaction term as the product of the two variables and use it as a predictor in the model. Here is what the syntax would look like:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># formula treating y as a function of x1 and x2</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># as well as their interaction</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x1<span class="sc">:</span>x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>In the above example, we have the <strong>full model</strong>, that is, it contains all possible effects that a regression model with two predictors can have. However, it is also possible to feed a reduced model into the <em>lm</em> function. For example, we might want to estimate a regression model that entails only the main effect of <span class="math inline">\(x_1\)</span> and the interaction effect, but not the main effect of <span class="math inline">\(x_2\)</span>. In this case, the model would look like this:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># formula treating y as an additive function of x1 </span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and the interaction of x1 and x2</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1 <span class="sc">+</span> x1<span class="sc">:</span>x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>R has a neat way of making regression model formulae more parsimonious, namely using the <strong>*</strong> operator. If we combine tow or more variables with this operator, R will include all main effects and interactions of these variables. Here are some examples:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## formula for a full regression model with two predictors</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this:</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1<span class="sc">*</span>x2</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># reads as this:</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x1<span class="sc">:</span>x2</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">## formlua for a full regression model with three predictors</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># this:</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1<span class="sc">*</span>x2<span class="sc">*</span>x3</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># reads as this:</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3 <span class="sc">+</span> x1<span class="sc">:</span>x2 <span class="sc">+</span> x1<span class="sc">:</span>x3 <span class="sc">+</span> x2<span class="sc">:</span>x3 <span class="sc">+</span> x1<span class="sc">:</span>x2<span class="sc">:</span>x3</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="do">## formula for a three-predictor models with the </span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="do">## third predictor as a purely additive effect</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># this:</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1<span class="sc">*</span>x2 <span class="sc">+</span> x3</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># reads as this:</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x1<span class="sc">:</span>x2 <span class="sc">+</span> x3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>As we can see, the <strong>*</strong> operator can make our lives a bit easier whenever models involve multiple predictors. A final thing we need to know about formulae is that we can also perform arithmetic operations other than multiplication to create predictors from the variables in our data frame. One example would be polynomial regression, in which we predict <span class="math inline">\(y\)</span> not only from <span class="math inline">\(x\)</span> but also from exponentiated versions of <span class="math inline">\(x\)</span>. Another example are difference scores as predictors (note that using difference scores as predictors in regression models is not trivial, so great care is needed when making sense of the results).</p>
-<p>It is important to note that all arithmetic operations save multiplication require a special syntax in order for R to understand what we are trying to do. Specifically, we need to call a function named <em>I</em> (capital I) within the formula and feed it the mathematical expression we want to use as a predictor in the model as its sole argument. Let’s look at an example for a polynomial regression of the 4th order:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># formula for a model predicting y from x in </span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># a 4th order polynomial regression</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">3</span>) <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>And here is what the formula would look like in a model where we want to predict <span class="math inline">\(y\)</span> from the difference between two variables <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># formula for a model predicting y from the difference </span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># between x1 and x2</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="fu">I</span>(x1 <span class="sc">-</span> x2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
 <section id="back-to-regressions-in-r" class="level3">
 <h3 class="anchored" data-anchor-id="back-to-regressions-in-r">Back to regressions in R</h3>
@@ -421,9 +371,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>We can now call the <em>lm</em> function to run an ordinary least squares regression of participants’ love for cats from their love for dogs. Similar to ANOVAs, we will define the regression model as an object. Here is what the syntax might look like:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># regression of participants' love for cats on their love for dogs</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">=</span> <span class="fu">lm</span>(<span class="at">formula =</span> love_cats <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> love_dogs,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># regression of participants' love for cats on their love for dogs</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">=</span> <span class="fu">lm</span>(<span class="at">formula =</span> love_cats <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> love_dogs,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Once we run that code, an object called “model1” will appear in our environment. R will inform us that this object is a <strong>list of 12</strong>. We can now call the object’s name and have a look at what R outputs in the console:</p>
 <div class="alert alert-warning">
@@ -442,10 +392,10 @@ Coefficients:
 <p>As we can see, the output is relatively sparse. We can see the function call we entered as well as estimates of the two regression parameters <span class="math inline">\(b_0\)</span> (intercept) and <span class="math inline">\(b_1\)</span> (the regression weight for love of dogs).</p>
 <p>While we now know the parameter values of the linear regression, this information is slightly underwhelming. If we want more information, particularly about the statistical significance of the parameters, we need to feed the regression model into another function called <em>summary</em>. The <em>summary</em> function takes a fitted model as its sole argument. Here is the syntax:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># display detailed output for the regression model</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># display detailed output for the regression model</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Here is hat the console output looks like when we call the <em>summary</em> function on our regression model:</p>
+<p>Here is what the console output looks like when we call the <em>summary</em> function on our regression model:</p>
 <div class="alert alert-warning">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -470,6 +420,150 @@ F-statistic: 0.5185 on 1 and 38 DF,  p-value: 0.4759</code></pre>
 </div>
 <p>As we can see, R now displays substantially more information. In addition to the function call, we can now also see information on the distribution of the residuals (quartiles). For each of the fixed parameters of the model, we can now see the estimate, its standard error, the resulting <span class="math inline">\(t\)</span>-value, and the <span class="math inline">\(p\)</span>-value of a two-tailed <span class="math inline">\(t\)</span>-test of the parameter against zero. Below the parameter estimates, there is some more information on the model, the most important of which are the <span class="math inline">\(R^2\)</span> and adjusted <span class="math inline">\(R^2\)</span> values as well as the results of the <span class="math inline">\(F\)</span>-test testing whether <span class="math inline">\(R^2\)</span> is greater than zero.</p>
 <p>In our example, love of dogs is not a significant predictor of participant’s love for cats. The model as a whole also does not explain a significant proportion of the variance in participants’ love for cats indicated by the non-significant <span class="math inline">\(F\)</span>-test. This is not surprising because the model only contains one predictor, love for dogs, and this predictor is not significantly related to the criterion. As we can see, the <span class="math inline">\(p\)</span>-value for the <span class="math inline">\(t\)</span>-test of the single predictor (love for dogs) is exactly equal to the <span class="math inline">\(F\)</span>-test of the whole model since love for dogs is the only variable that can possibly explain variability in the love for cats in our data set.</p>
+</section>
+</section>
+<section id="categorical-predcitors-in-simple-linear-regression" class="level2">
+<h2 class="anchored" data-anchor-id="categorical-predcitors-in-simple-linear-regression">Categorical predcitors in simple linear regression</h2>
+<p>So far, we have considered the case in which both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are (sort of) continuous or variables. While <span class="math inline">\(Y\)</span> must be a continuous variable in linear regression, the same is not true for the predictor <span class="math inline">\(X\)</span>. We can also predict <span class="math inline">\(Y\)</span> from categorical variables with two or more levels. If we do so, we need to slightly change the way in which we interpret the results of the model output.</p>
+<section id="dichotomous-predictors" class="level3">
+<h3 class="anchored" data-anchor-id="dichotomous-predictors">Dichotomous predictors</h3>
+<p>In the most simple case, a categorical predictor has two levels (e.g., treatment vs.&nbsp;control). If we want to use a dichotomous predictor in a linear regression, we need to assign values to its two levels. Which values we choose is technically irrelevant, but some are more sensible when it comes to interpreting the model. The two most common ways to code dichotomous predictors are:</p>
+<ul>
+<li>effect coding: the predictors levels are centred around 0 (e.g., -1 vs.&nbsp;1 or -0.5 vs.&nbsp;0.5)</li>
+<li>dummy coding: the predictor is coded as a binary variable (0 vs.&nbsp;1)</li>
+</ul>
+<p>When running a regression using a categorical predictor in R, we need to consider the type of the predictor variable. If we use a character string or a factor as a binary predictor, R will automatically use dummy coding. If the predictor variable is numeric and different from the desired coding scheme, we need to recode it manually.</p>
+<div class="alert alert-info">
+<p><strong>Caveat</strong>: Unless we define a predictor as a factor with an ordered structure (by defining levels and labels in the desired order), R will order the levels alphabetically, with the first level being treated as the reference category.</p>
+</div>
+<p>Let’s now briefly look at an example of a simple linear regression with a dichotomous predictor. Here is some made up data (stored in <em>df2</em>), in which the predictor is either dummy-coded (because the variable is a factor with two levels) or effect coded (-0.5 vs.&nbsp;0.5):</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID cond_dummy cond_effect score
+1  1    control        -0.5  5.59
+2  2  treatment         0.5 12.20
+3  3    control        -0.5  8.55
+4  4  treatment         0.5  9.05
+5  5    control        -0.5 10.17
+6  6  treatment         0.5  8.58</code></pre>
+</div>
+</div>
+<p>We will first look at the dummy-coded version of the predictor by using the labelled factor as the predictor (the variable named ‘cond_dummy’). Here is what the syntax looks like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># regression of score on the condition variable</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">=</span> <span class="fu">lm</span>(<span class="at">formula =</span> score <span class="sc">~</span> cond_dummy, <span class="at">data =</span> df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running the code above yields the following output:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = score ~ cond_dummy, data = df2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.0977 -1.1347 -0.4077  0.7375  5.4223 
+
+Coefficients:
+                    Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)           7.4077     0.3401  21.780  &lt; 2e-16 ***
+cond_dummytreatment   1.4893     0.4810   3.096  0.00302 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.863 on 58 degrees of freedom
+Multiple R-squared:  0.1419,    Adjusted R-squared:  0.1271 
+F-statistic: 9.588 on 1 and 58 DF,  p-value: 0.003016</code></pre>
+</div>
+</div>
+</div>
+<p>When we use dummy-coding, the intercept of the model represent the mean of the <strong>reference category</strong> (in our example the control group). This means, we can test whether the mean of the reference group differs from zero using the intercept of the model. The treatment effect tells us how much the mean value changes when we move from the control group to the treatment group, that is, it shows us the mean difference between the two groups and tells us whether this mean difference is significant.</p>
+<div class="alert alert-sucess">
+<p>Testing the significance of mean differences between two groups…doesn’t that sound familiar? That is what we previously used the independent samples <span class="math inline">\(t\)</span>-test for.</p>
+<p>In fact, if we ran an independent samples <span class="math inline">\(t\)</span>-test on the data and forced it to assume equal variances, it would show the exact same <span class="math inline">\(t\)</span>-value, degrees of freedom, and <span class="math inline">\(p\)</span>-value as the test of the slope in our regression model.</p>
+<p>We would get slightly different results when using the default Welch <span class="math inline">\(t\)</span>-test because it adjusts the degrees of freedom downward to correct for unequal variances, thus yielding a somewhat larger <span class="math inline">\(p\)</span>-value.</p>
+</div>
+<p>Let’s now see what happens to the output if we use the effect-coded version of the condition variable as a predictor instead of the dummy-coded version.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = score ~ cond_effect, data = df2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.0977 -1.1347 -0.4077  0.7375  5.4223 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   8.1523     0.2405  33.898  &lt; 2e-16 ***
+cond_effect   1.4893     0.4810   3.096  0.00302 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.863 on 58 degrees of freedom
+Multiple R-squared:  0.1419,    Adjusted R-squared:  0.1271 
+F-statistic: 9.588 on 1 and 58 DF,  p-value: 0.003016</code></pre>
+</div>
+</div>
+</div>
+<p>We should notice a few things: first, the regression weight <span class="math inline">\(b_1\)</span> and its associated test statistics (<span class="math inline">\(t\)</span>-value, <span class="math inline">\(p\)</span>-value) are identical. The same goes for the coefficient of determination <span class="math inline">\(R^2\)</span> and it associated <span class="math inline">\(F\)</span>-test. The only thing that differs is the intercept of the model and its associated test statistics. This makes sense, intuitively, because we simply shifted the predictor to the “left” by half a unit (from 0 vs.&nbsp;1 to -0.5 vs.&nbsp;05). Other than in the dummy-coded model, the intercept no longer reflects the mean of the reference group but the overall mean. The underlying information, namely the correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, is unchanged, however. Accordingly, the strength of the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> as well as its statistical significance cannot differ between the two versions of the regression model.</p>
+</section>
+<section id="predictors-with-more-then-two-levels" class="level3">
+<h3 class="anchored" data-anchor-id="predictors-with-more-then-two-levels">Predictors with more then two levels</h3>
+<p>While dichotomous predictors are easy to handle (particularly when we dummy-code them), things can get complicated when categorical predictors have three or more levels. What R does in these cases is create <span class="math inline">\(j-1\)</span> contrasts, where <span class="math inline">\(j\)</span> is the number of categories of the predictor <span class="math inline">\(X\)</span>. These contrasts are coded in a specific way. Similar to dummy-coded predictors, the first level s treated as the <strong>reference category</strong>, and each other level is compared to that reference category.</p>
+<p>Let’s look at an example with a four-level predictor. Here, we predict the daily average sun hours in Northern Ireland from the four seasons (data are made up, of course).</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  obs season sun_hours
+1   1 spring      0.90
+2   2 summer      2.76
+3   3 autumn      1.03
+4   4 winter      0.02
+5   5 spring      1.64
+6   6 summer      2.50</code></pre>
+</div>
+</div>
+<p>Here is the syntax for the regression model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># regresison model predicting sun hours from seasons</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">=</span> <span class="fu">lm</span>(<span class="at">formula =</span> sun_hours <span class="sc">~</span> season, <span class="at">data =</span> df3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s have a look at the console output:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = sun_hours ~ season, data = df3)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-0.9780 -0.1840 -0.0420  0.0975  1.2710 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)    1.3080     0.1207  10.839 6.90e-13 ***
+seasonsummer   1.6310     0.1707   9.557 2.05e-11 ***
+seasonautumn  -0.3860     0.1707  -2.262   0.0298 *  
+seasonwinter  -1.6620     0.1707  -9.739 1.25e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.3816 on 36 degrees of freedom
+Multiple R-squared:  0.9134,    Adjusted R-squared:  0.9062 
+F-statistic: 126.5 on 3 and 36 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</div>
+<p>In the data, seasons are coded such that spring is the first level, followed by summer, autumn, and winter. Therefore, the regression model treats spring as the reference category. The intercept tells us that spring in Northern Ireland has an average of 1.3 sun hours per day, which is significantly different from having zero sun. The regression weight for summer indicates that the sun shines for an additional 1.6 hours in summer compared with spring. Likewise, the regression weights for autumn and winter tell us that the daily sun hours are lower in autumn than in spring and also lower in winter than spring. Adding one of the regression weights to the intercept yields the mean hours of sunshine for that season (in the case of winter, we the model predicts a daily average of minus 0.3 sun hours in Northern Ireland, which seems about right).</p>
+<p>Importantly, the model does not tell us whether average daily sun hours differ between summer and autumn, summer and winter, or autumn and winter. If we are interested in those differences, we need to run the model using a different reference category (for example by changing the factor levels and labels of the predictor variable accordingly).</p>
+<div class="alert alert-info">
+<p>You may have noticed that despite having only one predictor variable, the model now contains four parameters, the intercept and three regression weights. This is also reflected in the degrees of freedom (we lose one for each parameter).</p>
+<p>Technically, this means that we have now entered the realm of multiple linear regression.</p>
+</div>
 
 
 </section>

@@ -1,5 +1,5 @@
 ---
-title: "Linear Regression"
+title: "Simple Linear Regression"
 editor: visual
 ---
 
@@ -67,9 +67,13 @@ $$R^2 = \frac{S_{\hat{Y}}^2}{S_{Y}^2} = \frac{\frac{1}{N-k}\sum_{i=1}^{N}(\hat{y
 
 We can simplify this equation by dropping the $\frac{1}{N-k}$ which results in:
 
-$$R^2 = \frac{\sum_{i=1}^{N}(\hat{y}_i - \bar{\hat{y}}_i)^2}{\sum_{i=1}^{N}(y_i - \bar{y}_i)^2} = \frac{SS_{regression}}{SS_{total}}$$ Now that we know that we are dealing with sums of squares again, we can easily compute the residual sum of squares (or error sum of squares):
+$$R^2 = \frac{\sum_{i=1}^{N}(\hat{y}_i - \bar{\hat{y}}_i)^2}{\sum_{i=1}^{N}(y_i - \bar{y}_i)^2} = \frac{SS_{regression}}{SS_{total}}$$
 
-$$SS_{residual} = SS_{total} - SS{regression}$$ :::{.alert .alert-success} If at this point you are wondering why we are back to sums of squares even though we are not dealing with ANOVAs anymore: regression and ANOVA are the same.
+Now that we know that we are dealing with sums of squares again, we can easily compute the residual sum of squares (or error sum of squares):
+
+$$SS_{residual} = SS_{total} - SS_{regression}$$
+
+:::{.alert .alert-success} If at this point you are wondering why we are back to sums of squares even though we are not dealing with ANOVAs anymore: regression and ANOVA are the same.
 
 Or, to be precise: they are both special cases of the general linear model. We use ANOVAs when our predictors are categorical variables, but we could easily set up the same model as a regression model. The output of the respective analysis and the specific parameter tests we run may differ, but the underlying information is the same. :::
 
@@ -81,7 +85,7 @@ This $F$-test tells us whether our regression model as a whole - that is, irresp
 
 Adding more predictor variables to a regression model will necessarily increase the proportion of variance explained by the model $R^2$ even if the new parameter is not statistically significant individually. To counter this problem, we can adjust $R2$ and essentially "punish" a model for containing too many weak predictors. Here is the formula for the adjusted $R^2$:
 
-$$R_{adjusted}^2 = 1-\frac{\frac{SS_{error}}{df_{error}}}{\frac{SS_{total}}{df_{total}}} = \frac{MS_{error}}{MS_{total}}$$
+$$R_{adjusted}^2 = 1-\frac{\frac{SS_{error}}{df_{error}}}{\frac{SS_{total}}{df_{total}}} = 1- \frac{MS_{error}}{MS_{total}}$$
 
 ### Running a regression analysis in R
 
@@ -117,90 +121,6 @@ Here, the $1$ represents the intercept. If we omit it, R will read the function 
 ::: {.alert .alert-success}
 In some situations, we might want to force a regression through the origin. In other words, we want the intercept of the model to be zero. In those cases, we can replace the $1$ in our regression model with a $0$, so R will know that the intercept must be 0 in the model.
 :::
-
-We can now make the formula even more complex by adding more predictors (see example below).
-
-```{r}
-#| eval: false
-#| echo: true
-# formula treating y as an additive function of x1 and x2
-y ~ x1 + x2
-```
-
-In the example above, we have two additive effects (think of them as main effects) of $x_1$ and $x_2$ on $y$. But what if we wanted to add an interaction as well? In this case, we can combine the two predictors using the **:** operator. If we use this operator, R will compute the interaction term as the product of the two variables and use it as a predictor in the model. Here is what the syntax would look like:
-
-```{r}
-#| eval: false
-#| echo: true
-# formula treating y as a function of x1 and x2
-# as well as their interaction
-y ~ x1 + x2 + x1:x2
-```
-
-In the above example, we have the **full model**, that is, it contains all possible effects that a regression model with two predictors can have. However, it is also possible to feed a reduced model into the *lm* function. For example, we might want to estimate a regression model that entails only the main effect of $x_1$ and the interaction effect, but not the main effect of $x_2$. In this case, the model would look like this:
-
-```{r}
-#| eval: false
-#| echo: true
-# formula treating y as an additive function of x1 
-# and the interaction of x1 and x2
-y ~ x1 + x1:x2
-```
-
-R has a neat way of making regression model formulae more parsimonious, namely using the **\*** operator. If we combine tow or more variables with this operator, R will include all main effects and interactions of these variables. Here are some examples:
-
-```{r}
-#| eval: false
-#| echo: true
-#| code-overflow: wrap
-## formula for a full regression model with two predictors
-# this:
-y ~ x1*x2
-
-# reads as this:
-y ~ x1 + x2 + x1:x2
-
-
-## formlua for a full regression model with three predictors
-# this:
-y ~ x1*x2*x3
-
-# reads as this:
-y ~ x1 + x2 + x3 + x1:x2 + x1:x3 + x2:x3 + x1:x2:x3
-
-
-## formula for a three-predictor models with the 
-## third predictor as a purely additive effect
-# this:
-y ~ x1*x2 + x3
-
-# reads as this:
-y ~ x1 + x2 + x1:x2 + x3
-```
-
-As we can see, the **\*** operator can make our lives a bit easier whenever models involve multiple predictors. A final thing we need to know about formulae is that we can also perform arithmetic operations other than multiplication to create predictors from the variables in our data frame. One example would be polynomial regression, in which we predict $y$ not only from $x$ but also from exponentiated versions of $x$. Another example are difference scores as predictors (note that using difference scores as predictors in regression models is not trivial, so great care is needed when making sense of the results).
-
-It is important to note that all arithmetic operations save multiplication require a special syntax in order for R to understand what we are trying to do. Specifically, we need to call a function named *I* (capital I) within the formula and feed it the mathematical expression we want to use as a predictor in the model as its sole argument. Let's look at an example for a polynomial regression of the 4th order:
-
-```{r}
-#| eval: false
-#| echo: true
-#| code-overflow: wrap
-# formula for a model predicting y from x in 
-# a 4th order polynomial regression
-y ~ x + I(x^2) + I(x^3) + I(x^4)
-```
-
-And here is what the formula would look like in a model where we want to predict $y$ from the difference between two variables $x_1$ and $x_2$:
-
-```{r}
-#| eval: false
-#| echo: true
-#| code-overflow: wrap
-# formula for a model predicting y from the difference 
-# between x1 and x2
-y ~ I(x1 - x2)
-```
 
 ### Back to regressions in R
 
@@ -282,7 +202,7 @@ While we now know the parameter values of the linear regression, this informatio
 summary(model1)
 ```
 
-Here is hat the console output looks like when we call the *summary* function on our regression model:
+Here is what the console output looks like when we call the *summary* function on our regression model:
 
 ::: {.alert .alert-warning}
 ```{r}
@@ -297,3 +217,149 @@ summary(model1)
 As we can see, R now displays substantially more information. In addition to the function call, we can now also see information on the distribution of the residuals (quartiles). For each of the fixed parameters of the model, we can now see the estimate, its standard error, the resulting $t$-value, and the $p$-value of a two-tailed $t$-test of the parameter against zero. Below the parameter estimates, there is some more information on the model, the most important of which are the $R^2$ and adjusted $R^2$ values as well as the results of the $F$-test testing whether $R^2$ is greater than zero.
 
 In our example, love of dogs is not a significant predictor of participant's love for cats. The model as a whole also does not explain a significant proportion of the variance in participants' love for cats indicated by the non-significant $F$-test. This is not surprising because the model only contains one predictor, love for dogs, and this predictor is not significantly related to the criterion. As we can see, the $p$-value for the $t$-test of the single predictor (love for dogs) is exactly equal to the $F$-test of the whole model since love for dogs is the only variable that can possibly explain variability in the love for cats in our data set.
+
+
+## Categorical predcitors in simple linear regression
+
+So far, we have considered the case in which both $X$ and $Y$ are (sort of) continuous or variables. While $Y$ must be a continuous variable in linear regression, the same is not true for the predictor $X$. We can also predict $Y$ from categorical variables with two or more levels. If we do so, we need to slightly change the way in which we interpret the results of the model output.
+
+
+### Dichotomous predictors
+
+In the most simple case, a categorical predictor has two levels (e.g., treatment vs. control). If we want to use a dichotomous predictor in a linear regression, we need to assign values to its two levels. Which values we choose is technically irrelevant, but some are more sensible when it comes to interpreting the model. The two most common ways to code dichotomous predictors are:
+
+- effect coding: the predictors levels are centred around 0 (e.g., -1 vs. 1 or -0.5 vs. 0.5)
+- dummy coding: the predictor is coded as a binary variable (0 vs. 1)
+
+When running a regression using a categorical predictor in R, we need to consider the type of the predictor variable. If we use a character string or a factor as a binary predictor, R will automatically use dummy coding. If the predictor variable is numeric and different from the desired coding scheme, we need to recode it manually.
+
+:::{.alert .alert-info}
+**Caveat**: Unless we define a predictor as a factor with an ordered structure (by defining levels and labels in the desired order), R will order the levels alphabetically, with the first level being treated as the reference category.
+:::
+
+Let's now briefly look at an example of a simple linear regression with a dichotomous predictor. Here is some made up data (stored in *df2*), in which the predictor is either dummy-coded (because the variable is a factor with two levels) or effect coded (-0.5 vs. 0.5):
+
+```{r}
+#| eval: true
+#| echo: false
+suppressMessages(library(dplyr))
+
+set.seed(1234)
+df2 = data.frame(ID = c(seq(1,59,2), seq(2,60,2)), 
+                 cond_dummy = factor(rep(c('control', 'treatment'), each = 30)),
+                 cond_effect = rep(c(-0.5, 0.5), each = 30),
+                 score = round(c(
+                   rnorm(30, 8, 2),
+                   rnorm(30, 10, 2)
+                 ),2))
+
+df2 = df2 %>% arrange(ID)
+
+head(df2)
+```
+
+We will first look at the dummy-coded version of the predictor by using the labelled factor as the predictor (the variable named 'cond_dummy'). Here is what the syntax looks like:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# regression of score on the condition variable
+model2 = lm(formula = score ~ cond_dummy, data = df2)
+```
+
+Running the code above yields the following output:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+model2a = lm(formula = score ~ cond_dummy, data = df2)
+model2b = lm(formula = score ~ cond_effect, data = df2)
+summary(model2a)
+```
+:::
+
+When we use dummy-coding, the intercept of the model represent the mean of the **reference category** (in our example the control group). This means, we can test whether the mean of the reference group differs from zero using the intercept of the model. The treatment effect tells us how much the mean value changes when we move from the control group to the treatment group, that is, it shows us the mean difference between the two groups and tells us whether this mean difference is significant.
+
+:::{.alert .alert-sucess}
+Testing the significance of mean differences between two groups...doesn't that sound familiar? That is what we previously used the independent samples $t$-test for.
+
+In fact, if we ran an independent samples $t$-test on the data and forced it to assume equal variances, it would show the exact same $t$-value, degrees of freedom, and $p$-value as the test of the slope in our regression model.
+
+We would get slightly different results when using the default Welch $t$-test because it adjusts the degrees of freedom downward to correct for unequal variances, thus yielding a somewhat larger $p$-value.
+:::
+
+Let's now see what happens to the output if we use the effect-coded version of the condition variable as a predictor instead of the dummy-coded version.
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+summary(model2b)
+```
+:::
+
+We should notice a few things: first, the regression weight $b_1$ and its associated test statistics ($t$-value, $p$-value) are identical. The same goes for the coefficient of determination $R^2$ and it associated $F$-test. The only thing that differs is the intercept of the model and its associated test statistics. This makes sense, intuitively, because we simply shifted the predictor to the "left" by half a unit (from 0 vs. 1 to -0.5 vs. 05). Other than in the dummy-coded model, the intercept no longer reflects the mean of the reference group but the overall mean. The underlying information, namely the correlation between $X$ and $Y$, is unchanged, however. Accordingly, the strength of the relationship between $X$ and $Y$ as well as its statistical significance cannot differ between the two versions of the regression model.
+
+
+### Predictors with more then two levels
+
+While dichotomous predictors are easy to handle (particularly when we dummy-code them), things can get complicated when categorical predictors have three or more levels. What R does in these cases is create $j-1$ contrasts, where $j$ is the number of categories of the predictor $X$. These contrasts are coded in a specific way. Similar to dummy-coded predictors, the first level s treated as the **reference category**, and each other level is compared to that reference category.
+
+Let's look at an example with a four-level predictor. Here, we predict the daily average sun hours in Northern Ireland from the four seasons (data are made up, of course).
+
+```{r}
+#| eval: true
+#| echo: false
+set.seed(1234)
+df3 = data.frame(
+  
+  obs = c(seq(1,37,4), seq(2,38,4), seq(3,39,4), seq(4,40,4)),
+  season = factor(rep(1:4, each = 10), levels = 1:4,
+                  labels = c('spring', 'summer', 'autumn', 'winter')),
+  sun_hours = round(c(
+    rnorm(10, 1.5, 0.5), rnorm(10, 3, 0.5), rnorm(10, 1, 0.2), rnorm(10, -0.2, 0.2)
+  ),2)
+)
+
+
+df3 = df3 %>% arrange(obs)
+
+head(df3)
+
+```
+
+Here is the syntax for the regression model:
+
+```{r}
+#| eval: true
+#| echo: true
+# regresison model predicting sun hours from seasons
+model3 = lm(formula = sun_hours ~ season, data = df3)
+```
+
+Let's have a look at the console output:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+summary(model3)
+```
+:::
+
+In the data, seasons are coded such that spring is the first level, followed by summer, autumn, and winter. Therefore, the regression model treats spring as the reference category. The intercept tells us that spring in Northern Ireland has an average of 1.3 sun hours per day, which is significantly different from having zero sun. The regression weight for summer indicates that the sun shines for an additional 1.6 hours in summer compared with spring. Likewise, the regression weights for autumn and winter tell us that the daily sun hours are lower in autumn than in spring and also lower in winter than spring. Adding one of the regression weights to the intercept yields the mean hours of sunshine for that season (in the case of winter, we the model predicts a daily average of minus 0.3 sun hours in Northern Ireland, which seems about right).
+
+Importantly, the model does not tell us whether average daily sun hours differ between summer and autumn, summer and winter, or autumn and winter. If we are interested in those differences, we need to run the model using a different reference category (for example by changing the factor levels and labels of the predictor variable accordingly).
+
+:::{.alert .alert-info}
+You may have noticed that despite having only one predictor variable, the model now contains four parameters, the intercept and three regression weights. This is also reflected in the degrees of freedom (we lose one for each parameter).
+
+Technically, this means that we have now entered the realm of multiple linear regression.
+:::
+
+
+
+
+

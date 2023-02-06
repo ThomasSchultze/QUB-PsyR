@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.258">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>QUB-PsyR - Multiple Regression</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/QUBlogoWsmall.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">QUB-PsyR</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-intro" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Intro</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-intro">    
+        <li>
+    <a class="dropdown-item" href="./intro1.html">
+ <span class="dropdown-text">R and RStudio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./intro2.html">
+ <span class="dropdown-text">Running Code in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./intro3.html">
+ <span class="dropdown-text">Objects and Functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./intro4.html">
+ <span class="dropdown-text">Data Frames and Lists</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./intro5.html">
+ <span class="dropdown-text">Saving and Loading Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-with-r-objects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Working with R Objects</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-working-with-r-objects">    
+        <li>
+    <a class="dropdown-item" href="./working1.html">
+ <span class="dropdown-text">Binary Operators</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./working2.html">
+ <span class="dropdown-text">Functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./working3.html">
+ <span class="dropdown-text">Numerical Indexing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./working4.html">
+ <span class="dropdown-text">Logical Indexing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./working5.html">
+ <span class="dropdown-text">R Packages</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-statistical-inference" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Statistical Inference</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-statistical-inference">    
+        <li>
+    <a class="dropdown-item" href="./inference0.html">
+ <span class="dropdown-text">A Primer on Statistical Inference</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference1.html">
+ <span class="dropdown-text">The t-test</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference2.html">
+ <span class="dropdown-text">The Chi²-test</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference3.html">
+ <span class="dropdown-text">Correlations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference4.html">
+ <span class="dropdown-text">One-factorial Analysis of Variance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference5.html">
+ <span class="dropdown-text">Two-factorial Analysis of Variance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference6.html">
+ <span class="dropdown-text">Repeated measures and mixed ANOVAs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference7.html">
+ <span class="dropdown-text">Simple linear regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inference8.html">
+ <span class="dropdown-text">Multiple linear regression</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Multiple Regression</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>So far,w e have considered linear regression models with a single predictor. We will now turn to cses with two or more predcitors. As soon as a regression model has more then one predictor, we speak of <strong>multiple regression</strong>.</p>
+<p>Multiple regression is a straightforward extension of the simple linear regression. Generally speaking the regression model looks like this:</p>
+<p><span class="math display">\[Y = b_0 + b_1X_1+b_2X_2+...+b_kX_k +\epsilon\]</span> Here, <span class="math inline">\(b_0\)</span> is the intercept, <span class="math inline">\(X_1\)</span> to <span class="math inline">\(X_k\)</span> are the predcitors, and <span class="math inline">\(b_1\)</span> to <span class="math inline">\(b_k\)</span> are their respective regression weights. As always, <span class="math inline">\(\epsilon\)</span> is the residual. We can test each parameter of our model for significance via a <span class="math inline">\(t\)</span>-test:</p>
+<p><span class="math display">\[\frac{b_i - \beta_i}{SE_{b_i}} \sim t_{N-k}\]</span></p>
+<p>Just as in simple linear regression, we compute the difference between the observed regresison parameter and its expected value under <span class="math inline">\(H_0\)</span> and divide this difference by the parameters’ standard error <span class="math inline">\(SE_{b_i}\)</span>. The resulting variable follows a <span class="math inline">\(t\)</span>-distrbutiobn with <span class="math inline">\(N-k\)</span> degrees of freedom where <span class="math inline">\(k\)</span> is the number of parameters.</p>
+<p>Just as in simple linear regression, <span class="math inline">\(\hat{Y}\)</span> is the predcition of our model:</p>
+<p><span class="math display">\[\hat{Y} = b_0 + b_1X_1+b_2X_2+...+b_jXj\]</span> Since we can compute <span class="math inline">\(\hat{Y}\)</span>, we can also compute the coefficient of determination <span class="math inline">\(R^2\)</span> and its adjusted version using the exact same formulae. The only conceptual difference is that - since we now have more than one predictor - <span class="math inline">\(R^2\)</span> is no longer the square of a ordinary correlation coefficient. For this reason <span class="math inline">\(R\)</span> (note the capital R) is also referred to as the <strong>multiple correlation coefficient</strong>. Importantly, however, this does not change how we interpret <span class="math inline">\(R^2\)</span>. It is still our measure of the proportion of variance of your criterion <span class="math inline">\(Y\)</span> explained by our regression model as a whole. The statistical test of <span class="math inline">\(R^2\)</span> remains unchanged, as well, that is we test for significance of <span class="math inline">\(R^2\)</span> using an <span class="math inline">\(F\)</span>-distribution with <span class="math inline">\(k-1\)</span> numerator degrees of freedom and <span class="math inline">\(N-k\)</span> denominator degrees of freedom.</p>
+<section id="multiple-regression-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-regression-in-r">Multiple regression in R</h3>
+<p>The function we will use to do multiple regression analysis is the same we used for simple linear regression, namely the function <em>lm</em>. The only difference is that we now specify the formula argument of the <em>lm</em> function such that it contains two or more predictors.</p>
+<p>Before we delve into multiple regression in R, we first need to understand how to define the formula object if we have several predictors. Let’s first look at cases, in which we want to predict <span class="math inline">\(Y\)</span> from two predictors <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># formula treating y as an additive function of x1 and x2</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1 <span class="sc">+</span> x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the example above, we have two additive effects (think of them as main effects) of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> on <span class="math inline">\(Y\)</span>. But what if we wanted to add an interaction as well? In this case, we can combine the two predictors using the <strong>:</strong> operator. If we use this operator, R will compute the interaction term as the product of the two variables and use it as a predictor in the model. Here is what the syntax would look like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># formula treating y as a function of x1 and x2</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># as well as their interaction</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x1<span class="sc">:</span>x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the above example, we have the <strong>full model</strong>, that is, it contains all possible effects that a regression model with two predictors can have. However, it is also possible to feed a reduced model into the <em>lm</em> function. For example, we might want to estimate a regression model that entails only the main effect of <span class="math inline">\(X_1\)</span> and the interaction effect, but not the main effect of <span class="math inline">\(X_2\)</span>. In this case, the model would look like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># formula treating y as an additive function of x1 </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and the interaction of x1 and x2</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1 <span class="sc">+</span> x1<span class="sc">:</span>x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>R has a neat way of making regression model formulae more parsimonious, namely using the <strong>*</strong> operator. If we combine tow or more variables with this operator, R will include all main effects and interactions of these variables. Here are some examples:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## formula for a full regression model with two predictors</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this:</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1<span class="sc">*</span>x2</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># reads as this:</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x1<span class="sc">:</span>x2</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="do">## formula for a full regression model with three predictors</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># this:</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1<span class="sc">*</span>x2<span class="sc">*</span>x3</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># reads as this:</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3 <span class="sc">+</span> x1<span class="sc">:</span>x2 <span class="sc">+</span> x1<span class="sc">:</span>x3 <span class="sc">+</span> x2<span class="sc">:</span>x3 <span class="sc">+</span> x1<span class="sc">:</span>x2<span class="sc">:</span>x3</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="do">## formula for a three-predictor models with the </span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="do">## third predictor as a purely additive effect</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># this:</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1<span class="sc">*</span>x2 <span class="sc">+</span> x3</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co"># reads as this:</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x1<span class="sc">:</span>x2 <span class="sc">+</span> x3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As we can see, the <strong>*</strong> operator can make our lives a bit easier whenever models involve multiple predictors.</p>
+</section>
+<section id="multiple-regression-in-r-1" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-regression-in-r-1">Multiple Regression in R</h3>
+<p>Let’s now look at the syntax for a multiple regression model. We will use some made-up data to run a regression model with two predictors <span class="math inline">\(X_1\)</span>and <span class="math inline">\(X_2\)</span>. Here is what the data look like:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID     Y    X1    X2
+1  1  1.29  0.36  0.92
+2  2  0.12 -0.10 -0.73
+3  3 -0.84 -0.83 -0.74
+4  4  2.37  1.66  0.99
+5  5 -0.21  0.17 -0.94
+6  6 -0.05 -0.70 -0.48</code></pre>
+</div>
+</div>
+<p>We now have to make a choice: we can either predict <span class="math inline">\(Y\)</span> from <span class="math inline">\(X-1\)</span> and <span class="math inline">\(X_2\)</span> in a purely additive model, or we can include the interaction term <span class="math inline">\(X_1 \times X_2\)</span> as a third predictor in the model. Let’s first run the simpler model that omits the interaction effect. Here is the syntax:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predict Y from X1 and X2 in a multiple regression</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">=</span> <span class="fu">lm</span>(<span class="at">formula =</span> Y <span class="sc">~</span> X1 <span class="sc">+</span> X2, <span class="at">data =</span> df1)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># display the results</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once we run that code, R will produce the following console output:</p>
+<div class="alert alert-warning">
+<div class="cell" data-evho="false">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predict Y from X1 and X2 in a multiple regression</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">=</span> <span class="fu">lm</span>(<span class="at">formula =</span> Y <span class="sc">~</span> X1 <span class="sc">+</span> X2, <span class="at">data =</span> df1)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># display the results</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Y ~ X1 + X2, data = df1)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.09061 -0.55322  0.06585  0.48445  1.83926 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.17266    0.07949   2.172 0.032285 *  
+X1           0.30212    0.07707   3.920 0.000165 ***
+X2           0.41297    0.07834   5.271  8.2e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.7923 on 97 degrees of freedom
+Multiple R-squared:  0.3289,    Adjusted R-squared:  0.3151 
+F-statistic: 23.77 on 2 and 97 DF,  p-value: 3.975e-09</code></pre>
+</div>
+</div>
+</div>
+<p>As we can see, the section of the output names “coefficients” contains information on the intercept and the regression weights for the two predictors. In this example both of them are significantly related to the criterion <span class="math inline">\(Y\)</span>. Note that since we have three parameters in the model and the total sample size <span class="math inline">\(N\)</span> is 100, the <span class="math inline">\(t\)</span>-tests for each parameter have 97 degrees of freedom, and the <span class="math inline">\(F\)</span>-test of <span class="math inline">\(R^2\)</span> against zero has 2 numerator and 97 denominator degrees of freedom.</p>
+<p>How do we interpret the regression model? The answer is: pretty much like a simple linear regression. The intercept <span class="math inline">\(b_0\)</span> indicates the level of <span class="math inline">\(\hat{Y}\)</span> (that is, the predictor level of <span class="math inline">\(Y\)</span>) when both <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are fixed at zero. Since we did not model and interaction of the two predictors, the regression weights <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_2\)</span> are straightforward to interpret: <span class="math inline">\(b_1\)</span> tells us much <span class="math inline">\(\hat{Y}\)</span> increases when we increase <span class="math inline">\(X_1\)</span> by one unit, irrespective of the current level of <span class="math inline">\(X_2\)</span>; <span class="math inline">\(b_2\)</span> tells us the same for increases in <span class="math inline">\(X_2\)</span>.</p>
+<p>Let’s now look at the full model that includes the interaction of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> as a third predictor. As explained above, there are two ways to define the formula object:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predict Y from X1, X2, and their interaction</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Version A:</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">=</span> <span class="fu">lm</span>(<span class="at">formula =</span> Y <span class="sc">~</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X1<span class="sc">:</span>X2, <span class="at">data =</span> df1)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Version B:</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">=</span> <span class="fu">lm</span>(<span class="at">formula =</span> Y <span class="sc">~</span> X1<span class="sc">*</span>X2, <span class="at">data =</span> df1)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># display the results</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running the code above yields the following output in the console:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Y ~ X1 * X2, data = df1)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.11870 -0.54380  0.03453  0.47744  2.05139 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.18874    0.07795   2.421   0.0173 *  
+X1           0.31211    0.07541   4.139 7.50e-05 ***
+X2           0.39870    0.07677   5.193 1.16e-06 ***
+X1:X2       -0.14833    0.06252  -2.373   0.0197 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.774 on 96 degrees of freedom
+Multiple R-squared:  0.3661,    Adjusted R-squared:  0.3463 
+F-statistic: 18.48 on 3 and 96 DF,  p-value: 1.527e-09</code></pre>
+</div>
+</div>
+</div>
+<p>The output now shows four parameters in the “coefficients” section. Adding a third predictor cost us one degree of freedom for both the individual <span class="math inline">\(t\)</span>-tests of the model parameters and and <span class="math inline">\(F\)</span>-test of <span class="math inline">\(R^2\)</span> when compared with the previous model.</p>
+<p>The interpretation of the model parameters is the same as before for the main effects of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span>. Since the interaction term is simply another predictor from the vantage point of the model, it indicates how much <span class="math inline">\(\hat{Y}\)</span> increases if we increase the product of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> by one unit. While this statement is mathematically true, it is often difficult to grasp what these products represent conceptually (e.g., what is the product of one’s experienced stress and available resources?). The important thing to keep in mind about interaction terms in multiple regression is the following: if this interaction is statistically significant, we <del>know</del> decide to believe that the magnitude of the relation of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(Y\)</span> depends on the level of <span class="math inline">\(X_2\)</span> (and that the strength of the relation of <span class="math inline">\(X_2\)</span> and <span class="math inline">\(Y\)</span> depends on the level of <span class="math inline">\(X_1\)</span>).</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

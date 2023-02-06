@@ -47,8 +47,10 @@ website:
           href: inference5.html
         - text: "Repeated measures and mixed ANOVAs"
           href: inference6.html
-        - text: "Linear regression"
+        - text: "Simple linear regression"
           href: inference7.html
+        - text: "Multiple linear regression"
+          href: inference8.html
         
       - text: "About"
         href: about.html
