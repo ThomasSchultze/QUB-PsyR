@@ -2,16 +2,16 @@
 title: "Correlations"
 ---
 
-If we want to test whether there is a linear relation between two continuous variables $x$ and $y$, we can compute the correlation coefficient $r$ as a measure of the strength of that relation. The correlation coefficient is defined as follows:
+If we want to test whether there is a linear relation between two continuous variables $X$ and $X$, we can compute the correlation coefficient $r$ as a measure of the strength of that relation. The correlation coefficient is defined as follows:
 
-$r_{x,y} = \frac{cov(x,y)}{\sigma_x\sigma_y} = \frac{(x_i-\bar{x})(y_i-\bar{y})}{\sigma_x\sigma_y}$
+$r_{x,y} = \frac{cov(x,y)}{\sigma_x\sigma_y} = \frac{\frac{1}{N}\sum_{i=1}^{N}(x_i-\bar{x})(y_i-\bar{y})}{\sigma_x\sigma_y}$
 
-As we can see, the correlation coefficient is the standardised covariance of $x$ and $y$. The standardisation (dividing the covariance by the product of the standard deviations of $x$ and $y$) ensures that - unlike the covariance - the correlation coefficient is limited to the range from -1 to 1. Here, -1 indicates a perfect negative linear relationship, 1 indicates a perfect positive linear relationship, and 0 means that there is no linear relationship between $x$ and $y$.
+As we can see, the correlation coefficient is the standardised covariance of $X$ and $Y$. The standardisation (dividing the covariance by the product of the standard deviations of $X$ and $Y$) ensures that - unlike the covariance - the correlation coefficient is limited to the range from -1 to 1. Here, -1 indicates a perfect negative linear relationship, 1 indicates a perfect positive linear relationship, and 0 means that there is no linear relationship between $X$ and $Y$.
 
 :::{.alert .alert-info}
 A common misconception is that a correlation of zero means that two variables are **unrelated**. This is not the case. The two variables could be strongly related, but if the relation is non-linear, a correlation coefficient may be unable to capture this relation.
 
-Many non-linear relations can be approximated - with some loss of precision - via a linear relation. That is, the resulting correlation coefficient is non-zero. However, a non-zero correlation coefficient is not evidence for the true relation of $x$ and $y$ being linear.
+Many non-linear relations can be approximated - with some loss of precision - via a linear relation. That is, the resulting correlation coefficient is non-zero. However, a non-zero correlation coefficient is not evidence for the true relation of $X$ and $Y$ being linear.
 :::
 
 
@@ -19,7 +19,7 @@ Many non-linear relations can be approximated - with some loss of precision - vi
 
 We can compute the correlation coefficient $\rho$ in R using the function *cor*. We can use the *cor* function in two ways:
 
-The first way is to feed the function two numerical vectors of the same length as two separate function arguments, *x* and *y*. R will then compute the correlation between *x* and *y*. Here is what the syntax looks like:
+The first way is to feed the function two numerical vectors of the same length as two separate function arguments, $X$ and $Y$. R will then compute the correlation between $X$ and $Y$. Here is what the syntax looks like:
 
 ```{r}
 #| echo: true
@@ -52,9 +52,9 @@ cor(v1, v2)
 ```
 :::
 
-In our example, the correlation is zero despite *y* being a function of *x* ($y = x^2$). The reason is that the relationship of *x* and *y* is non-linear.
+In our example, the correlation is zero despite $Y$ being a function of $X$ ($y = x^2$). The reason is that the relationship of $X$ and $Y$ is non-linear.
 
-The second way, in which we can use the *cor* function is to feed it a numeric matrix (or data frame that contains only numeric variables) as the sole function argument *x*. If we do that, R will correlate each column of the matrix (or data frame) with all other columns - including itself - and create a correlation matrix. Here is an example.
+The second way, in which we can use the *cor* function is to feed it a numeric matrix (or data frame that contains only numeric variables) as the sole function argument $X$. If we do that, R will correlate each column of the matrix (or data frame) with all other columns - including itself - and create a correlation matrix. Here is an example.
 
 ```{r}
 #| eval: false
@@ -122,7 +122,7 @@ If we use "pairwise.complete.obs" instead, R will only exclude cases with an *NA
 
 So far, we have only computed correlation coefficients. However, most of the time, we will also want to know whether the correlations in our data are so strong that we can reject the Null hypothesis that there is no linear relationship between the variables.
 
-We can test for statistical significance using the function *cor.test*. This function takes two numeric vectors of the same length as function arguments *x* and *y*. It also automatically removes cases with *NA*s.
+We can test for statistical significance using the function *cor.test*. This function takes two numeric vectors of the same length as function arguments $X$ and $Y$. It also automatically removes cases with *NA*s.
 
 Just as with the *cor* function, we can specify the type of correlation coefficient we want to test for significance using the function argument *method*. As with the *cor* function, the default is "pearson", but we can change it to "kendall" or "spearman" if we want.
 

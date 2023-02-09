@@ -284,9 +284,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Just as in simple linear regression, we compute the difference between the observed regresison parameter and its expected value under <span class="math inline">\(H_0\)</span> and divide this difference by the parameters’ standard error <span class="math inline">\(SE_{b_i}\)</span>. The resulting variable follows a <span class="math inline">\(t\)</span>-distrbutiobn with <span class="math inline">\(N-k\)</span> degrees of freedom where <span class="math inline">\(k\)</span> is the number of parameters.</p>
 <p>Just as in simple linear regression, <span class="math inline">\(\hat{Y}\)</span> is the predcition of our model:</p>
 <p><span class="math display">\[\hat{Y} = b_0 + b_1X_1+b_2X_2+...+b_jXj\]</span> Since we can compute <span class="math inline">\(\hat{Y}\)</span>, we can also compute the coefficient of determination <span class="math inline">\(R^2\)</span> and its adjusted version using the exact same formulae. The only conceptual difference is that - since we now have more than one predictor - <span class="math inline">\(R^2\)</span> is no longer the square of a ordinary correlation coefficient. For this reason <span class="math inline">\(R\)</span> (note the capital R) is also referred to as the <strong>multiple correlation coefficient</strong>. Importantly, however, this does not change how we interpret <span class="math inline">\(R^2\)</span>. It is still our measure of the proportion of variance of your criterion <span class="math inline">\(Y\)</span> explained by our regression model as a whole. The statistical test of <span class="math inline">\(R^2\)</span> remains unchanged, as well, that is we test for significance of <span class="math inline">\(R^2\)</span> using an <span class="math inline">\(F\)</span>-distribution with <span class="math inline">\(k-1\)</span> numerator degrees of freedom and <span class="math inline">\(N-k\)</span> denominator degrees of freedom.</p>
-<section id="multiple-regression-in-r" class="level3">
-<h3 class="anchored" data-anchor-id="multiple-regression-in-r">Multiple regression in R</h3>
 <p>The function we will use to do multiple regression analysis is the same we used for simple linear regression, namely the function <em>lm</em>. The only difference is that we now specify the formula argument of the <em>lm</em> function such that it contains two or more predictors.</p>
+<section id="excurse-formula-objects-with-multiple-predictors" class="level3">
+<h3 class="anchored" data-anchor-id="excurse-formula-objects-with-multiple-predictors">Excurse: formula objects with multiple predictors</h3>
 <p>Before we delve into multiple regression in R, we first need to understand how to define the formula object if we have several predictors. Let’s first look at cases, in which we want to predict <span class="math inline">\(Y\)</span> from two predictors <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># formula treating y as an additive function of x1 and x2</span></span>
@@ -332,8 +332,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>As we can see, the <strong>*</strong> operator can make our lives a bit easier whenever models involve multiple predictors.</p>
 </section>
-<section id="multiple-regression-in-r-1" class="level3">
-<h3 class="anchored" data-anchor-id="multiple-regression-in-r-1">Multiple Regression in R</h3>
+<section id="multiple-regression-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-regression-in-r">Multiple Regression in R</h3>
 <p>Let’s now look at the syntax for a multiple regression model. We will use some made-up data to run a regression model with two predictors <span class="math inline">\(X_1\)</span>and <span class="math inline">\(X_2\)</span>. Here is what the data look like:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -428,6 +428,96 @@ F-statistic: 18.48 on 3 and 96 DF,  p-value: 1.527e-09</code></pre>
 </div>
 <p>The output now shows four parameters in the “coefficients” section. Adding a third predictor cost us one degree of freedom for both the individual <span class="math inline">\(t\)</span>-tests of the model parameters and and <span class="math inline">\(F\)</span>-test of <span class="math inline">\(R^2\)</span> when compared with the previous model.</p>
 <p>The interpretation of the model parameters is the same as before for the main effects of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span>. Since the interaction term is simply another predictor from the vantage point of the model, it indicates how much <span class="math inline">\(\hat{Y}\)</span> increases if we increase the product of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> by one unit. While this statement is mathematically true, it is often difficult to grasp what these products represent conceptually (e.g., what is the product of one’s experienced stress and available resources?). The important thing to keep in mind about interaction terms in multiple regression is the following: if this interaction is statistically significant, we <del>know</del> decide to believe that the magnitude of the relation of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(Y\)</span> depends on the level of <span class="math inline">\(X_2\)</span> (and that the strength of the relation of <span class="math inline">\(X_2\)</span> and <span class="math inline">\(Y\)</span> depends on the level of <span class="math inline">\(X_1\)</span>).</p>
+</section>
+<section id="hierarchical-regression" class="level3">
+<h3 class="anchored" data-anchor-id="hierarchical-regression">Hierarchical regression</h3>
+<p>As soon as we have more than one predictor variable, we can think about comparing <strong>nested</strong> regression models. We speak of nested models if one model is an extension of another. To be precise, a regression model <span class="math inline">\(A\)</span> is nested in another model <span class="math inline">\(B\)</span>, when model <span class="math inline">\(A\)</span> contains only some of the predictors of model <span class="math inline">\(B\)</span> without adding new ones. In hierarchical linear regression, we compare nested models such that we start with a simple model and add predictors in each step.</p>
+<p>As long as the earlier models in a hierarchical regression are nested in the later models, we can test whether adding a predictor (or a set of predictors) improves the overall fit of the model. We already know how to measure the overall predictive power of a regression model, namely via the variance explained by a regression model. The respective measure is the coefficient of determination <span class="math inline">\(R^2\)</span>. Since we expand models in a hierarchical regression analysis, the proportion of the variance of <span class="math inline">\(Y\)</span> explained by the second model is always equal to or greater than that explained by the first model. The question is whether the increase in <span class="math inline">\(R^2\)</span> is large enough to justify the addition of predictors.</p>
+<p>How can we test whether an increase in <span class="math inline">\(R^2\)</span> between two nested models is statistically significant? We first need to remember that sums of squares follow <span class="math inline">\(\chi^2\)</span>-distributions. Next, we need to remember that the difference between two <span class="math inline">\(\chi^2\)</span>-distributed variables is itself <span class="math inline">\(\chi^2\)</span>-distributed. The degrees of freedom of the difference variables equals the difference of the degrees of freedoms of the two <span class="math inline">\(\chi^2\)</span>-distributed variables it was computed from. If we, for example computed the difference between a <span class="math inline">\(\chi^2\)</span>-distributed variable <span class="math inline">\(A\)</span> with 10 degrees of freedom and another <span class="math inline">\(\chi^2\)</span>-distributed variable <span class="math inline">\(B\)</span> with 8 degrees of freedom, the resulting variable <span class="math inline">\(A-B\)</span> would follow a <span class="math inline">\(\chi^2\)</span>-distribution with 2 degrees of freedom.</p>
+<p>To test whether the difference between the <span class="math inline">\(R^2\)</span> of two nested models is different, we now need to remember that <span class="math inline">\(R^2\)</span> is computed from <strong>sums of squares</strong>, which are <span class="math inline">\(\chi^2\)</span>-distributed.</p>
+<p><span class="math display">\[R^2 = \frac{S_{\hat{Y}}}{S_{Y}} = \frac{SS_{regression}}{SS_{total}} = 1-\frac{SS_{residual}}{SS_{total}}\]</span></p>
+<p>If we compare two nested models, the denominator will be the same because it represents the variance of the observed criterion <span class="math inline">\(Y\)</span>. What will differ is the variance of the model prediction <span class="math inline">\(S_{\hat{Y}}\)</span>. Therefore, the models will also differ regarding their <span class="math inline">\(SS_{regression}\)</span> and <span class="math inline">\(SS_{residual}\)</span>. In order to compare the two models’ respective fit, we first need to compute the difference between their respective <span class="math inline">\(SS_{regression}\)</span> or their <span class="math inline">\(SS_{residual}\)</span> to obtain a <span class="math inline">\(\chi^2\)</span>-distributed variable (since <span class="math inline">\(SS_{residual} = SS_{total} - SS_{regression}\)</span>, the difference will be the same). We will alls this variable <span class="math inline">\(SS_\Delta\)</span>. Since the <span class="math inline">\(SS_{regression}\)</span> have <span class="math inline">\(N-k\)</span> parameters, we can easily compute the degrees of freedom of <span class="math inline">\(SS_\Delta\)</span>:</p>
+<p><span class="math display">\[df_{SS_\Delta} = N-k_{model1} - (N-k_{model2})= N-k_{model1}-N+k_{model2}=k_{model2}-k_{model1}\]</span></p>
+<p>now that we have the difference of the sums of squares <span class="math inline">\(SS_\Delta\)</span> and its degrees of freedom, the last step is to compute an <span class="math inline">\(F\)</span>-statistic to test whether it represent a statistically significant increase in explained variance. This statistic looks as follows:</p>
+<p><span class="math display">\[\frac{ \frac{SS_\Delta}{df_{SS_\Delta}} }{\frac{SS_{residual_{model2}}}{df_{residual_{model2}}}} \sim F_{df_{SS_\Delta}; df_{residual_{model2}}}\]</span></p>
+<p>now that we know ho to test for a significant <span class="math inline">\(\Delta R^2\)</span> on a conceptual level, the question is how to run this test in R. We can do so easily using the function <em>anova</em>. The <em>anova</em> function is similar to the <em>summary</em> function in that it can be used on a range of different models an will perform different operations and produce different outputs based on the objects exact nature. If we call the <em>anova</em> function and feed it two or more nested regression models, it run a significance test of <span class="math inline">\(\Delta R2\)</span> between the first and second model, between the second and third model, and so on.</p>
+<p>Let’s now have look at the syntax. We will use the two regression models we looked at above because they are nested (<em>mod1</em> is nested within <em>mod2</em> because it lacks the interaction effect). It is important to enter the models in ascending order of complexity (simplest model first). The code will run even if we enter more complex model first, but we may add up with negative values for the test statistic, which makes no sense mathematically.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test for a significant increase in variance explained</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># between the less complex mod1 and the more complex mod2</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod1, mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is the console output:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: Y ~ X1 + X2
+Model 2: Y ~ X1 * X2
+  Res.Df    RSS Df Sum of Sq      F  Pr(&gt;F)  
+1     97 60.889                              
+2     96 57.517  1    3.3724 5.6288 0.01966 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+<p>The output first displays the formulae of the two models we compared. More important is the table following it. As we can see, the <em>anova</em> function computes <span class="math inline">\(SS_{\Delta}\)</span> as the difference between the two models’ <span class="math inline">\(SS_{residual}\)</span>. It also shows the models’ respective degrees of freedom as well as the degrees of freedom for the model difference <span class="math inline">\(SS_{\Delta}\)</span>. Since we only added one parameter in model 2 (the regression weight for the interaction term), this difference has one degree of freedom. Finally, the function computes the <span class="math inline">\(F\)</span>-statistic for the significance test and reports the associated <span class="math inline">\(p\)</span>-value. in our case, the test is significant, meaning that the second model explains a significantly greater proportion of the variance of <span class="math inline">\(Y\)</span>.</p>
+<div class="alert alert-info">
+<p>If you look at the <span class="math inline">\(p\)</span>-value for <span class="math inline">\(\Delta R^2\)</span>, you will notice that it is identical to the <span class="math inline">\(p\)</span>-value of the significance test of the regression weight for the interaction term in the summary of <em>mod2</em>. Since we only added one variable, and this variable is a significant predictor of <span class="math inline">\(Y\)</span>, it follows that the model must explain a significantly larger proportion of the variance of <span class="math inline">\(Y\)</span>.</p>
+<p>In other words, if we add a single predictor in a hierarchical regression analysis, we can test its significance using either the <span class="math inline">\(t\)</span>-test on its regression weight or the <span class="math inline">\(F\)</span>-test on <span class="math inline">\(\Delta R^2\)</span>. The result will be the same.</p>
+</div>
+</section>
+<section id="multiple-regression-with-categorical-predictors" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-regression-with-categorical-predictors">Multiple regression with categorical predictors</h3>
+<p>Just as in a simple linear regression, our predictors can be categorical instead of continuous. Here, we will focus on the case with one continuous predictor <span class="math inline">\(X_1\)</span> and one categorical predictor <span class="math inline">\(X_2\)</span>. Let’s first assume that <span class="math inline">\(X_2\)</span> is dichotomous and that we use it as a dummy-coded predictor (coded 0 vs.&nbsp;1). Here is some made-up data.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID     Y    X1 X2
+1  1  3.19  7.59  0
+2  2 14.97 10.55  1
+3  3  3.89 12.17  0
+4  4  9.30  5.31  1
+5  5  4.84 10.86  0
+6  6 16.57 11.01  1</code></pre>
+</div>
+</div>
+<p>First, we will run a regression model containing only the two main effects. The syntax is the same as for continuous predictors:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the regression analysis</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>mod3a <span class="ot">=</span> <span class="fu">lm</span>(<span class="at">formula =</span> Y <span class="sc">~</span> X1 <span class="sc">+</span> X2, <span class="at">data =</span> df2)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># show the results</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod3a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is the console output:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Y ~ X1 + X2, data = df2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.0924 -1.0868 -0.2693  1.3977  3.2981 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   0.7094     1.1741   0.604 0.548623    
+X1            0.4705     0.1220   3.858 0.000347 ***
+X2            9.1844     0.4274  21.491  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.5 on 47 degrees of freedom
+Multiple R-squared:  0.9079,    Adjusted R-squared:  0.904 
+F-statistic: 231.7 on 2 and 47 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</div>
+<p>As we can see, both predictors are significant. Time to interpret the model parameters! The intercept tells us the estimated value <span class="math inline">\(\hat{Y}\)</span> for observations in the reference category (<span class="math inline">\(X_2 = 0\)</span>) when <span class="math inline">\(X_1\)</span> is zero. The regression weight of <span class="math inline">\(X_1\)</span> indicates that for each increase in <span class="math inline">\(X_1\)</span> our estimate <span class="math inline">\(\hat{Y}\)</span> increases by roughly 0.47 units, while the respective coefficient for <span class="math inline">\(X_2\)</span> states that moving from the reference category to the other category (<span class="math inline">\(X_2 = 1\)</span>) is associated with an increase in <span class="math inline">\(\hat{Y}\)</span> of roughly 9.18 points. So far, so good.</p>
 
 
 </section>

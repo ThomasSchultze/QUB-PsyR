@@ -315,7 +315,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display">\[R^2 = \frac{\sum_{i=1}^{N}(\hat{y}_i - \bar{\hat{y}}_i)^2}{\sum_{i=1}^{N}(y_i - \bar{y}_i)^2} = \frac{SS_{regression}}{SS_{total}}\]</span></p>
 <p>Now that we know that we are dealing with sums of squares again, we can easily compute the residual sum of squares (or error sum of squares):</p>
 <p><span class="math display">\[SS_{residual} = SS_{total} - SS_{regression}\]</span></p>
-<p>:::{.alert .alert-success} If at this point you are wondering why we are back to sums of squares even though we are not dealing with ANOVAs anymore: regression and ANOVA are the same.</p>
+<p>:::{.alert .alert-success} If at this point you are wondering why we are back to sums of squares even though we are not dealing with ANOVAs anymore: regression and ANOVA are the same. :::</p>
 <p>Or, to be precise: they are both special cases of the general linear model. We use ANOVAs when our predictors are categorical variables, but we could easily set up the same model as a regression model. The output of the respective analysis and the specific parameter tests we run may differ, but the underlying information is the same. :::</p>
 <p>Back to <span class="math inline">\(R^2\)</span>: we can test for significance of <span class="math inline">\(R^2\)</span> using an <span class="math inline">\(F\)</span>-test based o the mean squares not unlike the ones we used in ANOVAs. It can be shown that:</p>
 <p><span class="math display">\[\frac{MS_{regression}}{MS_{error}} =  \frac{\frac{SS_{regression}}{k-1}}{\frac{SS_{error}}{N-k}} \sim F_{k-1; N-k}\]</span></p>

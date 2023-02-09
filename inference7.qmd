@@ -74,6 +74,7 @@ Now that we know that we are dealing with sums of squares again, we can easily c
 $$SS_{residual} = SS_{total} - SS_{regression}$$
 
 :::{.alert .alert-success} If at this point you are wondering why we are back to sums of squares even though we are not dealing with ANOVAs anymore: regression and ANOVA are the same.
+:::
 
 Or, to be precise: they are both special cases of the general linear model. We use ANOVAs when our predictors are categorical variables, but we could easily set up the same model as a regression model. The output of the respective analysis and the specific parameter tests we run may differ, but the underlying information is the same. :::
 
@@ -218,22 +219,20 @@ As we can see, R now displays substantially more information. In addition to the
 
 In our example, love of dogs is not a significant predictor of participant's love for cats. The model as a whole also does not explain a significant proportion of the variance in participants' love for cats indicated by the non-significant $F$-test. This is not surprising because the model only contains one predictor, love for dogs, and this predictor is not significantly related to the criterion. As we can see, the $p$-value for the $t$-test of the single predictor (love for dogs) is exactly equal to the $F$-test of the whole model since love for dogs is the only variable that can possibly explain variability in the love for cats in our data set.
 
-
 ## Categorical predcitors in simple linear regression
 
 So far, we have considered the case in which both $X$ and $Y$ are (sort of) continuous or variables. While $Y$ must be a continuous variable in linear regression, the same is not true for the predictor $X$. We can also predict $Y$ from categorical variables with two or more levels. If we do so, we need to slightly change the way in which we interpret the results of the model output.
-
 
 ### Dichotomous predictors
 
 In the most simple case, a categorical predictor has two levels (e.g., treatment vs. control). If we want to use a dichotomous predictor in a linear regression, we need to assign values to its two levels. Which values we choose is technically irrelevant, but some are more sensible when it comes to interpreting the model. The two most common ways to code dichotomous predictors are:
 
-- effect coding: the predictors levels are centred around 0 (e.g., -1 vs. 1 or -0.5 vs. 0.5)
-- dummy coding: the predictor is coded as a binary variable (0 vs. 1)
+-   effect coding: the predictors levels are centred around 0 (e.g., -1 vs. 1 or -0.5 vs. 0.5)
+-   dummy coding: the predictor is coded as a binary variable (0 vs. 1)
 
 When running a regression using a categorical predictor in R, we need to consider the type of the predictor variable. If we use a character string or a factor as a binary predictor, R will automatically use dummy coding. If the predictor variable is numeric and different from the desired coding scheme, we need to recode it manually.
 
-:::{.alert .alert-info}
+::: {.alert .alert-info}
 **Caveat**: Unless we define a predictor as a factor with an ordered structure (by defining levels and labels in the desired order), R will order the levels alphabetically, with the first level being treated as the reference category.
 :::
 
@@ -270,7 +269,7 @@ model2 = lm(formula = score ~ cond_dummy, data = df2)
 
 Running the code above yields the following output:
 
-:::{.alert .alert-warning}
+::: {.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -282,7 +281,7 @@ summary(model2a)
 
 When we use dummy-coding, the intercept of the model represent the mean of the **reference category** (in our example the control group). This means, we can test whether the mean of the reference group differs from zero using the intercept of the model. The treatment effect tells us how much the mean value changes when we move from the control group to the treatment group, that is, it shows us the mean difference between the two groups and tells us whether this mean difference is significant.
 
-:::{.alert .alert-sucess}
+::: {.alert .alert-sucess}
 Testing the significance of mean differences between two groups...doesn't that sound familiar? That is what we previously used the independent samples $t$-test for.
 
 In fact, if we ran an independent samples $t$-test on the data and forced it to assume equal variances, it would show the exact same $t$-value, degrees of freedom, and $p$-value as the test of the slope in our regression model.
@@ -292,7 +291,7 @@ We would get slightly different results when using the default Welch $t$-test be
 
 Let's now see what happens to the output if we use the effect-coded version of the condition variable as a predictor instead of the dummy-coded version.
 
-:::{.alert .alert-warning}
+::: {.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -301,7 +300,6 @@ summary(model2b)
 :::
 
 We should notice a few things: first, the regression weight $b_1$ and its associated test statistics ($t$-value, $p$-value) are identical. The same goes for the coefficient of determination $R^2$ and it associated $F$-test. The only thing that differs is the intercept of the model and its associated test statistics. This makes sense, intuitively, because we simply shifted the predictor to the "left" by half a unit (from 0 vs. 1 to -0.5 vs. 05). Other than in the dummy-coded model, the intercept no longer reflects the mean of the reference group but the overall mean. The underlying information, namely the correlation between $X$ and $Y$, is unchanged, however. Accordingly, the strength of the relationship between $X$ and $Y$ as well as its statistical significance cannot differ between the two versions of the regression model.
-
 
 ### Predictors with more then two levels
 
@@ -341,7 +339,7 @@ model3 = lm(formula = sun_hours ~ season, data = df3)
 
 Let's have a look at the console output:
 
-:::{.alert .alert-warning}
+::: {.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -353,13 +351,8 @@ In the data, seasons are coded such that spring is the first level, followed by 
 
 Importantly, the model does not tell us whether average daily sun hours differ between summer and autumn, summer and winter, or autumn and winter. If we are interested in those differences, we need to run the model using a different reference category (for example by changing the factor levels and labels of the predictor variable accordingly).
 
-:::{.alert .alert-info}
+::: {.alert .alert-info}
 You may have noticed that despite having only one predictor variable, the model now contains four parameters, the intercept and three regression weights. This is also reflected in the degrees of freedom (we lose one for each parameter).
 
 Technically, this means that we have now entered the realm of multiple linear regression.
 :::
-
-
-
-
-
