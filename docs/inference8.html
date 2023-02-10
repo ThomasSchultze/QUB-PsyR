@@ -582,7 +582,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>on a final note, a convenient aspect about multiple linear regression with one continuous and one categorical predictor is that we can visualise the data quite effectively. Specifically, we can draw one regression line for each level of the categorical predictor. If, for example, we look at the model summary above, we can derive the regression line for the first category by simply looking at the intercept <span class="math inline">\(b_0\)</span> and the regression weight for the continuous predictor <span class="math inline">\(b_1\)</span>. For the second category, we now that the intercept is <span class="math inline">\(b_0 + b_2\)</span> (the intercept for the reference category plus its increase if we switch to the second category), and the slope is <span class="math inline">\(b_1 + b_3\)</span> (the slope for the reference category plus its adjustment when we switch to the second category). Here is whjat it looks like for our model <em>mod3b</em>.</p>
 <div class="cell">
 <div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="inference8_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
