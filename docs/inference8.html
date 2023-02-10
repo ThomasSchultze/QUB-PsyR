@@ -346,7 +346,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 6  6 -0.05 -0.70 -0.48</code></pre>
 </div>
 </div>
-<p>We now have to make a choice: we can either predict <span class="math inline">\(Y\)</span> from <span class="math inline">\(X-1\)</span> and <span class="math inline">\(X_2\)</span> in a purely additive model, or we can include the interaction term <span class="math inline">\(X_1 \times X_2\)</span> as a third predictor in the model. Let’s first run the simpler model that omits the interaction effect. Here is the syntax:</p>
+<p>We now have to make a choice: we can either predict <span class="math inline">\(Y\)</span> from <span class="math inline">\(X-1\)</span> and <span class="math inline">\(X_2\)</span> in a purely additive model, or we can include the interaction term <span class="math inline">\(X_1 \times X_2\)</span> as a third predictor in the model. Let’s first run the simpler model that omits the interaction effect. The formla looks like this:</p>
+<p><span class="math display">\[Y = b_0 + b_1X_1 + b_2X_2+\epsilon\]</span> Here is the syntax for this model:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predict Y from X1 and X2 in a multiple regression</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">=</span> <span class="fu">lm</span>(<span class="at">formula =</span> Y <span class="sc">~</span> X1 <span class="sc">+</span> X2, <span class="at">data =</span> df1)</span>
@@ -385,9 +386,9 @@ F-statistic: 23.77 on 2 and 97 DF,  p-value: 3.975e-09</code></pre>
 </div>
 </div>
 </div>
-<p>As we can see, the section of the output names “coefficients” contains information on the intercept and the regression weights for the two predictors. In this example both of them are significantly related to the criterion <span class="math inline">\(Y\)</span>. Note that since we have three parameters in the model and the total sample size <span class="math inline">\(N\)</span> is 100, the <span class="math inline">\(t\)</span>-tests for each parameter have 97 degrees of freedom, and the <span class="math inline">\(F\)</span>-test of <span class="math inline">\(R^2\)</span> against zero has 2 numerator and 97 denominator degrees of freedom.</p>
-<p>How do we interpret the regression model? The answer is: pretty much like a simple linear regression. The intercept <span class="math inline">\(b_0\)</span> indicates the level of <span class="math inline">\(\hat{Y}\)</span> (that is, the predictor level of <span class="math inline">\(Y\)</span>) when both <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are fixed at zero. Since we did not model and interaction of the two predictors, the regression weights <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_2\)</span> are straightforward to interpret: <span class="math inline">\(b_1\)</span> tells us much <span class="math inline">\(\hat{Y}\)</span> increases when we increase <span class="math inline">\(X_1\)</span> by one unit, irrespective of the current level of <span class="math inline">\(X_2\)</span>; <span class="math inline">\(b_2\)</span> tells us the same for increases in <span class="math inline">\(X_2\)</span>.</p>
-<p>Let’s now look at the full model that includes the interaction of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> as a third predictor. As explained above, there are two ways to define the formula object:</p>
+<p>As we can see, the section of the output names “coefficients” contains information on the intercept <span class="math inline">\(b_0\)</span> and the regression weights for the two predictors, <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_2\)</span>. In this example both predictors are significantly related to the criterion <span class="math inline">\(Y\)</span>. Note that since we have three parameters in the model and the total sample size <span class="math inline">\(N\)</span> is 100, the <span class="math inline">\(t\)</span>-tests for each parameter have 97 degrees of freedom, and the <span class="math inline">\(F\)</span>-test of <span class="math inline">\(R^2\)</span> against zero has 2 numerator and 97 denominator degrees of freedom. How do we interpret the regression model? The answer is: pretty much like a simple linear regression. The intercept <span class="math inline">\(b_0\)</span> indicates the level of <span class="math inline">\(\hat{Y}\)</span> (that is, the predictor level of <span class="math inline">\(Y\)</span>) when both <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are fixed at zero. Since we did not model and interaction of the two predictors, the regression weights <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_2\)</span> are straightforward to interpret: <span class="math inline">\(b_1\)</span> tells us much <span class="math inline">\(\hat{Y}\)</span> increases when we increase <span class="math inline">\(X_1\)</span> by one unit, irrespective of the current level of <span class="math inline">\(X_2\)</span>; <span class="math inline">\(b_2\)</span> tells us the same for increases in <span class="math inline">\(X_2\)</span>.</p>
+<p>Let’s now look at the full model that includes the interaction of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> as a third predictor. The model looks liek this:</p>
+<p><span class="math display">\[Y = b_0 + b_1X_1 + b_2X_2 + b_3X1X2\]</span> As explained above, there are two ways to define the formula object:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predict Y from X1, X2, and their interaction</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Version A:</span></span>
@@ -427,7 +428,7 @@ F-statistic: 18.48 on 3 and 96 DF,  p-value: 1.527e-09</code></pre>
 </div>
 </div>
 <p>The output now shows four parameters in the “coefficients” section. Adding a third predictor cost us one degree of freedom for both the individual <span class="math inline">\(t\)</span>-tests of the model parameters and and <span class="math inline">\(F\)</span>-test of <span class="math inline">\(R^2\)</span> when compared with the previous model.</p>
-<p>The interpretation of the model parameters is the same as before for the main effects of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span>. Since the interaction term is simply another predictor from the vantage point of the model, it indicates how much <span class="math inline">\(\hat{Y}\)</span> increases if we increase the product of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> by one unit. While this statement is mathematically true, it is often difficult to grasp what these products represent conceptually (e.g., what is the product of one’s experienced stress and available resources?). The important thing to keep in mind about interaction terms in multiple regression is the following: if this interaction is statistically significant, we <del>know</del> decide to believe that the magnitude of the relation of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(Y\)</span> depends on the level of <span class="math inline">\(X_2\)</span> (and that the strength of the relation of <span class="math inline">\(X_2\)</span> and <span class="math inline">\(Y\)</span> depends on the level of <span class="math inline">\(X_1\)</span>).</p>
+<p>The interpretation of the model parameters is the same as before for the main effects of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span>. Since the interaction term is simply another predictor from the vantage point of the model, <span class="math inline">\(b_3\)</span> indicates how much <span class="math inline">\(\hat{Y}\)</span> increases if we increase the product of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> by one unit. While this statement is mathematically true, it is often difficult to grasp what these products represent conceptually (e.g., what is the product of one’s experienced stress and available resources?). The important thing to keep in mind about interaction terms in multiple regression is the following: if this interaction is statistically significant, we <del>know</del> decide to believe that the magnitude of the relation of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(Y\)</span> depends on the level of <span class="math inline">\(X_2\)</span> (and that the strength of the relation of <span class="math inline">\(X_2\)</span> and <span class="math inline">\(Y\)</span> depends on the level of <span class="math inline">\(X_1\)</span>).</p>
 </section>
 <section id="hierarchical-regression" class="level3">
 <h3 class="anchored" data-anchor-id="hierarchical-regression">Hierarchical regression</h3>
@@ -438,9 +439,9 @@ F-statistic: 18.48 on 3 and 96 DF,  p-value: 1.527e-09</code></pre>
 <p><span class="math display">\[R^2 = \frac{S_{\hat{Y}}}{S_{Y}} = \frac{SS_{regression}}{SS_{total}} = 1-\frac{SS_{residual}}{SS_{total}}\]</span></p>
 <p>If we compare two nested models, the denominator will be the same because it represents the variance of the observed criterion <span class="math inline">\(Y\)</span>. What will differ is the variance of the model prediction <span class="math inline">\(S_{\hat{Y}}\)</span>. Therefore, the models will also differ regarding their <span class="math inline">\(SS_{regression}\)</span> and <span class="math inline">\(SS_{residual}\)</span>. In order to compare the two models’ respective fit, we first need to compute the difference between their respective <span class="math inline">\(SS_{regression}\)</span> or their <span class="math inline">\(SS_{residual}\)</span> to obtain a <span class="math inline">\(\chi^2\)</span>-distributed variable (since <span class="math inline">\(SS_{residual} = SS_{total} - SS_{regression}\)</span>, the difference will be the same). We will alls this variable <span class="math inline">\(SS_\Delta\)</span>. Since the <span class="math inline">\(SS_{regression}\)</span> have <span class="math inline">\(N-k\)</span> parameters, we can easily compute the degrees of freedom of <span class="math inline">\(SS_\Delta\)</span>:</p>
 <p><span class="math display">\[df_{SS_\Delta} = N-k_{model1} - (N-k_{model2})= N-k_{model1}-N+k_{model2}=k_{model2}-k_{model1}\]</span></p>
-<p>now that we have the difference of the sums of squares <span class="math inline">\(SS_\Delta\)</span> and its degrees of freedom, the last step is to compute an <span class="math inline">\(F\)</span>-statistic to test whether it represent a statistically significant increase in explained variance. This statistic looks as follows:</p>
+<p>Now that we have the difference of the sums of squares <span class="math inline">\(SS_\Delta\)</span> and its degrees of freedom, the last step is to compute an <span class="math inline">\(F\)</span>-statistic to test whether it represent a statistically significant increase in explained variance. This statistic looks as follows:</p>
 <p><span class="math display">\[\frac{ \frac{SS_\Delta}{df_{SS_\Delta}} }{\frac{SS_{residual_{model2}}}{df_{residual_{model2}}}} \sim F_{df_{SS_\Delta}; df_{residual_{model2}}}\]</span></p>
-<p>now that we know ho to test for a significant <span class="math inline">\(\Delta R^2\)</span> on a conceptual level, the question is how to run this test in R. We can do so easily using the function <em>anova</em>. The <em>anova</em> function is similar to the <em>summary</em> function in that it can be used on a range of different models an will perform different operations and produce different outputs based on the objects exact nature. If we call the <em>anova</em> function and feed it two or more nested regression models, it run a significance test of <span class="math inline">\(\Delta R2\)</span> between the first and second model, between the second and third model, and so on.</p>
+<p>Now that we know ho to test for a significant <span class="math inline">\(\Delta R^2\)</span> on a conceptual level, the question is how to run this test in R. We can do so easily using the function <em>anova</em>. The <em>anova</em> function is similar to the <em>summary</em> function in that it can be used on a range of different models an will perform different operations and produce different outputs based on the objects exact nature. If we call the <em>anova</em> function and feed it two or more nested regression models, it run a significance test of <span class="math inline">\(\Delta R2\)</span> between the first and second model, between the second and third model, and so on.</p>
 <p>Let’s now have look at the syntax. We will use the two regression models we looked at above because they are nested (<em>mod1</em> is nested within <em>mod2</em> because it lacks the interaction effect). It is important to enter the models in ascending order of complexity (simplest model first). The code will run even if we enter more complex model first, but we may add up with negative values for the test statistic, which makes no sense mathematically.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test for a significant increase in variance explained</span></span>
@@ -474,13 +475,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>Just as in a simple linear regression, our predictors can be categorical instead of continuous. Here, we will focus on the case with one continuous predictor <span class="math inline">\(X_1\)</span> and one categorical predictor <span class="math inline">\(X_2\)</span>. Let’s first assume that <span class="math inline">\(X_2\)</span> is dichotomous and that we use it as a dummy-coded predictor (coded 0 vs.&nbsp;1). Here is some made-up data.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>  ID     Y    X1 X2
-1  1  3.19  7.59  0
-2  2 14.97 10.55  1
-3  3  3.89 12.17  0
-4  4  9.30  5.31  1
-5  5  4.84 10.86  0
-6  6 16.57 11.01  1</code></pre>
+<pre><code>  ID     Y    X1        X2
+1  1  3.19  7.59   control
+2  2 14.97 10.55 treatment
+3  3  3.89 12.17   control
+4  4  9.30  5.31 treatment
+5  5  4.84 10.86   control
+6  6 16.57 11.01 treatment</code></pre>
 </div>
 </div>
 <p>First, we will run a regression model containing only the two main effects. The syntax is the same as for continuous predictors:</p>
@@ -507,7 +508,7 @@ Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
 (Intercept)   0.7094     1.1741   0.604 0.548623    
 X1            0.4705     0.1220   3.858 0.000347 ***
-X2            9.1844     0.4274  21.491  &lt; 2e-16 ***
+X2treatment   9.1844     0.4274  21.491  &lt; 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -517,7 +518,76 @@ F-statistic: 231.7 on 2 and 47 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </div>
-<p>As we can see, both predictors are significant. Time to interpret the model parameters! The intercept tells us the estimated value <span class="math inline">\(\hat{Y}\)</span> for observations in the reference category (<span class="math inline">\(X_2 = 0\)</span>) when <span class="math inline">\(X_1\)</span> is zero. The regression weight of <span class="math inline">\(X_1\)</span> indicates that for each increase in <span class="math inline">\(X_1\)</span> our estimate <span class="math inline">\(\hat{Y}\)</span> increases by roughly 0.47 units, while the respective coefficient for <span class="math inline">\(X_2\)</span> states that moving from the reference category to the other category (<span class="math inline">\(X_2 = 1\)</span>) is associated with an increase in <span class="math inline">\(\hat{Y}\)</span> of roughly 9.18 points. So far, so good.</p>
+<p>As we can see, both predictors are significant. Time to interpret the model parameters! The intercept <span class="math inline">\(b_0\)</span> tells us the estimated value <span class="math inline">\(\hat{Y}\)</span> for observations in the reference category (<span class="math inline">\(X_2\)</span> takes the value “treatment”) when <span class="math inline">\(X_1\)</span> is zero. The regression weight of <span class="math inline">\(X_1\)</span>, <span class="math inline">\(b_1\)</span> indicates that for each increase in <span class="math inline">\(X_1\)</span> our estimate <span class="math inline">\(\hat{Y}\)</span> increases by roughly 0.47 units, while the regression weight <span class="math inline">\(b_2\)</span> states that moving from the reference category to the other category (<span class="math inline">\(X_2\)</span> takes the value “control”) is associated with an increase in <span class="math inline">\(\hat{Y}\)</span> of roughly 9.18 points.</p>
+<p>Let’s now compute a second model by adding the interaction term:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the regression analysis</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>mod3b <span class="ot">=</span> <span class="fu">lm</span>(<span class="at">formula =</span> Y <span class="sc">~</span> X1 <span class="sc">*</span> X2, <span class="at">data =</span> df2)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># show the results</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod3b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s have a look at the console output:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Y ~ X1 * X2, data = df2)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.13476 -0.79688 -0.03927  0.57664  2.41743 
+
+Coefficients:
+               Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)      6.3654     1.1500   5.535 1.43e-06 ***
+X1              -0.1371     0.1215  -1.129    0.265    
+X2treatment     -1.7729     1.5842  -1.119    0.269    
+X1:X2treatment   1.2046     0.1710   7.044 7.83e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.051 on 46 degrees of freedom
+Multiple R-squared:  0.9557,    Adjusted R-squared:  0.9528 
+F-statistic: 330.8 on 3 and 46 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</div>
+<p>We now notice something interesting: not only is there a significant interaction effect, but the two main effects are no longer significant in the extended model. Let’s first try to make sense of the model parameters. As in the previous model, the intercept <span class="math inline">\(b_0\)</span> represents the model prediction <span class="math inline">\(\hat{Y}\)</span> when <span class="math inline">\(X_1\)</span> is zero and an observation stems from the reference category (meaning that, due to the dummy-coding R uses for factors, <span class="math inline">\(X_2\)</span> is also zero). The interaction term also takes the value of zero in this case because the interaction is the product of the two predictors, and they are both zero. The regression weight <span class="math inline">\(b_2\)</span> is the shift of the model intercept when we switch from the category “treatment” to the second category “control” (i.e., <span class="math inline">\(X_2\)</span> takes the value 1 due to dummy-coding, but <span class="math inline">\(X_1\)</span> is still fixed at zero). The interpretation of <span class="math inline">\(b_1\)</span> changes slightly now when compared with the previous model. Instead of telling us, in general, how <span class="math inline">\(\hat{Y}\)</span> changes if we increase <span class="math inline">\(X_1\)</span> by one unit, it now tells us how <span class="math inline">\(\hat{Y}\)</span> changes <strong>in the reference category</strong> if we increase <span class="math inline">\(X_1\)</span> by one unit. That means that the regression weight for <span class="math inline">\(X_1\)</span>, <span class="math inline">\(b_1\)</span> is the slope of a regression line conditional on the categorical predictor <span class="math inline">\(X_2\)</span> being zero. Finally, the regression weight of the interaction term <span class="math inline">\(b_3\)</span> tells us how the slope of the regression line represented by the regression weight of <span class="math inline">\(X_1\)</span> changes if we switch to the second category. In other words, the slope of the regression line for the second category is the sum of <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_3\)</span>.</p>
+<p>What we might be interested in now is whether the new model outperforms the old one in terms of variance explained. We already know how to test this, namely using the <em>anova</em> function and feeding it models <em>mod3a</em> and <em>mod3b</em> (in that order) as function arguments.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test for a significant increase in variance explained between mod3a and mod3b</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod3a, mod3b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: Y ~ X1 + X2
+Model 2: Y ~ X1 * X2
+  Res.Df     RSS Df Sum of Sq      F    Pr(&gt;F)    
+1     47 105.700                                  
+2     46  50.851  1    54.848 49.616 7.832e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+<p>As we can see, the full model outperforms the one containing only the main effects.</p>
+<div class="alert alert-success">
+<p>This is a nice example because it shows us that a model can be wrong but still provide a very good fit to the data. Once we computed <em>mod3b</em> and confirmed that it explains a substantially greater part of the variance of <span class="math inline">\(Y\)</span>, we can - with the usual confidence - discard <em>mod3a</em> as ‘wrong’. However, if we look at the model output for <em>mod3a</em>, we can see that it was able to explain a whopping 90% of the variance of <span class="math inline">\(Y\)</span>. Just because a model is very good does not mean that it is accurate!</p>
+</div>
+<p>on a final note, a convenient aspect about multiple linear regression with one continuous and one categorical predictor is that we can visualise the data quite effectively. Specifically, we can draw one regression line for each level of the categorical predictor. If, for example, we look at the model summary above, we can derive the regression line for the first category by simply looking at the intercept <span class="math inline">\(b_0\)</span> and the regression weight for the continuous predictor <span class="math inline">\(b_1\)</span>. For the second category, we now that the intercept is <span class="math inline">\(b_0 + b_2\)</span> (the intercept for the reference category plus its increase if we switch to the second category), and the slope is <span class="math inline">\(b_1 + b_3\)</span> (the slope for the reference category plus its adjustment when we switch to the second category). Here is whjat it looks like for our model <em>mod3b</em>.</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="inference8_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
 </section>

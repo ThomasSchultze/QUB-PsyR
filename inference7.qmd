@@ -15,7 +15,7 @@ The core idea of linear regression is that we can express the criterion variable
 
 $$Y = b_0 + b_1\times X + \epsilon$$
 
-Here, $\b_0$ is some constant denoting the intercept of the linear function, and $b_1$ is its slope. We call $b_1$ a regression weight. It indicates how well we can predict $Y$ from $X$ (think of $b_1$ as a measure of the covariation of $X$ and $Y$). Finally, $\epsilon$ is the prediction error, also called the **residual**. We assume that:
+Here, $b_0$ is some constant denoting the intercept of the linear function, and $b_1$ is its slope. We call $b_1$ a regression weight. It indicates how well we can predict $Y$ from $X$ (think of $b_1$ as a measure of the covariation of $X$ and $Y$). Finally, $\epsilon$ is the prediction error, also called the **residual**. We assume that:
 
 $$\epsilon \sim N(0, \sigma^2)$$
 
@@ -73,8 +73,7 @@ Now that we know that we are dealing with sums of squares again, we can easily c
 
 $$SS_{residual} = SS_{total} - SS_{regression}$$
 
-:::{.alert .alert-success} If at this point you are wondering why we are back to sums of squares even though we are not dealing with ANOVAs anymore: regression and ANOVA are the same.
-:::
+:::{.alert .alert-success} If at this point you are wondering why we are back to sums of squares even though we are not dealing with ANOVAs anymore: regression and ANOVA are the same. :::
 
 Or, to be precise: they are both special cases of the general linear model. We use ANOVAs when our predictors are categorical variables, but we could easily set up the same model as a regression model. The output of the respective analysis and the specific parameter tests we run may differ, but the underlying information is the same. :::
 

@@ -103,7 +103,10 @@ df1 = data.frame(ID = 1:100, Y = tmp[,1], X1 = tmp[,2], X2 = tmp[,3])
 head(df1)
 ```
 
-We now have to make a choice: we can either predict $Y$ from $X-1$ and $X_2$ in a purely additive model, or we can include the interaction term $X_1 \times X_2$ as a third predictor in the model. Let's first run the simpler model that omits the interaction effect. Here is the syntax:
+We now have to make a choice: we can either predict $Y$ from $X-1$ and $X_2$ in a purely additive model, or we can include the interaction term $X_1 \times X_2$ as a third predictor in the model. Let's first run the simpler model that omits the interaction effect. The formla looks like this:
+
+$$Y = b_0 + b_1X_1 + b_2X_2+\epsilon$$
+Here is the syntax for this model:
 
 ```{r}
 #| eval: false
@@ -130,11 +133,13 @@ summary(mod1)
 ```
 :::
 
-As we can see, the section of the output names "coefficients" contains information on the intercept and the regression weights for the two predictors. In this example both of them are significantly related to the criterion $Y$. Note that since we have three parameters in the model and the total sample size $N$ is 100, the $t$-tests for each parameter have 97 degrees of freedom, and the $F$-test of $R^2$ against zero has 2 numerator and 97 denominator degrees of freedom. 
-
+As we can see, the section of the output names "coefficients" contains information on the intercept $b_0$ and the regression weights for the two predictors, $b_1$ and $b_2$. In this example both predictors are significantly related to the criterion $Y$. Note that since we have three parameters in the model and the total sample size $N$ is 100, the $t$-tests for each parameter have 97 degrees of freedom, and the $F$-test of $R^2$ against zero has 2 numerator and 97 denominator degrees of freedom. 
 How do we interpret the regression model? The answer is: pretty much like a simple linear regression. The intercept $b_0$ indicates the level of $\hat{Y}$ (that is, the predictor level of $Y$) when both $X_1$ and $X_2$ are fixed at zero. Since we did not model and interaction of the two predictors, the regression weights $b_1$ and $b_2$ are straightforward to interpret: $b_1$ tells us much $\hat{Y}$ increases when we increase $X_1$ by one unit, irrespective of the current level of $X_2$; $b_2$ tells us the same for increases in $X_2$. 
 
-Let's now look at the full model that includes the interaction of $X_1$ and $X_2$ as a third predictor. As explained above, there are two ways to define the formula object:
+Let's now look at the full model that includes the interaction of $X_1$ and $X_2$ as a third predictor. The model looks liek this:
+
+$$Y = b_0 + b_1X_1 + b_2X_2 + b_3X1X2$$
+As explained above, there are two ways to define the formula object:
 
 ```{r}
 #| eval: false
@@ -170,7 +175,7 @@ summary(mod2)
 
 The output now shows four parameters in the "coefficients" section. Adding a third predictor cost us one degree of freedom for both the individual $t$-tests of the model parameters and and $F$-test of $R^2$ when compared with the previous model.
 
-The interpretation of the model parameters is the same as before for the main effects of $X_1$ and $X_2$. Since the interaction term is simply another predictor from the vantage point of the model, it indicates how much $\hat{Y}$ increases if we increase the product of $X_1$ and $X_2$ by one unit. While this statement is mathematically true, it is often difficult to grasp what these products represent conceptually (e.g., what is the product of one's experienced stress and available resources?). The important thing to keep in mind about interaction terms in multiple regression is the following: if this interaction is statistically significant, we ~~know~~ decide to believe that the magnitude of the relation of $X_1$ and $Y$ depends on the level of $X_2$ (and that the strength of the relation of $X_2$ and $Y$ depends on the level of $X_1$). 
+The interpretation of the model parameters is the same as before for the main effects of $X_1$ and $X_2$. Since the interaction term is simply another predictor from the vantage point of the model, $b_3$ indicates how much $\hat{Y}$ increases if we increase the product of $X_1$ and $X_2$ by one unit. While this statement is mathematically true, it is often difficult to grasp what these products represent conceptually (e.g., what is the product of one's experienced stress and available resources?). The important thing to keep in mind about interaction terms in multiple regression is the following: if this interaction is statistically significant, we ~~know~~ decide to believe that the magnitude of the relation of $X_1$ and $Y$ depends on the level of $X_2$ (and that the strength of the relation of $X_2$ and $Y$ depends on the level of $X_1$). 
 
 
 ### Hierarchical regression
@@ -189,11 +194,11 @@ If we compare two nested models, the denominator will be the same because it rep
 
 $$df_{SS_\Delta} = N-k_{model1} - (N-k_{model2})= N-k_{model1}-N+k_{model2}=k_{model2}-k_{model1}$$
 
-now that we have the difference of the sums of squares $SS_\Delta$ and its degrees of freedom, the last step is to compute an $F$-statistic to test whether it represent a statistically significant increase in explained variance. This statistic looks as follows:
+Now that we have the difference of the sums of squares $SS_\Delta$ and its degrees of freedom, the last step is to compute an $F$-statistic to test whether it represent a statistically significant increase in explained variance. This statistic looks as follows:
 
 $$\frac{ \frac{SS_\Delta}{df_{SS_\Delta}} }{\frac{SS_{residual_{model2}}}{df_{residual_{model2}}}} \sim F_{df_{SS_\Delta}; df_{residual_{model2}}}$$
 
-now that we know ho to test for a significant $\Delta R^2$ on a conceptual level, the question is how to run this test in R. We can do so easily using the function *anova*. The *anova* function is similar to the *summary* function in that it can be used on a range of different models an will perform different operations and produce different outputs based on the objects exact nature. If we call the *anova* function and feed it two or more nested regression models, it run a significance test of $\Delta R2$ between the first and second model, between the second and third model, and so on.
+Now that we know ho to test for a significant $\Delta R^2$ on a conceptual level, the question is how to run this test in R. We can do so easily using the function *anova*. The *anova* function is similar to the *summary* function in that it can be used on a range of different models an will perform different operations and produce different outputs based on the objects exact nature. If we call the *anova* function and feed it two or more nested regression models, it run a significance test of $\Delta R2$ between the first and second model, between the second and third model, and so on.
 
 Let's now have look at the syntax. We will use the two regression models we looked at above because they are nested (*mod1* is nested within *mod2* because it lacks the interaction effect). It is important to enter the models in ascending order of complexity (simplest model first). The code will run even if we enter more complex model first, but we may add up with negative values for the test statistic, which makes no sense mathematically.
 
@@ -241,7 +246,8 @@ X2 = rep(c(0, 1), 25)
 Y = round(5 + X1*X2 + rnorm(50, 0, 1),2)
 
 # put the data into a data frame
-df2 = data.frame(ID = 1:50, Y, X1, X2)
+df2 = data.frame(ID = 1:50, Y, X1, 
+                 X2 = factor(X2, levels = 0:1, labels = c('control', 'treatment')))
 
 # show the data 
 head(df2)
@@ -274,7 +280,84 @@ summary(mod3a)
 ```
 :::
 
-As we can see, both predictors are significant. Time to interpret the model parameters! The intercept tells us the estimated value $\hat{Y}$ for observations in the reference category ($X_2 = 0$) when $X_1$ is zero. The regression weight of $X_1$ indicates that for each increase in $X_1$ our estimate $\hat{Y}$ increases by roughly 0.47 units, while the respective coefficient for $X_2$ states that moving from the reference category to the other category ($X_2 = 1$) is associated with an increase in $\hat{Y}$ of roughly 9.18 points. So far, so good.
+As we can see, both predictors are significant. Time to interpret the model parameters! The intercept $b_0$ tells us the estimated value $\hat{Y}$ for observations in the reference category ($X_2$ takes the value "treatment") when $X_1$ is zero. The regression weight of $X_1$, $b_1$ indicates that for each increase in $X_1$ our estimate $\hat{Y}$ increases by roughly 0.47 units, while the regression weight $b_2$ states that moving from the reference category to the other category ($X_2$ takes the value "control") is associated with an increase in $\hat{Y}$ of roughly 9.18 points. 
+
+Let's now compute a second model by adding the interaction term:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# run the regression analysis
+mod3b = lm(formula = Y ~ X1 * X2, data = df2)
+
+# show the results
+summary(mod3b)
+```
+
+Let's have a look at the console output:
+
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+# run the regression analysis
+mod3b = lm(formula = Y ~ X1 * X2, data = df2)
+
+# show the results
+summary(mod3b)
+```
+:::
+
+We now notice something interesting: not only is there a significant interaction effect, but the two main effects are no longer significant in the extended model. Let's first try to make sense of the model parameters. As in the previous model, the intercept $b_0$ represents the model prediction $\hat{Y}$ when $X_1$ is zero and an observation stems from the reference category (meaning that, due to the dummy-coding R uses for factors, $X_2$ is also zero). The interaction term also takes the value of zero in this case because the interaction is the product of the two predictors, and they are both zero. The regression weight $b_2$ is the shift of the model intercept when we switch from the category "treatment" to the second category "control" (i.e., $X_2$ takes the value 1 due to dummy-coding, but $X_1$ is still fixed at zero). The interpretation of $b_1$ changes slightly now when compared with the previous model. Instead of telling us, in general, how $\hat{Y}$ changes if we increase $X_1$ by one unit, it now tells us how $\hat{Y}$ changes **in the reference category** if we increase $X_1$ by one unit. That means that the regression weight for $X_1$, $b_1$ is the slope of a regression line conditional on the categorical predictor $X_2$ being zero. Finally, the regression weight of the interaction term $b_3$ tells us how the slope of the regression line represented by the regression weight of $X_1$ changes if we switch to the second category. In other words, the slope of the regression line for the second category is the sum of $b_1$ and $b_3$.
+
+What we might be interested in now is whether the new model outperforms the old one in terms of variance explained. We already know how to test this, namely using the *anova* function and feeding it models *mod3a* and *mod3b* (in that order) as function arguments. 
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# test for a significant increase in variance explained between mod3a and mod3b
+anova(mod3a, mod3b)
+```
+:::{.alert .alert-warning}
+```{r}
+#| eval: true
+#| echo: false
+#| code-overflow: wrap
+# test for a significant increase in variance explained between mod3a and mod3b
+anova(mod3a, mod3b)
+```
+:::
+
+As we can see, the full model outperforms the one containing only the main effects.
+
+:::{.alert .alert-success}
+This is a nice example because it shows us that a model can be wrong but still provide a very good fit to the data. Once we computed *mod3b* and confirmed that it explains a substantially greater part of the variance of $Y$, we can - with the usual confidence - discard *mod3a* as 'wrong'. However, if we look at the model output for *mod3a*, we can see that it was able to explain a whopping 90% of the variance of $Y$. Just because a model is very good does not mean that it is accurate!
+:::
+
+on a final note, a convenient aspect about multiple linear regression with one continuous and one categorical predictor is that we can visualise the data quite effectively. Specifically, we can draw one regression line for each level of the categorical predictor. If, for example, we look at the model summary above, we can derive the regression line for the first category by simply looking at the intercept $b_0$ and the regression weight for the continuous predictor $b_1$. For the second category, we now that the intercept is $b_0 + b_2$ (the intercept for the reference category plus its increase if we switch to the second category), and the slope is $b_1 + b_3$ (the slope for the reference category plus its adjustment when we switch to the second category). Here is whjat it looks like for our model *mod3b*.  
+
+```{r}
+#| echo: false
+#| eval: true
+# load library for plotting
+suppressMessages(library(ggpubr))
+
+# define custom colour palette
+QUB_palette = c("#00A1E1", "#F18903", "#AC004D")
+
+p1 = ggscatter(data = df2, x = "X1", y = "Y", color = 'X2', palette = QUB_palette[1:2],
+          add = "reg.line", add.params = list(size = .5, color = 'X2'), fullrange = TRUE)
+
+ggpar(p1, legend = c(0.15, 0.95), legend.title = "", font.y = c(18, 'bold'),
+      font.x = c(18, "bold"), font.xtickslab = 16, font.legend = 15, 
+      xlab = bquote(X[1]), ylim = c(0, 25))
+
+```
+
+
+
 
 
 
