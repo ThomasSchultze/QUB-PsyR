@@ -348,7 +348,13 @@ suppressMessages(library(ggpubr))
 QUB_palette = c("#00A1E1", "#F18903", "#AC004D")
 
 p1 = ggscatter(data = df2, x = "X1", y = "Y", color = 'X2', palette = QUB_palette[1:2],
-          add = "reg.line", add.params = list(size = .5, color = 'X2'), fullrange = TRUE)
+          fullrange = TRUE) +
+  geom_smooth(aes(x = X1, y = Y), data = subset(df2, X2 == 'control'),
+              method = 'lm', se = F, color = QUB_palette[1], lwd = 0.5, fullrange = T,
+              formula = y ~ x) +
+  geom_smooth(aes(x = X1, y = Y), data = subset(df2, X2 == 'treatment'),
+              method = 'lm', se = F, color = QUB_palette[2], lwd = 0.5, fullrange = T,
+              formula = y ~ x)
 
 ggpar(p1, legend = c(0.15, 0.95), legend.title = "", font.y = c(18, 'bold'),
       font.x = c(18, "bold"), font.xtickslab = 16, font.legend = 15, 
