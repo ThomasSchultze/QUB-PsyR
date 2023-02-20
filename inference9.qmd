@@ -43,16 +43,16 @@ set.seed(1234)
 df1 = data.frame(ID = 1:200, group = rep(1:5, each = 40),
                  mvrnorm(n = 200, mu = c(0,0), Sigma = matrix(c(1,-0.7,-0.7,1), nrow = 2)))
 
-names(df1)[3:4] = c('predcitor', 'criterion')
+names(df1)[3:4] = c('predictor', 'criterion')
 
 df1$criterion = df1$criterion + df1$group
-df1$predcitor = df1$predcitor + df1$group
+df1$predictor = df1$predictor + df1$group
 
-ggscatter(data = df1, x = 'predcitor', y = 'criterion') +
-  geom_smooth(aes(x = predcitor, y = criterion), data = df1,
+ggscatter(data = df1, x = 'predictor', y = 'criterion') +
+  geom_smooth(aes(x = predictor, y = criterion), data = df1,
               method = 'lm', se = T, color = 'black', linewidth = 0.5, fullrange = T,
               formula = y ~ x) +
-  geom_text(x = 0, y = 7, label = paste('r = ', format(round(cor(df1$predcitor, df1$criterion), 2), nsmall = 2))) +
+  geom_text(x = 0, y = 7, label = paste('r = ', format(round(cor(df1$predictor, df1$criterion), 2), nsmall = 2))) +
   xlim(-2,10)
   
 
@@ -73,41 +73,41 @@ QUB_palette = c("#00A1E1", "#F18903", "#AC004D", "#FFCC00", "#00AFAE", "#672E6C"
 
 df1$group = factor(df1$group)
 
-ggscatter(data = df1, x = 'predcitor', y = 'criterion', color = 'group', palette = QUB_palette[1:5]) +
-  geom_smooth(aes(x = predcitor, y = criterion), data = subset(df1, group == 1),
+ggscatter(data = df1, x = 'predictor', y = 'criterion', color = 'group', palette = QUB_palette[1:5]) +
+  geom_smooth(aes(x = predictor, y = criterion), data = subset(df1, group == 1),
               method = 'lm', se = F, color = QUB_palette[1], linewidth = 0.5, fullrange = F,
               formula = y ~ x) +
-    geom_smooth(aes(x = predcitor, y = criterion), data = subset(df1, group == 2),
+    geom_smooth(aes(x = predictor, y = criterion), data = subset(df1, group == 2),
               method = 'lm', se = F, color = QUB_palette[2], linewidth = 0.5, fullrange = F,
               formula = y ~ x) +
-    geom_smooth(aes(x = predcitor, y = criterion), data = subset(df1, group == 3),
+    geom_smooth(aes(x = predictor, y = criterion), data = subset(df1, group == 3),
               method = 'lm', se = F, color = QUB_palette[3], linewidth = 0.5, fullrange = F,
               formula = y ~ x) +
-    geom_smooth(aes(x = predcitor, y = criterion), data = subset(df1, group == 4),
+    geom_smooth(aes(x = predictor, y = criterion), data = subset(df1, group == 4),
               method = 'lm', se = F, color = QUB_palette[4], linewidth = 0.5, fullrange = F,
               formula = y ~ x) +
-    geom_smooth(aes(x = predcitor, y = criterion), data = subset(df1, group == 5),
+    geom_smooth(aes(x = predictor, y = criterion), data = subset(df1, group == 5),
               method = 'lm', se = F, color = QUB_palette[5], linewidth = 0.5, fullrange = F,
               formula = y ~ x) + 
     geom_text(x = 6, y = -1, color = QUB_palette[1],
               label = paste('r = ', 
-                            format(round(cor(df1$predcitor[df1$group==1], 
+                            format(round(cor(df1$predictor[df1$group==1], 
                                              df1$criterion[df1$group==1]), 2), nsmall = 2))) +
     geom_text(x = 7, y = 0, color = QUB_palette[2],
             label = paste('r = ', 
-                          format(round(cor(df1$predcitor[df1$group==2], 
+                          format(round(cor(df1$predictor[df1$group==2], 
                                            df1$criterion[df1$group==2]), 2), nsmall = 2))) + 
     geom_text(x = 8, y = 1, color = QUB_palette[3],
             label = paste('r = ', 
-                          format(round(cor(df1$predcitor[df1$group==3], 
+                          format(round(cor(df1$predictor[df1$group==3], 
                                            df1$criterion[df1$group==3]), 2), nsmall = 2))) + 
     geom_text(x = 9, y = 2, color = QUB_palette[4],
             label = paste('r = ', 
-                          format(round(cor(df1$predcitor[df1$group==4], 
+                          format(round(cor(df1$predictor[df1$group==4], 
                                            df1$criterion[df1$group==4]), 2), nsmall = 2))) + 
     geom_text(x = 10, y = 3, color = QUB_palette[5],
             label = paste('r = ', 
-                          format(round(cor(df1$predcitor[df1$group==5], 
+                          format(round(cor(df1$predictor[df1$group==5], 
                                            df1$criterion[df1$group==5]), 2), nsmall = 2))) +
   xlim(-2,10)
   
@@ -160,24 +160,24 @@ As a rule of thumb, we should model something as a fixed effect if we would sue 
 If,in contrast, the grouping variable itself is a random sample (e.g., a sample of schools or a sample of teams in an organisation), we should model it as a random effect. In such cases, we are no interested in how switching from one category to another affects the criterion. Likewise, we would not insist on studying the exact same groups in a replication, but would instead draw another random sample (e.g. a different set of schools or different teams).
 :::
 
-Let's now look at the most simple two-level model, which assumes that the intercept of the intercept-only model varies between groups formed by a level 2 grouping variable. Note that we will use a slightly different syntax to keep track of whether a parameters varies and, if so, at which level. Here is the model equation:
+Let's now look at the most simple two-level model, which assumes that the intercept of the intercept-only model varies between groups formed by a level 2 grouping variable. Note that we will use a slightly different syntax. In this syntax, we will put the levels at which variables or parameters vary in parentheses. This makes it a little easier to parse the indices of the regression parameters as we will see below. Here is the model equation:
 
-$$Y_{ij} = b_{0(j)} + \epsilon_{ij}$$
+$$Y_{(ij)} = b_{0(j)} + \epsilon_{(ij)}$$
 Where:
 
 $$b_{0(j)} = c_{0(0)} + u_{0(j)}$$
 Which means that:
 
-$$ Y_{ij} + c_{0(0)} + u_{0(j)} + \epsilon_{ij} $$
+$$ Y_{(ij)} + c_{0(0)} + u_{0(j)} + \epsilon_{(ij)} $$
 With:
 
-$$u_{0(j)} \sim N(0, \sigma_{u_{0(j)}}^2)$$ and $$\epsilon_{ij} \sim N(0, \sigma_{\epsilon_{ij}}^2)$$
+$$u_{0(j)} \sim N(0, \sigma_{u_{0(j)}}^2)$$ and $$\epsilon_{(ij)} \sim N(0, \sigma_{\epsilon_{(ij)}}^2)$$
 
-In this model notation, some parameters have parentheses in their index. This notation allows us to differentiate two pieces of information for the parameters in question. The first piece of information is written before the parentheses. It represent the parameter name, that is, which effect they correspond to (e.g., $b_0$ to represent the intercept and $b_1$ the effect of the first predictor). The part inside the parentheses tells us whether that parameter is a constant (indicated by the value 0) or whether it varies randomly, indicated by the letter corresponding to the level at which the parameter varies (e.g., $j$ if the parameter varies randomly at level 2). 
+The notation using parentheses in the indices allows us to differentiate two pieces of information for the model parameters: a) the parameter name, that is, which effect they correspond to (e.g., $b_0$ to represent the intercept and $b_1$ the effect of the first predictor) and b) whether that parameter is a constant (indicated by the value 0 in parentheses) or whether it varies randomly, indicated by the letter corresponding to the level at which the parameter varies (e.g., $j$ if the parameter varies randomly at level 2). Accordingly, the index of the parameter $b_{0(j)}$ reveals that it is the model intercept (the parameter $b_0$), and that it varies between the level-2 units (indicated by the $j$ in parentheses). 
 
-Accordingly, the index of the parameter $b_{0(j)}$ reveals that it is the model intercept (the parameter $b_0$), and that it varies between the level-2 units (indicated by the $j$ in parentheses). In the model $Y_{ij}$ is the criterion value of the $i$th observation in the $j$th group. The model intercept $b_{0(j)}$ is split into two components, the mean intercept across all $j$ groups $c_{0(0)}$ (the grand mean, which no longer varies between groups, hence the zero in parentheses), and a random component, the random intercept $u_{0(j)}$. This random component $u_{0(j)}$ indicates how the intercept of the $j$th level 2 unit deviates from the fixed intercept $c_{0(0)}$. However, since we model $u_{0(j)}$ as a random effect, we only estimate its variance. 
+In the model $Y_{ij}$ is the criterion value of the $i$th observation in the $j$th group. The model intercept $b_{0(j)}$ is split into two components, the mean intercept across all $j$ groups $c_{0(0)}$ (the grand mean, which no longer varies between groups, hence the zero in parentheses), and a random component, the random intercept $u_{0(j)}$. This random component $u_{0(j)}$ indicates how the intercept of the $j$th level 2 unit deviates from the fixed intercept $c_{0(0)}$. However, since we model $u_{0(j)}$ as a random effect, we only estimate its variance. 
 
-Let's now turn to the final parameter, the residual $\epsilon_{ij}$. In this multi-level model, the intercept works a bit differently than in a single-level model. It indicates how the $i$ observations in the $j$th group differ from that group's intercept, which we get by adding $c_{0(0)}$ (the fixed intercept) and $u_{0(j)}$ (the $j$th group's deviation from the fixed intercept). What this means is that the residual $\epsilon$ no longer represents the deviations between the model prediction and the actual criterion values, but instead denotes the (unexplained) variance **within each group**.
+Let's now turn to the final parameter, the residual $\epsilon_{(ij)}$. In this multi-level model, the intercept works a bit differently than in a single-level model. It indicates how the $i$ observations in the $j$th group differ from that group's intercept, which we get by adding $c_{0(0)}$ (the fixed intercept) and $u_{0(j)}$ (the $j$th group's deviation from the fixed intercept). What this means is that the residual $\epsilon_{(ij)}$ no longer represents the deviations between the model prediction and the actual criterion values, but instead denotes the (unexplained) variance **within each group**.
 
 Let's look at an example and visualise it to get a better grasp of the differences between the two models. Let's assume we have data from 9 participants (level 1) nested in three groups (level 2). We have one observation per participant. If we modeled the data with a single-level intercept only model, this is how it would look. 
 
@@ -214,7 +214,7 @@ We can see, that the residuals $\epsilon_i$ tell us how each participant's score
 #| echo: false
 
  par(mar = c(3,3,1,1))
-    plot(data3$VP, data3$y, col = factor(data3$group), ylab = 'Criterion', xlab = 'Participant', ylim = c(0, 9), xlim = c(0,10), main = expression(Y[ij] == c['0(0)'] + u['0(j)'] + epsilon[ij]))
+    plot(data3$VP, data3$y, col = factor(data3$group), ylab = 'Criterion', xlab = 'Participant', ylim = c(0, 9), xlim = c(0,10), main = expression(Y[(ij)] == c['0(0)'] + u['0(j)'] + epsilon[(ij)]))
     lines(x = c(0.8, 9.2), y = c(fixef(mod3b)[1], fixef(mod3b)[1]))
     text(x = 9.5, y = fixef(mod3b), expression(c['0(0)']), cex = 1.2)
 
@@ -229,11 +229,11 @@ We can see, that the residuals $\epsilon_i$ tell us how each participant's score
       for(j in 1:3){
         lines(x = c(tmp$VP[j], tmp$VP[j]), y = c(unlist(coef(mod3b))[i], unlist(coef(mod3b))[i] + tmp$resid3b[j]), col = QUB_palette[i])
         text(x = tmp$VP[j] + 0.3, y = ( unlist(coef(mod3b))[i] + tmp$resid3b[j])-0.1,
-           expression(epsilon[ij]), col = QUB_palette[i])
+           expression(epsilon[(ij)]), col = QUB_palette[i])
         }
       }
 ```
-As we can see, we can now construe not only the fixed intercept $c_{0(0)}$ but also individual intercept for each of the three groups, which we denote as $c_{0(j)}$. The residual $\epsilon_{ij}$ now tells us how a participant's score deviates from the intercept of that participant's group.
+As we can see, we can now construe not only the fixed intercept $c_{0(0)}$ but also individual intercept for each of the three groups, which we denote as $c_{0(j)}$. The residual $\epsilon_{(ij)}$ now tells us how a participant's score deviates from the intercept of that participant's group.
 
 The crucial difference between the two models is that single-level model only tells us *that* there is unexplained variance in the criterion, whereas the multi-level model also tells us at which level this unexplained variance originates.
 
@@ -243,23 +243,102 @@ $$ICC = \frac{\sigma_{u_{0(j)}}^2} {\sigma_{u_{0(j)}}^2 + \sigma_{\epsilon_{ij}}
 The larger the variance between groups, indicated by the variance of the random intercept $\sigma_{u_{0(j)}}^2$, the larger the ICC. Thus, a larger ICC means that values within groups are more similar, which means they are more highly correlated.
 
 
-### Multi-level models with fixed slopes
+### Multi-level models with random intercepts (and fixed slopes)
 
 The variance component model is usually not very interesting because it contains no predictors. In a multi-level model, we can add predictors at each level. We will, for now, only focus on fixed slopes of level-1 variables. As a general rule, a fixed effect in a multi-level model will reduce the unexplained variance at its level. That is, a level 1 fixed effect will explain some of the residual variance, whereas a fixed effect at level 2 will explain some of the variance captured in the random intercept (in a sense we make some of the variability of the intercepts systematic by adding level 2 fixed effects). 
 
 Let's look at the model syntax for a two-level model containing a fixed slope for a level-1 predictor.
 
-$$Y_{ij} = b_{0(j)} + b_{1(0)}X_{ij} + \epsilon_{ij}$$
+$$Y_{(ij)} = b_{0(j)} + b_{1(0)}X_{(ij)} + \epsilon_{(ij)}$$
 With:
 
 $$b_{0(j)} = c_{0(0)} + u_{0(j)}$$
 Yielding:
 
-$$Y_{ij} = c_{0(0)} + u_{0(j)} + b_{1(0)}X_{1ij} + \epsilon_{ij}$$
+$$Y_{(ij)} = c_{0(0)} + u_{0(j)} + b_{1(0)}X_{1(ij)} + \epsilon_{(ij)}$$
 
-Let's try to make sense of the notation. Again, $Y_{ij}$ is the criterion value of the $i$th observation in the $j$th group. The index of the model intercept $b_{0(j)}$ tells us a) that it is the intercept (parameter $b_0$)and b) that it varies between the $j$ groups ($j$ in parentheses). We can partition this effect into its fixed component $c_{0(0)}$, its index telling us that it no longer varies between groups (thus the 0 in parentheses), and its random component $u_{0(j)}$. The index of this random component tells us that is belongs to the intercept and varies between the $j$ groups.
+Let's try to make sense of the notation. Again, $Y_{(ij)}$ is the criterion value of the $i$th observation in the $j$th group. The index of the model intercept $b_{0(j)}$ tells us a) that it is the intercept (parameter $b_0$)and b) that it varies between the $j$ groups ($j$ in parentheses). We can partition this effect into its fixed component $c_{0(0)}$, its index telling us that it no longer varies between groups (thus the 0 in parentheses), and a random component $u_{0(j)}$. The index of this random component tells us that is belongs to the intercept and varies between the $j$ groups.
 
-The name of the next parameter $b_{1(0)}$ reveals that this is regression weight of the first predictor ($b_1$) and that it does not vary between groups (indicated by the zero in parentheses). We can further see that $b_{1(0)}$ is is a level-1 fixed effect because the values of the accompanying predictor $X_{1ij}$ are observed at level 1. 
+The name of the next parameter $b_{1(0)}$ reveals that this is regression weight of the first predictor ($b_1$) and that it does not vary between groups (indicated by the zero in parentheses). We can further see that $b_{1(0)}$ is is a level-1 fixed effect because there is a value of the accompanying predictor $X_{1(ij)}$ for each of the $i$ observations within each of the $j$ groups (the $ij$ in parentheses tells us that $X_1$ varies at both levels). 
+
+Below is a visualisation of what a random intercept model with a single level-1 predictor could look like.
+
+```{r}
+#| eval: true
+#| echo: false
+
+set.seed(1234)
+df2 = data.frame(ID = 1:30, team = factor(rep(1:3, each = 10)),
+                 demands = (runif(30, 1, 7)) + 
+                   (rep(rnorm(3, 0, 1), each = 10))
+                 )
+df2$stress = as.numeric(df2$team)*2 + df2$demands + rnorm(30, 0, 3)
+
+mod1 = lmer(stress ~ demands + (1|team), data = df2)
+
+p2 = ggscatter(data = df2, x = 'demands', y = 'stress', color = 'team', palette = QUB_palette[1:3]) + 
+  geom_abline(slope = fixef(mod1)[2], intercept = fixef(mod1)[1], linewidth = 1) +
+  geom_abline(slope = fixef(mod1)[2], intercept = fixef(mod1)[1] + (unlist(ranef(mod1)$team))[1], color = QUB_palette[1]) +
+  geom_abline(slope = fixef(mod1)[2], intercept = fixef(mod1)[1] + (unlist(ranef(mod1)$team))[2], color = QUB_palette[2]) +
+  geom_abline(slope = fixef(mod1)[2], intercept = fixef(mod1)[1] + (unlist(ranef(mod1)$team))[3], color = QUB_palette[3])
+
+ggpar(p2, legend = c(0.15, 0.85), legend.title = "team", font.y = c(18, 'bold'),
+      font.x = c(18, "bold"), font.xtickslab = 16, font.legend = 15, 
+      xlab = 'job demands', ylim = c(0, 25))
+
+
+
+```
+
+In the figure above, the bold black line represents the fixed part of the model. The intercept of this regression line is $c_{0(0)}$, and its slope is $b_{1_(0)}$. We can also see that the model has random intercepts for each team. This means that the regression line is shifted upward or downwards depending on which team we look at. Since the slope for the predictor *job demands* does not vary at level 2, it is equal for all teams as indicated by the regression lines running parallel. What this means is that while members of different teams seem to report different overall levels of stress, the increase in stress as job demands increase is equal for members of all teams.
+
+
+### Multi-level models with random intercepts and slopes
+
+When we run multi-level models, we are not restricted to modelling random intercepts. We can also treat the slopes of our predictors as random effects, given that the respective predictor is not measured at the highest level. Let's consider a model with a single level-1 predictor that contains random intercepts as well as random slopes for that predictor. Here is what the model looks like:
+
+$$Y_{(ij)} = b_{0(j)} + b_{1(j)}X_{1(ij)} + \epsilon_{(ij)}$$
+Here:
+
+$$b_{0(j)} = c_{0(0)} + u_{0(j)}$$
+And:
+
+$$b_{1(j)} = c_{1(0)} + u_{1(j)}$$
+As always, we assume that the random effects follow a normal distribution with mean zero. We can rewrite the model as follows:
+
+$$Y_{(ij)} = c_{0(0)} + u_{0(j)} + c_{1(0)}X_{1(ij)} + u_{1(j)}X_{1(ij)} + \epsilon_{(ij)}$$
+We already know what $Y_{(ij)}$, $c_{0(0)}$, $u_{0(j)}$, and $\epsilon_{(ij)}$ denote. That leaves the two parameters related to the level-1 predictor $X_1$. Here, $c_{1(0)}$ is the fixed effect of $X_1$, which we can interpret as the average slope. The corresponding random effect, $u_{1(j)}$ indicates how the slopes differ from the fixed slope for $j$ groups. As with all random effects, we compute the deviations of the group slopes for the fixed slope, but we estimate $u_{1(j)}$ as a single parameter via the variance of the group slopes. Below is a visualisation of a random slope model.
+
+
+```{r}
+#| eval: true
+#| echo: false
+
+
+mod2 = suppressMessages(lmer(stress ~ demands + (1+demands|team), data = df2))
+
+
+p3 = ggscatter(data = df2, x = 'demands', y = 'stress', color = 'team', palette = QUB_palette[1:3]) + 
+  geom_abline(slope = fixef(mod2)[2], intercept = fixef(mod2)[1], linewidth = 1) +
+  geom_abline(slope = fixef(mod2)[2] + ranef(mod2)$team[,2][1], 
+              intercept = fixef(mod2)[1] + ranef(mod2)$team[,1][1], 
+              color = QUB_palette[1]) +
+    geom_abline(slope = fixef(mod2)[2] + ranef(mod2)$team[,2][2], 
+              intercept = fixef(mod2)[1] + ranef(mod2)$team[,1][2], 
+              color = QUB_palette[2]) +
+    geom_abline(slope = fixef(mod2)[2] + ranef(mod2)$team[,2][3], 
+              intercept = fixef(mod2)[1] + ranef(mod2)$team[,1][3], 
+              color = QUB_palette[3])
+
+ggpar(p3, legend = c(0.15, 0.85), legend.title = "team", font.y = c(18, 'bold'),
+      font.x = c(18, "bold"), font.xtickslab = 16, font.legend = 15, 
+      xlab = 'job demands', ylim = c(0, 25))
+
+
+
+```
+From the figure above, we can see that while job demands are positively associated with stress for people in all teams, the strength of this association is subject to some variation, meaning that the slope is steeper for some members of some teams than others.
+
 
 
 
