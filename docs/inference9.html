@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.258">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>QUB-PsyR - Nonlinear regression models</title>
+<title>QUB-PsyR - Multi-level models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,69 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -240,6 +177,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="./inference8.html">
  <span class="dropdown-text">Multiple linear regression</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./inference9.html">
+ <span class="dropdown-text">Multi-level models</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -262,7 +203,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Nonlinear regression models</h1>
+<h1 class="title">Multi-level models</h1>
 </div>
 
 
@@ -277,21 +218,102 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>A final thing we need to know about formulae is that we can also perform arithmetic operations other than multiplication to create predictors from the variables in our data frame. One example would be polynomial regression, in which we predict <span class="math inline">\(Y\)</span> not only from <span class="math inline">\(X\)</span> but also from exponentiated versions of <span class="math inline">\(X\)</span>. Another example are difference scores as predictors (note that using difference scores as predictors in regression models is not trivial, so great care is needed when making sense of the results).</p>
-<p>It is important to note that all arithmetic operations save multiplication require a special syntax in order for R to understand what we are trying to do. Specifically, we need to call a function named <em>I</em> (capital I) within the formula and feed it the mathematical expression we want to use as a predictor in the model as its sole argument. Let’s look at an example for a polynomial regression of the 4th order:</p>
+<p>In the real world (and in some psychological experiments), data is embedded in a hierarchical structure. If we want to apply a regression approach to hierarchical data, we need to consider this structure in our models.</p>
+<p>Hierarchical data structures consist of at last two levels at which the observation of a criterion variable of interest is possible. Per convention, we define the most fine-rained level of observation as level 1. Level 1 is the most fine-grained one and, thus, the one with the highest number of observations. At level 2, we can cluster the level 1 data into several distinct groups with group membership defined by level 2 variables. We can then cluster level 2 data into distinct groups at level 3, and so on.</p>
+<p>Here are some examples:</p>
+<ul>
+<li>measurement of performance (criterion) in an experiment in several trials (level 1) per participant (level 2)</li>
+<li>average grades (criterion) by pupils (level 1) within classrooms (level 2) within schools (level 3)</li>
+<li>experienced stress (criterion) of team members (level 1) in different teams (level 2) in different companies (level 3) in different industries (level 4)</li>
+</ul>
+<p>One common aspect of those examples is that the criterion is always measured at level 1. For example, a school does not have a grade of its own. Instead, the grades are assigned to students. Likewise, a team in an organisation does not experience stress, the people working in it do. That is not to say that we cannot compute an average school grade or team stress level, but the data we need to compute such scores are always gathered at level 1.</p>
+<p>Another common aspect of hierarchical data structure is that we can measure predictor variables at each level. Let’s consider the example ‘experiences stress’ from above:</p>
+<ul>
+<li><strong>Level 1</strong>: team members’ personality, age, gender, organisational tenure</li>
+<li><strong>Level 2</strong>: team size, team tenure, team leader leadership style</li>
+<li><strong>Level 3</strong>: company reputation, size, market share</li>
+<li><strong>Level 4</strong>: industry-level wage level, work hazards, degree of unionisation</li>
+</ul>
+<p>We could reasonably postulate hypotheses linking any (or all) of the variables above to the criterion (experienced stress). However, the critical question is how to approach a test of these hypotheses in an appropriate way. The answer is: by using multi-level models.</p>
+<p>Multi-level models (also known as hierarchical linear models, mixed effects models, or nested-data models) are regression models that take the hierarchical stricture of the data into account by partitioning the variance of the criterion accordingly. As such, they are not unlike repeated measures and mixed ANOVAs where the variance of the observed variable is partitioned into variance between and variance within participants. In fact, these ANOVAs are special types of multi-level models, which means that multi-level models are a more general and, thus, more flexible method to deal with hierarchical data.</p>
+<section id="why-considering-the-data-structrue-is-important" class="level2">
+<h2 class="anchored" data-anchor-id="why-considering-the-data-structrue-is-important">Why considering the data structrue is important</h2>
+<p>The first question we might ask ourselves is why we should bother considering the data structure in the first place. Why not just aggregate the data and run an ordinary linear regression model using the aggregate scores as the criterion? The answer is twofold.</p>
+<p>First, depending on our hypotheses aggregation may not be an option. For example, if we wanted to predict school grades from pupils’ cognitive styles (level 1 predictor), the gender of their teachers (a level 2 predictor) and the type of school (level 3 predictor), aggregating the data at the school level won’t work unless we have very good reason to believe that an aggregation of the predictors works without losing explanatory power.</p>
+<p>Second, and more importantly, we may fall pray to the <strong>ecological fallacy</strong>. This fallacy means that we draw incorrect conclusion about lower-level predictor-criterion relations when analysing the data at an aggregate level. To illustrate this fallacy, lets look at an example.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># formula for a model predicting y from x in </span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># a 4th order polynomial regression</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">3</span>) <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="inference9_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>And here is what the formula would look like in a model where we want to predict <span class="math inline">\(y\)</span> from the difference between two variables <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>:</p>
+</div>
+<p>In the example above, we are predicting a criterion from a predictor variable. As we can see, the correlation between the two variables is positive. Now let’s look at the same data again. This time, we will consider that there are five discount groups in our data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># formula for a model predicting y from the difference </span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># between x1 and x2</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="fu">I</span>(x1 <span class="sc">-</span> x2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="inference9_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
+</div>
+<p>We now get a completely different picture. Within each of the five groups, there is a strong <strong>negative</strong> correlation of the predictor and the criterion. In our case, neglecting the data structure implies an effect in the opposite direction of the effects we observe within each group. This extreme form of the ecological fallacy is also known as <strong>Simpson’s Paradox</strong>.</p>
+<p>Now, does the fact that we obtain different results when considering instead of neglecting the data structure mean that one of the analyses is true while the other is wrong? Not really. When analysing data across groups (i.e., by neglecting group membership), the correlation we observe is a statistical truth, that is, the relation between predictor and criterion exists. However, when we try to make sense of <em>why</em> it occurs, we need to consider the data structure. Why do we get a positive correlation when, in fact, the relation is negative within each group? The answer is: because the groups differ systematically. In other words, the positive correlation between predictor and criterion is a result of group differences (a level 2 effect), whereas at level 1 the relation is negative.</p>
+<p>What the example above should make clear is that considering the hierarchical nature of our data provides us with a clearer picture of how our predictors relate to the criterion of interest. This, in turn, will allow us to draw more appropriate inferences about our data. The question now is: how?</p>
+</section>
+<section id="the-basics-of-multi-level-modelling" class="level2">
+<h2 class="anchored" data-anchor-id="the-basics-of-multi-level-modelling">The basics of multi-level modelling</h2>
+<p>The core idea of multi-level modelling is, put very simply, to predict level 1 criteria from predictors at various levels. To this end, the variance of the predictor is partitioned into variance at level 1, variance at level 2, and so on. In order to understand how that works, we first need to understand the difference between <strong>fixed effects</strong> and <strong>random effects</strong>.</p>
+<p><strong>Fixed effects</strong> are our model’s predictors. We estimate the strength of their relationship with the criterion as regression weights. As we already know there regression weights indicate how the criterion changes when statistically controlling for the other predictors.</p>
+<p><strong>Random effects</strong> are unsystematic (or unexplained) variances. They represent the variability of a parameter assuming a normal distribution. Random effects can be used to model the variability of the criterion but also the variability of fixed effects.</p>
+<p>We already know a model containing fixed and random effects, namely the simple linear regression. Let’s recap it basic formula:</p>
+<p><span class="math display">\[Y = b_0 + b_1X_1 + \epsilon\]</span> With:</p>
+<p><span class="math display">\[\epsilon \sim N(0, \sigma^2)\]</span></p>
+<p>Here, the parameters <span class="math inline">\(b_0\)</span> and <span class="math inline">\(_b1\)</span> are fixed effects. They are the basis for our model prediction <span class="math inline">\(\hat{Y}\)</span>. In contrast, the residual <span class="math inline">\(\epslion\)</span> is a random effect. While we compute the difference between our model prediction <span class="math inline">\(\hat{Y}\)</span> and the actual criterion <span class="math inline">\(Y\)</span> for each observation, we summarise the residual <span class="math inline">\(\epsilon\)</span> via a single parameter, namely its variance.</p>
+<section id="from-simple-linear-regressionn-to-multi-level-modelling" class="level3">
+<h3 class="anchored" data-anchor-id="from-simple-linear-regressionn-to-multi-level-modelling">From simple linear regressionn to multi-level modelling</h3>
+<p>Let’s start with the most simple regression model, which we will call a single-level intercept only model.</p>
+<p><span class="math display">\[Y_i = b_0 + \epsilon_i\]</span>.</p>
+<p>In this model, we have only two effects: one fixed effect, namely the intercept <span class="math inline">\(b_0\)</span>, and one random effect, the residual <span class="math inline">\(\epsilon\)</span>. According,y <span class="math inline">\(Y_i\)</span> represent the level of <span class="math inline">\(Y\)</span> for the <span class="math inline">\(i\)</span>th observation, and <span class="math inline">\(\epsilon_i\)</span> is the specific deviation of the <span class="math inline">\(i\)</span>th observation from the model prediction (i.e., the intercept). The model assumes that all the variance of <span class="math inline">\(Y\)</span> is unsystematic and that the unsystematic differences <span class="math inline">\(\epsilon_i\)</span> originate on level 1 (the only level in this model).</p>
+<p>Let’s now assume that we know that there is a variable on a higher level (level 2) that allows grouping our level 1 data. There are two ways to handle such a situation. We could either treat the grouping variable as a categorical fixed effect, modelling its relationship with the criterion via a regression weight in a single-level model. Alternatively, we could treat it as a random effect in a two-level model. In our example, we would include a random effect for the intercept of the model (our sole fixed effect).</p>
+<div class="alert alert-info">
+<p>The decision whether to model the effects of a grouping variable as a fixed or a random effect depends on what we are interested in. If we want to examine the influence of a certain grouping variable, we usually model it as a fixed effect.</p>
+<p>As a rule of thumb, we should model something as a fixed effect if we would sue the same grouping (same variable, same levels) in a replication of our study. This includes, experimental manipulations, studying gender effects, etc.</p>
+<p>If,in contrast, the grouping variable itself is a random sample (e.g., a sample of schools or a sample of teams in an organisation), we should model it as a random effect. In such cases, we are no interested in how switching from one category to another affects the criterion. Likewise, we would not insist on studying the exact same groups in a replication, but would instead draw another random sample (e.g.&nbsp;a different set of schools or different teams).</p>
+</div>
+<p>Let’s now look at the most simple two-level model, which assumes that the intercept of the intercept-only model varies between groups formed by a level 2 grouping variable. Note that we will use a slightly different syntax to keep track of whether a parameters varies and, if so, at which level. Here is the model equation:</p>
+<p><span class="math display">\[Y_{ij} = b_{0(j)} + \epsilon_{ij}\]</span> Where:</p>
+<p><span class="math display">\[b_{0(j)} = c_{0(0)} + u_{0(j)}\]</span> Which means that:</p>
+<p><span class="math display">\[ Y_{ij} + c_{0(0)} + u_{0(j)} + \epsilon_{ij} \]</span> With:</p>
+<p><span class="math display">\[u_{0(j)} \sim N(0, \sigma_{u_{0(j)}}^2)\]</span> and <span class="math display">\[\epsilon_{ij} \sim N(0, \sigma_{\epsilon_{ij}}^2)\]</span></p>
+<p>In this model notation, some parameters have parentheses in their index. This notation allows us to differentiate two pieces of information for the parameters in question. The first piece of information is written before the parentheses. It represent the parameter name, that is, which effect they correspond to (e.g., <span class="math inline">\(b_0\)</span> to represent the intercept and <span class="math inline">\(b_1\)</span> the effect of the first predictor). The part inside the parentheses tells us whether that parameter is a constant (indicated by the value 0) or whether it varies randomly, indicated by the letter corresponding to the level at which the parameter varies (e.g., <span class="math inline">\(j\)</span> if the parameter varies randomly at level 2).</p>
+<p>Accordingly, the index of the parameter <span class="math inline">\(b_{0(j)}\)</span> reveals that it is the model intercept (the parameter <span class="math inline">\(b_0\)</span>), and that it varies between the level-2 units (indicated by the <span class="math inline">\(j\)</span> in parentheses). In the model <span class="math inline">\(Y_{ij}\)</span> is the criterion value of the <span class="math inline">\(i\)</span>th observation in the <span class="math inline">\(j\)</span>th group. The model intercept <span class="math inline">\(b_{0(j)}\)</span> is split into two components, the mean intercept across all <span class="math inline">\(j\)</span> groups <span class="math inline">\(c_{0(0)}\)</span> (the grand mean, which no longer varies between groups, hence the zero in parentheses), and a random component, the random intercept <span class="math inline">\(u_{0(j)}\)</span>. This random component <span class="math inline">\(u_{0(j)}\)</span> indicates how the intercept of the <span class="math inline">\(j\)</span>th level 2 unit deviates from the fixed intercept <span class="math inline">\(c_{0(0)}\)</span>. However, since we model <span class="math inline">\(u_{0(j)}\)</span> as a random effect, we only estimate its variance.</p>
+<p>Let’s now turn to the final parameter, the residual <span class="math inline">\(\epsilon_{ij}\)</span>. In this multi-level model, the intercept works a bit differently than in a single-level model. It indicates how the <span class="math inline">\(i\)</span> observations in the <span class="math inline">\(j\)</span>th group differ from that group’s intercept, which we get by adding <span class="math inline">\(c_{0(0)}\)</span> (the fixed intercept) and <span class="math inline">\(u_{0(j)}\)</span> (the <span class="math inline">\(j\)</span>th group’s deviation from the fixed intercept). What this means is that the residual <span class="math inline">\(\epsilon\)</span> no longer represents the deviations between the model prediction and the actual criterion values, but instead denotes the (unexplained) variance <strong>within each group</strong>.</p>
+<p>Let’s look at an example and visualise it to get a better grasp of the differences between the two models. Let’s assume we have data from 9 participants (level 1) nested in three groups (level 2). We have one observation per participant. If we modeled the data with a single-level intercept only model, this is how it would look.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="inference9_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can see, that the residuals <span class="math inline">\(\epsilon_i\)</span> tell us how each participant’s score deviates from the intercept <span class="math inline">\(b_0\)</span>. now let’s look at the multi-level version of the model.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="inference9_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As we can see, we can now construe not only the fixed intercept <span class="math inline">\(c_{0(0)}\)</span> but also individual intercept for each of the three groups, which we denote as <span class="math inline">\(c_{0(j)}\)</span>. The residual <span class="math inline">\(\epsilon_{ij}\)</span> now tells us how a participant’s score deviates from the intercept of that participant’s group.</p>
+<p>The crucial difference between the two models is that single-level model only tells us <em>that</em> there is unexplained variance in the criterion, whereas the multi-level model also tells us at which level this unexplained variance originates.</p>
+<p>A multi-level model containing only a fixed and a random intercept (as the one in our example) is also known as the <strong>variance component model</strong>. By comparing the two random effects, we can infer which proportion of the variance of <span class="math inline">\(Y\)</span> originates between versus within the level 2 groups. We can do so by computing the <strong>intra-class correlation</strong> (ICC).</p>
+<p><span class="math display">\[ICC = \frac{\sigma_{u_{0(j)}}^2} {\sigma_{u_{0(j)}}^2 + \sigma_{\epsilon_{ij}}^2}\]</span> The larger the variance between groups, indicated by the variance of the random intercept <span class="math inline">\(\sigma_{u_{0(j)}}^2\)</span>, the larger the ICC. Thus, a larger ICC means that values within groups are more similar, which means they are more highly correlated.</p>
+</section>
+<section id="multi-level-models-with-fixed-slopes" class="level3">
+<h3 class="anchored" data-anchor-id="multi-level-models-with-fixed-slopes">Multi-level models with fixed slopes</h3>
+<p>The variance component model is usually not very interesting because it contains no predictors. In a multi-level model, we can add predictors at each level. We will, for now, only focus on fixed slopes of level-1 variables. As a general rule, a fixed effect in a multi-level model will reduce the unexplained variance at its level. That is, a level 1 fixed effect will explain some of the residual variance, whereas a fixed effect at level 2 will explain some of the variance captured in the random intercept (in a sense we make some of the variability of the intercepts systematic by adding level 2 fixed effects).</p>
+<p>Let’s look at the model syntax for a two-level model containing a fixed slope for a level-1 predictor.</p>
+<p><span class="math display">\[Y_{ij} = b_{0(j)} + b_{1(0)}X_{ij} + \epsilon_{ij}\]</span> With:</p>
+<p><span class="math display">\[b_{0(j)} = c_{0(0)} + u_{0(j)}\]</span> Yielding:</p>
+<p><span class="math display">\[Y_{ij} = c_{0(0)} + u_{0(j)} + b_{1(0)}X_{1ij} + \epsilon_{ij}\]</span></p>
+<p>Let’s try to make sense of the notation. Again, <span class="math inline">\(Y_{ij}\)</span> is the criterion value of the <span class="math inline">\(i\)</span>th observation in the <span class="math inline">\(j\)</span>th group. The index of the model intercept <span class="math inline">\(b_{0(j)}\)</span> tells us a) that it is the intercept (parameter <span class="math inline">\(b_0\)</span>)and b) that it varies between the <span class="math inline">\(j\)</span> groups (<span class="math inline">\(j\)</span> in parentheses). We can partition this effect into its fixed component <span class="math inline">\(c_{0(0)}\)</span>, its index telling us that it no longer varies between groups (thus the 0 in parentheses), and its random component <span class="math inline">\(u_{0(j)}\)</span>. The index of this random component tells us that is belongs to the intercept and varies between the <span class="math inline">\(j\)</span> groups.</p>
+<p>The name of the next parameter <span class="math inline">\(b_{1(0)}\)</span> reveals that this is regression weight of the first predictor (<span class="math inline">\(b_1\)</span>) and that it does not vary between groups (indicated by the zero in parentheses). We can further see that <span class="math inline">\(b_{1(0)}\)</span> is is a level-1 fixed effect because the values of the accompanying predictor <span class="math inline">\(X_{1ij}\)</span> are observed at level 1.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

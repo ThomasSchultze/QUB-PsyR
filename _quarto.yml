@@ -51,6 +51,8 @@ website:
           href: inference7.html
         - text: "Multiple linear regression"
           href: inference8.html
+        - text: "Multi-level models"
+          href: inference9.html
         
       - text: "About"
         href: about.html

@@ -2,18 +2,18 @@
 title: "Multiple Regression"
 ---
 
-So far,w e have considered linear regression models with a single predictor. We will now turn to cses with two or more predcitors. As soon as a regression model has more then one predictor, we speak of **multiple regression**. 
+So far,w e have considered linear regression models with a single predictor. We will now turn to cases with two or more predictors. As soon as a regression model has more then one predictor, we speak of **multiple regression**. 
 
 Multiple regression is a straightforward extension of the simple linear regression. Generally speaking the regression model looks like this:
 
 $$Y = b_0 + b_1X_1+b_2X_2+...+b_kX_k +\epsilon$$
-Here, $b_0$ is the intercept, $X_1$ to $X_k$ are the predcitors, and $b_1$ to $b_k$ are their respective regression weights. As always, $\epsilon$ is the residual. We can test each parameter of our model for significance via a $t$-test:
+Here, $b_0$ is the intercept, $X_1$ to $X_k$ are the predictors, and $b_1$ to $b_k$ are their respective regression weights. As always, $\epsilon$ is the residual. We can test each parameter of our model for significance via a $t$-test:
 
 $$\frac{b_i - \beta_i}{SE_{b_i}} \sim t_{N-k}$$
 
-Just as in simple linear regression, we compute the difference between the observed regresison parameter and its expected value under $H_0$ and divide this difference by the parameters' standard error $SE_{b_i}$. The resulting variable follows a $t$-distrbutiobn with $N-k$ degrees of freedom where $k$ is the number of parameters.
+Just as in simple linear regression, we compute the difference between the observed regression parameter and its expected value under $H_0$ and divide this difference by the parameters' standard error $SE_{b_i}$. The resulting variable follows a $t$-distribution with $N-k$ degrees of freedom where $k$ is the number of parameters.
 
-Just as in simple linear regression, $\hat{Y}$ is the predcition of our model:
+Just as in simple linear regression, $\hat{Y}$ is the prediction of our model:
 
 $$\hat{Y} = b_0 + b_1X_1+b_2X_2+...+b_jXj$$
 Since we can compute $\hat{Y}$, we can also compute the coefficient of determination $R^2$ and its adjusted version using the exact same formulae. The only conceptual difference is that - since we now have more than one predictor - $R^2$ is no longer the square of a ordinary correlation coefficient. For this reason $R$ (note the capital R) is also referred to as the **multiple correlation coefficient**. Importantly, however, this does not change how we interpret $R^2$. It is still our measure of the proportion of variance of your criterion $Y$ explained by our regression model as a whole. The statistical test of $R^2$ remains unchanged, as well, that is we test for significance of $R^2$ using an $F$-distribution with $k-1$ numerator degrees of freedom and $N-k$ denominator degrees of freedom.
@@ -134,9 +134,10 @@ summary(mod1)
 :::
 
 As we can see, the section of the output names "coefficients" contains information on the intercept $b_0$ and the regression weights for the two predictors, $b_1$ and $b_2$. In this example both predictors are significantly related to the criterion $Y$. Note that since we have three parameters in the model and the total sample size $N$ is 100, the $t$-tests for each parameter have 97 degrees of freedom, and the $F$-test of $R^2$ against zero has 2 numerator and 97 denominator degrees of freedom. 
+
 How do we interpret the regression model? The answer is: pretty much like a simple linear regression. The intercept $b_0$ indicates the level of $\hat{Y}$ (that is, the predictor level of $Y$) when both $X_1$ and $X_2$ are fixed at zero. Since we did not model and interaction of the two predictors, the regression weights $b_1$ and $b_2$ are straightforward to interpret: $b_1$ tells us much $\hat{Y}$ increases when we increase $X_1$ by one unit, irrespective of the current level of $X_2$; $b_2$ tells us the same for increases in $X_2$. 
 
-Let's now look at the full model that includes the interaction of $X_1$ and $X_2$ as a third predictor. The model looks liek this:
+Let's now look at the full model that includes the interaction of $X_1$ and $X_2$ as a third predictor. The model looks like this:
 
 $$Y = b_0 + b_1X_1 + b_2X_2 + b_3X1X2$$
 As explained above, there are two ways to define the formula object:
@@ -190,7 +191,7 @@ To test whether the difference between the $R^2$ of two nested models is differe
 
 $$R^2 = \frac{S_{\hat{Y}}}{S_{Y}} = \frac{SS_{regression}}{SS_{total}} = 1-\frac{SS_{residual}}{SS_{total}}$$
 
-If we compare two nested models, the denominator will be the same because it represents the variance of the observed criterion $Y$. What will differ is the variance of the model prediction $S_{\hat{Y}}$. Therefore, the models will also differ regarding their $SS_{regression}$ and $SS_{residual}$. In order to compare the two models' respective fit, we first need to compute the difference between their respective $SS_{regression}$ or their $SS_{residual}$ to obtain a $\chi^2$-distributed variable (since $SS_{residual} = SS_{total} - SS_{regression}$, the difference will be the same). We will alls this variable $SS_\Delta$. Since the $SS_{regression}$ have $N-k$ parameters, we can easily compute the degrees of freedom of $SS_\Delta$:
+If we compare two nested models, the denominator will be the same because it represents the variance of the observed criterion $Y$. What will differ is the variance of the model prediction $S_{\hat{Y}}$. Therefore, the models will also differ regarding their $SS_{regression}$ and $SS_{residual}$. In order to compare the two models' respective fit, we first need to compute the difference between their respective $SS_{regression}$ or their $SS_{residual}$ to obtain a $\chi^2$-distributed variable (since $SS_{residual} = SS_{total} - SS_{regression}$, the difference will be the same). We will call this variable $SS_\Delta$. Since the $SS_{regression}$ have $N-k$ parameters, we can easily compute the degrees of freedom of $SS_\Delta$:
 
 $$df_{SS_\Delta} = N-k_{model1} - (N-k_{model2})= N-k_{model1}-N+k_{model2}=k_{model2}-k_{model1}$$
 
@@ -336,7 +337,7 @@ As we can see, the full model outperforms the one containing only the main effec
 This is a nice example because it shows us that a model can be wrong but still provide a very good fit to the data. Once we computed *mod3b* and confirmed that it explains a substantially greater part of the variance of $Y$, we can - with the usual confidence - discard *mod3a* as 'wrong'. However, if we look at the model output for *mod3a*, we can see that it was able to explain a whopping 90% of the variance of $Y$. Just because a model is very good does not mean that it is accurate!
 :::
 
-on a final note, a convenient aspect about multiple linear regression with one continuous and one categorical predictor is that we can visualise the data quite effectively. Specifically, we can draw one regression line for each level of the categorical predictor. If, for example, we look at the model summary above, we can derive the regression line for the first category by simply looking at the intercept $b_0$ and the regression weight for the continuous predictor $b_1$. For the second category, we now that the intercept is $b_0 + b_2$ (the intercept for the reference category plus its increase if we switch to the second category), and the slope is $b_1 + b_3$ (the slope for the reference category plus its adjustment when we switch to the second category). Here is whjat it looks like for our model *mod3b*.  
+On a final note, a convenient aspect about multiple linear regression with one continuous and one categorical predictor is that we can visualise the data quite effectively. Specifically, we can draw one regression line for each level of the categorical predictor. If, for example, we look at the model summary above, we can derive the regression line for the first category by simply looking at the intercept $b_0$ and the regression weight for the continuous predictor $b_1$. For the second category, we now that the intercept is $b_0 + b_2$ (the intercept for the reference category plus its increase if we switch to the second category), and the slope is $b_1 + b_3$ (the slope for the reference category plus its adjustment when we switch to the second category). Here is what it looks like for our model *mod3b*.  
 
 ```{r}
 #| echo: false

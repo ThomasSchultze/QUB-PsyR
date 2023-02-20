@@ -1,30 +1,267 @@
 ---
-title: "Nonlinear regression models"
+title: "Multi-level models"
 ---
 
+In the real world (and in some psychological experiments), data is embedded in a hierarchical structure. If we want to apply a regression approach to hierarchical data, we need to consider this structure in our models. 
 
+Hierarchical data structures consist of at last two levels at which the observation of a criterion variable of interest is possible. Per convention, we define the most fine-rained level of observation as level 1. Level 1 is the most fine-grained one and, thus, the one with the highest number of observations. At level 2, we can cluster the level 1 data into several distinct groups with group membership defined by level 2 variables. We can then cluster level 2 data into distinct groups at level 3, and so on. 
 
+Here are some examples:
 
-A final thing we need to know about formulae is that we can also perform arithmetic operations other than multiplication to create predictors from the variables in our data frame. One example would be polynomial regression, in which we predict $Y$ not only from $X$ but also from exponentiated versions of $X$. Another example are difference scores as predictors (note that using difference scores as predictors in regression models is not trivial, so great care is needed when making sense of the results).
+- measurement of performance (criterion) in an experiment in several trials (level 1) per participant (level 2) 
+- average grades (criterion) by pupils (level 1) within classrooms (level 2) within schools (level 3) 
+- experienced stress (criterion) of team members (level 1) in different teams (level 2) in different companies (level 3) in different industries (level 4)
 
-It is important to note that all arithmetic operations save multiplication require a special syntax in order for R to understand what we are trying to do. Specifically, we need to call a function named *I* (capital I) within the formula and feed it the mathematical expression we want to use as a predictor in the model as its sole argument. Let's look at an example for a polynomial regression of the 4th order:
+One common aspect of those examples is that the criterion is always measured at level 1. For example, a school does not have a grade of its own. Instead, the grades are assigned to students. Likewise, a team in an organisation does not experience stress, the people working in it do. That is not to say that we cannot compute an average school grade or team stress level, but the data we need to compute such scores are always gathered at level 1.
+
+Another common aspect of hierarchical data structure is that we can measure predictor variables at each level. Let's consider the example 'experiences stress' from above:
+
+- **Level 1**: team members' personality, age, gender, organisational tenure
+- **Level 2**: team size, team tenure, team leader leadership style
+- **Level 3**: company reputation, size, market share
+- **Level 4**: industry-level wage level, work hazards, degree of unionisation
+
+We could reasonably postulate hypotheses linking any (or all) of the variables above to the criterion (experienced stress). However, the critical question is how to approach a test of these hypotheses in an appropriate way. The answer is: by using multi-level models.
+
+Multi-level models (also known as hierarchical linear models, mixed effects models, or nested-data models) are regression models that take the hierarchical stricture of the data into account by partitioning the variance of the criterion accordingly. As such, they are not unlike repeated measures and mixed ANOVAs where the variance of the observed variable is partitioned into variance between and variance within participants. In fact, these ANOVAs are special types of multi-level models, which means that multi-level models are a more general and, thus, more flexible method to deal with hierarchical data.
+
+## Why considering the data structrue is important
+
+The first question we might ask ourselves is why we should bother considering the data structure in the first place. Why not just aggregate the data and run an ordinary linear regression model using the aggregate scores as the criterion? The answer is twofold.
+
+First, depending on our hypotheses aggregation may not be an option. For example, if we wanted to predict school grades from pupils' cognitive styles (level 1 predictor), the gender of their teachers (a level 2 predictor) and the type of school (level 3 predictor), aggregating the data at the school level won't work unless we have very good reason to believe that an aggregation of the predictors works without losing explanatory power. 
+
+Second, and more importantly, we may fall pray to the **ecological fallacy**. This fallacy means that we draw incorrect conclusion about lower-level predictor-criterion relations when analysing the data at an aggregate level. To illustrate this fallacy, lets look at an example.
 
 ```{r}
-#| eval: false
-#| echo: true
-#| code-overflow: wrap
-# formula for a model predicting y from x in 
-# a 4th order polynomial regression
-y ~ x + I(x^2) + I(x^3) + I(x^4)
+#| eval: true
+#| echo: false
+suppressMessages(library(MASS))
+suppressMessages(library(ggpubr))
+
+set.seed(1234)
+df1 = data.frame(ID = 1:200, group = rep(1:5, each = 40),
+                 mvrnorm(n = 200, mu = c(0,0), Sigma = matrix(c(1,-0.7,-0.7,1), nrow = 2)))
+
+names(df1)[3:4] = c('predcitor', 'criterion')
+
+df1$criterion = df1$criterion + df1$group
+df1$predcitor = df1$predcitor + df1$group
+
+ggscatter(data = df1, x = 'predcitor', y = 'criterion') +
+  geom_smooth(aes(x = predcitor, y = criterion), data = df1,
+              method = 'lm', se = T, color = 'black', linewidth = 0.5, fullrange = T,
+              formula = y ~ x) +
+  geom_text(x = 0, y = 7, label = paste('r = ', format(round(cor(df1$predcitor, df1$criterion), 2), nsmall = 2))) +
+  xlim(-2,10)
+  
+
+
 ```
 
-And here is what the formula would look like in a model where we want to predict $y$ from the difference between two variables $x_1$ and $x_2$:
+In the example above, we are predicting a criterion from a predictor variable. As we can see, the correlation between the two variables is positive. Now let's look at the same data again. This time, we will consider that there are five discount groups in our data.
+
 
 ```{r}
-#| eval: false
-#| echo: true
-#| code-overflow: wrap
-# formula for a model predicting y from the difference 
-# between x1 and x2
-y ~ I(x1 - x2)
+#| eval: true
+#| echo: false
+suppressMessages(library(MASS))
+suppressMessages(library(ggpubr))
+
+# define custom colour palette
+QUB_palette = c("#00A1E1", "#F18903", "#AC004D", "#FFCC00", "#00AFAE", "#672E6C")
+
+df1$group = factor(df1$group)
+
+ggscatter(data = df1, x = 'predcitor', y = 'criterion', color = 'group', palette = QUB_palette[1:5]) +
+  geom_smooth(aes(x = predcitor, y = criterion), data = subset(df1, group == 1),
+              method = 'lm', se = F, color = QUB_palette[1], linewidth = 0.5, fullrange = F,
+              formula = y ~ x) +
+    geom_smooth(aes(x = predcitor, y = criterion), data = subset(df1, group == 2),
+              method = 'lm', se = F, color = QUB_palette[2], linewidth = 0.5, fullrange = F,
+              formula = y ~ x) +
+    geom_smooth(aes(x = predcitor, y = criterion), data = subset(df1, group == 3),
+              method = 'lm', se = F, color = QUB_palette[3], linewidth = 0.5, fullrange = F,
+              formula = y ~ x) +
+    geom_smooth(aes(x = predcitor, y = criterion), data = subset(df1, group == 4),
+              method = 'lm', se = F, color = QUB_palette[4], linewidth = 0.5, fullrange = F,
+              formula = y ~ x) +
+    geom_smooth(aes(x = predcitor, y = criterion), data = subset(df1, group == 5),
+              method = 'lm', se = F, color = QUB_palette[5], linewidth = 0.5, fullrange = F,
+              formula = y ~ x) + 
+    geom_text(x = 6, y = -1, color = QUB_palette[1],
+              label = paste('r = ', 
+                            format(round(cor(df1$predcitor[df1$group==1], 
+                                             df1$criterion[df1$group==1]), 2), nsmall = 2))) +
+    geom_text(x = 7, y = 0, color = QUB_palette[2],
+            label = paste('r = ', 
+                          format(round(cor(df1$predcitor[df1$group==2], 
+                                           df1$criterion[df1$group==2]), 2), nsmall = 2))) + 
+    geom_text(x = 8, y = 1, color = QUB_palette[3],
+            label = paste('r = ', 
+                          format(round(cor(df1$predcitor[df1$group==3], 
+                                           df1$criterion[df1$group==3]), 2), nsmall = 2))) + 
+    geom_text(x = 9, y = 2, color = QUB_palette[4],
+            label = paste('r = ', 
+                          format(round(cor(df1$predcitor[df1$group==4], 
+                                           df1$criterion[df1$group==4]), 2), nsmall = 2))) + 
+    geom_text(x = 10, y = 3, color = QUB_palette[5],
+            label = paste('r = ', 
+                          format(round(cor(df1$predcitor[df1$group==5], 
+                                           df1$criterion[df1$group==5]), 2), nsmall = 2))) +
+  xlim(-2,10)
+  
+  
+  
+
+
 ```
+
+We now get a completely different picture. Within each of the five groups, there is a strong **negative** correlation of the predictor and the criterion. In our case, neglecting the data structure implies an effect in the opposite direction of the effects we observe within each group. This extreme form of the ecological fallacy is also known as **Simpson's Paradox**.
+
+Now, does the fact that we obtain different results when considering instead of neglecting the data structure mean that one of the analyses is true while the other is wrong? Not really. When analysing data across groups (i.e., by neglecting group membership), the correlation we observe is a statistical truth, that is, the relation between predictor and criterion exists. However, when we try to make sense of *why* it occurs, we need to consider the data structure. Why do we get a positive correlation when, in fact, the relation is negative within each group? The answer is: because the groups differ systematically. In other words, the positive correlation between predictor and criterion is a result of group differences (a level 2 effect), whereas at level 1 the relation is negative.
+
+What the example above should make clear is that considering the hierarchical nature of our data provides us with a clearer picture of how our predictors relate to the criterion of interest. This, in turn, will allow us to draw more appropriate inferences about our data. The question now is: how?
+
+
+## The basics of multi-level modelling
+
+The core idea of multi-level modelling is, put very simply, to predict level 1 criteria from predictors at various levels. To this end, the variance of the predictor is partitioned into variance at level 1, variance at level 2, and so on. In order to understand how that works, we first need to understand the difference between **fixed effects** and **random effects**.
+
+**Fixed effects** are our model's predictors. We estimate the strength of their relationship with the criterion as regression weights. As we already know there regression weights indicate how the criterion changes when statistically controlling for the other predictors.
+
+**Random effects** are unsystematic (or unexplained) variances. They represent the variability of a parameter assuming a normal distribution. Random effects can be used to model the variability of the criterion but also the variability of fixed effects.
+
+We already know a model containing fixed and random effects, namely the simple linear regression. Let's recap it basic formula:
+
+$$Y = b_0 + b_1X_1 + \epsilon$$
+With:
+
+$$\epsilon \sim N(0, \sigma^2)$$
+
+Here, the parameters $b_0$ and $_b1$ are fixed effects. They are the basis for our model prediction $\hat{Y}$. In contrast, the residual $\epslion$ is a random effect. While we compute the difference between our model prediction $\hat{Y}$ and the actual criterion $Y$ for each observation, we summarise the residual $\epsilon$ via a single parameter, namely its variance. 
+
+
+### From simple linear regressionn to multi-level modelling
+
+Let's start with the most simple regression model, which we will call a single-level intercept only model. 
+
+$$Y_i = b_0 + \epsilon_i$$.
+
+In this model, we have only two effects: one fixed effect, namely the intercept $b_0$, and one random effect, the residual $\epsilon$. According,y $Y_i$ represent the level of $Y$ for the $i$th observation, and $\epsilon_i$ is the specific deviation of the $i$th observation from the model prediction (i.e., the intercept). The model assumes that all the variance of $Y$ is unsystematic and that the unsystematic differences $\epsilon_i$ originate on level 1 (the only level in this model).
+
+Let's now assume that we know that there is a variable on a higher level (level 2) that allows grouping our level 1 data. There are two ways to handle such a situation. We could either treat the grouping variable as a categorical fixed effect, modelling its relationship with the criterion via a regression weight in a single-level model. Alternatively, we could treat it as a random effect in a two-level model. In our example, we would include a random effect for the intercept of the model (our sole fixed effect). 
+
+:::{.alert .alert-info}
+The decision whether to model the effects of a grouping variable as a fixed or a random effect depends on what we are interested in. If we want to examine the influence of a certain grouping variable, we usually model it as a fixed effect.
+
+As a rule of thumb, we should model something as a fixed effect if we would sue the same grouping (same variable, same levels) in a replication of our study. This includes, experimental manipulations, studying gender effects, etc.
+
+If,in contrast, the grouping variable itself is a random sample (e.g., a sample of schools or a sample of teams in an organisation), we should model it as a random effect. In such cases, we are no interested in how switching from one category to another affects the criterion. Likewise, we would not insist on studying the exact same groups in a replication, but would instead draw another random sample (e.g. a different set of schools or different teams).
+:::
+
+Let's now look at the most simple two-level model, which assumes that the intercept of the intercept-only model varies between groups formed by a level 2 grouping variable. Note that we will use a slightly different syntax to keep track of whether a parameters varies and, if so, at which level. Here is the model equation:
+
+$$Y_{ij} = b_{0(j)} + \epsilon_{ij}$$
+Where:
+
+$$b_{0(j)} = c_{0(0)} + u_{0(j)}$$
+Which means that:
+
+$$ Y_{ij} + c_{0(0)} + u_{0(j)} + \epsilon_{ij} $$
+With:
+
+$$u_{0(j)} \sim N(0, \sigma_{u_{0(j)}}^2)$$ and $$\epsilon_{ij} \sim N(0, \sigma_{\epsilon_{ij}}^2)$$
+
+In this model notation, some parameters have parentheses in their index. This notation allows us to differentiate two pieces of information for the parameters in question. The first piece of information is written before the parentheses. It represent the parameter name, that is, which effect they correspond to (e.g., $b_0$ to represent the intercept and $b_1$ the effect of the first predictor). The part inside the parentheses tells us whether that parameter is a constant (indicated by the value 0) or whether it varies randomly, indicated by the letter corresponding to the level at which the parameter varies (e.g., $j$ if the parameter varies randomly at level 2). 
+
+Accordingly, the index of the parameter $b_{0(j)}$ reveals that it is the model intercept (the parameter $b_0$), and that it varies between the level-2 units (indicated by the $j$ in parentheses). In the model $Y_{ij}$ is the criterion value of the $i$th observation in the $j$th group. The model intercept $b_{0(j)}$ is split into two components, the mean intercept across all $j$ groups $c_{0(0)}$ (the grand mean, which no longer varies between groups, hence the zero in parentheses), and a random component, the random intercept $u_{0(j)}$. This random component $u_{0(j)}$ indicates how the intercept of the $j$th level 2 unit deviates from the fixed intercept $c_{0(0)}$. However, since we model $u_{0(j)}$ as a random effect, we only estimate its variance. 
+
+Let's now turn to the final parameter, the residual $\epsilon_{ij}$. In this multi-level model, the intercept works a bit differently than in a single-level model. It indicates how the $i$ observations in the $j$th group differ from that group's intercept, which we get by adding $c_{0(0)}$ (the fixed intercept) and $u_{0(j)}$ (the $j$th group's deviation from the fixed intercept). What this means is that the residual $\epsilon$ no longer represents the deviations between the model prediction and the actual criterion values, but instead denotes the (unexplained) variance **within each group**.
+
+Let's look at an example and visualise it to get a better grasp of the differences between the two models. Let's assume we have data from 9 participants (level 1) nested in three groups (level 2). We have one observation per participant. If we modeled the data with a single-level intercept only model, this is how it would look. 
+
+```{r}
+#| eval: true
+#| echo: false
+suppressMessages(library(lme4))
+
+set.seed(11534)
+data3 = data.frame(VP = 1:9, group = rep(c(1,2,3), 3), y = runif(9, 0, 3) -2 + rep(c(1,2,4), 3)*2)
+
+mod3a = lm(y ~ 1, data = data3)
+mod3b = lmer(y ~ 1 + (1|group), data = data3)
+
+data3$resid3b = residuals(mod3b)
+
+    par(mar = c(3,3,1,1))
+    plot(data3$VP, data3$y, ylab = 'Criterion Y', xlab = 'Participant', ylim = c(0, 9), xlim = c(0,10),
+         main = expression(Y[i] == beta[0] + epsilon[i]))
+    lines(x = c(0.8,9.2), y = c(coef(mod3a),coef(mod3a)))
+    text(x = 9.5, y = coef(mod3a), expression(b[0]), cex = 1.2)
+    for(i in 1:length(data3$VP)){
+      lines(x = c(data3$VP[i], data3$VP[i]), 
+            y = c(coef(mod3a)[1], coef(mod3a)[1] + residuals(mod3a)[i]))
+      text(x = data3$VP[i] + 0.3, y = (coef(mod3a)[1] + residuals(mod3a)[i])-0.1,
+           expression(epsilon[i]))}
+    
+   
+```
+We can see, that the residuals $\epsilon_i$ tell us how each participant's score deviates from the intercept $b_0$. now let's look at the multi-level version of the model.
+
+```{r}
+#| eval: true
+#| echo: false
+
+ par(mar = c(3,3,1,1))
+    plot(data3$VP, data3$y, col = factor(data3$group), ylab = 'Criterion', xlab = 'Participant', ylim = c(0, 9), xlim = c(0,10), main = expression(Y[ij] == c['0(0)'] + u['0(j)'] + epsilon[ij]))
+    lines(x = c(0.8, 9.2), y = c(fixef(mod3b)[1], fixef(mod3b)[1]))
+    text(x = 9.5, y = fixef(mod3b), expression(c['0(0)']), cex = 1.2)
+
+    for(i in 1:3){
+  
+      lines(unlist(coef(mod3b))[i], 0, col = QUB_palette[i])
+      lines(x = c(0.8, 9.2), y = c(unlist(coef(mod3b))[i], unlist(coef(mod3b))[i]), lty = 3, lwd = 2, col = QUB_palette[i])
+      text(x = 9.5, y = unlist(coef(mod3b))[i], expression(c['0(j)']), cex = 1.1, col = QUB_palette[i])
+  
+      tmp = subset(data3, group == i)
+  
+      for(j in 1:3){
+        lines(x = c(tmp$VP[j], tmp$VP[j]), y = c(unlist(coef(mod3b))[i], unlist(coef(mod3b))[i] + tmp$resid3b[j]), col = QUB_palette[i])
+        text(x = tmp$VP[j] + 0.3, y = ( unlist(coef(mod3b))[i] + tmp$resid3b[j])-0.1,
+           expression(epsilon[ij]), col = QUB_palette[i])
+        }
+      }
+```
+As we can see, we can now construe not only the fixed intercept $c_{0(0)}$ but also individual intercept for each of the three groups, which we denote as $c_{0(j)}$. The residual $\epsilon_{ij}$ now tells us how a participant's score deviates from the intercept of that participant's group.
+
+The crucial difference between the two models is that single-level model only tells us *that* there is unexplained variance in the criterion, whereas the multi-level model also tells us at which level this unexplained variance originates.
+
+A multi-level model containing only a fixed and a random intercept (as the one in our example) is also known as the **variance component model**. By comparing the two random effects, we can infer which proportion of the variance of $Y$ originates between versus within the level 2 groups. We can do so by computing the **intra-class correlation** (ICC).
+
+$$ICC = \frac{\sigma_{u_{0(j)}}^2} {\sigma_{u_{0(j)}}^2 + \sigma_{\epsilon_{ij}}^2}$$
+The larger the variance between groups, indicated by the variance of the random intercept $\sigma_{u_{0(j)}}^2$, the larger the ICC. Thus, a larger ICC means that values within groups are more similar, which means they are more highly correlated.
+
+
+### Multi-level models with fixed slopes
+
+The variance component model is usually not very interesting because it contains no predictors. In a multi-level model, we can add predictors at each level. We will, for now, only focus on fixed slopes of level-1 variables. As a general rule, a fixed effect in a multi-level model will reduce the unexplained variance at its level. That is, a level 1 fixed effect will explain some of the residual variance, whereas a fixed effect at level 2 will explain some of the variance captured in the random intercept (in a sense we make some of the variability of the intercepts systematic by adding level 2 fixed effects). 
+
+Let's look at the model syntax for a two-level model containing a fixed slope for a level-1 predictor.
+
+$$Y_{ij} = b_{0(j)} + b_{1(0)}X_{ij} + \epsilon_{ij}$$
+With:
+
+$$b_{0(j)} = c_{0(0)} + u_{0(j)}$$
+Yielding:
+
+$$Y_{ij} = c_{0(0)} + u_{0(j)} + b_{1(0)}X_{1ij} + \epsilon_{ij}$$
+
+Let's try to make sense of the notation. Again, $Y_{ij}$ is the criterion value of the $i$th observation in the $j$th group. The index of the model intercept $b_{0(j)}$ tells us a) that it is the intercept (parameter $b_0$)and b) that it varies between the $j$ groups ($j$ in parentheses). We can partition this effect into its fixed component $c_{0(0)}$, its index telling us that it no longer varies between groups (thus the 0 in parentheses), and its random component $u_{0(j)}$. The index of this random component tells us that is belongs to the intercept and varies between the $j$ groups.
+
+The name of the next parameter $b_{1(0)}$ reveals that this is regression weight of the first predictor ($b_1$) and that it does not vary between groups (indicated by the zero in parentheses). We can further see that $b_{1(0)}$ is is a level-1 fixed effect because the values of the accompanying predictor $X_{1ij}$ are observed at level 1. 
+
+
+
+
+
