@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.2.258">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -317,6 +380,20 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p>In the figure above, the bold black line represents the fixed part of the model. The intercept of this regression line is <span class="math inline">\(c_{0(0)}\)</span>, and its slope is <span class="math inline">\(b_{1_(0)}\)</span>. We can also see that the model has random intercepts for each team. This means that the regression line is shifted upward or downwards depending on which team we look at. Since the slope for the predictor <em>job demands</em> does not vary at level 2, it is equal for all teams as indicated by the regression lines running parallel. What this means is that while members of different teams seem to report different overall levels of stress, the increase in stress as job demands increase is equal for members of all teams.</p>
+<div class="alert alert-success">
+<p>A fixed will usually explain some of the unexplained variance at its own level. For example, in a two-level model, including a level-1 predictor as a fixed effect will reduce the residual <span class="math inline">\(\epsilon_{(ij)}\)</span>. The variance of the model intercepts will remain constant if the average magnitude of the level-1 predictor does not differ between level-2 units.</p>
+<p>If that reminds you of mixed ANOVAs where we separated effects into within-subject and between-subject effects, that is no coincidence. A mixed ANOVA can be considered a special case of multi-level model.</p>
+</div>
+</section>
+<section id="fixed-effects-at-higher-levels" class="level3">
+<h3 class="anchored" data-anchor-id="fixed-effects-at-higher-levels">Fixed effects at higher levels</h3>
+<p>In the previous example, the model included a fixed effect of a level-1 predictor. Of course, we could also include a predictor at level 2 (or at higher levels if the model contained them). Let’s assume we want to run a random intercept model with one fixed effect at level 1 and another at level 2. Here is what the model would look like:</p>
+<p><span class="math display">\[Y_{(ij)} = b_{0(j)} + b_{1(0)}X_{1(ij)}+b_{2(0)}X_{2(j)}+\epsilon_{(ij)}\]</span> Which we can rewrite as to disentangle the fixed and random component of the intercept:</p>
+<p><span class="math display">\[Y_{(ij)} = c_{0(0)} + u_{0(j)} + b_{1(0)}X_{1(ij)}+b_{2(0)}X_{2(j)}+\epsilon_{(ij)}\]</span> The model is the same as the one from the previous section with the exception of the newly added predictor <span class="math inline">\(X_{2(j)}\)</span> and its associated fixed slope <span class="math inline">\(b_{2(0)}\)</span>. The notation tells us that <span class="math inline">\(X_2\)</span> varies only between the <span class="math inline">\(j\)</span> groups and is constant for all <span class="math inline">\(i\)</span> levels within each group. Furthermore, we can see that the slope for <span class="math inline">\(X_2\)</span> does not vary randomly (indicated by the zero in parentheses in the parameter’s index). This makes sense because we do not have a higher level at which it could vary.</p>
+<p>This model is interesting for one specific reason. It models differences between groups as part random (via the random intercepts) and part systematic (via the fixed effect of <span class="math inline">\(X_2\)</span>). The parameter for the random intercepts we estimate (<span class="math inline">\(\sigma^2_{u_0(j)}\)</span>), thus, contains all the differences between the <span class="math inline">\(j\)</span> groups that the fixed effect <span class="math inline">\(b_{2(0)}\)</span> does not account for.</p>
+<div class="alert alert-success">
+<p>If we compare the random-intercept model containing fixed effects at both levels to a model excluding the level-2 fixed effect, we will observe that their residuals remain similar. However, the random variance of the intercept will be lower in the model including the fixed level-2 effect. Again, this shows that a fixed effect will explain some of the unexplained variance at its own level. In other words, a predictor that varies only between groups (and is constant within groups) cannot explain the unexplained variability within groups.</p>
+</div>
 </section>
 <section id="multi-level-models-with-random-intercepts-and-slopes" class="level3">
 <h3 class="anchored" data-anchor-id="multi-level-models-with-random-intercepts-and-slopes">Multi-level models with random intercepts and slopes</h3>
@@ -331,9 +408,342 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p>From the figure above, we can see that while job demands are positively associated with stress for people in all teams, the strength of this association is subject to some variation, meaning that the slope is steeper for some members of some teams than others.</p>
-
-
+<div class="alert alert-success">
+<p>The figure above should remind you of the interaction effects of continuous and categorical predictors in multiple linear regression. Those interaction effects essentially resulted in different regression lines for each category.</p>
+<p>Even though multiple-regression is based on a purely between-subjects design, this analogy holds. If you will, we can think of random slopes as <strong>unspecific interaction effects</strong> between the respective predictor and an modelled variable at a higher level (of course, part of the variability in slopes can also be due to chance alone).</p>
+</div>
 </section>
+<section id="cross-level-interactions" class="level3">
+<h3 class="anchored" data-anchor-id="cross-level-interactions">Cross-level interactions</h3>
+<p>The final type of effect we need to talk about in the context of multi-level models is a <strong>cross-level interaction</strong>. Cross-level interactions are interactions of predictors located at difference levels. For example, we could model the interaction of a level-1 predictor and the level-2 grouping variable in a two-level model. Let’s look at the model formulation for a two-level model containing a cross-level interaction:</p>
+<p><span class="math display">\[Y_{(ij)} = b_{0(j)} + b_{1(j)}X_{1(ij)} + b_{2(0)}X_{2(j)} + b_{3(0)}X_{1(ij)}X_{2(j)}+\epsilon_{(ij)}\]</span> We can rewrite this model as follows:</p>
+<p><span class="math display">\[Y_{(ij)} = c_{0(0)} + u_{0(j)} + c_{1(0)}X_{1(ij)} + u_{1(j)}X_{1(ij)} + b_{2(0)}X_{2(j)} + b_{3(0)}X_{1(ij)}X_{2(j)}+\epsilon_{(ij)}\]</span> As we can see, the model contains random intercepts but also random slopes for the level-1 predictor <span class="math inline">\(X_{1(ij)}\)</span>. Besides the fixed effects of the two predictors, we also have a fixed effect for their interaction, namely <span class="math inline">\(b_{3(0)}\)</span>. This interaction term is similar to interactions in regular regression models in that it is simply the product of the two variables. Similar to within-between interactions in a mixed ANOVA, the cross-level interaction indicates that the strength of the relationship between the level-1 predictor <span class="math inline">\(X_{1(ij)}\)</span> and the criterion <span class="math inline">\(Y_{(ij)}\)</span> depends on the magnitude (or category) of the level-2 predictor <span class="math inline">\(X_{2(j)}\)</span>.</p>
+<div class="alert alert-info">
+<p>Including a cross-level interaction in a multi-level model with random slopes for the lower-level predictor involved in the interaction allows us to explain some of the unspecific interaction effect modelled via the random slopes. Just as adding main effects allows us to explain some of the unexplained variance at their level, adding cross-level interactions allow us to explain some of the random variation of the slopes.</p>
+</div>
+<div class="alert alert-info">
+<p>Theoretically, it is possible to model random slopes for cross-level interactions. The only requirement is that the higher-levelled predictor is not located at the model’s highest level. For example, we can model random slopes for a cross-level interaction of a level-1 predictor and a level-2 predictor is the model has at least three levels. Those random slopes would then represent an unspecific three-way interaction with the possible moderating variable residing on the third level.</p>
+</div>
+</section>
+</section>
+<section id="running-multi-level-models-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="running-multi-level-models-in-r">Running multi-level models in R</h2>
+<p>R offers several packages that allow computing multi-level models. We will use the <em>lme4</em> package as it is perhaps the most commonly used multi-level package. This package has one drawback: it does not compute <span class="math inline">\(p\)</span>-values (the reason is that the authors of the package noticed that there it is non-trivial to compute the correct degrees of freedom for the <span class="math inline">\(t\)</span>-distributions used to test for statistical significance that holds when certain conditions such as balanced design are not met). Therefore, we will use an additional package called <em>lmerTest</em> that computes the degrees of freedom and, consequently, the <span class="math inline">\(p\)</span>-values using a Satterthwaite-correction. Since <em>lmerTest</em> has <em>lme4</em> as a dependency, installing <em>lmerTest</em> will also and install <em>lme4</em>, and <em>lmerTest</em> via the <em>library</em> function will also load <em>lme4</em>. However, because <em>lme4</em> is the real workhorse, we will frequently refer to it in the following sections.</p>
+<p>The way will will use the <em>lmer</em> function for now requires us to define two arguments (similar to the regular regression function <em>lm</em>):</p>
+<ul>
+<li><em>formula</em> (required): a formula type object telling the function which variable to predict and what parameters to include in the model.</li>
+<li><em>data</em> (optional): a data frame containing the data; in theory, we could omit defining the argument if all of our variables existed as separate objects in our environment, but using data frames is much preferable.</li>
+</ul>
+<section id="formulae-for-multi-level-models" class="level3">
+<h3 class="anchored" data-anchor-id="formulae-for-multi-level-models">Formulae for multi-level models</h3>
+<p>The first thing we need to understand is how the syntax for multi-level model formulae works in R. For fixed effects, the formula is similar to that of regular regression models, so we need to focus on the random effects. Generally speaking, random effects are written in parentheses. Within the parentheses, we use a pipe operator (<strong>|</strong>) to separate the parameters we want to model random effects for (left-hand side of the pipe) and the grouping variable(s) by which the effects should vary (right-hand side of the pipe). Let’s look at a few basic examples:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Examples of multi-level formulae using lme4-syntax in a two-level model</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## with "group" as the level-2 grouping variable and one level-1 predictor X</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># variance component model (intercept-only)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>group) </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># random intercept model with one predictor X1</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>group) </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># random slope model with correlated random intercepts and slopes</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> X<span class="sc">|</span>group)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># random slope model with uncorrelated random intercepts and slopes</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> X<span class="sc">||</span>group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that we have a basic understanding of how the formulae work in the <em>lme4</em> package, we can turn to the function we will use: <em>lmer</em>. Since we will use <em>lme4</em> in conjunction with <em>lmerTest</em>, it is important to know that <em>lmerTest</em> has a function called <em>lmer</em> that overrides the original <em>lmer</em> function of <em>lme4</em>. This is intentional and will allow us to write code as if we were using <em>lme4</em> while also providing us with <em>p</em>-values in the model output.</p>
+<p>Let’s now write our first multi-level model in R. As always, we first need some hierarchical data. We will make up some data from a fictional experiment, in which several participants worked on a number of trials each. The data includes performance as a dependent variable, a continuous independent variable at level 1 indicating the stimulus intensity, and a level-two independent variable indicating task difficulty. Let’s have a look at an except of the data (stored in df1):</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID difficulty trial intensity performance
+1  1  difficult     1         8       30.15
+2  1  difficult     2         9       35.55
+3  1  difficult     3        15       34.26
+4  1  difficult     4        10       29.65
+5  1  difficult     5        10       29.80
+6  1  difficult     6        15       34.00</code></pre>
+</div>
+</div>
+<p>From that little excerpt, we can see that difficulty is a level-2 predictor as it is constant for a participant. In contrast intensity varies on the trial level. We can now start building different models. The first model, we will look at is the variance component model. Here is the syntax:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the required libraries (lmerTest automatically loads lme4)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># define the variance component model (intercept only)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data =</span> df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running this line of code will create a new object called <em>mod1</em> in the environment (the object type is labelled as “Formal class lmerModLmerTest, but we do not need to concern ourselves with that). Similar to regular regression models, simply calling the object’s name will not yield a very informative output. instead, we need to feed the model into the <em>summary</em> function as its sole argument.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># display the the multi-level model</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running the code above will produce a detailed output of the model (see below):</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lmerTest'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:lme4':
+
+    lmer</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    step</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: performance ~ 1 + (1 | ID)
+   Data: df1
+
+REML criterion at convergence: 5384.7
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.1994 -0.6355 -0.0100  0.6315  3.5175 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ ID       (Intercept) 60.29    7.764   
+ Residual             20.06    4.479   
+Number of obs: 900, groups:  ID, 30
+
+Fixed effects:
+            Estimate Std. Error     df t value Pr(&gt;|t|)    
+(Intercept)   38.791      1.425 29.000   27.21   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+<p>The top of the output contains some general information such as that the <span class="math inline">\(t\)</span>-tests of the fixed effect parameters are computed using Satterthwaite’s method (this is what we use <em>lmerTest</em> for), and that the model parameters were estimates using REML (restricted maximum likelihood). We can usually ignore this information.</p>
+<p>Two parts of the output are noteworthy. The first is the section labelled “Random effects”. here, R shows us two random effects. The first is a random intercept that varies between participants, indicated by the grouping variable for that random effect being “ID”. The second is the residual. Since these are random effects, we estimate them as a variance or standard deviation (R neatly computes both for us). In the example above, we can see that there is somewhat more variability within participants (i.e., at level 1) than between participants (at level 2).</p>
+<p>The second part of interest is the “Fixed effects” table. Here, we can see the fixed regression parameters along with their standard error and <span class="math inline">\(t\)</span>-value. Since we are using <em>lmertest</em>, the output also contains the degrees of freedom and a <span class="math inline">\(p\)</span>-value. In this model, we have only one fixed effect, namely the fixed intercept. As we can see, it is significantly different from zero.</p>
+<p>Let’s now gradually add effects to the model. We will start by adding a fixed slope for the level-1 predictor, then add a fixed slope for the level-2 predictor, then add random slopes for the level-1 predictor and finally include the cross-level interaction. Here is the syntax:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fixed slope model with random intercepts</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> intensity <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data =</span> df1)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># random intercept model with fixed slopes for both predictors</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> intensity <span class="sc">+</span> difficulty <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data =</span> df1)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># model with random slopes for the level-1 predictor</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>mod4 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> intensity <span class="sc">+</span> difficulty <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> intensity<span class="sc">|</span>ID), <span class="at">data =</span> df1)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># random slopes model with a cross-level interaction</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>mod5 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> intensity <span class="sc">*</span> difficulty <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> intensity<span class="sc">|</span>ID), <span class="at">data =</span> df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can now display each model by feeding it into the <em>summary</em> function. Let’s have a look at each model’s output and compare it to the preceding model. Here is the output for model 2:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: performance ~ 1 + intensity + (1 | ID)
+   Data: df1
+
+REML criterion at convergence: 4814.9
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.1988 -0.6494  0.0148  0.6452  3.3583 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ ID       (Intercept) 58.41    7.642   
+ Residual             10.39    3.223   
+Number of obs: 900, groups:  ID, 30
+
+Fixed effects:
+             Estimate Std. Error        df t value Pr(&gt;|t|)    
+(Intercept)  28.34588    1.44662  33.10797   19.59   &lt;2e-16 ***
+intensity     1.03825    0.03643 869.31076   28.50   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+          (Intr)
+intensity -0.253</code></pre>
+</div>
+</div>
+</div>
+<p>Let’s first look at the fixed effects. As we can see, there is now a fixed slope for the level-1 predictor “intensity” in addition to the fixed intercept. We can further see that the fixed slope is significant, meaning that higher stimulus intensity leads to better performance (we can only make this causal inference because our data stems from a fictional experiment and stimulus intensity is a manipulated variable). The fractional degrees of freedom are due to the Satterthwaite-correction.</p>
+<p>Let’s now look at the random effects. If we compare them to the previous model, we will notice that the residual variance has decreased by about 50%, and the variance of the intercepts is also slightly lower. The first makes sense because we have now included a level-1 predictor that should explain some of the level-1 variability. The unexplained level-1 variance captured by the residual is, thus, lower. The fact that the variance of the intercepts also decreased somewhat tells us that the average stimulus intensity is not equal for all participants. To the extent that stimulus intensity is related to the criterion (which it is, in our case), such differences in the average level will reduce some of the unexplained variance of the intercepts.</p>
+<p>Let’s now look at the model including the fixed effect for the level-2 predictor.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: performance ~ 1 + intensity + difficulty + (1 | ID)
+   Data: df1
+
+REML criterion at convergence: 4782.5
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.2095 -0.6512  0.0152  0.6462  3.3429 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ ID       (Intercept) 21.62    4.650   
+ Residual             10.39    3.223   
+Number of obs: 900, groups:  ID, 30
+
+Fixed effects:
+                Estimate Std. Error        df t value Pr(&gt;|t|)    
+(Intercept)     22.31523    1.26414  33.32054  17.652  &lt; 2e-16 ***
+intensity        1.03892    0.03643 869.82329  28.521  &lt; 2e-16 ***
+difficultyeasy  12.04787    1.71149  27.99767   7.039 1.17e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) intnst
+intensity   -0.289       
+difficltysy -0.677 -0.001</code></pre>
+</div>
+</div>
+</div>
+<p>Let’s again focus on the fixed effects first. The new predictor “difficulty” is a factor with two levels, which means that the <em>lmer</em> function dummy-codes it (similar to the <em>lm</em> function). From the model output, we can infer that its level “difficult” is being treated as the reference level, and the fixed effect tells us how performance increases if we switch to difficulty “easy”. The effect is statistically significant.</p>
+<p>Now let’s look at the random effects. Since “difficulty” is a level-2 predictor and, thus, constant at level 1 is cannot explain any level-1 variance. We can confirm this by comparing the residual variance of this model to the previous one that excluded the level-2 predictor. Save for some rounding effects, the residual is the same. In contrast, due to the level-2 predictor being significantly related to the criterion, we now know more about why the intercepts for our participants differed. A substantial part of this variance is due to the fact that some participants worked on an easy version of the task while for others the task was difficult. This means that we have now explained some of the previously unexplained variance at level 2. Accordingly, the random effect indicating the variance of the intercepts is much smaller in the new model when compared with its predecessor.</p>
+<p>We will now look at the model including random slopes.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: performance ~ 1 + intensity + difficulty + (1 + intensity | ID)
+   Data: df1
+
+REML criterion at convergence: 4723.8
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.8487 -0.6607  0.0206  0.6497  3.3145 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr 
+ ID       (Intercept) 17.7825  4.2169        
+          intensity    0.1425  0.3774   -0.28
+ Residual              9.2619  3.0433        
+Number of obs: 900, groups:  ID, 30
+
+Fixed effects:
+               Estimate Std. Error       df t value Pr(&gt;|t|)    
+(Intercept)    23.73070    1.15541 28.68547  20.539  &lt; 2e-16 ***
+intensity       1.03622    0.07727 27.20176  13.410 1.66e-13 ***
+difficultyeasy  9.19175    1.55680 27.98708   5.904 2.37e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) intnst
+intensity   -0.303       
+difficltysy -0.675  0.002</code></pre>
+</div>
+</div>
+</div>
+<p>As soon as we include random slopes, things become a little messier with the random effects. But let’s first look at the fixed effects. We did not add any new fixed effects, but we can see that the parameter estimates for the ones we already had in the model are slightly different. The most noteworthy change is that the standard error of the fixed slope of “intensity” is larger, and its t-value and degrees of freedom are lower, too. Since the effect is rather strong, it does not change the fact stimulus intensity is a significant predictor of performance.</p>
+<p>When we look at the random effects, we should notice three things. First, there is now another random effect indicating the variance (or standard deviation) of the slopes of intensity. Second, we now have a new parameter indicating the correlation of the random intercepts and the random slopes of intensity. This correlation tells us that participants with lower than average intercepts tend to have slightly above average slopes. Finally, adding the random slopes slightly reduced both the residual variance and the variance of the intercepts.</p>
+<p>Let’s now look at the final model including the cross-level interaction.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: performance ~ 1 + intensity * difficulty + (1 + intensity | ID)
+   Data: df1
+
+REML criterion at convergence: 4712.4
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.9023 -0.6682  0.0338  0.6418  3.3226 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr 
+ ID       (Intercept) 16.37095 4.046         
+          intensity    0.07787 0.279    -0.12
+ Residual              9.26467 3.044         
+Number of obs: 900, groups:  ID, 30
+
+Fixed effects:
+                         Estimate Std. Error      df t value Pr(&gt;|t|)    
+(Intercept)               24.8832     1.1674 27.4303  21.315  &lt; 2e-16 ***
+intensity                  0.7802     0.0876 26.0964   8.907 2.16e-09 ***
+difficultyeasy             6.9351     1.6485 27.2680   4.207 0.000251 ***
+intensity:difficultyeasy   0.5078     0.1235 25.7388   4.112 0.000354 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) intnst dffclt
+intensity   -0.335              
+difficltysy -0.708  0.237       
+intnsty:dff  0.238 -0.709 -0.332</code></pre>
+</div>
+</div>
+</div>
+<p>Adding the cross-level interaction had several effects. First of all, we now have another significant fixed effect indicating that the effect of stimulus intensity depends on the difficulty of the task. We can interpret the fixed effects in the same fashion as in a regular multiple regression analysis. Since task difficulty is a dummy-coded categorical predictor, the intercept represents the fixed intercept in the reference category (difficult task), and the fixed slope of intensity marks the effect of stimulus intensity in the reference category. The fixed effect of task difficulty states how the fixed intercept of the model changes when we switch difficult tasks (the reference category) to easy tasks. Finally, the cross-level interaction indicates how the fixed slope of stimulus intensity changes if we switch to easy tasks. This in mind, we can now state that the positive effect of stimulus intensity on performance is stronger for easy than for difficult tasks.</p>
+<p>Let’s now look at the random effects. Since we have only added a fixed effect, their number is identical to that of the previous model. Since random slopes indicate unspecific cross-level interaction effects, adding a significant cross-level interaction must decrease the variance of the slopes. This is exactly what we observe: the random slopes of intensity is lower in the final model than in its predecessor. We also notice a slight reduction in the variance of the random slopes. The reason for this reduction is the correlation between random slopes and random intercepts. Were the random effects uncorrelated, the variance of the random intercepts would have remained unchanged save for rounding effects.</p>
+</section>
+</section>
+<section id="comparing-nested-multi-level-models" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-nested-multi-level-models">Comparing nested multi-level models</h2>
+<p>The five models we computed above are nested models, that is, each of the models is more complex than the previous one because it adds at least one new parameter. We could now ask ourselves whether adding a new parameter make the model better. Just as with regular regression models, “better” means that the model provides a better fit to the data. However, since we partition the unexplained variance in a multi-level model, we cannot compute <span class="math inline">\(R^2\)</span> as a measure of model fit (remember that <span class="math inline">\(R^2\)</span> is determined by a regression model’s residual variance).</p>
+<p>If we want to compare nested multi-level models, we instead use <strong>likelihood-ratio tests</strong>. Since multi-level models are estimated using a (restricted) maximum likelihood method, we can compute the likelihood <span class="math inline">\(L\)</span> of the model. From the likelihood <span class="math inline">\(L\)</span> we can compute the model <strong>deviance</strong> <span class="math inline">\(D\)</span>.</p>
+<p><span class="math display">\[D = -2 \cdot ln(L)\]</span> The deviance is a measure of “badness”. A model is better, the lower <span class="math inline">\(D\)</span> is. It can be shown that the difference between two model’s deviances <span class="math inline">\(D_1\)</span> and <span class="math inline">\(D_2\)</span> follows a <span class="math inline">\(\chi^2\)</span>-distribution with degrees of freedom equalling the difference in model parameters <span class="math inline">\(k\)</span>.</p>
+<p><span class="math inline">\(D_2-D_1 \sim \chi_{k_{2}-k_{1}}\)</span></p>
+<p>This test logic is conceptually similar to the comparison of nested regression models. The only difference is that the test is based on a different fit-metric and uses a different test statistic. Very conveniently, we can use the same function to compare nested multi-level models that we used to compare nested regular regression models, namely the function <em>anova</em>.</p>
+<p>We can feed the <em>anova</em> function two or more multi-level models, and it will compare each model to its predecessor. Just as in the case of regular regression models, we need to make sure that the models are nested and entered in the correct order for the output of the function to make sense.</p>
+<p>There is one other caveat: the <em>anova</em> function requires all models to be estimated via the maximum likelihood (ML) method. However, the default method for parameter estimation in <em>lme4</em> is restricted maximum likelihood (REML). If we feed models estimated via REML into the <em>anova</em> function, the function will recompute the model using ML instead and then compare the models in the order in which we entered them. The potential problem is that the model parameters may slightly differ between the ML and REML method. If we plan to compare models in terms of their fit, it is, therefore prudent to use ML estimation from the start. We can do so by overwriting the default of the <em>REML</em> argument of the <em>lmer</em> function. The default value is <em>TRUE</em> leading to REML estimation, but if we set it to <em>FALSE</em> instead, the <em>lmer</em> function will estimate the model parameters using ML.</p>
+<p>In our example rerunning the models with ML estimation does not change the overall picture (although in the more complex models, the exact parameter estimate differ slightly). We will therefore not reinvestigate the model outputs for the ML versions. Let’s instead have a look at the model comparisons of our five nested models. Here is the syntax:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comparison of five nested multi-level models predicting performance in a functional experiment</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod1, mod2, mod3, mod4, mod5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>once we run that code, we will see the following output in the console:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Data: df1
+Models:
+mod1: performance ~ 1 + (1 | ID)
+mod2: performance ~ 1 + intensity + (1 | ID)
+mod3: performance ~ 1 + intensity + difficulty + (1 | ID)
+mod4: performance ~ 1 + intensity + difficulty + (1 + intensity | ID)
+mod5: performance ~ 1 + intensity * difficulty + (1 + intensity | ID)
+     npar    AIC    BIC  logLik deviance   Chisq Df Pr(&gt;Chisq)    
+mod1    3 5393.3 5407.7 -2693.6   5387.3                          
+mod2    4 4820.6 4839.8 -2406.3   4812.6 574.652  1  &lt; 2.2e-16 ***
+mod3    5 4792.0 4816.1 -2391.0   4782.0  30.563  1  3.232e-08 ***
+mod4    7 4738.5 4772.1 -2362.2   4724.5  57.538  2  3.205e-13 ***
+mod5    8 4726.2 4764.6 -2355.1   4710.2  14.287  1  0.0001569 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+<p>Let’s go through that output. The top half is simply a reiteration of the model formulae for the convenience of the reader. The critical information is contained in the lower half. First, the function tells us for each model how many parameters it contains. Here, we count both fixed and random parameters. For example, the first model has three parameters: the fixed intercept, the residual variance and the variance of the random intercepts. Models 2 and 3 each add one fixed effects, meaning that the number of parameters increases by 1 each. Model 4 has two additional parameters even though we only added the random slopes. The second parameter is the correlation between the random intercepts and slopes that the <em>lmer</em> function estimates automatically. Finally, the fifth model adds one more fixed effect for a total of 8 parameters.</p>
+<p>The table then shows several related fit indices that are all based on the log-likelihood. We already know that the deviance <span class="math inline">\(D\)</span> is simply <span class="math inline">\(-2 \cdot ln(L)\)</span>. Akaike’s information criterion (AIC) is defined as:</p>
+<p><span class="math display">\[AIC = D + 2k\]</span></p>
+<p>Here, <span class="math inline">\(k\)</span> is the number of model parameters. Just like <span class="math inline">\(D\)</span>, the AIC is a measure of “badness”. Adding two times the number of parameters to the deviation <span class="math inline">\(D\)</span> means that AIC punishes the addition of new parameters. The Bayesian information criterion (BIC) is defined as:</p>
+<p><span class="math display">\[BIC = k\cdot ln(N) + D\]</span> Again, <span class="math inline">\(k\)</span> is the number of parameters, and <span class="math inline">\(N\)</span> is the total number of observations. Once more, lower values indicate a better model fit. Furthermore we can see that the BIC, similar to the AIC, punishes the addition of new model parameters, but the punishment is harsher (as soon as we have 8 or more observations, the multiplier for the model parameters exceeds that of the AIC) as it grows stronger with the total sample size.</p>
+<p>Finally, the output of the model comparison shows us the <span class="math inline">\(\chi^2\)</span>-distributed difference of the model deviations in the column labelled “Chisq” along with the degrees of freedom and the <span class="math inline">\(p\)</span>-value for the test of differences in model fit. In our case, each model outperforms its predecessor in terms of model fit. The likelihood ration test comes in very handy when we want to test whether adding a random effect makes our model better because, other than fixed effects, the random effects do not come with a significance test on their own.</p>
+</section>
+<section id="a-final-note-on-multi-level-model-formulation" class="level2">
+<h2 class="anchored" data-anchor-id="a-final-note-on-multi-level-model-formulation">A final note on multi-level model formulation</h2>
+<p>As the example above shows, we have a lot of decisions to make when we decide how to model even relatively simple hierarchical data. Do we include random slopes or do we leave it at random intercepts? Should we include main effects only or do we want to model cross-level interactions? Some of these questions will be answered by the theoretical frameworks we base our studies on, but for others it is not that simple. In particular, few theories make statements about random effects (after all, it is the fixed effects we use to test our hypotheses).</p>
+<p>As a rule of thumb, it is prudent to include random slopes whenever feasible because the assumption that the regression has the exact same slope for all higher-level units is quite a strong one (we will neglect for a moment that we make this exact assumption frequently when using other statistical techniques). In some cases, however, modelling random slopes is not possible. one reason might be that we do not have sufficient level-1 observations within each level-2 grouping unit or our general sample size is too small to reliably estimate a large number of model parameters. In other cases, even if the sample size is large, a model containing random slopes may not converge. What this means is that the optimisation algorithms used to estimate the model parameters run into problems, and the estimated model parameters may not be trustworthy. In those cases, it is wise to remove parameters until the model converges. Often, removing a random slope does the trick.</p>
+
+
 </section>
 
 </main> <!-- /main -->
