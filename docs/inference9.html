@@ -375,13 +375,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The name of the next parameter <span class="math inline">\(b_{1(0)}\)</span> reveals that this is regression weight of the first predictor (<span class="math inline">\(b_1\)</span>) and that it does not vary between groups (indicated by the zero in parentheses). We can further see that <span class="math inline">\(b_{1(0)}\)</span> is is a level-1 fixed effect because there is a value of the accompanying predictor <span class="math inline">\(X_{1(ij)}\)</span> for each of the <span class="math inline">\(i\)</span> observations within each of the <span class="math inline">\(j\)</span> groups (the <span class="math inline">\(ij\)</span> in parentheses tells us that <span class="math inline">\(X_1\)</span> varies at both levels).</p>
 <p>Below is a visualisation of what a random intercept model with a single level-1 predictor could look like.</p>
 <div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in rep(rnorm(2, 3, 1), each = 10) * df2$demands: longer object length
+is not a multiple of shorter object length</code></pre>
+</div>
 <div class="cell-output-display">
 <p><img src="inference9_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>In the figure above, the bold black line represents the fixed part of the model. The intercept of this regression line is <span class="math inline">\(c_{0(0)}\)</span>, and its slope is <span class="math inline">\(b_{1_(0)}\)</span>. We can also see that the model has random intercepts for each team. This means that the regression line is shifted upward or downwards depending on which team we look at. Since the slope for the predictor <em>job demands</em> does not vary at level 2, it is equal for all teams as indicated by the regression lines running parallel. What this means is that while members of different teams seem to report different overall levels of stress, the increase in stress as job demands increase is equal for members of all teams.</p>
 <div class="alert alert-success">
-<p>A fixed will usually explain some of the unexplained variance at its own level. For example, in a two-level model, including a level-1 predictor as a fixed effect will reduce the residual <span class="math inline">\(\epsilon_{(ij)}\)</span>. The variance of the model intercepts will remain constant if the average magnitude of the level-1 predictor does not differ between level-2 units.</p>
+<p>A fixed will usually explain some of the unexplained variance at its own level. For example, in a two-level model, including a level-1 predictor as a fixed effect will reduce the residual <span class="math inline">\(\epsilon_{(ij)}\)</span>. The variance of the model intercepts might also change slightly when the average magnitude of the level-1 predictor or its relationship with the criterion differ between level-2 units (and be it due to chance).</p>
 <p>If that reminds you of mixed ANOVAs where we separated effects into within-subject and between-subject effects, that is no coincidence. A mixed ANOVA can be considered a special case of multi-level model.</p>
 </div>
 </section>
@@ -407,10 +411,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="inference9_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>From the figure above, we can see that while job demands are positively associated with stress for people in all teams, the strength of this association is subject to some variation, meaning that the slope is steeper for some members of some teams than others.</p>
+<p>From the figure above, we can see that while job demands are positively associated with stress for people in all teams, the strength of this association is subject to some variation, meaning that the slope is steeper for members of some teams than others.</p>
 <div class="alert alert-success">
 <p>The figure above should remind you of the interaction effects of continuous and categorical predictors in multiple linear regression. Those interaction effects essentially resulted in different regression lines for each category.</p>
-<p>Even though multiple-regression is based on a purely between-subjects design, this analogy holds. If you will, we can think of random slopes as <strong>unspecific interaction effects</strong> between the respective predictor and an modelled variable at a higher level (of course, part of the variability in slopes can also be due to chance alone).</p>
+<p>Even though multiple-regression is based on a purely between-subjects design, this analogy holds. If you will, we can think of random slopes as <strong>unspecific interaction effects</strong> between the respective predictor and an modeled variable at a higher level (of course, part of the variability in slopes can also be due to chance alone).</p>
 </div>
 </section>
 <section id="cross-level-interactions" class="level3">
@@ -438,23 +442,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="formulae-for-multi-level-models">Formulae for multi-level models</h3>
 <p>The first thing we need to understand is how the syntax for multi-level model formulae works in R. For fixed effects, the formula is similar to that of regular regression models, so we need to focus on the random effects. Generally speaking, random effects are written in parentheses. Within the parentheses, we use a pipe operator (<strong>|</strong>) to separate the parameters we want to model random effects for (left-hand side of the pipe) and the grouping variable(s) by which the effects should vary (right-hand side of the pipe). Let’s look at a few basic examples:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Examples of multi-level formulae using lme4-syntax in a two-level model</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## with "group" as the level-2 grouping variable and one level-1 predictor X</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># variance component model (intercept-only)</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>group) </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># random intercept model with one predictor X1</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>group) </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># random slope model with correlated random intercepts and slopes</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> X<span class="sc">|</span>group)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># random slope model with uncorrelated random intercepts and slopes</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> X<span class="sc">||</span>group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Examples of multi-level formulae using lme4-syntax in a two-level model</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">## with "group" as the level-2 grouping variable and one level-1 predictor X</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># variance component model (intercept-only)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>group) </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># random intercept model with one predictor X1</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>group) </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># random slope model with correlated random intercepts and slopes</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> X<span class="sc">|</span>group)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># random slope model with uncorrelated random intercepts and slopes</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> X<span class="sc">||</span>group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now that we have a basic understanding of how the formulae work in the <em>lme4</em> package, we can turn to the function we will use: <em>lmer</em>. Since we will use <em>lme4</em> in conjunction with <em>lmerTest</em>, it is important to know that <em>lmerTest</em> has a function called <em>lmer</em> that overrides the original <em>lmer</em> function of <em>lme4</em>. This is intentional and will allow us to write code as if we were using <em>lme4</em> while also providing us with <em>p</em>-values in the model output.</p>
-<p>Let’s now write our first multi-level model in R. As always, we first need some hierarchical data. We will make up some data from a fictional experiment, in which several participants worked on a number of trials each. The data includes performance as a dependent variable, a continuous independent variable at level 1 indicating the stimulus intensity, and a level-two independent variable indicating task difficulty. Let’s have a look at an except of the data (stored in df1):</p>
+<p>Let’s now write our first multi-level model in R. As always, we first need some hierarchical data. We will make up some data from a fictional experiment, in which several participants worked on a number of trials each. The data includes performance as a dependent variable, a continuous independent variable at level 1 indicating the stimulus intensity, and a level-two independent variable indicating task difficulty. Let’s have a look at an excerpt of the data (stored in df1):</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID difficulty trial intensity performance
@@ -468,16 +472,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>From that little excerpt, we can see that difficulty is a level-2 predictor as it is constant for a participant. In contrast intensity varies on the trial level. We can now start building different models. The first model, we will look at is the variance component model. Here is the syntax:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the required libraries (lmerTest automatically loads lme4)</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># define the variance component model (intercept only)</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data =</span> df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the required libraries (lmerTest automatically loads lme4)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># define the variance component model (intercept only)</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data =</span> df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Running this line of code will create a new object called <em>mod1</em> in the environment (the object type is labelled as “Formal class lmerModLmerTest, but we do not need to concern ourselves with that). Similar to regular regression models, simply calling the object’s name will not yield a very informative output. instead, we need to feed the model into the <em>summary</em> function as its sole argument.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># display the the multi-level model</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># display the the multi-level model</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Running the code above will produce a detailed output of the model (see below):</p>
 <div class="alert alert-warning">
@@ -527,17 +531,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>The second part of interest is the “Fixed effects” table. Here, we can see the fixed regression parameters along with their standard error and <span class="math inline">\(t\)</span>-value. Since we are using <em>lmertest</em>, the output also contains the degrees of freedom and a <span class="math inline">\(p\)</span>-value. In this model, we have only one fixed effect, namely the fixed intercept. As we can see, it is significantly different from zero.</p>
 <p>Let’s now gradually add effects to the model. We will start by adding a fixed slope for the level-1 predictor, then add a fixed slope for the level-2 predictor, then add random slopes for the level-1 predictor and finally include the cross-level interaction. Here is the syntax:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fixed slope model with random intercepts</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> intensity <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data =</span> df1)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># random intercept model with fixed slopes for both predictors</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> intensity <span class="sc">+</span> difficulty <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data =</span> df1)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># model with random slopes for the level-1 predictor</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>mod4 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> intensity <span class="sc">+</span> difficulty <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> intensity<span class="sc">|</span>ID), <span class="at">data =</span> df1)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># random slopes model with a cross-level interaction</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>mod5 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> intensity <span class="sc">*</span> difficulty <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> intensity<span class="sc">|</span>ID), <span class="at">data =</span> df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fixed slope model with random intercepts</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> intensity <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data =</span> df1)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># random intercept model with fixed slopes for both predictors</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> intensity <span class="sc">+</span> difficulty <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data =</span> df1)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># model with random slopes for the level-1 predictor</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>mod4 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> intensity <span class="sc">+</span> difficulty <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> intensity<span class="sc">|</span>ID), <span class="at">data =</span> df1)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># random slopes model with a cross-level interaction</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>mod5 <span class="ot">=</span> <span class="fu">lmer</span>(performance <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> intensity <span class="sc">*</span> difficulty <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> intensity<span class="sc">|</span>ID), <span class="at">data =</span> df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now display each model by feeding it into the <em>summary</em> function. Let’s have a look at each model’s output and compare it to the preceding model. Here is the output for model 2:</p>
 <div class="alert alert-warning">
@@ -706,8 +710,8 @@ intnsty:dff  0.238 -0.709 -0.332</code></pre>
 <p>There is one other caveat: the <em>anova</em> function requires all models to be estimated via the maximum likelihood (ML) method. However, the default method for parameter estimation in <em>lme4</em> is restricted maximum likelihood (REML). If we feed models estimated via REML into the <em>anova</em> function, the function will recompute the model using ML instead and then compare the models in the order in which we entered them. The potential problem is that the model parameters may slightly differ between the ML and REML method. If we plan to compare models in terms of their fit, it is, therefore prudent to use ML estimation from the start. We can do so by overwriting the default of the <em>REML</em> argument of the <em>lmer</em> function. The default value is <em>TRUE</em> leading to REML estimation, but if we set it to <em>FALSE</em> instead, the <em>lmer</em> function will estimate the model parameters using ML.</p>
 <p>In our example rerunning the models with ML estimation does not change the overall picture (although in the more complex models, the exact parameter estimate differ slightly). We will therefore not reinvestigate the model outputs for the ML versions. Let’s instead have a look at the model comparisons of our five nested models. Here is the syntax:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comparison of five nested multi-level models predicting performance in a functional experiment</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod1, mod2, mod3, mod4, mod5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># comparison of five nested multi-level models predicting performance in a fictional experiment</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod1, mod2, mod3, mod4, mod5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>once we run that code, we will see the following output in the console:</p>
 <div class="alert alert-warning">

@@ -231,7 +231,7 @@ We can see, that the residuals $\epsilon_i$ tell us how each participant's score
       for(j in 1:3){
         lines(x = c(tmp$VP[j], tmp$VP[j]), y = c(unlist(coef(mod3b))[i], unlist(coef(mod3b))[i] + tmp$resid3b[j]), col = QUB_palette[i])
         text(x = tmp$VP[j] + 0.35, y = ( unlist(coef(mod3b))[i] + tmp$resid3b[j])-0.1,
-           bquote(paste(epsilon[(.(i)*.(j))]))
+           bquote(paste(epsilon[(.(j)*.(i))]))
            , col = QUB_palette[i])
         }
       }
@@ -275,7 +275,7 @@ df2 = data.frame(ID = 1:30, team = factor(rep(1:3, each = 10)),
                  demands = (runif(30, 1, 7)) + 
                    (rep(rnorm(3, 0, 1), each = 10))
                  )
-df2$stress = as.numeric(df2$team)*2 + df2$demands + rnorm(30, 0, 3)
+df2$stress = (as.numeric(df2$team)*4 + rep(rnorm(2, 3, 1), each = 10)*df2$demands + rnorm(30, 0, 3)*0.5)
 
 mod1 = lmer(stress ~ demands + (1|team), data = df2)
 
@@ -287,7 +287,7 @@ p2 = ggscatter(data = df2, x = 'demands', y = 'stress', color = 'team', palette 
 
 ggpar(p2, legend = c(0.15, 0.85), legend.title = "team", font.y = c(18, 'bold'),
       font.x = c(18, "bold"), font.xtickslab = 16, font.legend = 15, 
-      xlab = 'job demands', ylim = c(0, 25))
+      xlab = 'job demands', ylim = c(0, 30))
 
 
 
@@ -296,7 +296,7 @@ ggpar(p2, legend = c(0.15, 0.85), legend.title = "team", font.y = c(18, 'bold'),
 In the figure above, the bold black line represents the fixed part of the model. The intercept of this regression line is $c_{0(0)}$, and its slope is $b_{1_(0)}$. We can also see that the model has random intercepts for each team. This means that the regression line is shifted upward or downwards depending on which team we look at. Since the slope for the predictor *job demands* does not vary at level 2, it is equal for all teams as indicated by the regression lines running parallel. What this means is that while members of different teams seem to report different overall levels of stress, the increase in stress as job demands increase is equal for members of all teams.
 
 :::{.alert .alert-success}
-A fixed will usually explain some of the unexplained variance at its own level. For example, in a two-level model, including a level-1 predictor as a fixed effect will reduce the residual $\epsilon_{(ij)}$. The variance of the model intercepts will remain constant if the average magnitude of the level-1 predictor does not differ between level-2 units. 
+A fixed will usually explain some of the unexplained variance at its own level. For example, in a two-level model, including a level-1 predictor as a fixed effect will reduce the residual $\epsilon_{(ij)}$. The variance of the model intercepts might also change slightly when the average magnitude of the level-1 predictor or its relationship with the criterion differ between level-2 units (and be it due to chance). 
 
 If that reminds you of mixed ANOVAs where we separated effects into within-subject and between-subject effects, that is no coincidence. A mixed ANOVA can be considered a special case of multi-level model.
 :::
@@ -358,18 +358,18 @@ p3 = ggscatter(data = df2, x = 'demands', y = 'stress', color = 'team', palette 
 
 ggpar(p3, legend = c(0.15, 0.85), legend.title = "team", font.y = c(18, 'bold'),
       font.x = c(18, "bold"), font.xtickslab = 16, font.legend = 15, 
-      xlab = 'job demands', ylim = c(0, 25))
+      xlab = 'job demands', ylim = c(0, 30))
 
 
 
 ```
 
-From the figure above, we can see that while job demands are positively associated with stress for people in all teams, the strength of this association is subject to some variation, meaning that the slope is steeper for some members of some teams than others.
+From the figure above, we can see that while job demands are positively associated with stress for people in all teams, the strength of this association is subject to some variation, meaning that the slope is steeper for members of some teams than others.
 
 :::{.alert .alert-success}
 The figure above should remind you of the interaction effects of continuous and categorical predictors in multiple linear regression. Those interaction effects essentially resulted in different regression lines for each category. 
 
-Even though multiple-regression is based on a purely between-subjects design, this analogy holds. If you will, we can think of random slopes as **unspecific interaction effects** between the respective predictor and an modelled variable at a higher level (of course, part of the variability in slopes can also be due to chance alone). 
+Even though multiple-regression is based on a purely between-subjects design, this analogy holds. If you will, we can think of random slopes as **unspecific interaction effects** between the respective predictor and an modeled variable at a higher level (of course, part of the variability in slopes can also be due to chance alone). 
 :::
 
 
@@ -429,7 +429,7 @@ y ~ 1 + X + (1 + X||group)
 
 Now that we have a basic understanding of how the formulae work in the *lme4* package, we can turn to the function we will use: *lmer*. Since we will use *lme4* in conjunction with *lmerTest*, it is important to know that *lmerTest* has a function called *lmer* that overrides the original *lmer* function of *lme4*. This is intentional and will allow us to write code as if we were using *lme4* while also providing us with *p*-values in the model output.
 
-Let's now write our first multi-level model in R. As always, we first need some hierarchical data. We will make up some data from a fictional experiment, in which several participants worked on a number of trials each. The data includes performance as a dependent variable, a continuous independent variable at level 1 indicating the stimulus intensity, and a level-two independent variable indicating task difficulty. Let's have a look at an except of the data (stored in df1):
+Let's now write our first multi-level model in R. As always, we first need some hierarchical data. We will make up some data from a fictional experiment, in which several participants worked on a number of trials each. The data includes performance as a dependent variable, a continuous independent variable at level 1 indicating the stimulus intensity, and a level-two independent variable indicating task difficulty. Let's have a look at an excerpt of the data (stored in df1):
 
 ```{r}
 #| eval: true
@@ -628,7 +628,7 @@ In our example rerunning the models with ML estimation does not change the overa
 #| eval: false
 #| echo: true
 #| code-overflow: wrap
-# comparison of five nested multi-level models predicting performance in a functional experiment
+# comparison of five nested multi-level models predicting performance in a fictional experiment
 anova(mod1, mod2, mod3, mod4, mod5)
 ```
 once we run that code, we will see the following output in the console:
@@ -638,7 +638,7 @@ once we run that code, we will see the following output in the console:
 #| eval: true
 #| echo: false
 #| code-overflow: wrap
-# comparison of five nested multi-level models predicting performance in a functional experiment
+# comparison of five nested multi-level models predicting performance in a fictional experiment
 suppressMessages(anova(mod1, mod2, mod3, mod4, mod5))
 ```
 :::
