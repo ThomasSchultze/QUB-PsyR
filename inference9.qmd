@@ -275,7 +275,7 @@ df2 = data.frame(ID = 1:30, team = factor(rep(1:3, each = 10)),
                  demands = (runif(30, 1, 7)) + 
                    (rep(rnorm(3, 0, 1), each = 10))
                  )
-df2$stress = (as.numeric(df2$team)*4 + rep(rnorm(2, 3, 1), each = 10)*df2$demands + rnorm(30, 0, 3)*0.5)
+df2$stress = (as.numeric(df2$team)*4 + rep(rnorm(3, 3, 1), each = 10)*df2$demands + rnorm(30, 0, 3)*0.5)
 
 mod1 = lmer(stress ~ demands + (1|team), data = df2)
 
@@ -661,7 +661,7 @@ Finally, the output of the model comparison shows us the $\chi^2$-distributed di
 
 As the example above shows, we have a lot of decisions to make when we decide how to model even relatively simple hierarchical data. Do we include random slopes or do we leave it at random intercepts? Should we include main effects only or do we want to model cross-level interactions? Some of these questions will be answered by the theoretical frameworks we base our studies on, but for others it is not that simple. In particular, few theories make statements about random effects (after all, it is the fixed effects we use to test our hypotheses). 
 
-As a rule of thumb, it is prudent to include random slopes whenever feasible because the assumption that the regression has the exact same slope for all higher-level units is quite a strong one (we will neglect for a moment that we make this exact assumption frequently when using other statistical techniques). In some cases, however, modelling random slopes is not possible. one reason might be that we do not have sufficient level-1 observations within each level-2 grouping unit or our general sample size is too small to reliably estimate a large number of model parameters. In other cases, even if the sample size is large, a model containing random slopes may not converge. What this means is that the optimisation algorithms used to estimate the model parameters run into problems, and the estimated model parameters may not be trustworthy. In those cases, it is wise to remove parameters until the model converges. Often, removing a random slope does the trick.
+As a rule of thumb, it is prudent to include random slopes whenever feasible because the assumption that the regression has the exact same slope for all higher-level units is quite a strong one (we will neglect for a moment that we make this exact assumption frequently when using other statistical techniques such as repeated measures ANOVA). In some cases, however, modelling random slopes is not possible. One reason might be that we do not have sufficient level-1 observations within each level-2 grouping unit or our general sample size is too small to reliably estimate a large number of model parameters. In other cases, even if the sample size is large, a model containing random slopes may not converge. What this means is that the optimisation algorithms used to estimate the model parameters run into problems, and the estimated model parameters may not be trustworthy. In those cases, it is wise to remove parameters until the model converges. Often, removing a random slope does the trick.
 
 
 
