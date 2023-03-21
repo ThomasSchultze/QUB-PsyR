@@ -209,7 +209,7 @@ p6 = p2 +
 p6
 ```
 
-As we can see, we now have the regression line for a simple regression model in the pot, and the grey band around the line represents the 95% confidence interval around the model predictions. It is quite typical for these confidence bands to be slightly narrower at the extremes of our predictor because we usually have fewer extreme data points. This simply means that the prediction errors are slightly larger at the extremes.
+As we can see, we now have the regression line for a simple regression model in the plot, and the grey band around the line represents the 95% confidence interval around the model predictions. It is quite typical for these confidence bands to be slightly narrower at the extremes of our predictor because we usually have fewer extreme data points. This simply means that the prediction errors are slightly larger at the extremes.
 
 If we do not like the colours *ggplot2* assign to the regression line per default, we can change it manually inside the *geom_smooth* function. Keep in mind that defining colours inside the function for a geom only means that we assign this colour to all geoms created by that function. Since we only have one regression line here, that is not an issue. We can change the colour of the regression line using the *colour* argument while *fill* allows us to change the colour of the confidence band. Let's try to set the colour of the regression line to black and the colour of the confidence band to purple so the aesthetics align better with those of the points. Here is the syntax:
 
@@ -231,7 +231,8 @@ Here is how the plot looks with the customised colours:
 #| code-overflow: wrap
 # add regression line with confidence band to a scatterplot
 p6 = p2 + 
-  geom_smooth(method = 'lm', formula = y ~ x, se = T)
+  geom_smooth(method = 'lm', formula = y ~ x, se = T,
+              colour = 'black', fill = 'purple')
 p6
 ```
 
