@@ -55,9 +55,12 @@ website:
           href: inference/inference9.html
       - text: "Data Visualisation"
         menu:
-        - text: "A Grammar of Graphics"
+        - text: "Preface"
           href: graphs/graphs0.html
-        
+        - text: "Histograms"
+          href: graphs/graphs1.html
+        - text: "Scatterplots"
+          href: graphs/graphs2.html
       - text: "About"
         href: about.html
 
