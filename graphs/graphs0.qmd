@@ -12,9 +12,16 @@ The package that is arguably the most frequently used for visualisation of scien
 
 The idea underlying the grammar of graphics is graphics have a common principle. They are mappings from **data** (something abstract represented by numbers or categories) to **aesthetics** (things we can perceive visually, in this case). The **aesthetics** include the position in a coordinate system, but also information such as the shape, size, or colour of whatever object we want to plot. The different objects we can plot are geometric objects (**geoms**). They could be lines, bars, dots, to name just a a few. Plots in In *ggplot2* have **layers**, that is, we build our plots, step-by-step, starting with an empty base plot to which we gradually add **geoms** until it looks the way we envision it.
 
-Sometimes, it is sufficient to know which aspects of our data to make visible (**aesthetics**) and how to visualise them (**geoms**). However, formally, we also need to define the statistical transformation of our data for the purpose of plotting (**stats**). In some cases, we will use untransformed data, while in other cases, we want to subject the data to a log-transformation, and in yet others we may want to summarise the data by taking its mean or median.
+Sometimes, it is sufficient to know which aspects of our data to make visible (**aesthetics**) and how to visualise them (**geoms**). However, formally, we also need to define the statistical transformation of our data for the purpose of plotting (**stats**). In some cases, we will use untransformed data (the so called "identity" transformation), while in other cases, we want to transform the data (e.g., by taking its logarithm), and in yet others we may want to summarise the data by taking its mean or median.
 
 In sum, when we use **ggplot2**, the **aestheteics**, **geoms**, and **stats** are the ingredients of our plots. Now all we need to do is learn how to define the **aesthetics**, which **geoms** there are at our disposal (we won't be using half of them), and which **stats** we need to use to make informative plots.
+
+:::{.alert .alert-info}
+In *ggplot2*, we will use either functions of type **`geom_`** that come with built-in and modifiable *stats* arguments or **`stats_`** functions that come with built-it in and modifiable *geom* arguments. This illustrates that we always need to define both **stats** and **geoms** when plotting with *ggplot2*.
+
+**Fun fact**: some of the **`stats_`** and **`geom_`** functions are interchangeable. Which one we want to use is up to us.
+:::
+
 
 
 ## Creating plots with ggplot2
@@ -22,7 +29,7 @@ In sum, when we use **ggplot2**, the **aestheteics**, **geoms**, and **stats** a
 Irrespective of what type of plot we want to create, the first step is always to create a base plot. We do so by calling the *ggplot* function from *ggplot2*. The *ggplot* function requires two function arguments:
 
 - *data* (required): a data frame. We need to tell the function where our data is stored. 
-- *mapping* (required): this function argument tells the function the aesthetics. It requires a function call of another function, *aes* (for aesthetics), as its argument.
+- *mapping* (optional): this function argument tells the function the aesthetics. It requires a function call of another function, *aes* (for aesthetics); if specified, defines the default mapping for all layers we will add to the plot; if not specified, we need to specify the aesthetics separately for each layer. 
 
 The *aes* function that we need to feed into *ggplot* for its *mapping* argument, takes the following arguments:
 
@@ -36,7 +43,7 @@ The *aes* function that we need to feed into *ggplot* for its *mapping* argument
 
 That base plot is an empty plot. While we already define which variables will go on the axes for our plots and which variable we will use to define aesthetics such as the size, colour, or shape of potential geoms, the plot itself will be empty. Why? Because we are yet to add a layer containing a geom. That said, what information we put into the code for the base plot will already depend on the type of plot and how we want to represent the variables of our data. For example, we need to specify what goes on the x-axis and the y-axis for scatterplots and line diagrams, but not for histograms (for them, we only need the specify what goes on the x-axis). Likewise, whether we specify a third variable to determine the colour, size or shape in a scatterplot very much depends on whether we have a third variable to classify data by or whether we consider it sensible to include it. 
 
-Put differently, while the first step is always to create an empty base plot, the specific code for this plot differs slightly depending on which information we want to represent (data) and how we want to represent it (geoms).
+Put differently, while the first step is always to create an empty base plot, the specific code for this plot differs slightly depending on which information we want to represent (data) and how we want to represent it (geoms and stats).
 
 
 ### A note on colours in R

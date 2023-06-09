@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>QUB-PsyR - The Tidyverse</title>
+<title>QUB-PsyR - Extracting rows and columns from data frames</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -59,6 +122,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -199,6 +263,25 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../graphs/graphs2.html">
  <span class="dropdown-text">Scatterplots</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../graphs/graphs3.html">
+ <span class="dropdown-text">Violin plots</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-wrangling" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Wrangling</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-data-wrangling">    
+        <li>
+    <a class="dropdown-item" href="../wrangling/wrangling0.html">
+ <span class="dropdown-text">Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../wrangling/wrangling1.html">
+ <span class="dropdown-text">Extracting rows and columns</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -221,7 +304,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">The Tidyverse</h1>
+<h1 class="title">Extracting rows and columns from data frames</h1>
 </div>
 
 
@@ -236,8 +319,156 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p>The first step we will usually take after reading raw data in R is to extract the information we actually need for the analyses we are going to run on the data. Put differently, raw data usually has a lot of information we don’t really need and, thus, want to get rid off. This includes getting rid of cases we do not want to include in the data set but also variables we want to drop from the data.</p>
+<p>The first question is: why should we remove cases or variables from the raw data, in the first place? There are several reasons why we may want to do so. It makes sense to look at dropping cases (rows of a data frame) and variables (columns of a data frame) separately.</p>
+<p>We may want to drop cases from raw data if:</p>
+<ul>
+<li>we only want to study certain populations or subsets in a data set (e.g., retired people, people, who self-identify as non-binary, employees with more than 10 years work experience, etc.)</li>
+<li>some cases represent test runs or trial data and must, therefore, not be included in the final data</li>
+<li>participants did not finish the study or have more missing data than we can tolerate (ideally, decisions about removing cases due to missing data or not finishing a study should be preregistered)</li>
+<li>participants asked us to withdraw their data</li>
+</ul>
+<p>Likewise, we may want to remove variables from the data frame if:</p>
+<ul>
+<li>they contain information that is generated automatically by survey software and not useful for us (e.g., timestamps, session IDs)</li>
+<li>they contain sensitive information that must not be shared (Email addresses, patient information, etc.)</li>
+<li>we want to save them for analysis in a separate study (particularly important if we engage with open science, but want to make sure that others do not use our hard-earned data and beat us to publishing cool papers off it)</li>
+<li>we have computed new variables for our analyses and no longer need the original data in our tidy data frame</li>
+</ul>
+<p>In theory, we already know how to drop rows and columns from a data frame, namely using logical or numerical indexing. While this is true, indexing using base R can become tedious if we have large data sets. The good thing is that there is an R package that makes our lives much easier: <em>dplyr</em>. The <em>dplyr</em> package is part of the <em>tidyverse</em>. We can install and load it separately, or we can install and load the whole <em>tidyverse</em>. If we do that latter, <em>dplyr</em> will be automatically installed and loaded because it is a dependency of the <em>tidyverse</em> package.</p>
+<section id="selecting-rows-with-dplyr" class="level2">
+<h2 class="anchored" data-anchor-id="selecting-rows-with-dplyr">Selecting rows with dplyr</h2>
+<p>In <em>dyplr</em>, we can select a subset of the rows of a data frame by using the function <code>**filter**</code>. This function takes two arguments:</p>
+<ul>
+<li><em>.data</em> (required): the name of a data frame we want to extract some rows from. Note the dot at the beginning of <em>.data</em>.</li>
+<li>an unnamed argument telling the function how to select the rows it should retain; a logical expression that will be tested, where TRUE means that the row is retained and FALSE means it will be dropped; we can use binary operators, functions, or a combination of the two to create the logical expression to be tested</li>
+</ul>
+<p>When creating the logical expression to be tested, we do not need to put variable names in quotation marks or refer to them using the <strong>$</strong> operator. We can just write their name as is (exactly as we did when using <em>ggplot2</em>).</p>
+<p>Let’s make up some data (stored in <em>df1</em>) to demonstrate. We’ will create data for 100 participants of a fictional experiment. Here is an excerpt of the data:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID gender age exp_finished manip_check condition dv1 dv2
+1  1   male  20         TRUE      passed treatment  52  47
+2  2 female  45         TRUE      failed   control  53  45
+3  3 female  31         TRUE      passed treatment  51  49
+4  4 female  28         TRUE      passed   control  54  55
+5  5 female  24         TRUE      passed treatment  52  50
+6  6 female  33         TRUE      passed   control  54  47</code></pre>
+</div>
+</div>
+<p>We can now use the <strong><code>filter</code></strong> function to retain only some of the rows. Here are a few code examples:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a subset of participants who passed the attention check and finished the experiment</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">=</span> <span class="fu">filter</span>(<span class="at">.data =</span> df1, exp_finished <span class="sc">==</span> <span class="cn">TRUE</span> <span class="sc">&amp;</span> manip_check <span class="sc">==</span> <span class="st">"passed"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># extract a subset of df2 containing only participants who self-identify as male or female</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df3a <span class="ot">=</span> <span class="fu">filter</span>(<span class="at">.data =</span> df2, gender <span class="sc">==</span> <span class="st">'male'</span> <span class="sc">|</span> gender <span class="sc">==</span> <span class="st">'female'</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># extract a subset of df2 containing data from participants with above-average scores of dv1</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>df3b <span class="ot">=</span> <span class="fu">filter</span>(<span class="at">.data =</span> df2, dv1 <span class="sc">&gt;</span> <span class="fu">mean</span>(dv1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Each of the lines of code above creates a new data frame in our environment. While all data frames contain the same variables (i.e., we retain all columns, they will vary in the the number of rows).</p>
+<div class="alert alert-success">
+<p><strong>Note</strong>: Filtering the data with the <strong><code>filter</code></strong> function from <em>dplyr</em> is quite similar to indexing using brackets, but the syntax is easier to parse. In particular, the function makes our life somewhat easier when combining several logical tests. The reason is that we do not need to to reference variables using the <strong>$</strong> operator.</p>
+</div>
+</section>
+<section id="selecting-columns-with-dplyr" class="level2">
+<h2 class="anchored" data-anchor-id="selecting-columns-with-dplyr">Selecting columns with dplyr</h2>
+<p>While selecting rows with <em>dplyr</em> is not too different from regular indexing, selecting columns with the <strong><code>select</code></strong> function is where <em>dyplr</em> really shines. The reason is that <strong><code>select</code></strong> is highly flexible. Similar to the <strong><code>filter</code></strong> function, <strong><code>select</code></strong> requires two arguments:</p>
+<ul>
+<li><em>.data</em> (required): the data frame we want to select columns from.</li>
+<li>an unnamed argument telling the function how to select the rows it should retain.</li>
+</ul>
+<p>We have several options to specify the unnamed argument of <strong><code>select</code></strong>, which we will discuss below:</p>
+<section id="selecting-variables-by-name" class="level4">
+<h4 class="anchored" data-anchor-id="selecting-variables-by-name">Selecting variables by name</h4>
+<p>If we have specific variables in mind, we can just feed the <strong><code>select</code></strong> function to name of the variable or variables. Again, we can pass the function the variable names as is (without quotation marks). In case, we want to select only one variable, we can simply pass the <strong><code>select</code></strong> function this variable’s name as the second argument. If we want to select several variables, we need to pass their names separated by commas, or we can put them in a vector using the <strong><code>c</code></strong> function. Finally, and this may remind you of indexing columns of a data frame using brackets, we can tell R to choose <strong>all but</strong> the specified variable or variables. we can do so by preceding the variable name or vector with either the <strong>-</strong> operator or the <strong>!</strong> operator (logical “non”).</p>
+<p>Examples below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract participant gender from df2</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df4a <span class="ot">=</span> <span class="fu">select</span>(<span class="at">.data =</span> df2, gender)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># extract condition, dv1, and dv2 from df2</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>df4b <span class="ot">=</span> <span class="fu">select</span>(<span class="at">.data =</span> df2, <span class="fu">c</span>(condition, dv1, dv2))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># extract all variables but the manipulation check from df2</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>df4c <span class="ot">=</span> <span class="fu">select</span>(<span class="at">.data =</span> df2, <span class="sc">!</span>manip_check)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Each of the lines of code above will create a new data frame, even if we only extract a single variable. Their number of variables will vary, but they will all have the same number of observations.</p>
+</section>
+<section id="selecting-variables-using-from-to" class="level4">
+<h4 class="anchored" data-anchor-id="selecting-variables-using-from-to">Selecting variables using “from to”</h4>
+<p>Remember that we used the <strong>:</strong> operator as an efficient (or lazy) way to tell R to create a sequence of number from <span class="math inline">\(X\)</span> to <span class="math inline">\(Y\)</span>? In <em>dyplr</em> we can do the same to select variables provided that we choose an uninterrupted section. All we need to do is pass the <strong><code>select</code></strong> function the names of the first and the last variable in the sequence of variables we want to extract and combine them using the <strong>:</strong> operator. If we want to select multiple sequences, we can liste them separated by commas or combine them into a vector using the <strong><code>c</code></strong> function. Of course, we can also use the <strong>-</strong> or <strong>!</strong> operators to select all but a sequence of variables. The only thing to consider is that we need to put a single sequence of variables in parentheses if we want to exclude it. Examples as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract everything from participant ID to gender from df2</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df5a <span class="ot">=</span> <span class="fu">select</span>(<span class="at">.data =</span> df2, ID<span class="sc">:</span>gender)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># extract ID and everything from condition, dv1, and dv2 from df2</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>df5b <span class="ot">=</span> <span class="fu">select</span>(<span class="at">.data =</span> df2, ID, condition<span class="sc">:</span>dv2)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># extract all variables but those from ID to the manipulation check from df2</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>df5c <span class="ot">=</span> <span class="fu">select</span>(<span class="at">.data =</span> df2, <span class="sc">!</span>(ID<span class="sc">:</span>manip_check))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="selecting-variables-using-helper-functions" class="level4">
+<h4 class="anchored" data-anchor-id="selecting-variables-using-helper-functions">Selecting variables using helper functions</h4>
+<p>A very neat way to extract variables using the <strong><code>select</code></strong> function is to specify the second argument using a <strong>helper function</strong>. Here, we will focus on semantic helper functions, that is, functions that allows us to select variables if their names satisfy certain conditions. For example, we can tell R to select all variables that names of which starts with a certain sequence. All semantic helper functions take a character value or a character vector as their function argument. The semantic helpers are listed below. As you will see, their names are self-explanatory:</p>
+<ul>
+<li><strong><code>starts_with</code></strong>: selects all variables the names of which start with the specified character string.</li>
+<li><strong><code>ends_with</code></strong>: selects all variables the names of which endst with the specified character string.</li>
+<li><strong><code>contains</code></strong>: selects all variables the names of which contain the specified character string.</li>
+</ul>
+<p>If we feed the helper function a vector of character strings instead of a single character value, it will combine the selection criteria with a logical <strong>OR</strong>, that is, it will select all variables the names of which start with (or end with or contain) any of the specified character strings.</p>
+<div class="alert alert-info">
+<p>There is a forth semantic helper function called <strong><code>matches</code></strong>. This function is very powerful because it lets us define so called <strong>regular expressions</strong> and then selects all variable the names of which match this expression. Regular expressions are a very flexible way of defining how a sequence of symbols must look like in order to be considered a match. For example, we can state that the variable name must consist of three letters followed by an underscore, which, in turn, is followed by two digits.</p>
+<p>We will not cover regular expressions here because their syntax can be quite complex, but the interested reader is encouraged to research regular expressions on their own. There are several good guides available online.</p>
+</div>
+<p>Now, why should we bother with semantic helpers, in the first place? Remember that most raw data comes in <strong>wide format</strong>? Wide format data can easily span hundreds of variables. Quite frequently, some of these variables will have similar (bot of course not identical) names. Consider, for example experiments, with multiple trials. There, the wide format data might contain variables such as “stimulus_X”, “reaction_time_X”, or “response_X” where <span class="math inline">\(X\)</span> indicates the trial number. Alternatively, imagine a survey study where people respond to several personality questionnaires, where variable names consist of the questionnaire acronym and the item number. If we want to extract variables from such data sets, semantic helpers will we a gods-end.</p>
+<p>As per usual, we can use semantic helper functions to drop variables by preceding the function call with a <strong>-</strong> or <strong>!</strong> operator. Finally, it is worth noting that we can combine multiple semantic helpers helpers using the logical AND (<strong>&amp;</strong>) and OR (<strong>|</strong>) operators. Below are a few examples of selecting columns with semantic helper functions:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract all variables the names of which starts with "d" from df2</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df6a <span class="ot">=</span> <span class="fu">select</span>(<span class="at">.data =</span> df2, <span class="fu">starts_with</span>(<span class="st">"d"</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># extract all variables the names of which end on either "1" or "2" from df2</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>df6b <span class="ot">=</span> <span class="fu">select</span>(<span class="at">.data =</span> df2, <span class="fu">ends_with</span>(<span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"2"</span>)))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># extract all variables the names of which contain the string "dv" or do not start with "d"</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>df6c <span class="ot">=</span> <span class="fu">select</span>(<span class="at">.data =</span> df2, <span class="fu">contains</span>(<span class="st">"dv"</span>) <span class="sc">|</span> <span class="sc">!</span><span class="fu">starts_with</span>(<span class="st">'d'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="extracting-rows-and-columns-in-one-go" class="level2">
+<h2 class="anchored" data-anchor-id="extracting-rows-and-columns-in-one-go">Extracting rows and columns in one go</h2>
+<p>We can tell R to extract certain columns and rows of a data frame in one go, by combining the function calls for <strong><code>select</code></strong> and <strong><code>filter</code></strong>. We can call either function first. Let’s say we want to extract the experimental condition and the two dependent variables from our data frame, but restrict the data to female participants. Below are two ways to write the code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the variables condition, dv1, and dv2 from df2, female participants only.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># option A (select first):</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df6a <span class="ot">=</span> <span class="fu">select</span>(<span class="at">.data =</span> <span class="fu">filter</span>(<span class="at">.data =</span> df2, gender <span class="sc">==</span> <span class="st">'female'</span>), condition<span class="sc">:</span>dv2)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># option B (filter first):</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>df6b <span class="ot">=</span> <span class="fu">filter</span>(<span class="at">.data =</span> <span class="fu">select</span>(<span class="at">.data =</span> df2, <span class="fu">c</span>(gender, condition<span class="sc">:</span>dv2)), gender <span class="sc">==</span> <span class="st">'female'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As we can see, the code differs slightly depending on which function we call first. If we use <strong><code>filter</code></strong> first, we must include “gender” because we need this variable to select the rows. If we call <strong><code>select</code></strong> first, there is no need to retain “gender”.</p>
+</section>
+<section id="making-code-less-convoluted-using-pipes" class="level2">
+<h2 class="anchored" data-anchor-id="making-code-less-convoluted-using-pipes">Making code less convoluted using pipes</h2>
+<p>Combining multiple operations for data wrangling in one go can create code that is quite convoluted and, consequentially is hard to parse. The problem becomes more sever the more steps we include. However, we also don’t want to clog our environment with too many temporary data sets. Fortunately, <em>dplyr</em> comes with a special kind of syntax that can make our life easier by allowing us to combine multiple function calls in a more intuitive way. This syntax is called <strong>piping</strong> (originally, the pipes were contributed by the <em>magrittr</em> package, but if we load <em>dplyr</em> we can use them without <em>magrittr</em>).</p>
+<p>The <em>pipe</em> is a special operator. It looks like this: <strong>%&gt;%</strong>. Using the pipe to separate functions calls allows us to call the functions in the order in which we want the respective operations to be performed. Importantly, it avoids code lines that end on a dozen closing parentheses. Think of it as telling R to take and object and first do A with it, then do B, then do C, and so on instead of telling R to do C with the outcome of doing B with the outcome of doing A with an object.</p>
+<p>To illustrate, let’s go back to the most recent example where we combine the <strong><code>select</code></strong> and <strong><code>filter</code></strong> functions. Here is what the code would look like when we use <em>pipes</em>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## using pipes to organise code</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the variables condition, dv1, and dv2 from df2, female participants only.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># option A (select first):</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>df6a <span class="ot">=</span> df2 <span class="sc">%&gt;%</span> <span class="fu">select</span>(gender, condition<span class="sc">:</span>dv2) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">'female'</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># option B (filter first):</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>df6b <span class="ot">=</span> df2 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">'female'</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(gender, condition<span class="sc">:</span>dv2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As we can see, the code is a little less convoluted, and it is easier to spot what is being done in what order. The advantage of using <strong>pipes</strong> increases with the number of operations we combine. It is also worth mentioning that since <strong>piping</strong> changes the order of the function calls, we need to consider which variables we extract when using <strong><code>select</code></strong>. In the original (convoluted) code, we had to retain “gender” when using <strong><code>filter</code></strong> first. When using <strong>pipes</strong>, we need to retain “gender” only if we call <strong><code>select</code></strong> first.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

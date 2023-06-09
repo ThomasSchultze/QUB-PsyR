@@ -52,7 +52,7 @@ We will now add this second layer using the function *geom_point*, which will pl
 
 - *size* (optional): a numeric value indicating the size of the points; the default is 1; larger values produce larger points.
 - *colour* (optional): a character string either in the form of a colour word an RGB code; default is 'black' ('#000000'); determines the colour of all points. For some point shapes, this argument determines their whole colour, whereas for others it only determines the border colour.
-- *fill* (optional): a character string either in the form of a colour word an RGB code; determines the filling colour of all points, given that they can be filled (see below); default is NULL, which means no filling,t hat is, transparent shapes.
+- *fill* (optional): a character string either in the form of a colour word an RGB code; determines the filling colour of all points, given that they can be filled (see below); default is NULL, which means no filling, that is, transparent shapes.
 - *shape* (optional): a numeric value indicating how the points should look like; the default is 19, which produces single-colour points (no separate colours for border and filling).
 
 

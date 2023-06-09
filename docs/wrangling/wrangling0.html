@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.258">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>QUB-PsyR - Preface - tidy data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/QUBlogoWsmall.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">QUB-PsyR</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-intro" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Intro</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-intro">    
+        <li>
+    <a class="dropdown-item" href="../intro/intro1.html">
+ <span class="dropdown-text">R and RStudio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../intro/intro2.html">
+ <span class="dropdown-text">Running Code in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../intro/intro3.html">
+ <span class="dropdown-text">Objects and Functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../intro/intro4.html">
+ <span class="dropdown-text">Data Frames and Lists</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../intro/intro5.html">
+ <span class="dropdown-text">Saving and Loading Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-with-r-objects" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Working with R Objects</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-working-with-r-objects">    
+        <li>
+    <a class="dropdown-item" href="../working/working1.html">
+ <span class="dropdown-text">Binary Operators</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../working/working2.html">
+ <span class="dropdown-text">Functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../working/working3.html">
+ <span class="dropdown-text">Numerical Indexing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../working/working4.html">
+ <span class="dropdown-text">Logical Indexing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../working/working5.html">
+ <span class="dropdown-text">R Packages</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-statistical-inference" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Statistical Inference</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-statistical-inference">    
+        <li>
+    <a class="dropdown-item" href="../inference/inference0.html">
+ <span class="dropdown-text">A Primer on Statistical Inference</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference1.html">
+ <span class="dropdown-text">The t-test</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference2.html">
+ <span class="dropdown-text">The Chi²-test</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference3.html">
+ <span class="dropdown-text">Correlations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference4.html">
+ <span class="dropdown-text">One-factorial Analysis of Variance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference5.html">
+ <span class="dropdown-text">Two-factorial Analysis of Variance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference6.html">
+ <span class="dropdown-text">Repeated measures and mixed ANOVAs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference7.html">
+ <span class="dropdown-text">Simple linear regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference8.html">
+ <span class="dropdown-text">Multiple linear regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference9.html">
+ <span class="dropdown-text">Multi-level models</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-visualisation" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Visualisation</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-data-visualisation">    
+        <li>
+    <a class="dropdown-item" href="../graphs/graphs0.html">
+ <span class="dropdown-text">Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../graphs/graphs1.html">
+ <span class="dropdown-text">Histograms</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../graphs/graphs2.html">
+ <span class="dropdown-text">Scatterplots</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../graphs/graphs3.html">
+ <span class="dropdown-text">Violin plots</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-wrangling" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Wrangling</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-data-wrangling">    
+        <li>
+    <a class="dropdown-item" href="../wrangling/wrangling0.html">
+ <span class="dropdown-text">Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../wrangling/wrangling1.html">
+ <span class="dropdown-text">Extracting rows and columns</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Preface - tidy data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Data wrangling is a term we use to describe all the work we undertake to get raw data into a format we can use to analyse the data and, ideally, to share the data with others in the spirit of open science. It includes reading the raw data into R, tidying up the data, and computing the variables you need for your analyses. Reading the data into R is often (but not always) the easiest part, and we have already covered how to read the most common file formats (.csv, .sav) into R. That means, we will now focus on tidying up data and transforming it.</p>
+<p>What exactly do we mean when we say “tidying up” data? Effectively, this means two things: extracting the information we need from the raw data, which means dropping all information we do not need, and putting the data into a tidy format. We consider data <strong>tidy</strong> if one row of the data frame corresponds to one observation with each column representing one variable. What constitutes a variable is sometimes not completely unambiguous, namely when we have nested data (e.g., multiple trials per participants, multiple measurements in a longitudinal study, multiple pupils per school class).</p>
+<p>For example, we might have data from a reaction time experiment where participants worked on ten trials, and each of the ten reaction times is recorded as a variable of its own (e.g., <em>rt_1</em>, <em>rt_2</em>, etc.). Or we might have repeated measures on the same variable where each measurement is represented in a separate column, for example in a clinical randomised control trial study with pre-treatment, post-treatment, and follow-up measurement of the variable of interest (e.g., <em>wellbeing_T1</em>, <em>wellbeing_T2</em>, <em>wellbeing_T3</em>). In those examples, each row of the data set represents one unit of observation such as participants, or patients. If data is organised in this fashion, we call this the <strong>wide format</strong>.</p>
+<p>For the purpose of tidy data, we consider the wide format not to be tidy because it spreads out one variable (reaction time or well-being) across multiple columns. Instead, we will consider data tidy if it is in <strong>long format</strong> where each row corresponds to one observation, even if this means having multiple rows per participant. In long format, we would have one column containing the variable (<em>rt</em>, <em>wellbeing</em>) and a second column coding when it was measured. In case of the reaction time experiment, this variable could be called <em>trial</em>, whereas in the clinical trial it could be called <em>time</em>. The reason why we want data in the long format is that most statistical analyses we can run on nested data will require the long format. While we usually require the data to be in long format, raw data is often available in wide format. Therefore, one part of data wrangling is getting data from wide format into long format.</p>
+<p>Tidying up data also includes steps such as removing variables we don’t need, for example timestamps that a survey software created automatically, or dropping cases we need to remove from the data set such as test runs, incomplete data sets, or data from participants who want to retract their data.</p>
+<p>After we have tidied up our raw data, we may still need to transform the original data into variables we can work with. Generally speaking, data transformation includes all operations we perform on the original data, irrespective of whether we use binary operators or functions. Typical transformations are log-transformation of reaction times, computing scale means from multiple items of a questionnaire, turning a character variable into a factor, or computing the difference between two variables.</p>
+<p>Once we have a tidy data set with all the variables we need (and after potentially removing some variables we no longer need after data transformation), we can save the data frame, ideally in a widely accessible format such as <em>csv</em>. In other words, the end product of our data wrangling is the data file we will load into the R script for our analyses, and which we may publish in order to satisfy the need for open data.</p>
+<p>In this segment, we will learn data wrangling within the <strong>tidyverse</strong>, a set of R packages designed for data wrangling and visualisation. We have already worked with one of the included packages, namely <em>ggplot2</em>. Here, we will add two more packages to our toolbox, <em>dplyr</em> and <em>tidyr</em>.</p>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

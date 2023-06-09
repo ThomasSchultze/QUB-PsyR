@@ -263,6 +263,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="../graphs/graphs2.html">
  <span class="dropdown-text">Scatterplots</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../graphs/graphs3.html">
+ <span class="dropdown-text">Violin plots</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-wrangling" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Wrangling</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-data-wrangling">    
+        <li>
+    <a class="dropdown-item" href="../wrangling/wrangling0.html">
+ <span class="dropdown-text">Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../wrangling/wrangling1.html">
+ <span class="dropdown-text">Extracting rows and columns</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -374,8 +393,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="graphs1_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<section id="interchangeability-of-stats-and-geoms" class="level2">
+<h2 class="anchored" data-anchor-id="interchangeability-of-stats-and-geoms">Interchangeability of stats and geoms</h2>
+<p>As mentioned in the introductory section on data visualisation using <em>ggplot2</em>, each <strong><code>geom_</code></strong> type function comes with a <em>stats</em> argument and vice versa. In case of the <strong><code>geom_histogram</code></strong> function, the default for that <em>stat</em> argument is “bin”, which divides the data specified as <em>x</em> in the <strong><code>aes</code></strong> function call of the base plot into several equally spaced bins.</p>
+<p>Knowing this, we can create a histogram using the <strong><code>stat_bin</code></strong> function instead (see code example below):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create an empty base plot for a histogram of variable X in df1</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="at">data =</span> df1, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> X))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># add a layer with a histogram using the stat_bin function</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_bin</span>(<span class="at">bins =</span> <span class="dv">10</span>, <span class="at">colour =</span> <span class="st">'darkblue'</span>, <span class="at">fill =</span> <span class="st">'lightblue'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As we can see below, the resulting graph is identical to the one we created abnove using <strong>’geom_histogram`</strong>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="graphs1_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

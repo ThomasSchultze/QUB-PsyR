@@ -124,3 +124,38 @@ p1 = p1 +
 
 p1
 ```
+
+
+## Interchangeability of stats and geoms
+
+As mentioned in the introductory section on data visualisation using *ggplot2*, each **`geom_`** type function comes with a *stats* argument and vice versa. In case of the **`geom_histogram`** function, the default for that *stat* argument is "bin", which divides the data specified as *x* in the **`aes`** function call of the base plot into several equally spaced bins.
+
+Knowing this, we can create a histogram using the **`stat_bin`** function instead (see code example below):
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# create an empty base plot for a histogram of variable X in df1
+p1 = ggplot(data = df1, mapping = aes(x = X))
+
+# add a layer with a histogram using the stat_bin function
+p1 + 
+  stat_bin(bins = 10, colour = 'darkblue', fill = 'lightblue')
+```
+
+As we can see below, the resulting graph is identical to the one we created abnove using **'geom_histogram`**.
+
+```{r}
+#| eval: true
+#| echo: false
+# create an empty base plot for a histogram of variable X in df1
+p1 = ggplot(data = df1, mapping = aes(x = X))
+
+# add a layer with a histogram using the stat_bin function
+p1 + 
+  stat_bin(bins = 10, colour = 'darkblue', fill = 'lightblue')
+```
+
+
+

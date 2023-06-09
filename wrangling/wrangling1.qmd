@@ -1,4 +1,218 @@
 ---
-title: "The Tidyverse"
+title: "Extracting rows and columns from data frames"
 ---
+
+The first step we will usually take after reading raw data in R is to extract the information we actually need for the analyses we are going to run on the data. Put differently, raw data usually has a lot of information we don't really need and, thus, want to get rid off. This includes getting rid of cases we do not want to include in the data set but also variables we want to drop from the data.
+
+The first question is: why should we remove cases or variables from the raw data, in the first place? There are several reasons why we may want to do so. It makes sense to look at dropping cases (rows of a data frame) and variables (columns of a data frame) separately.
+
+We may want to drop cases from raw data if:
+
+- we only want to study certain populations or subsets in a data set (e.g., retired people, people, who self-identify as non-binary, employees with more than 10 years work experience, etc.)
+- some cases represent test runs or trial data and must, therefore, not be included in the final data
+- participants did not finish the study or have more missing data than we can tolerate (ideally, decisions about removing cases due to missing data or not finishing a study should be preregistered)
+- participants asked us to withdraw their data
+
+Likewise, we may want to remove variables from the data frame if:
+
+- they contain information that is generated automatically by survey software and not useful for us (e.g., timestamps, session IDs) 
+- they contain sensitive information that must not be shared (Email addresses, patient information, etc.)
+- we want to save them for analysis in a separate study (particularly important if we engage with open science, but want to make sure that others do not use our hard-earned data and beat us to publishing cool papers off it)
+- we have computed new variables for our analyses and no longer need the original data in our tidy data frame
+
+In theory, we already know how to drop rows and columns from a data frame, namely using logical or numerical indexing. While this is true, indexing using base R can become tedious if we have large data sets. The good thing is that there is an R package that makes our lives much easier: *dplyr*. The *dplyr* package is part of the *tidyverse*. We can install and load it separately, or we can install and load the whole *tidyverse*. If we do that latter, *dplyr* will be automatically installed and loaded because it is a dependency of the *tidyverse* package.
+
+
+## Selecting rows with dplyr
+
+In *dyplr*, we can select a subset of the rows of a data frame by using the function `**filter**`. This function takes two arguments:
+
+- *.data* (required): the name of a data frame we want to extract some rows from. Note the dot at the beginning of *.data*.
+- an unnamed argument telling the function how to select the rows it should retain; a logical expression that will be tested, where TRUE means that the row is retained and FALSE means it will be dropped; we can use binary operators, functions, or a combination of the two to create the logical expression to be tested
+
+When creating the logical expression to be tested, we do not need to put variable names in quotation marks or refer to them using the **$** operator. We can just write their name as is (exactly as we did when using *ggplot2*).
+
+Let's make up some data (stored in *df1*) to demonstrate. We' will create data for 100 participants of a fictional experiment. Here is an excerpt of the data:
+
+```{r}
+#| eval: true
+#| echo: false
+# create some data for demonstration
+set.seed(1234)
+
+df1 = data.frame(
+  ID = 1:100,
+  gender = sample(c('male', 'female', 'non-binary', 'prefer not to say'), 
+                  size = 100, prob = c(.48, .48, .02, .02), replace = T),
+  age = round(runif(100, 18, 65)),
+  exp_finished = sample(c(TRUE, FALSE), size = 100, prob = c(.95, .05),
+                        replace = T),
+  manip_check = sample(c('passed', 'failed'), size = 100, prob = c(.95, .05),
+                        replace = T),
+  condition = factor(rep(c('treatment', 'control'), 50)),
+  dv1 = round(rnorm(100, 50, 5)),
+  dv2 = round(rnorm(100, 50, 5))
+)
+
+head(df1)
+```
+
+We can now use the **`filter`** function to retain only some of the rows. Here are a few code examples:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# create a subset of participants who passed the attention check and finished the experiment
+df2 = filter(.data = df1, exp_finished == TRUE & manip_check == "passed")
+
+# extract a subset of df2 containing only participants who self-identify as male or female
+df3a = filter(.data = df2, gender == 'male' | gender == 'female')
+
+# extract a subset of df2 containing data from participants with above-average scores of dv1
+df3b = filter(.data = df2, dv1 > mean(dv1))
+```
+
+Each of the lines of code above creates a new data frame in our environment. While all data frames contain the same variables (i.e., we retain all columns, they will vary in the the number of rows). 
+
+:::{.alert .alert-success}
+**Note**: Filtering the data with the **`filter`** function from *dplyr* is quite similar to indexing using brackets, but the syntax is easier to parse. In particular, the function makes our life somewhat easier when combining several logical tests. The reason is that we do not need to to reference variables using the **$** operator.
+:::
+
+
+## Selecting columns with dplyr
+
+While selecting rows with *dplyr* is not too different from regular indexing, selecting columns with the **`select`** function is where *dyplr* really shines. The reason is that **`select`** is highly flexible. Similar to the **`filter`** function, **`select`** requires two arguments:
+
+- *.data* (required): the data frame we want to select columns from.
+- an unnamed argument telling the function how to select the rows it should retain.
+
+We have several options to specify the unnamed argument of **`select`**, which we will discuss below:
+
+
+#### Selecting variables by name
+
+If we have specific variables in mind, we can just feed the **`select`** function to name of the variable or variables. Again, we can pass the function the variable names as is (without quotation marks). In case, we want to select only one variable, we can simply pass the **`select`** function this variable's name as the second argument. If we want to select several variables, we need to pass their names separated by commas, or we can put them in a vector using the **`c`** function. Finally, and this may remind you of indexing columns of a data frame using brackets, we can tell R to choose **all but** the specified variable or variables. we can do so by preceding the variable name or vector with either the **-** operator or the **!** operator (logical "non").
+
+Examples below:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# extract participant gender from df2
+df4a = select(.data = df2, gender)
+
+# extract condition, dv1, and dv2 from df2
+df4b = select(.data = df2, c(condition, dv1, dv2))
+
+# extract all variables but the manipulation check from df2
+df4c = select(.data = df2, !manip_check)
+```
+
+Each of the lines of code above will create a new data frame, even if we only extract a single variable. Their number of variables will vary, but they will all have the same number of observations.
+
+
+#### Selecting variables using "from to"
+
+Remember that we used the **:** operator as an efficient (or lazy) way to tell R to create a sequence of number from $X$ to $Y$? In *dyplr* we can do the same to select variables provided that we choose an uninterrupted section. All we need to do is pass the **`select`** function the names of the first and the last variable in the sequence of variables we want to extract and combine them using the **:** operator. 
+If we want to select multiple sequences, we can liste them separated by commas or combine them into a vector using the **`c`** function. Of course, we can also use the **-** or **!** operators to select all but a sequence of variables. The only thing to consider is that we need to put a single sequence of variables in parentheses if we want to exclude it. Examples as follows:
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# extract everything from participant ID to gender from df2
+df5a = select(.data = df2, ID:gender)
+
+# extract ID and everything from condition, dv1, and dv2 from df2
+df5b = select(.data = df2, ID, condition:dv2)
+
+# extract all variables but those from ID to the manipulation check from df2
+df5c = select(.data = df2, !(ID:manip_check))
+```
+
+
+
+#### Selecting variables using helper functions
+
+A very neat way to extract variables using the **`select`** function is to specify the second argument using a **helper function**. Here, we will focus on semantic helper functions, that is, functions that allows us to select variables if their names satisfy certain conditions. For example, we can tell R to select all variables that names of which starts with a certain sequence. All semantic helper functions take a character value or a character vector as their function argument. The semantic helpers are listed below. As you will see, their names are self-explanatory:
+
+- **`starts_with`**: selects all variables the names of which start with the specified character string.
+- **`ends_with`**: selects all variables the names of which endst with the specified character string.
+- **`contains`**: selects all variables the names of which contain the specified character string.
+
+If we feed the helper function a vector of character strings instead of a single character value, it will combine the selection criteria with a logical **OR**, that is, it will select all variables the names of which start with (or end with or contain) any of the specified character strings.
+
+:::{.alert .alert-info}
+There is a forth semantic helper function called **`matches`**. This function is very powerful because it lets us define so called **regular expressions** and then selects all variable the names of which match this expression. Regular expressions are a very flexible way of defining how a sequence of symbols must look like in order to be considered a match. For example, we can state that the variable name must consist of three letters followed by an underscore, which, in turn, is followed by two digits.
+
+We will not cover regular expressions here because their syntax can be quite complex, but the interested reader is encouraged to research regular expressions on their own. There are several good guides available online.
+:::
+
+Now, why should we bother with semantic helpers, in the first place? Remember that most raw data comes in **wide format**? Wide format data can easily span hundreds of variables. Quite frequently, some of these variables will have similar (bot of course not identical) names. Consider, for example experiments, with multiple trials. There, the wide format data might contain variables such as "stimulus_X", "reaction_time_X", or "response_X" where $X$ indicates the trial number. Alternatively, imagine a survey study where people respond to several personality questionnaires, where variable names consist of the questionnaire acronym and the item number. If we want to extract variables from such data sets, semantic helpers will we a gods-end. 
+
+As per usual, we can use semantic helper functions to drop variables by preceding the function call with a **-** or **!** operator. Finally, it is worth noting that we can combine multiple semantic helpers helpers using the logical AND (**&**) and OR (**|**) operators. Below are a few examples of selecting columns with semantic helper functions:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# extract all variables the names of which starts with "d" from df2
+df6a = select(.data = df2, starts_with("d"))
+
+# extract all variables the names of which end on either "1" or "2" from df2
+df6b = select(.data = df2, ends_with(c("1", "2")))
+
+# extract all variables the names of which contain the string "dv" or do not start with "d"
+df6c = select(.data = df2, contains("dv") | !starts_with('d'))
+```
+
+
+
+## Extracting rows and columns in one go
+
+We can tell R to extract certain columns and rows of a data frame in one go, by combining the function calls for **`select`** and **`filter`**. We can call either function first. Let's say we want to extract the experimental condition and the two dependent variables from our data frame, but restrict the data to female participants. Below are two ways to write the code:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+# extract the variables condition, dv1, and dv2 from df2, female participants only.
+# option A (select first):
+df6a = select(.data = filter(.data = df2, gender == 'female'), condition:dv2)
+
+# option B (filter first):
+df6b = filter(.data = select(.data = df2, c(gender, condition:dv2)), gender == 'female')
+```
+
+As we can see, the code differs slightly depending on which function we call first. If we use **`filter`** first, we must include "gender" because we need this variable to select the rows. If we call **`select`** first, there is no need to retain "gender".
+
+
+## Making code less convoluted using pipes
+
+Combining multiple operations for data wrangling in one go can create code that is quite convoluted and, consequentially is hard to parse. The problem becomes more sever the more steps we include. However, we also don't want to clog our environment with too many temporary data sets. Fortunately, *dplyr* comes with a special kind of syntax that can make our life easier by allowing us to combine multiple function calls in a more intuitive way. This syntax is called **piping** (originally, the pipes were contributed by the *magrittr* package, but if we load *dplyr* we can use them without *magrittr*).
+
+The *pipe* is a special operator. It looks like this: **%>%**. Using the pipe to separate functions calls allows us to call the functions in the order in which we want the respective operations to be performed. Importantly, it avoids code lines that end on a dozen closing parentheses. Think of it as telling R to take and object and first do A with it, then do B, then do C, and so on instead of telling R to do C with the outcome of doing B with the outcome of doing A with an object.
+
+To illustrate, let's go back to the most recent example where we combine the **`select`** and **`filter`** functions. Here is what the code would look like when we use *pipes*:
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+## using pipes to organise code
+
+# extract the variables condition, dv1, and dv2 from df2, female participants only.
+# option A (select first):
+df6a = df2 %>% select(gender, condition:dv2) %>% filter(gender == 'female')
+
+# option B (filter first):
+df6b = df2 %>% filter(gender == 'female') %>% select(gender, condition:dv2)
+```
+
+As we can see, the code is a little less convoluted, and it is easier to spot what is being done in what order. The advantage of using **pipes** increases with the number of operations we combine. It is also worth mentioning that since **piping** changes the order of the function calls, we need to consider which variables we extract when using **`select`**. In the original (convoluted) code, we had to retain "gender" when using **`filter`** first. When using **pipes**, we need to retain "gender" only if we call **`select`** first.
+
 

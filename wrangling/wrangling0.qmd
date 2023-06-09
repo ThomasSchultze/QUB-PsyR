@@ -1,0 +1,23 @@
+---
+title: "Preface - tidy data"
+---
+
+Data wrangling is a term we use to describe all the work we undertake to get raw data into a format we can use to analyse the data and, ideally, to share the data with others in the spirit of open science. It includes reading the raw data into R, tidying up the data, and computing the variables you need for your analyses. Reading the data into R is often (but not always) the easiest part, and we have already covered how to read the most common file formats (.csv, .sav) into R. That means, we will now focus on tidying up data and transforming it. 
+
+What exactly do we mean when we say "tidying up" data? Effectively, this means two things: extracting the information we need from the raw data, which means dropping all information we do not need, and putting the data into a tidy format. We consider data **tidy** if one row of the data frame corresponds to one observation with each column representing one variable. What constitutes a variable is sometimes not completely unambiguous, namely when we have nested data (e.g., multiple trials per participants, multiple measurements in a longitudinal study, multiple pupils per school class).
+
+For example, we might have data from a reaction time experiment where participants worked on ten trials, and each of the ten reaction times is recorded as a variable of its own (e.g., *rt_1*, *rt_2*, etc.). Or we might have repeated measures on the same variable where each measurement is represented in a separate column, for example in a clinical randomised control trial study with pre-treatment, post-treatment, and follow-up measurement of the variable of interest (e.g., *wellbeing_T1*, *wellbeing_T2*, *wellbeing_T3*). In those examples, each row of the data set represents one unit of observation such as participants, or patients. If data is organised in this fashion, we call this the **wide format**. 
+
+For the purpose of tidy data, we consider the wide format not to be tidy because it spreads out one variable (reaction time or well-being) across multiple columns. Instead, we will consider data tidy if it is in **long format** where each row corresponds to one observation, even if this means having multiple rows per participant. In long format, we would have one column containing the variable (*rt*, *wellbeing*) and a second column coding when it was measured. In case of the reaction time experiment, this variable could be called *trial*, whereas in the clinical trial it could be called *time*. The reason why we want data in the long format is that most statistical analyses we can run on nested data will require the long format. While we usually require the data to be in long format, raw data is often available in wide format. Therefore, one part of data wrangling is getting data from wide format into long format.
+
+Tidying up data also includes steps such as removing variables we don't need, for example timestamps that a survey software created automatically, or dropping cases we need to remove from the data set such as test runs, incomplete data sets, or data from participants who want to retract their data. 
+
+After we have tidied up our raw data, we may still need to transform the original data into variables we can work with. Generally speaking, data transformation includes all operations we perform on the original data, irrespective of whether we use binary operators or functions. Typical transformations are log-transformation of reaction times, computing scale means from multiple items of a questionnaire, turning a character variable into a factor, or computing the difference between two variables. 
+
+Once we have a tidy data set with all the variables we need (and after potentially removing some variables we no longer need after data transformation), we can save the data frame, ideally in a widely accessible format such as *csv*. In other words, the end product of our data wrangling is the data file we will load into the R script for our analyses, and which we may publish in order to satisfy the need for open data.
+
+In this segment, we will learn data wrangling within the **tidyverse**, a set of R packages designed for data wrangling and visualisation. We have already worked with one of the included packages, namely *ggplot2*. Here, we will add two more packages to our toolbox, *dplyr* and *tidyr*. 
+
+
+
+

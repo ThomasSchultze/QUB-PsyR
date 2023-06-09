@@ -200,6 +200,25 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../graphs/graphs2.html">
  <span class="dropdown-text">Scatterplots</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../graphs/graphs3.html">
+ <span class="dropdown-text">Violin plots</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-wrangling" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Wrangling</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-data-wrangling">    
+        <li>
+    <a class="dropdown-item" href="../wrangling/wrangling0.html">
+ <span class="dropdown-text">Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../wrangling/wrangling1.html">
+ <span class="dropdown-text">Extracting rows and columns</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
@@ -243,15 +262,19 @@ ul.task-list li input[type="checkbox"] {
 <section id="a-grammar-of-graphics" class="level2">
 <h2 class="anchored" data-anchor-id="a-grammar-of-graphics">A Grammar of Graphics</h2>
 <p>The idea underlying the grammar of graphics is graphics have a common principle. They are mappings from <strong>data</strong> (something abstract represented by numbers or categories) to <strong>aesthetics</strong> (things we can perceive visually, in this case). The <strong>aesthetics</strong> include the position in a coordinate system, but also information such as the shape, size, or colour of whatever object we want to plot. The different objects we can plot are geometric objects (<strong>geoms</strong>). They could be lines, bars, dots, to name just a a few. Plots in In <em>ggplot2</em> have <strong>layers</strong>, that is, we build our plots, step-by-step, starting with an empty base plot to which we gradually add <strong>geoms</strong> until it looks the way we envision it.</p>
-<p>Sometimes, it is sufficient to know which aspects of our data to make visible (<strong>aesthetics</strong>) and how to visualise them (<strong>geoms</strong>). However, formally, we also need to define the statistical transformation of our data for the purpose of plotting (<strong>stats</strong>). In some cases, we will use untransformed data, while in other cases, we want to subject the data to a log-transformation, and in yet others we may want to summarise the data by taking its mean or median.</p>
+<p>Sometimes, it is sufficient to know which aspects of our data to make visible (<strong>aesthetics</strong>) and how to visualise them (<strong>geoms</strong>). However, formally, we also need to define the statistical transformation of our data for the purpose of plotting (<strong>stats</strong>). In some cases, we will use untransformed data (the so called “identity” transformation), while in other cases, we want to transform the data (e.g., by taking its logarithm), and in yet others we may want to summarise the data by taking its mean or median.</p>
 <p>In sum, when we use <strong>ggplot2</strong>, the <strong>aestheteics</strong>, <strong>geoms</strong>, and <strong>stats</strong> are the ingredients of our plots. Now all we need to do is learn how to define the <strong>aesthetics</strong>, which <strong>geoms</strong> there are at our disposal (we won’t be using half of them), and which <strong>stats</strong> we need to use to make informative plots.</p>
+<div class="alert alert-info">
+<p>In <em>ggplot2</em>, we will use either functions of type <strong><code>geom_</code></strong> that come with built-in and modifiable <em>stats</em> arguments or <strong><code>stats_</code></strong> functions that come with built-it in and modifiable <em>geom</em> arguments. This illustrates that we always need to define both <strong>stats</strong> and <strong>geoms</strong> when plotting with <em>ggplot2</em>.</p>
+<p><strong>Fun fact</strong>: some of the <strong><code>stats_</code></strong> and <strong><code>geom_</code></strong> functions are interchangeable. Which one we want to use is up to us.</p>
+</div>
 </section>
 <section id="creating-plots-with-ggplot2" class="level2">
 <h2 class="anchored" data-anchor-id="creating-plots-with-ggplot2">Creating plots with ggplot2</h2>
 <p>Irrespective of what type of plot we want to create, the first step is always to create a base plot. We do so by calling the <em>ggplot</em> function from <em>ggplot2</em>. The <em>ggplot</em> function requires two function arguments:</p>
 <ul>
 <li><em>data</em> (required): a data frame. We need to tell the function where our data is stored.</li>
-<li><em>mapping</em> (required): this function argument tells the function the aesthetics. It requires a function call of another function, <em>aes</em> (for aesthetics), as its argument.</li>
+<li><em>mapping</em> (optional): this function argument tells the function the aesthetics. It requires a function call of another function, <em>aes</em> (for aesthetics); if specified, defines the default mapping for all layers we will add to the plot; if not specified, we need to specify the aesthetics separately for each layer.</li>
 </ul>
 <p>The <em>aes</em> function that we need to feed into <em>ggplot</em> for its <em>mapping</em> argument, takes the following arguments:</p>
 <ul>
@@ -264,7 +287,7 @@ ul.task-list li input[type="checkbox"] {
 <li><span class="math inline">\(linetype\)</span> (optional): the variable that determines the type of lines.</li>
 </ul>
 <p>That base plot is an empty plot. While we already define which variables will go on the axes for our plots and which variable we will use to define aesthetics such as the size, colour, or shape of potential geoms, the plot itself will be empty. Why? Because we are yet to add a layer containing a geom. That said, what information we put into the code for the base plot will already depend on the type of plot and how we want to represent the variables of our data. For example, we need to specify what goes on the x-axis and the y-axis for scatterplots and line diagrams, but not for histograms (for them, we only need the specify what goes on the x-axis). Likewise, whether we specify a third variable to determine the colour, size or shape in a scatterplot very much depends on whether we have a third variable to classify data by or whether we consider it sensible to include it.</p>
-<p>Put differently, while the first step is always to create an empty base plot, the specific code for this plot differs slightly depending on which information we want to represent (data) and how we want to represent it (geoms).</p>
+<p>Put differently, while the first step is always to create an empty base plot, the specific code for this plot differs slightly depending on which information we want to represent (data) and how we want to represent it (geoms and stats).</p>
 <section id="a-note-on-colours-in-r" class="level3">
 <h3 class="anchored" data-anchor-id="a-note-on-colours-in-r">A note on colours in R</h3>
 <p>Before we delve further into the realm of plots, it is useful to talk about colours, and how they are implemented in R. In fact, R has several ways to specify colours. Here we will look the the two most commons ones: we can specify colours using <strong>colour names</strong> as character strings or via <strong>RGB-values</strong> (<strong>R</strong>ed-<strong>G</strong>reen-<strong>B</strong>lue values).</p>

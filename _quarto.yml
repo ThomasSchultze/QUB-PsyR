@@ -61,6 +61,15 @@ website:
           href: graphs/graphs1.html
         - text: "Scatterplots"
           href: graphs/graphs2.html
+        - text: "Violin plots"
+          href: graphs/graphs3.html
+      - text: "Data Wrangling"
+        menu:
+        - text: "Preface"
+          href: wrangling/wrangling0.html
+        - text: "Extracting rows and columns"
+          href: wrangling/wrangling1.html
+
       - text: "About"
         href: about.html
 
