@@ -17,7 +17,7 @@ Many non-linear relations can be approximated - with some loss of precision - vi
 
 ## Computing correlations in R
 
-We can compute the correlation coefficient $\rho$ in R using the function *cor*. We can use the *cor* function in two ways:
+We can compute the correlation coefficient $\rho$ in R using the function **`cor()`**. We can use the **`cor()`** function in two ways:
 
 The first way is to feed the function two numerical vectors of the same length as two separate function arguments, $X$ and $Y$. R will then compute the correlation between $X$ and $Y$. Here is what the syntax looks like:
 
@@ -54,7 +54,7 @@ cor(v1, v2)
 
 In our example, the correlation is zero despite $Y$ being a function of $X$ ($y = x^2$). The reason is that the relationship of $X$ and $Y$ is non-linear.
 
-The second way, in which we can use the *cor* function is to feed it a numeric matrix (or data frame that contains only numeric variables) as the sole function argument $X$. If we do that, R will correlate each column of the matrix (or data frame) with all other columns - including itself - and create a correlation matrix. Here is an example.
+The second way, in which we can use the **`cor()`** function is to feed it a numeric matrix (or data frame that contains only numeric variables) as the sole function argument $X$. If we do that, R will correlate each column of the matrix (or data frame) with all other columns - including itself - and create a correlation matrix. Here is an example.
 
 ```{r}
 #| eval: false
@@ -72,7 +72,7 @@ m1 = cbind(v1, v2, v3)
 cor(x = m1)
 ```
 
-Running this code will lead R to return a numeric matrix containing the correlations in the console. Since we fed the *cor* function a matrix with three columns, the output will be a $3\times3$ matrix (see below).
+Running this code will lead R to return a numeric matrix containing the correlations in the console. Since we fed the **`cor()`** function a matrix with three columns, the output will be a $3\times3$ matrix (see below).
 
 :::{.alert .alert-warning}
 ```{r}
@@ -101,14 +101,14 @@ Three things about the correlation matrix are noteworthy:
 
 ## Rank order correaltions
 
-The default correlation coefficient we can compute with the *cor* function is the product-moment correlation (as defined formally above). However, the *cor* function also allows us to compute rank order correlations if we so desire. Rank order correlations are robust against outliers, which makes them preferable to product-moment correlations in some situations (they are also sometimes referred to as non-parametric correlations).
+The default correlation coefficient we can compute with the **`cor()`** function is the product-moment correlation (as defined formally above). However, the **`cor()`** function also allows us to compute rank order correlations if we so desire. Rank order correlations are robust against outliers, which makes them preferable to product-moment correlations in some situations (they are also sometimes referred to as non-parametric correlations).
 
-In order to change the type of correlation coefficient, we can specify the function argument *method* when calling the *cor* function. This argument has a default called "pearson", which computes the product-moment correlation. If we instead change it to "kendall" or "spearman", R will instead compute Kendall's $\tau$ or Spearman's $\rho$, both of which are rank order correlations.
+In order to change the type of correlation coefficient, we can specify the function argument *method* when calling the **`cor()`** function. This argument has a default called "pearson", which computes the product-moment correlation. If we instead change it to "kendall" or "spearman", R will instead compute Kendall's $\tau$ or Spearman's $\rho$, both of which are rank order correlations.
 
 
 ## How to handle missing data
 
-When we want to compute correlation coefficients using the *cor* function, we need to make sure that there are no missing values in the objects we feed the function. Otherwise, R will return *NA* whenever one of the contribution observations is *NA*. 
+When we want to compute correlation coefficients using the **`cor()`** function, we need to make sure that there are no missing values in the objects we feed the function. Otherwise, R will return *NA* whenever one of the contribution observations is *NA*. 
 In order to compute valid correlation coefficient, we need to use the function argument *use*. The default value is "everything", nut if some of our observations are *NA* we don't want to use everything. We have two options: "complete.obs" and "pairwise.complete.obs".
 
 If we want to compute the correlation of two variables, both options do the same: they remove all cases in which there is a missing value before computing the correlation coefficient.
@@ -122,11 +122,11 @@ If we use "pairwise.complete.obs" instead, R will only exclude cases with an *NA
 
 So far, we have only computed correlation coefficients. However, most of the time, we will also want to know whether the correlations in our data are so strong that we can reject the Null hypothesis that there is no linear relationship between the variables.
 
-We can test for statistical significance using the function *cor.test*. This function takes two numeric vectors of the same length as function arguments $X$ and $Y$. It also automatically removes cases with *NA*s.
+We can test for statistical significance using the function **`cor.test()`**. This function takes two numeric vectors of the same length as function arguments $X$ and $Y$. It also automatically removes cases with *NA*s.
 
-Just as with the *cor* function, we can specify the type of correlation coefficient we want to test for significance using the function argument *method*. As with the *cor* function, the default is "pearson", but we can change it to "kendall" or "spearman" if we want.
+Just as with the **`cor()`** function, we can specify the type of correlation coefficient we want to test for significance using the function argument *method*. As with the **`cor()`** function, the default is "pearson", but we can change it to "kendall" or "spearman" if we want.
 
-Since direction matters when dealing with correlations, we can also specify the type of our alternative hypothesis using the function argument *alternative*. The default is "two.sided", which tests whether the correlation is different from zero. We can change this argument to "greater" or "less" to test the directional hypotheses that *r* is positive or that it is negative, respectively.
+Since direction matters when dealing with correlations, we can also specify the type of our alternative hypothesis using the function argument *alternative*. The default is "two.sided", which tests whether the correlation is different from zero. We can change this argument to "greater" or "less" to test the directional hypotheses that $r$ is positive or that it is negative, respectively.
 
 Let's look at an example, in which we want to run a two-tailed significance test on a product-moment correlation. Here is what the code would look like:
 

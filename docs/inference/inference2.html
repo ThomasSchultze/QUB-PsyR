@@ -328,10 +328,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>tests of observed frequencies against specific non-equal probabilities</li>
 <li>tests of systematic co-variation in contingency tables</li>
 </ul>
-<p>If we want to run any of these <span class="math inline">\(\chi^2\)</span>-tests, we can use an R function called <em>chisq.test</em>. Which function argument the <em>chisq.test</em> function needs depends on what we want to do. Therefore, we will look at each case separately in the following.</p>
+<p>If we want to run any of these <span class="math inline">\(\chi^2\)</span>-tests, we can use an R function called <strong><code>chisq.test()</code></strong>. Which function argument the <strong><code>chisq.test()</code></strong> function needs depends on what we want to do. Therefore, we will look at each case separately in the following.</p>
 <section id="test-of-observed-frequencies-against-chance" class="level2">
 <h2 class="anchored" data-anchor-id="test-of-observed-frequencies-against-chance">Test of observed frequencies against chance</h2>
-<p>This is the simplest form of the <span class="math inline">\(\chi^2\)</span>-test. To run this test, we need only feed the <em>chisq.test</em> function a single function argument <em>x</em>, namely a numeric vector of length 2 or greater, containing the frequencies we want to analyse.</p>
+<p>This is the simplest form of the <span class="math inline">\(\chi^2\)</span>-test. To run this test, we need only feed the <strong><code>chisq.test()</code></strong> function a single function argument <em>x</em>, namely a numeric vector of length 2 or greater, containing the frequencies we want to analyse.</p>
 <p>The function has another argument called <em>p</em> which specifies the expected probabilities against which to test the observed frequencies. The default value of this argument is equi-probability. That is, if we do not specify it, R will automatically test whether the observed frequencies systematically differ from a chance distribution.</p>
 <p>Here is an example of how the syntax for this test looks:</p>
 <div class="cell">
@@ -357,7 +357,7 @@ X-squared = 4.7123, df = 2, p-value = 0.09478</code></pre>
 </section>
 <section id="test-of-observed-frequencies-against-a-predefined-probability" class="level2">
 <h2 class="anchored" data-anchor-id="test-of-observed-frequencies-against-a-predefined-probability">Test of observed frequencies against a predefined probability</h2>
-<p>Let’s assume that we want to compare <em>v1</em> not against chance but against unequal probabilities for the three categories. For example, our Null hypothesis could state that the first and second category should occur in 25% of cases each while category three should account for the remaining 50%. To run this test, the only change we need to make to the way we called the <em>chisq.test</em> function in the example above is to specify the function argument <em>p</em> and define it as a numeric vector containing the probabilities.</p>
+<p>Let’s assume that we want to compare <em>v1</em> not against chance but against unequal probabilities for the three categories. For example, our Null hypothesis could state that the first and second category should occur in 25% of cases each while category three should account for the remaining 50%. To run this test, the only change we need to make to the way we called the <strong><code>chisq.test()</code></strong> function in the example above is to specify the function argument <em>p</em> and define it as a numeric vector containing the probabilities.</p>
 <p>This vector of probabilities needs to be of the same length as the vector of observed frequencies. In addition, since we are dealing with probabilities, all elements need to range between 0 and 1, and their sum must equal 1. Let’s have a look at the syntax.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test for deviation from pre-defined non-equal probabilities</span></span>
@@ -380,8 +380,8 @@ X-squared = 18.534, df = 2, p-value = 9.448e-05</code></pre>
 <section id="tests-for-systematic-covariation-in-contengency-tables" class="level2">
 <h2 class="anchored" data-anchor-id="tests-for-systematic-covariation-in-contengency-tables">Tests for systematic covariation in contengency tables</h2>
 <p>In some cases, we may not be interested in comparing observed frequencies against a (theoretical) distribution, but rather to compare observed frequencies across two variables (i.e., in a two-dimensional contingency table). Conceptually, this boils down to testing - row-by-row or column-by-column - whether the underlying distribution of one variable is equal across all levels of the other variable.</p>
-<p>To do so, we need to feed the <em>chisq.test</em> function a matrix of frequencies as the function argument <em>x</em>. We no longer need to specify the function argument <em>p</em> because the expected frequencies are computed from the marginal frequencies of the contingency table assuming stochastic independence.</p>
-<p>Lets look at an example. First, we need some data in table format. We can create such data using the function <em>matrix</em> or by combining several vectors of equal length using either the function <em>cbind</em> or <em>rbind</em> (these functions stack equally long vectors of the same type by column or row). Let’s go with the <em>rbind</em> version for now.</p>
+<p>To do so, we need to feed the <strong><code>chisq.test()</code></strong> function a matrix of frequencies as the function argument <em>x</em>. We no longer need to specify the function argument <em>p</em> because the expected frequencies are computed from the marginal frequencies of the contingency table assuming stochastic independence.</p>
+<p>Lets look at an example. First, we need some data in table format. We can create such data using the function <strong><code>matrix()</code></strong> or by combining several vectors of equal length using either the function <strong><code>cbind()</code></strong> or <strong><code>rbind()</code></strong> (these functions stack equally long vectors of the same type by column or row). Let’s go with the <strong><code>rbind()</code></strong> version for now.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a 2x3 contingency table by stacking </span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># two vectors containing frequencies row-wise</span></span>
@@ -417,16 +417,16 @@ X-squared = 11.525, df = 2, p-value = 0.003143</code></pre>
 </section>
 <section id="extracting-frequencies-from-data-frames" class="level2">
 <h2 class="anchored" data-anchor-id="extracting-frequencies-from-data-frames">Extracting frequencies from data frames</h2>
-<p>The data we want to feed into <span class="math inline">\(\chi^2\)</span>-tests is usually contained in data frames. We can extract frequencies and even turn them into contingency tables using the <em>table</em> function. Let’s consider an example, in which we have data from one thousand simulated <del>nerds</del> participants who told us their attitudes toward Star Trek and Star Wars (love, hate, indifferent).</p>
+<p>The data we want to feed into <span class="math inline">\(\chi^2\)</span>-tests is usually contained in data frames. We can extract frequencies and even turn them into contingency tables using the <strong><code>table()</code></strong> function. Let’s consider an example, in which we have data from one thousand simulated <del>nerds</del> participants who told us their attitudes toward Star Trek and Star Wars (love, hate, indifferent).</p>
 <div class="cell">
 
 </div>
-<p>Let’s say the data is contained in a data frame called <em>my_df</em>. We can use the function <em>head</em> to inspect the first six rows of the data frame to get a feeling for what the data looks like.</p>
+<p>Let’s say the data is contained in a data frame called <em>my_df</em>. We can use the function <strong><code>head()</code></strong> to inspect the first six rows of the data frame to get a feeling for what the data looks like.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect the top of the data frame</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(my_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Here is what appears in the consle:</p>
+<p>Here is what appears in the console:</p>
 <div class="alert alert-warning">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -440,7 +440,7 @@ X-squared = 11.525, df = 2, p-value = 0.003143</code></pre>
 </div>
 </div>
 </div>
-<p>We can now create a contingency table using the <em>table</em> function and define it as a new object. To this end, we need to feed the table function the two dimensions by which we want to organise the table as separate function arguments. Here is what the code looks like:</p>
+<p>We can now create a contingency table using the <strong><code>table()</code></strong> function and define it as a new object. To this end, we need to feed the table function the two dimensions by which we want to organise the table as separate function arguments. Here is what the code looks like:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a 3x3 contingency table of attitudes toward</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Star Trek and Star Wars</span></span>
@@ -464,7 +464,7 @@ StarTrek      hate indifferent love
 </div>
 </div>
 </div>
-<p>Now that we have created the contingency table from the data frame, we can feed it into the <em>chisq.test</em> function as its sol argument to test whether there is systematic co-variation between attitudes toward Star trek and Star Wars. Here is what the code looks like.</p>
+<p>Now that we have created the contingency table from the data frame, we can feed it into the <strong><code>chisq.test()</code></strong> function as its sol argument to test whether there is systematic co-variation between attitudes toward Star trek and Star Wars. Here is what the code looks like.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(my_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

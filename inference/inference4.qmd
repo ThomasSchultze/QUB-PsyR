@@ -53,7 +53,7 @@ Here, $J$ is the number of groups we compare, and $n_j$ is the sample size of gr
 
 $$SS_{within} = \sum_{j=1}^{J} \sum_{i = 1}^{n_j} (x_{ij} - \bar{x}_j)$$
 
-Again, $J$ is the number of groups we compare, and $n_j$ is the sample size in group $j$. The $x_{ij}$ refers to the $i$th observation in group $j$. For the $SS_{within}$, we pretend that there is no variance between groups at all. We do so by substituting the *grand mean* for the respective group means $\bar{x}_j$. Thus, the $SS_within$ isolates the within-group variability of $x$.
+Again, $J$ is the number of groups we compare, and $n_j$ is the sample size in group $j$. The $x_{ij}$ refers to the $i$th observation in group $j$. For the $SS_{within}$, we pretend that there is no variance between groups at all. We do so by substituting the **grand mean** for the respective group means $\bar{x}_j$. Thus, the $SS_within$ isolates the within-group variability of $x$.
 
 The final thing we need to understand before we can delve into the actual ANOVAs is the $F$-statistic. As we have seen above, we compute $F$ as a ratio of the $MS_{between}$ and the $MS_{within}$. This ratio is interesting in several ways:
 
@@ -76,7 +76,7 @@ ANOVAs come in various flavours. In the following, we will look at some of them,
 
 ## One-factorial ANOVA
 
-In a one-factorial ANOVA, we compare two or more group means such that we consider each group to represent one level of the same grouping variable or factor $A$. The underlying model assumes that the true mean of each of the $j$ groups $\mu_j$ is the sum of the true grand mean \mu and the effect of the $j$th level of factor $A$ on that mean. We call these effects $\alpha_j$.
+In a one-factorial ANOVA, we compare two or more group means such that we consider each group to represent one level of the same grouping variable or factor $A$. The underlying model assumes that the true mean of each of the $j$ groups $\mu_j$ is the sum of the true grand mean $\mu$ and the effect of the $j$th level of factor $A$ on that mean. We call these effects $\alpha_j$.
 
 $\mu_j = \mu + \alpha_j$
 
@@ -109,13 +109,13 @@ suppressMessages(library(afex))
 
 Once we have done that, we can start doing ANOVAs with one of several functions:
 
--   *aov_car*
--   *aov_4*
--   *aov_ez*
+-   **`aov_car()`**
+-   **`aov_4()`**
+-   **`aov_ez()`**
 
-The three functions serve the same goal and do the same things, but they differ in terms of the syntax. The function *aov_car* uses syntax that is most closely related the the (clunky) base R version of ANOVA. In contrast, *aov_4* uses syntax based on the popular *lme4* package that is widely used for the analysis of generalised mixed models. Thus, this function is ideally suited for users who are already familiar with *lme4*. Finally, *aov_ez* uses a completely string-based format, that is, it does not require a formula type object as a function argument. The advantage of *aov_ez* is that it is very convenient and easy to handle (thus the suffix "ez"). This comes at the cost of flexibility. The lack of a formula means that we are stuck with a full ANOVA model. The other two functions technically allow us to specify models that omit certain main effects or interactions. However, since we will rarely want to run these incomplete models, this is a drawback that usually causes no hassles. In the following, we will focus on the *aov_ez* function and leave exploration of the other functions to the discretion of the reader.
+The three functions serve the same goal and do the same things, but they differ in terms of the syntax. The function **`aov_car()`** uses syntax that is most closely related the the (clunky) base R version of ANOVA. In contrast, **`aov_4()`** uses syntax based on the popular *lme4* package that is widely used for the analysis of generalised mixed models. Thus, this function is ideally suited for users who are already familiar with *lme4*. Finally, **`aov_ez()`** uses a completely string-based format, that is, it does not require a formula type object as a function argument. The advantage of **`aov_ez()`** is that it is very convenient and easy to handle (thus the suffix "ez"). This comes at the cost of flexibility. The lack of a formula means that we are stuck with a full ANOVA model. The other two functions technically allow us to specify models that omit certain main effects or interactions. However, since we will rarely want to run these incomplete models, this is a drawback that usually causes no hassles. In the following, we will focus on the **`aov_ez()`** function and leave exploration of the other functions to the discretion of the reader.
 
-Here are the most important function arguments of *aov_ez*:
+Here are the most important function arguments of **`aov_ez()`**:
 
 -   *id* (necessary): a character value indicating the name of the variable that contains our subject ID
 -   *dv* (required): another character value; the name of the variable containing the data the group means of which we want to compare
@@ -131,7 +131,7 @@ For the purpose of running a one-factorial between-subjects ANOVA, we can disreg
 ::: {.alert .alert-danger}
 Now that we want to do ANOVAs, it is time to talk about **factors**. In R, **factors** are a special type of vector that contain both values and labels for those values. The different values of vectors are considered to be categories. Factors are important because the ANOVA-function we use here requires its between- and within-subject variables to be factors.
 
-We can create a factor using the *factor* function by feeding it the following function arguments:
+We can create a factor using the **`factor()`** function by feeding it the following function arguments:
 
 -   *x*: a vector we want to turn into a factor
 -   *levels*: a vector containing all possible values the factor can take
@@ -192,13 +192,13 @@ aov_ez(id = 'ID', between = 'cond', dv = 'dv', data = my_df)
 ```
 :::
 
-As we can see, R displays an ANOVA table in the console along with some additional information. The output is preceded by a message (this is NOT an error message; the code ran properly). This message informs us that the *aov_ez* function set the contrast type for our factor 'cond' to 'contr.sum'. What this means is that the contrast underling our factor was forced into effect coding because that is the format that ANOVAs use. We don't need to concern ourselves with that.
+As we can see, R displays an ANOVA table in the console along with some additional information. The output is preceded by a message (this is NOT an error message; the code ran properly). This message informs us that the **`aov_ez()`** function set the contrast type for our factor 'cond' to 'contr.sum'. What this means is that the contrast underling our factor was forced into effect coding because that is the format that ANOVAs use. We don't need to concern ourselves with that.
 
 Next, R will tell us that this output is an ANOVA table based on type-3 sum of squares. Type-3 sums of squares are what most statistics packages use. If your knowledge of statistics is so advanced that you can make an informed decision that you would prefer type-2 sums of squares, you can change it by setting the *type* function argument to 2.
 
 Now for the important bits. R shows us what the response variable in our model is, namely 'dv'. Below that information, it displays the ANOVA table. Because we ran a one-factorial ANOVA; this table contains only one row. Here, we can see the name of the between-subjects factor (*effect*), the numerator and denominator degrees of freedom for its $F$-value (*df*), the mean squares of the effect (*MSE*), the $F$-value, the generalised $\eta^2$ as a measure of the effect size, and the $p$-value.
 
-In our example, the mean difference is not statistically significant, which mans that we cannot reject the null hypothesis. In other words, we cannot say whether the true means between the three groups differ.
+In our example, the mean difference is not statistically significant, which means that we cannot reject the null hypothesis. In other words, we cannot say whether the true means between the three groups differ.
 
 ::: {.alert .alert-info}
 Similar to the $\chi^2$-test, the $F$-test we use in an ANOVA is always a one-tailed test because it is based on squared variables. Therefore, the test has no 'direction' as a $t$-test would.
@@ -210,7 +210,7 @@ Why is this important? Sometimes, we might encounter a scientific article, in wh
 
 In the example above, we had to retain the Null hypothesis because the analysis did not show evidence that the three means were different from each other. In those cases, there is no need for further analyses. However, things look a bit different when the ANOVA yields a significant result. Let's look at an example.
 
-In this example, we will compare two treatments and one control condition with data for 30 participants in each condition. The data is stored in a data frame called *my_df2*. Here is what the data looks like (we use the function *head* on the data frame to have R show us the first 6 lines).
+In this example, we will compare two treatments and one control condition with data for 30 participants in each condition. The data is stored in a data frame called *my_df2*. Here is what the data looks like (we use the function **`head()`** on the data frame to have R show us the first 6 lines).
 
 ::: {.alert .alert-warning}
 ```{r}
@@ -269,9 +269,9 @@ In order to disentangle a significant effect in an ANOVA with three or more grou
 
 ### Post-hoc t-tests
 
-Before we delve into **post-hoc** contrasts, it is worth mentioning that one easy way to disentangle significant effects in an ANOVA is running $t$-tests to compare the means of the groups. We already know how to do this, namely by using the *t.test* function.
+Before we delve into **post-hoc** contrasts, it is worth mentioning that one easy way to disentangle significant effects in an ANOVA is running $t$-tests to compare the means of the groups. We already know how to do this, namely by using the **`t.test()`** function.
 
-However, there are three downsides to using simple $t$-tests. First, they are less powerful than contrasts because their estimate of the error variance is based on only a part of the total sample. Second, if we want to control the type-I error rate by adjusting for multiple comparisons, we need to do so manually (this may be easy for Bonferroni's method, but more challenging for less conservative adjustment methods). Third, as the number of groups we compare in an ANOVA increases, so does the number of possible pairwise comparisons. In fact, the number of comparisons is $(k^2-k)/2$, that is, it grows exponentially. Thereofre, the amount of code we need to write also increases accordingly.
+However, there are three downsides to using simple $t$-tests. First, they are less powerful than contrasts because their estimate of the error variance is based on only a part of the total sample. Second, if we want to control the type-I error rate by adjusting for multiple comparisons, we need to do so manually (this may be easy for Bonferroni's method, but more challenging for less conservative adjustment methods). Third, as the number of groups we compare in an ANOVA increases, so does the number of possible pairwise comparisons. In fact, the number of comparisons is $(k^2-k)/2$, that is, it grows exponentially. Therefore, the amount of code we need to write also increases accordingly.
 
 ### Pairwise comparisons using contrasts
 
@@ -295,14 +295,14 @@ $H_0: \hat{\psi} = 0$
 
 $H_1: \hat{\psi} \ne 0$
 
-If we want to analyse contrasts in R, we need another R package called *emmeans*. This package contains a function called *emmeans* (yes, it has the same name as the package) that allows us to run a contrast analysis. Let's have a look at the *emmeans* function. When we call it to analyse contrasts, we need to specify a few arguments:
+If we want to analyse contrasts in R, we need another R package called *emmeans*. This package contains a function called **`emmeans()`** (yes, it has the same name as the package) that allows us to run a contrast analysis. Let's have a look at the **`emmeans()`** function. When we call it to analyse contrasts, we need to specify a few arguments:
 
 -   *object* (required): an R object containing the results of an ANOVA (good thing we saved our ANOVA as an R object).
 -   *spec* (required): a character string or vector containing the name(s) of the grouping variable(s) in our data (in our example, the grouping variable is 'cond').
 -   *contr* (optional): a character value or list indicating the type of post-hoc comparisons; the default is NULL, but we can set it to "pairwise", or we can define it as a list of vectors representing custom contrasts.
 -   *adjust* (optional): a character value indicating which method should be used to control for type-I error inflation due to multiple comparisons; default is "tukey" for Tukey's method, but we can set it to "none" if we don't want to adjust our $p$-values, or we can choose a different adjustment method such as "holm" (the the Holm-Tukey method) or Bonferroni (for the Bonferroni correction).
 
-Let's dive in an run pairwise comparisons on our ANOVA. We can tell the *emmeans* function to run pairwise contrasts by seeting the *contr* argument to "pairwise". The function will then set up the following contrasts:
+Let's dive in an run pairwise comparisons on our ANOVA. We can tell the **`emmeans()`** function to run pairwise contrasts by setting the *contr* argument to "pairwise". The function will then set up the following contrasts:
 
 |            | control | treatment 1 | treatment 2 |
 |------------|---------|-------------|-------------|
@@ -421,11 +421,11 @@ Let us go back to our ANOVA example and assume that we want to run two post-hoc 
 
 Let's dissect that! For contrast 1, we compare the control group with the mean of the two treatment groups. In contrast 2, we compare only the two treatment groups; the 0 weight for the control condition means that its mean does not play any role in this contrast.
 
-How do we tell R that we want to run custom contrasts? We can do so using the *contr* argument of the *emmeans* function. To be specific, we need to define this argument as a list in which each element is one contrast.
+How do we tell R that we want to run custom contrasts? We can do so using the *contr* argument of the **`emmeans()`** function. To be specific, we need to define this argument as a list in which each element is one contrast.
 
-When defining the list of contrasts, each contrast must be a numeric vector of length $k$, where $k$ is the number of groups in the grouping variable that we fed into the *emmeans* function (in our case 3). If we chose the wrong vector length, we will receive an error message. We also need to make sure that the sum of each contrast vector is zero (see above). Finally, we can (but do not have to) create these vectors as named elements of the list. Naming the vectors may lead to output that is slightly easier to make sense of.
+When defining the list of contrasts, each contrast must be a numeric vector of length $k$, where $k$ is the number of groups in the grouping variable that we fed into the **`emmeans()`** function (in our case 3). If we chose the wrong vector length, we will receive an error message. We also need to make sure that the sum of each contrast vector is zero (see above). Finally, we can (but do not have to) create these vectors as named elements of the list. Naming the vectors may lead to output that is slightly easier to make sense of.
 
-Here, we need to decide whether we save the list of contrasts as a separate object or whether we feed the *emmeans* function a call of the *list* function (the result will be the same, so it is simply a matter of preference). Now let's look at the R code.
+Here, we need to decide whether we save the list of contrasts as a separate object or whether we feed the **`emmeans()`** function a call of the **`list()`** function (the result will be the same, so it is simply a matter of preference). Now let's look at the R code.
 
 ```{r}
 #| eval: false

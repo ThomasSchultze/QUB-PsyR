@@ -18,7 +18,7 @@ Just as in simple linear regression, $\hat{Y}$ is the prediction of our model:
 $$\hat{Y} = b_0 + b_1X_1+b_2X_2+...+b_jXj$$
 Since we can compute $\hat{Y}$, we can also compute the coefficient of determination $R^2$ and its adjusted version using the exact same formulae. The only conceptual difference is that - since we now have more than one predictor - $R^2$ is no longer the square of a ordinary correlation coefficient. For this reason $R$ (note the capital R) is also referred to as the **multiple correlation coefficient**. Importantly, however, this does not change how we interpret $R^2$. It is still our measure of the proportion of variance of your criterion $Y$ explained by our regression model as a whole. The statistical test of $R^2$ remains unchanged, as well, that is we test for significance of $R^2$ using an $F$-distribution with $k-1$ numerator degrees of freedom and $N-k$ denominator degrees of freedom.
 
-The function we will use to do multiple regression analysis is the same we used for simple linear regression, namely the function *lm*. The only difference is that we now specify the formula argument of the *lm* function such that it contains two or more predictors.
+The function we will use to do multiple regression analysis is the same we used for simple linear regression, namely the function **`lm()`**. The only difference is that we now specify the formula argument of the **`lm()`** function such that it contains two or more predictors.
 
 
 ### Excurse: formula objects with multiple predictors
@@ -42,7 +42,7 @@ In the example above, we have two additive effects (think of them as main effect
 y ~ x1 + x2 + x1:x2
 ```
 
-In the above example, we have the **full model**, that is, it contains all possible effects that a regression model with two predictors can have. However, it is also possible to feed a reduced model into the *lm* function. For example, we might want to estimate a regression model that entails only the main effect of $X_1$ and the interaction effect, but not the main effect of $X_2$. In this case, the model would look like this:
+In the above example, we have the **full model**, that is, it contains all possible effects that a regression model with two predictors can have. However, it is also possible to feed a reduced model into the **`lm()`** function. For example, we might want to estimate a regression model that entails only the main effect of $X_1$ and the interaction effect, but not the main effect of $X_2$. In this case, the model would look like this:
 
 ```{r}
 #| eval: false
@@ -52,7 +52,7 @@ In the above example, we have the **full model**, that is, it contains all possi
 y ~ x1 + x1:x2
 ```
 
-R has a neat way of making regression model formulae more parsimonious, namely using the **\*** operator. If we combine tow or more variables with this operator, R will include all main effects and interactions of these variables. Here are some examples:
+R has a neat way of making regression model formulae more parsimonious, namely using the **`*`** operator. If we combine tow or more variables with this operator, R will include all main effects and interactions of these variables. Here are some examples:
 
 ```{r}
 #| eval: false
@@ -83,7 +83,7 @@ y ~ x1*x2 + x3
 y ~ x1 + x2 + x1:x2 + x3
 ```
 
-As we can see, the **\*** operator can make our lives a bit easier whenever models involve multiple predictors. 
+As we can see, the **`*`** operator can make our lives a bit easier whenever models involve multiple predictors. 
 
 
 ### Multiple Regression in R
@@ -199,7 +199,7 @@ Now that we have the difference of the sums of squares $SS_\Delta$ and its degre
 
 $$\frac{ \frac{SS_\Delta}{df_{SS_\Delta}} }{\frac{SS_{residual_{model2}}}{df_{residual_{model2}}}} \sim F_{df_{SS_\Delta}; df_{residual_{model2}}}$$
 
-Now that we know ho to test for a significant $\Delta R^2$ on a conceptual level, the question is how to run this test in R. We can do so easily using the function *anova*. The *anova* function is similar to the *summary* function in that it can be used on a range of different models an will perform different operations and produce different outputs based on the objects exact nature. If we call the *anova* function and feed it two or more nested regression models, it run a significance test of $\Delta R2$ between the first and second model, between the second and third model, and so on.
+Now that we know ho to test for a significant $\Delta R^2$ on a conceptual level, the question is how to run this test in R. We can do so easily using the function **`anova()`**. The **`anova()`** function is similar to the **`summary()`** function in that it can be used on a range of different models an will perform different operations and produce different outputs based on the objects exact nature. If we call the **`anova()`** function and feed it two or more nested regression models, it run a significance test of $\Delta R2$ between the first and second model, between the second and third model, and so on.
 
 Let's now have look at the syntax. We will use the two regression models we looked at above because they are nested (*mod1* is nested within *mod2* because it lacks the interaction effect). It is important to enter the models in ascending order of complexity (simplest model first). The code will run even if we enter more complex model first, but we may add up with negative values for the test statistic, which makes no sense mathematically.
 
@@ -224,7 +224,7 @@ anova(mod1, mod2)
 ```
 :::
 
-The output first displays the formulae of the two models we compared. More important is the table following it. As we can see, the *anova* function computes $SS_{\Delta}$ as the difference between the two models' $SS_{residual}$. It also shows the models' respective degrees of freedom as well as the degrees of freedom for the model difference $SS_{\Delta}$. Since we only added one parameter in model 2 (the regression weight for the interaction term), this difference has one degree of freedom. Finally, the function computes the $F$-statistic for the significance test and reports the associated $p$-value. in our case, the test is significant, meaning that the second model explains a significantly greater proportion of the variance of $Y$.  
+The output first displays the formulae of the two models we compared. More important is the table following it. As we can see, the **`anova()`** function computes $SS_{\Delta}$ as the difference between the two models' $SS_{residual}$. It also shows the models' respective degrees of freedom as well as the degrees of freedom for the model difference $SS_{\Delta}$. Since we only added one parameter in model 2 (the regression weight for the interaction term), this difference has one degree of freedom. Finally, the function computes the $F$-statistic for the significance test and reports the associated $p$-value. in our case, the test is significant, meaning that the second model explains a significantly greater proportion of the variance of $Y$.  
 
 :::{.alert .alert-info}
 If you look at the $p$-value for $\Delta R^2$, you will notice that it is identical to the $p$-value of the significance test of the regression weight for the interaction term in the summary of *mod2*. Since we only added one variable, and this variable is a significant predictor of $Y$, it follows that the model must explain a significantly larger proportion of the variance of $Y$. 
@@ -312,7 +312,7 @@ summary(mod3b)
 
 We now notice something interesting: not only is there a significant interaction effect, but the two main effects are no longer significant in the extended model. Let's first try to make sense of the model parameters. As in the previous model, the intercept $b_0$ represents the model prediction $\hat{Y}$ when $X_1$ is zero and an observation stems from the reference category (meaning that, due to the dummy-coding R uses for factors, $X_2$ is also zero). The interaction term also takes the value of zero in this case because the interaction is the product of the two predictors, and they are both zero. The regression weight $b_2$ is the shift of the model intercept when we switch from the category "treatment" to the second category "control" (i.e., $X_2$ takes the value 1 due to dummy-coding, but $X_1$ is still fixed at zero). The interpretation of $b_1$ changes slightly now when compared with the previous model. Instead of telling us, in general, how $\hat{Y}$ changes if we increase $X_1$ by one unit, it now tells us how $\hat{Y}$ changes **in the reference category** if we increase $X_1$ by one unit. That means that the regression weight for $X_1$, $b_1$ is the slope of a regression line conditional on the categorical predictor $X_2$ being zero. Finally, the regression weight of the interaction term $b_3$ tells us how the slope of the regression line represented by the regression weight of $X_1$ changes if we switch to the second category. In other words, the slope of the regression line for the second category is the sum of $b_1$ and $b_3$.
 
-What we might be interested in now is whether the new model outperforms the old one in terms of variance explained. We already know how to test this, namely using the *anova* function and feeding it models *mod3a* and *mod3b* (in that order) as function arguments. 
+What we might be interested in now is whether the new model outperforms the old one in terms of variance explained. We already know how to test this, namely using the **`anova()`** function and feeding it models *mod3a* and *mod3b* (in that order) as function arguments. 
 
 ```{r}
 #| eval: false

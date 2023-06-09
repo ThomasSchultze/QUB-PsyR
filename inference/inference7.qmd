@@ -89,14 +89,14 @@ $$R_{adjusted}^2 = 1-\frac{\frac{SS_{error}}{df_{error}}}{\frac{SS_{total}}{df_{
 
 ### Running a regression analysis in R
 
-We can run regression analyses in R using the *lm* function (linear model). The function has several arguments. We will use only the following two:
+We can run regression analyses in R using the **`lm()`** function (linear model). The function has several arguments. We will use only the following two:
 
 -   *formula* (required): a formula type object telling the function which variable to predict and which combination of variables to use as predictors
 -   *data* (optional): a data frame containing the variables we feed into the formula; if we do not specify this argument, R will assume that the variables we fed into the formula argument exist as objects in our environment
 
 ### Excurse: formula type objects
 
-Before we delve into examples of linear regressions, we need to have a look at the syntax of **formula** type R objects. We already know that these objects use the **\~** operator (tilde) and have the general form:
+Before we delve into examples of linear regressions, we need to have a look at the syntax of **formula** type R objects. We already know that these objects use the **`~`** operator (tilde) and have the general form:
 
 ```{r}
 #| eval: false
@@ -105,9 +105,9 @@ Before we delve into examples of linear regressions, we need to have a look at t
 y ~ x
 ```
 
-That means, we define $y$ as a function of $x$. Of course, a formula can be much more complex than that because we can use combinations of multiple variables on the right hand side. In regression models, the formula is generally an additive combination of predictors, each of which then receives its own regression weight. We can combine multiple predictors using the **+** operator.
+That means, we define $y$ as a function of $x$. Of course, a formula can be much more complex than that because we can use combinations of multiple variables on the right hand side. In regression models, the formula is generally an additive combination of predictors, each of which then receives its own regression weight. We can combine multiple predictors using the **`+`** operator.
 
-The first thing we need to know now is that a regression formula in R typically omits the **intercept** although the *lm* function models it. This is purely a convenience feature. The actual formula looks like this:
+The first thing we need to know now is that a regression formula in R typically omits the **intercept** although the **`lm()`** function models it. This is purely a convenience feature. The actual formula looks like this:
 
 ```{r}
 #| eval: false
@@ -164,7 +164,7 @@ head(df1)
 
 ```
 
-We can now call the *lm* function to run an ordinary least squares regression of participants' love for cats from their love for dogs. Similar to ANOVAs, we will define the regression model as an object. Here is what the syntax might look like:
+We can now call the **`lm()`** function to run an ordinary least squares regression of participants' love for cats from their love for dogs. Similar to ANOVAs, we will define the regression model as an object. Here is what the syntax might look like:
 
 ```{r}
 #| eval: false
@@ -192,7 +192,7 @@ model1
 
 As we can see, the output is relatively sparse. We can see the function call we entered as well as estimates of the two regression parameters $b_0$ (intercept) and $b_1$ (the regression weight for love of dogs).
 
-While we now know the parameter values of the linear regression, this information is slightly underwhelming. If we want more information, particularly about the statistical significance of the parameters, we need to feed the regression model into another function called *summary*. The *summary* function takes a fitted model as its sole argument. Here is the syntax:
+While we now know the parameter values of the linear regression, this information is slightly underwhelming. If we want more information, particularly about the statistical significance of the parameters, we need to feed the regression model into another function called **`summary()`**. The **`summary()`** function takes a fitted model as its sole argument. Here is the syntax:
 
 ```{r}
 #| eval: false
@@ -202,7 +202,7 @@ While we now know the parameter values of the linear regression, this informatio
 summary(model1)
 ```
 
-Here is what the console output looks like when we call the *summary* function on our regression model:
+Here is what the console output looks like when we call the **`summary()`** function on our regression model:
 
 ::: {.alert .alert-warning}
 ```{r}

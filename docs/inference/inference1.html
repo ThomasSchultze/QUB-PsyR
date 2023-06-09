@@ -339,7 +339,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>For paired <span class="math inline">\(t\)</span>-tests this means that the noise is lower the more the two measures are positively correlated (correlation is the standardised covariance).</p>
 <p>In case of the independent samples <span class="math inline">\(t\)</span>-test, we assume the covariance of <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span> to be zero (which is the definition of statistical independence).</p>
 </div>
-<p>We can run all three types of <span class="math inline">\(t\)</span>-tests in R using the function <em>t.test</em>. This function is quite flexible. It has several function arguments that we can use to specify the type of <span class="math inline">\(t\)</span>-test and how our <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span> should look like. Let’s have a look at the most important function arguments:</p>
+<p>We can run all three types of <span class="math inline">\(t\)</span>-tests in R using the function <strong><code>t.test()</code></strong>. This function is quite flexible. It has several function arguments that we can use to specify the type of <span class="math inline">\(t\)</span>-test and how our <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span> should look like. Let’s have a look at the most important function arguments:</p>
 <ul>
 <li><em>x</em> (required) and <em>y</em> (optional): numeric vectors containing the data we want to analyse.</li>
 <li><em>mu</em> (optional): a numeric value indicating the mean of <span class="math inline">\(X\)</span> under <span class="math inline">\(H_0\)</span>. The default is 0.</li>
@@ -347,13 +347,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><em>paired</em> (optional): a Boolean value; only applies if we specified <em>x</em> and <em>y</em>; if set to FALSE (the default), R will run an independent samples <span class="math inline">\(t\)</span>-test; if set to TRUE, it will run a paired <span class="math inline">\(t\)</span>-test.</li>
 <li><em>var.equal</em> (optional): a Boolean value; only applies when running independent samples <span class="math inline">\(t\)</span>-tests; if set to TRUE (default), R will correct the degrees of freedom of the test to account for unequal variances.</li>
 </ul>
-<p>Now that we have a rough understanding of what we can do with the <em>t.test</em> function, let’s give it a spin.</p>
+<p>Now that we have a rough understanding of what we can do with the <strong><code>t.test()</code></strong> function, let’s give it a spin.</p>
 <section id="the-one-sample-t-test" class="level2">
 <h2 class="anchored" data-anchor-id="the-one-sample-t-test">The one-sample t-test</h2>
 <p>For starters, we will consider the most simple case, namely the one-sample <span class="math inline">\(t\)</span>-test. For example, we could test whether the mean of a vector of numbers differs from zero.</p>
 <div class="alert alert-info">
-<p>We can generate some normally distributed data for our examples using the <em>rnorm</em> function. We simply need to feed the function three arguments: the size of the simulated sample (<em>n</em>), the true mean (<em>mean</em>), and the true standard deviation (<em>sd</em>). Calling the <em>rnorm</em> function will then result in R producing a pseudo-random sample drawn from the specified normal distribution.</p>
-<p>If we want to create a reproducible pseudo-random sample, we can call the function <em>set.seed</em> before calling <em>rnorm</em>. If we feed the <em>set.seed</em> function an arbitrary number, the following pseudo-random draw will always be the same.</p>
+<p>We can generate some normally distributed data for our examples using the <strong><code>rnorm()</code></strong> function. We simply need to feed the function three arguments: the size of the simulated sample (<em>n</em>), the true mean (<em>mean</em>), and the true standard deviation (<em>sd</em>). Calling the <strong><code>rnorm()</code></strong> function will then result in R producing a pseudo-random sample drawn from the specified normal distribution.</p>
+<p>If we want to create a reproducible pseudo-random sample, we can call the function <strong><code>set.seed()</code></strong> before calling <strong><code>rnorm()</code></strong>. If we feed the <strong><code>set.seed()</code></strong> function an arbitrary number, the following pseudo-random draw will always be the same.</p>
 </div>
 <p>Here is what the R code would look like:</p>
 <div class="cell">
@@ -389,7 +389,7 @@ sample estimates:
 <ul>
 <li>the type of <span class="math inline">\(t\)</span>-test we ran (one-sample <span class="math inline">\(t\)</span>-test)</li>
 <li>the empirical <span class="math inline">\(t\)</span>-value</li>
-<li>the test’s degrees of freedom (<em>n</em>-1)</li>
+<li>the test’s degrees of freedom (<span class="math inline">\(n-1\)</span>)</li>
 <li>the <span class="math inline">\(p\)</span>-value</li>
 <li>the type of <span class="math inline">\(H_1\)</span></li>
 <li>the mean of <span class="math inline">\(X\)</span> and a 95% confidence interval around it</li>
@@ -428,11 +428,11 @@ mean of x
 <section id="the-paired-t-test" class="level2">
 <h2 class="anchored" data-anchor-id="the-paired-t-test">The paired t-test</h2>
 <p>Let’s now turn to cases, in which we want to test for the difference between two variables measured in the same group. This could be two variables measured at the same time, or the same variable measured at two times.</p>
-<p>In order to run a paired <span class="math inline">\(t\)</span>-test, we need to feed the <em>t.test</em> function two numerical vectors of the same length, <em>x</em> and <em>y</em>. R will pair each element of the first vector with the corresponding element of the second vector. Therefore, we need to ensure that the data for both vectors are in the same order (usually not a problem if we use data frames).</p>
+<p>In order to run a paired <span class="math inline">\(t\)</span>-test, we need to feed the <strong><code>t.test()</code></strong> function two numerical vectors of the same length, <em>x</em> and <em>y</em>. R will pair each element of the first vector with the corresponding element of the second vector. Therefore, we need to ensure that the data for both vectors are in the same order (usually not a problem if we use data frames).</p>
 <p>Let’s look at an example, in which we want to test whether the stress level of 100 simulated people decreases between two measurement occasions <em>T1</em> and <em>T2</em>.</p>
 <div class="alert alert-info">
-<p>Since we want to simulate correlated data, using the <em>rnorm</em> function won’t help us. However, there is a useful function called <em>mvrnorm</em> in the <em>MASS</em> package. This function allows us to generate data from multivariate normal distributions.</p>
-<p>We can feed the <em>mvrnorm</em> the following arguments:</p>
+<p>Since we want to simulate correlated data, using the <strong><code>rnorm()</code></strong> function won’t help us. However, there is a useful function called <strong><code>mvrnorm()</code></strong> in the <em>MASS</em> package. This function allows us to generate data from multivariate normal distributions.</p>
+<p>We can feed the <strong><code>mvrnorm()</code></strong> the following arguments:</p>
 <ul>
 <li><em>n</em>: the number of observations</li>
 <li><em>mu</em>: a vector of length <em>k</em> containing the means of the generated variables</li>
@@ -488,17 +488,17 @@ mean difference
 </div>
 </div>
 </div>
-<p>R will now inform us that we ran a paired <span class="math inline">\(t-test\)</span> (this is correct as we set the <em>paired</em> argument to “paired”; otherwise, R would have computed and independent samples <span class="math inline">\(t\)</span>-test).</p>
+<p>R will now inform us that we ran a paired <span class="math inline">\(t-test\)</span> (this is correct as we set the <em>paired</em> argument to TRUE; otherwise, R would have computed and independent samples <span class="math inline">\(t\)</span>-test).</p>
 <p>It also tells us which alternative hypothesis we tested, namely that the difference between <em>T1</em> and <em>T2</em> stress levels was positive (greater than 0). Furthermore, R reports the mean difference, the one-tailed 95% confidence interval around it.</p>
-<p>Finally, it shows is the empirical <span class="math inline">\(t\)</span>-value, degrees of freedom (<em>n</em>-1, similar to the one-sample test), and the <span class="math inline">\(p\)</span>-value. In this example, stress was significantly lower at <em>T2</em>than at <em>T1</em>, allowing us to accept <span class="math inline">\(H_1\)</span>.</p>
+<p>Finally, it shows is the empirical <span class="math inline">\(t\)</span>-value, degrees of freedom (<span class="math inline">\(n-1\)</span>, similar to the one-sample test), and the <span class="math inline">\(p\)</span>-value. In this example, stress was significantly lower at <em>T2</em>than at <em>T1</em>, allowing us to accept <span class="math inline">\(H_1\)</span>.</p>
 <div class="alert alert-success">
 <p>The statistically well-versed reader may interject that a paired-sample <span class="math inline">\(t\)</span>-test is the same as a one-sample <span class="math inline">\(t\)</span>-test on the difference of the two variables involved. That is technically correct!</p>
-<p>We can easily verify it by computing a new variables as the difference between the two variables we want to compare. First, we run a paired-sample <span class="math inline">\(t\)</span>-test by feeding the <em>t.test</em> function both variables. Then, we run a one-sample <span class="math inline">\(t\)</span>-test and feed it only the new difference variable. The results of the two tests will be identical, ceteris paribus.</p>
+<p>We can easily verify it by computing a new variables as the difference between the two variables we want to compare. First, we run a paired-sample <span class="math inline">\(t\)</span>-test by feeding the <strong><code>t.test()</code></strong> function both variables. Then, we run a one-sample <span class="math inline">\(t\)</span>-test and feed it only the new difference variable. The results of the two tests will be identical, ceteris paribus.</p>
 </div>
 </section>
 <section id="independent-samples-t-test" class="level2">
 <h2 class="anchored" data-anchor-id="independent-samples-t-test">Independent samples t-test</h2>
-<p>We will now turn to the last version of <span class="math inline">\(t\)</span>-test, the <span class="math inline">\(t\)</span>-test for independent samples. As with the paired <span class="math inline">\(t\)</span>-test, we need to feed the <em>t.test</em> function two numeric vectors containing the data we want to compare. However, since the data are assumed to be independent, the two vectors need not be of the same length, and the order of the elements does not matter.</p>
+<p>We will now turn to the last version of <span class="math inline">\(t\)</span>-test, the <span class="math inline">\(t\)</span>-test for independent samples. As with the paired <span class="math inline">\(t\)</span>-test, we need to feed the <strong><code>t.test()</code></strong> function two numeric vectors containing the data we want to compare. However, since the data are assumed to be independent, the two vectors need not be of the same length, and the order of the elements does not matter.</p>
 <p>First, we are going to simulate a new data frame containing the data from 100 participants who were randomly assigned to two experimental conditions labelled “experimental” and “control” for lack of imagination. The only measured variable of interest is the dependent variable “dv”.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate data for 100 participants, half of which </span></span>
@@ -577,8 +577,8 @@ mean of x mean of y
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generic formula stating that y is a function of x</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>What this means is that <em>y</em> is a function of <em>x</em>. Usually, R accepts only a single variable to the left of the tilde operator (<strong>~</strong>), whereas we can combine multiple variables on it’s right side. We will return to formulae later when we discuss linear models. For now the simple version is sufficient.</p>
-<p>In case of an independent <span class="math inline">\(t\)</span>-test, we can feed the <em>t.test</em> function a formula containing the variable names as well as another function argument called <em>data</em>, which requires a data frame as input. Here, we can tell R which data frame our variables are contained in. Let’s have a look at the alternative syntax for our test above.</p>
+<p>What this means is that <em>y</em> is a function of <em>x</em>. Usually, R accepts only a single variable to the left of the tilde operator (<strong><code>~</code></strong>), whereas we can combine multiple variables on it’s right side. We will return to formulae later when we discuss linear models. For now the simple version is sufficient.</p>
+<p>In case of an independent <span class="math inline">\(t\)</span>-test, we can feed the <strong><code>t.test()</code></strong> function a formula containing the variable names as well as another function argument called <em>data</em>, which requires a data frame as input. Here, we can tell R which data frame our variables are contained in. Let’s have a look at the alternative syntax for our test above.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test the hypothesis that the mean of dv differs</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># between the experimental and the control group</span></span>

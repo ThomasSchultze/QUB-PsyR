@@ -367,7 +367,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="running-a-regression-analysis-in-r" class="level3">
 <h3 class="anchored" data-anchor-id="running-a-regression-analysis-in-r">Running a regression analysis in R</h3>
-<p>We can run regression analyses in R using the <em>lm</em> function (linear model). The function has several arguments. We will use only the following two:</p>
+<p>We can run regression analyses in R using the <strong><code>lm()</code></strong> function (linear model). The function has several arguments. We will use only the following two:</p>
 <ul>
 <li><em>formula</em> (required): a formula type object telling the function which variable to predict and which combination of variables to use as predictors</li>
 <li><em>data</em> (optional): a data frame containing the variables we feed into the formula; if we do not specify this argument, R will assume that the variables we fed into the formula argument exist as objects in our environment</li>
@@ -375,13 +375,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="excurse-formula-type-objects" class="level3">
 <h3 class="anchored" data-anchor-id="excurse-formula-type-objects">Excurse: formula type objects</h3>
-<p>Before we delve into examples of linear regressions, we need to have a look at the syntax of <strong>formula</strong> type R objects. We already know that these objects use the <strong>~</strong> operator (tilde) and have the general form:</p>
+<p>Before we delve into examples of linear regressions, we need to have a look at the syntax of <strong>formula</strong> type R objects. We already know that these objects use the <strong><code>~</code></strong> operator (tilde) and have the general form:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># general syntax of a formula</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>That means, we define <span class="math inline">\(y\)</span> as a function of <span class="math inline">\(x\)</span>. Of course, a formula can be much more complex than that because we can use combinations of multiple variables on the right hand side. In regression models, the formula is generally an additive combination of predictors, each of which then receives its own regression weight. We can combine multiple predictors using the <strong>+</strong> operator.</p>
-<p>The first thing we need to know now is that a regression formula in R typically omits the <strong>intercept</strong> although the <em>lm</em> function models it. This is purely a convenience feature. The actual formula looks like this:</p>
+<p>That means, we define <span class="math inline">\(y\)</span> as a function of <span class="math inline">\(x\)</span>. Of course, a formula can be much more complex than that because we can use combinations of multiple variables on the right hand side. In regression models, the formula is generally an additive combination of predictors, each of which then receives its own regression weight. We can combine multiple predictors using the <strong><code>+</code></strong> operator.</p>
+<p>The first thing we need to know now is that a regression formula in R typically omits the <strong>intercept</strong> although the <strong><code>lm()</code></strong> function models it. This is purely a convenience feature. The actual formula looks like this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># formula explicating that the model contains an intercept</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -411,7 +411,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 6  6         1        -1</code></pre>
 </div>
 </div>
-<p>We can now call the <em>lm</em> function to run an ordinary least squares regression of participants’ love for cats from their love for dogs. Similar to ANOVAs, we will define the regression model as an object. Here is what the syntax might look like:</p>
+<p>We can now call the <strong><code>lm()</code></strong> function to run an ordinary least squares regression of participants’ love for cats from their love for dogs. Similar to ANOVAs, we will define the regression model as an object. Here is what the syntax might look like:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># regression of participants' love for cats on their love for dogs</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">=</span> <span class="fu">lm</span>(<span class="at">formula =</span> love_cats <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> love_dogs,</span>
@@ -432,12 +432,12 @@ Coefficients:
 </div>
 </div>
 <p>As we can see, the output is relatively sparse. We can see the function call we entered as well as estimates of the two regression parameters <span class="math inline">\(b_0\)</span> (intercept) and <span class="math inline">\(b_1\)</span> (the regression weight for love of dogs).</p>
-<p>While we now know the parameter values of the linear regression, this information is slightly underwhelming. If we want more information, particularly about the statistical significance of the parameters, we need to feed the regression model into another function called <em>summary</em>. The <em>summary</em> function takes a fitted model as its sole argument. Here is the syntax:</p>
+<p>While we now know the parameter values of the linear regression, this information is slightly underwhelming. If we want more information, particularly about the statistical significance of the parameters, we need to feed the regression model into another function called <strong><code>summary()</code></strong>. The <strong><code>summary()</code></strong> function takes a fitted model as its sole argument. Here is the syntax:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># display detailed output for the regression model</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Here is what the console output looks like when we call the <em>summary</em> function on our regression model:</p>
+<p>Here is what the console output looks like when we call the <strong><code>summary()</code></strong> function on our regression model:</p>
 <div class="alert alert-warning">
 <div class="cell">
 <div class="cell-output cell-output-stdout">

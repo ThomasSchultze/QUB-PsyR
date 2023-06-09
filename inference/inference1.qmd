@@ -34,7 +34,7 @@ For paired $t$-tests this means that the noise is lower the more the two measure
 In case of the independent samples $t$-test, we assume the covariance of $Y$ and $Z$ to be zero (which is the definition of statistical independence).
 :::
 
-We can run all three types of $t$-tests in R using the function *t.test*. This function is quite flexible. It has several function arguments that we can use to specify the type of $t$-test and how our $H_0$ and $H_1$ should look like. Let's have a look at the most important function arguments:
+We can run all three types of $t$-tests in R using the function **`t.test()`**. This function is quite flexible. It has several function arguments that we can use to specify the type of $t$-test and how our $H_0$ and $H_1$ should look like. Let's have a look at the most important function arguments:
 
 - *x* (required) and *y* (optional): numeric vectors containing the data we want to analyse.
 - *mu* (optional): a numeric value indicating the mean of $X$ under $H_0$. The default is 0.
@@ -42,7 +42,7 @@ We can run all three types of $t$-tests in R using the function *t.test*. This f
 - *paired* (optional): a Boolean value; only applies if we specified *x* and *y*; if set to FALSE (the default), R will run an independent samples $t$-test; if set to TRUE, it will run a paired $t$-test.
 - *var.equal* (optional): a Boolean value; only applies when running independent samples $t$-tests; if set to TRUE (default), R will correct the degrees of freedom of the test to account for unequal variances.
 
-Now that we have a rough understanding of what we can do with the *t.test* function, let's give it a spin.
+Now that we have a rough understanding of what we can do with the **`t.test()`** function, let's give it a spin.
 
 
 ## The one-sample t-test
@@ -50,9 +50,9 @@ Now that we have a rough understanding of what we can do with the *t.test* funct
 For starters, we will consider the most simple case, namely the one-sample $t$-test. For example, we could test whether the mean of a vector of numbers differs from zero.
 
 :::{.alert .alert-info}
-We can generate some normally distributed data for our examples using the *rnorm* function. We simply need to feed the function three arguments: the size of the simulated sample (*n*), the true mean (*mean*), and the true standard deviation (*sd*). Calling the *rnorm* function will then result in R producing a pseudo-random sample drawn from the specified normal distribution.
+We can generate some normally distributed data for our examples using the **`rnorm()`** function. We simply need to feed the function three arguments: the size of the simulated sample (*n*), the true mean (*mean*), and the true standard deviation (*sd*). Calling the **`rnorm()`** function will then result in R producing a pseudo-random sample drawn from the specified normal distribution.
 
-If we want to create a reproducible pseudo-random sample, we can call the function *set.seed* before calling *rnorm*. If we feed the *set.seed* function an arbitrary number, the following pseudo-random draw will always be the same.
+If we want to create a reproducible pseudo-random sample, we can call the function **`set.seed()`** before calling **`rnorm()`**. If we feed the **`set.seed()`** function an arbitrary number, the following pseudo-random draw will always be the same.
 :::
 
 Here is what the R code would look like:
@@ -94,7 +94,7 @@ The output of the $t$-test function is actually a list (we can easily verify tha
 
 - the type of $t$-test we ran (one-sample $t$-test)
 - the empirical $t$-value
-- the test's degrees of freedom (*n*-1)
+- the test's degrees of freedom ($n-1$)
 - the $p$-value
 - the type of $H_1$
 - the mean of $X$ and a 95% confidence interval around it
@@ -138,14 +138,14 @@ Of course, R also tells us the $t$-value, degrees of freedom, and $p$-value of t
 
 Let's now turn to cases, in which we want to test for the difference between two variables measured in the same group. This could be two variables measured at the same time, or the same variable measured at two times.
 
-In order to run a paired $t$-test, we need to feed the *t.test* function two numerical vectors of the same length, *x* and *y*. R will pair each element of the first vector with the corresponding element of the second vector. Therefore, we need to ensure that the data for both vectors are in the same order (usually not a problem if we use data frames).
+In order to run a paired $t$-test, we need to feed the **`t.test()`** function two numerical vectors of the same length, *x* and *y*. R will pair each element of the first vector with the corresponding element of the second vector. Therefore, we need to ensure that the data for both vectors are in the same order (usually not a problem if we use data frames).
 
 Let's look at an example, in which we want to test whether the stress level of 100 simulated people decreases between two measurement occasions *T1* and *T2*.
 
 :::{.alert .alert-info}
-Since we want to simulate correlated data, using the *rnorm* function won't help us. However, there is a useful function called *mvrnorm* in the *MASS* package. This function allows us to generate data from multivariate normal distributions.
+Since we want to simulate correlated data, using the **`rnorm()`** function won't help us. However, there is a useful function called **`mvrnorm()`** in the *MASS* package. This function allows us to generate data from multivariate normal distributions.
 
-We can feed the *mvrnorm* the following arguments:
+We can feed the **`mvrnorm()`** the following arguments:
 
 - *n*: the number of observations
 - *mu*: a vector of length *k* containing the means of the generated variables
@@ -205,22 +205,22 @@ t.test(x = my_df$stress_T1, y = my_df$stress_T2, alternative = 'greater',
 ```
 :::
 
-R will now inform us that we ran a paired $t-test$ (this is correct as we set the *paired* argument to "paired"; otherwise, R would have computed and independent samples $t$-test).
+R will now inform us that we ran a paired $t-test$ (this is correct as we set the *paired* argument to TRUE; otherwise, R would have computed and independent samples $t$-test).
 
 It also tells us which alternative hypothesis we tested, namely that the difference between *T1* and *T2* stress levels was positive (greater than 0). Furthermore, R reports the mean difference, the one-tailed 95% confidence interval around it. 
 
-Finally, it shows is the empirical $t$-value, degrees of freedom (*n*-1, similar to the one-sample test), and the $p$-value. In this example, stress was significantly lower at *T2*than at *T1*, allowing us to accept $H_1$.
+Finally, it shows is the empirical $t$-value, degrees of freedom ($n-1$, similar to the one-sample test), and the $p$-value. In this example, stress was significantly lower at *T2*than at *T1*, allowing us to accept $H_1$.
 
 :::{.alert .alert-success}
 The statistically well-versed reader may interject that a paired-sample $t$-test is the same as a one-sample $t$-test on the difference of the two variables involved. That is technically correct!
 
-We can easily verify it by computing a new variables as the difference between the two variables we want to compare. First, we run a paired-sample $t$-test by feeding the *t.test* function both variables. Then, we run a one-sample $t$-test and feed it only the new difference variable. The results of the two tests will be identical, ceteris paribus.
+We can easily verify it by computing a new variables as the difference between the two variables we want to compare. First, we run a paired-sample $t$-test by feeding the **`t.test()`** function both variables. Then, we run a one-sample $t$-test and feed it only the new difference variable. The results of the two tests will be identical, ceteris paribus.
 :::
 
 
 ## Independent samples t-test
 
-We will now turn to the last version of $t$-test, the $t$-test for independent samples. As with the paired $t$-test, we need to feed the *t.test* function two numeric vectors containing the data we want to compare. However, since the data are assumed to be independent, the two vectors need not be of the same length, and the order of the elements does not matter. 
+We will now turn to the last version of $t$-test, the $t$-test for independent samples. As with the paired $t$-test, we need to feed the **`t.test()`** function two numeric vectors containing the data we want to compare. However, since the data are assumed to be independent, the two vectors need not be of the same length, and the order of the elements does not matter. 
 
 First, we are going to simulate a new data frame containing the data from 100 participants who were randomly assigned to two experimental conditions labelled "experimental" and "control" for lack of imagination. The only measured variable of interest is the dependent variable "dv".
 
@@ -316,9 +316,9 @@ An R formula is a social type of R object that requires a specific syntax. Gener
 # generic formula stating that y is a function of x
 y ~ x
 ```
-What this means is that *y* is a function of *x*. Usually, R accepts only a single variable to the left of the tilde operator (**~**), whereas we can combine multiple variables on it's right side. We will return to formulae later when we discuss linear models. For now the simple version is sufficient.
+What this means is that *y* is a function of *x*. Usually, R accepts only a single variable to the left of the tilde operator (**`~`**), whereas we can combine multiple variables on it's right side. We will return to formulae later when we discuss linear models. For now the simple version is sufficient.
 
-In case of an independent $t$-test, we can feed the *t.test* function a formula containing the variable names as well as another function argument called *data*, which requires a data frame as input. Here, we can tell R which data frame our variables are contained in. Let's have a look at the alternative syntax for our test above.
+In case of an independent $t$-test, we can feed the **`t.test()`** function a formula containing the variable names as well as another function argument called *data*, which requires a data frame as input. Here, we can tell R which data frame our variables are contained in. Let's have a look at the alternative syntax for our test above.
 
 ```{r}
 #| eval: false

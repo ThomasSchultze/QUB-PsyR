@@ -341,7 +341,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display">\[SS_{total} = \sum_{j=1}^{J} \sum_{k=1}^{K} \sum_{i=1}^{n_{jk}} (x_{ijk}-\bar{x})^2\]</span> The next step is computing <span class="math inline">\(SS_{between}\)</span> by pretending that there is no variance within groups. Computing the <span class="math inline">\(SS_{between}\)</span> works similar to the one-factorial ANOVA. That means, we replace each observation <span class="math inline">\(x_{ijk}\)</span> with the mean of its cell <span class="math inline">\(\bar{x}_{jk}\)</span> before computing the sum of the squared deviations from the grand mean <span class="math inline">\(\bar{x}_{jk}\)</span>.</p>
 <p><span class="math display">\[SS_{between} = \sum_{j=1}^{J} \sum_{k=1}^{K} n_{jk} \times (\bar{x}_{jk} - \bar{x})^2\]</span> Computing the <span class="math inline">\(SS_{within}\)</span> is also similar to the one-factorial ANOVA. We pretend that there is no variation between groups by replacing the grand mean <span class="math inline">\(\bar{x}\)</span> with the cell means <span class="math inline">\(\bar{x}_{jk}\)</span> in the formula for the total sum of squares.</p>
 <p><span class="math display">\[SS_{within} = \sum_{j=1}^{J} \sum_{k=1}^{K} \sum_{i = 1}^{n_{jk}}  (x_{ijk} - \bar{x}_{jk})\]</span></p>
-<p>So far, so good. We have now partitioned <span class="math inline">\(SS_{total}\)</span> into the <span class="math inline">\(SS_{between}\)</span> and the <span class="math inline">\(SS_{within}\)</span>. However, since we have a <span class="math inline">\(2 \times 2\)</span>-design, we are not merely interested in <em>whether</em> there is substantial variation between the groups, but also <em>where</em> this variation originates. Thus, we need to partition the sums of squares further.</p>
+<p>So far, so good. We have now partitioned <span class="math inline">\(SS_{total}\)</span> into the <span class="math inline">\(SS_{between}\)</span> and the <span class="math inline">\(SS_{within}\)</span>. However, since we have a <span class="math inline">\(2 \times 2\)</span>-design, we are not merely interested in <strong>whether</strong> there is substantial variation between the groups, but also <strong>where</strong> this variation originates. Thus, we need to partition the sums of squares further.</p>
 <p>We first compute <span class="math inline">\(SS_A\)</span>, that is, the variation that is solely due to differences in factor <span class="math inline">\(A\)</span>. We do so by pretending that a) there is no factor <span class="math inline">\(B\)</span>, and b) there is no variation within cells. The latter is necessary because <span class="math inline">\(SS_A\)</span> is part of <span class="math inline">\(SS_{between}\)</span>. The good thing is that we already know how to do it, namely by replacing individual observations with a mean score. But how do we pretend that there is no factor <span class="math inline">\(B\)</span>? Effectively, we collapse across all levels of <span class="math inline">\(B\)</span> and combine them into one big cell for each level of <span class="math inline">\(A\)</span>. Here is what our <span class="math inline">\(2 \times 2\)</span>-design would look like in our minds now:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -398,8 +398,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="running-a-two-factorial-anova-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="running-a-two-factorial-anova-in-r">Running a two-factorial ANOVA in R</h2>
-<p>When we want to run a two-factorial ANOVA in R, we can use the same package and function we used for the one-factorial case. That is, we use the <em>aov_ez</em> function of the package <em>afex</em>. Before we can run the analysis, we first need data from a two-factorial design.</p>
-<p>Let’s say, we have data from an experimental <span class="math inline">\(2 \times 2\)</span>-design in which we manipulated two factors: job <em>demands</em> (low vs.&nbsp;high) and <em>autonomy</em> (low. vs.&nbsp;high). The dependent variable is the experienced level of job <em>stress</em>. Let’s further assume that we have gathered data from 50 participants in each of the four cells of our design and stored it in a data frame called “my_df”. Here is an except of the data.</p>
+<p>When we want to run a two-factorial ANOVA in R, we can use the same package and function we used for the one-factorial case. That is, we use the <strong><code>aov_ez()</code></strong> function of the package <em>afex</em>. Before we can run the analysis, we first need data from a two-factorial design.</p>
+<p>Let’s say, we have data from an experimental <span class="math inline">\(2 \times 2\)</span>-design in which we manipulated two factors: job demands (low vs.&nbsp;high) and autonomy (low. vs.&nbsp;high). The dependent variable is the experienced level of job stress. Let’s further assume that we have gathered data from 50 participants in each of the four cells of our design and stored it in a data frame called <em>my_df</em>. Here is an except of the data.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID demands control stress
@@ -411,7 +411,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 6  6     low    high    129</code></pre>
 </div>
 </div>
-<p>The difference to a one-factorial ANOVA is that we need to feed the <em>aov_ez</em> function a vector containing two variable names as its <em>between</em> argument (in the one-factorial case it was a single character value). Here is what the syntax looks like:</p>
+<p>The difference to a one-factorial ANOVA is that we need to feed the <strong><code>aov_ez()</code></strong> function a vector containing two variable names as its <em>between</em> argument (in the one-factorial case it was a single character value). Here is what the syntax looks like:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library afex</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
@@ -474,7 +474,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 <section id="disentangling-main-effects" class="level3">
 <h3 class="anchored" data-anchor-id="disentangling-main-effects">Disentangling main effects</h3>
 <p>Let’s first consider the disentangling of main effects (assuming that there is no significant interaction or an ordinal interaction). When a factor has only two levels, the case is clear, because the difference must be between those two levels.</p>
-<p>If we have three or more levels, we need to disentangle the main effect in the same way we disentangled them in a one-factorial case. That means we can run pairwise comparisons or custom contrasts on that factor’s marginal means (i.e., collapsing across all levels of the other factor) using the <em>emmeans</em> function from the package <em>emmeans</em>.</p>
+<p>If we have three or more levels, we need to disentangle the main effect in the same way we disentangled them in a one-factorial case. That means we can run pairwise comparisons or custom contrasts on that factor’s marginal means (i.e., collapsing across all levels of the other factor) using the <strong><code>emmeans()</code></strong> function from the package <em>emmeans</em>.</p>
 <p>In our example from far above, the factor “demands” has only two levels, but we can still use the data to show how the syntax and output would look like:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library emmeans</span></span>
@@ -508,7 +508,7 @@ Results are averaged over the levels of: control </code></pre>
 </div>
 </div>
 <p>Similar to the one-factorial case, the output will consist of two tables, with the second of them containing the desired information. In this case, we have only one entry here because the factor “demands” has only two levels (however, the logic of the post-hoc comparisons would not differ from the one-factorial case had we more than two levels).</p>
-<p>There are two few things worth noting: First, when we feed the the <em>emmeans</em> a single variable as its <em>specs</em> argument, the output will contain a message stating that we collapsed across the other factor (in our case “control”). Thus, we know that we are talking about the marginal means of the “demands”. Second, when we call the <em>emmeans</em> function on a main effect in an ANOVA design with at least two factors, R will also return a message informing us that the results of our pairwise comparisons may be misleading due to involvement in potential interactions (we already know this by now).</p>
+<p>There are two few things worth noting: First, when we feed the the <strong><code>emmeans()</code></strong> function a single variable as its <em>specs</em> argument, the output will contain a message stating that we collapsed across the other factor (in our case “control”). Thus, we know that we are talking about the marginal means of the “demands”. Second, when we call the <strong><code>emmeans()</code></strong> function on a main effect in an ANOVA design with at least two factors, R will also return a message informing us that the results of our pairwise comparisons may be misleading due to involvement in potential interactions (we already know this by now).</p>
 <p>Since we have two factors in a <span class="math inline">\(2 \times 2\)</span>-design, we need to consider that we may have two significant interpretable main effects. Generally speaking, we need to disentangle each significant main effect via its marginal means, granted that the interaction pattern (absent or ordinal interaction) permits it.</p>
 </section>
 <section id="disentangling-interactions" class="level3">
@@ -578,7 +578,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </div>
-<p>Now let’s run a custom contrast analysis on the ANOVA object using <em>emmeans</em> and coapre it to the ANOVA results. Here is the syntax:</p>
+<p>Now let’s run a custom contrast analysis on the ANOVA object using <strong><code>emmeans()</code></strong> and compare it to the ANOVA results. Here is the syntax:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># analyse contrasts for main effects and interactions in a 2x2 </span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ANOVA without correcting for type-I error inflation</span></span>
@@ -703,7 +703,7 @@ $contrasts
 </div>
 <p>As we can see, all but one of the simple effects are significant. Since the output also shows an estimate of the contrast value for each of the simple effect contrasts, we can now interpret the interaction pattern.</p>
 <p><strong>Here is a valid interpretation</strong>: there is an interaction because the effect of job demands on stress is greater when control is low than when it is high.</p>
-<p><strong>Another valid interpretation</strong>: there is an interaction because control has an effect on stress when job demands are high, but this effect is weaker when demands are low to the extant that we cannot say based on the data whether it still exists.</p>
+<p><strong>Another valid interpretation</strong>: there is an interaction because control has an effect on stress when job demands are high, but this effect is weaker when demands are low to the extant that we cannot say, based on the data, whether it still exists.</p>
 <p>As we can see, we can interpret the interaction from the viewpoint of both factors. Which interpretation we need to choose depends on the specific nature of our interaction hypothesis.</p>
 </section>
 <section id="disentangling-interactions-in-two-factorial-anovas-with-more-than-two-levels" class="level3">
