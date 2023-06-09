@@ -346,14 +346,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="graphs1_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>As we can see, the variable <span class="math inline">\(X\)</span> appears on the x-axis of the plot. The <em>ggplot</em> function automatically chooses the range of x-values based on the data. Since we did not specify the <span class="math inline">\(y\)</span>-argument of the <em>aes</em> function, there is nothing on the y-axis yet. Note that, per default, <em>ggplot</em> creates a light grey background with white grid lines for its plots. We will learn how to change that later on.</p>
-<p>Now that we have a base plot, it is time to add a new layer with the desired geom. We can do so using the function <em>geom_histogram</em>. This function has several optional arguments, including the <em>mapping</em> argument we already know from the <em>ggplot</em> itself. What this means is that we can overwrite the mapping of our base plot for specific geoms we add to it. For now, we will not do that. In this case, the function “inherits” the mapping from the base plot.</p>
+<p>As we can see, the variable <span class="math inline">\(X\)</span> appears on the x-axis of the plot. The <strong><code>ggplot()</code></strong> function automatically chooses the range of x-values based on the data. Since we did not specify the <span class="math inline">\(y\)</span>-argument of the <strong><code>aes()</code></strong> function, there is nothing on the y-axis yet. Note that, per default, <strong><code>ggplot()</code></strong> creates a light grey background with white grid lines for its plots. We will learn how to change that later on.</p>
+<p>Now that we have a base plot, it is time to add a new layer with the desired geom. We can do so using the function <strong><code>geom_histogram()</code></strong>. This function has several optional arguments, including the <em>mapping</em> argument we already know from the <strong><code>ggplot()</code></strong> itself. What this means is that we can overwrite the mapping of our base plot for specific geoms we add to it. For now, we will not do that. In this case, the function “inherits” the mapping from the base plot.</p>
 <p>We will, however, use either of two optional function arguments that define how our histogram looks like, namely:</p>
 <ul>
 <li><em>bins</em> (optional): the number of equally sized bins, in which the data is being sorted; defaults to 30.</li>
 <li><em>binwidth</em> (optional): a numeric value or function that determines how wide the bins are; this argument is <em>NULL</em> by default (meaning that it is not specified at all); if we define it, it overrides the <em>bins</em> argument.</li>
 </ul>
-<p>One important aspect to the <em>ggplot</em> syntax is that we add layers to a plot using the <strong>+</strong> operator. We can either save the new plot with the added layer as a new object, overwrite the old object with the new plot, have the new plot shown in the <strong>plot</strong> tab by not defining it as an object. Let’s say we want to group our data into 10 bins in the histogram. Let’s have a look at how the syntax would look like:</p>
+<p>One important aspect to the <strong><code>ggplot()</code></strong> syntax is that we add layers to a plot using the <strong>+</strong> operator. We can either save the new plot with the added layer as a new object, overwrite the old object with the new plot, have the new plot shown in the <strong>plot</strong> tab by not defining it as an object. Let’s say we want to group our data into 10 bins in the histogram. Let’s have a look at how the syntax would look like:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create a histogram of X with 10 bins</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># update the plot object by overwriting it</span></span>
@@ -375,9 +375,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>As we can see, the plot now has a proper y-axis. The reason is that we chose a geom that determines what goes on this axis (frequency of the data in each bin). We can also verify that the data has been grouped into 10 bins. Finally, now that we have a proper y-axis, there are also horizontal grid lines.</p>
-<p>So far, so good. However, we may want to change two aspects of the histogram: the colour of the bars (because the dark grey is depressing) and their border (because it looks tidier if there is a border separating the bars). We can do so by specifying two arguments of the <em>geom_histogram</em> function:</p>
+<p>So far, so good. However, we may want to change two aspects of the histogram: the colour of the bars (because the dark grey is depressing) and their border (because it looks tidier if there is a border separating the bars). We can do so by specifying two arguments of the <strong><code>geom_histogram()</code></strong> function:</p>
 <ul>
-<li><em>colour</em> (optional): a character string representing either a colour word R knows or an RGB code; if we did not specify a variable coding the colour of the borders of our bars in the aesthetics of our plot (either the aesthetics inherited from the base plot or ones we defined separately in the function call of <em>geom_histogram</em>), we can assign a border colour <strong>for all bars</strong> here.</li>
+<li><em>colour</em> (optional): a character string representing either a colour word R knows or an RGB code; if we did not specify a variable coding the colour of the borders of our bars in the aesthetics of our plot (either the aesthetics inherited from the base plot or ones we defined separately in the function call of <strong><code>geom_histogram()</code></strong>), we can assign a border colour <strong>for all bars</strong> here.</li>
 <li><em>fill</em> (optional): a character string representing either a colour word R knows or an RGB code; similar to the <em>colour</em> argument, but it determines the colour used to fill all bars.</li>
 </ul>
 <p>Let’s say we prefer our bars to appear in light blue with a dark blue border. We can ask R to do that by specifying the <em>colour</em> and <em>fill</em> arguments as shown below:</p>
@@ -395,8 +395,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <section id="interchangeability-of-stats-and-geoms" class="level2">
 <h2 class="anchored" data-anchor-id="interchangeability-of-stats-and-geoms">Interchangeability of stats and geoms</h2>
-<p>As mentioned in the introductory section on data visualisation using <em>ggplot2</em>, each <strong><code>geom_</code></strong> type function comes with a <em>stats</em> argument and vice versa. In case of the <strong><code>geom_histogram</code></strong> function, the default for that <em>stat</em> argument is “bin”, which divides the data specified as <em>x</em> in the <strong><code>aes</code></strong> function call of the base plot into several equally spaced bins.</p>
-<p>Knowing this, we can create a histogram using the <strong><code>stat_bin</code></strong> function instead (see code example below):</p>
+<p>As mentioned in the introductory section on data visualisation using <em>ggplot2</em>, each <strong><code>geom_</code></strong> type function comes with a <em>stats</em> argument and vice versa. In case of the <strong><code>geom_histogram()</code></strong> function, the default for that <em>stat</em> argument is “bin”, which divides the data specified as <em>x</em> in the <strong><code>aes()</code></strong> function call of the base plot into several equally spaced bins.</p>
+<p>Knowing this, we can create a histogram using the <strong><code>stat_bin()</code></strong> function instead (see code example below):</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create an empty base plot for a histogram of variable X in df1</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="at">data =</span> df1, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> X))</span>
@@ -405,7 +405,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> </span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_bin</span>(<span class="at">bins =</span> <span class="dv">10</span>, <span class="at">colour =</span> <span class="st">'darkblue'</span>, <span class="at">fill =</span> <span class="st">'lightblue'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>As we can see below, the resulting graph is identical to the one we created abnove using <strong>’geom_histogram`</strong>.</p>
+<p>As we can see below, the resulting graph is identical to the one we created abnove using <strong>’geom_histogram()`</strong>.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="graphs1_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>

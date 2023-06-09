@@ -49,16 +49,16 @@ p1 = ggplot(data = df1, mapping = aes(x = X))
 p1
 ```
 
-As we can see, the variable $X$ appears on the x-axis of the plot. The *ggplot* function automatically chooses the range of x-values based on the data. Since we did not specify the $y$-argument of the *aes* function, there is nothing on the y-axis yet. Note that, per default, *ggplot* creates a light grey background with white grid lines for its plots. We will learn how to change that later on.
+As we can see, the variable $X$ appears on the x-axis of the plot. The **`ggplot()`** function automatically chooses the range of x-values based on the data. Since we did not specify the $y$-argument of the **`aes()`** function, there is nothing on the y-axis yet. Note that, per default, **`ggplot()`** creates a light grey background with white grid lines for its plots. We will learn how to change that later on.
 
-Now that we have a base plot, it is time to add a new layer with the desired geom. We can do so using the function *geom_histogram*. This function has several optional arguments, including the *mapping* argument we already know from the *ggplot* itself. What this means is that we can overwrite the mapping of our base plot for specific geoms we add to it. For now, we will not do that. In this case, the function "inherits" the mapping from the base plot. 
+Now that we have a base plot, it is time to add a new layer with the desired geom. We can do so using the function **`geom_histogram()`**. This function has several optional arguments, including the *mapping* argument we already know from the **`ggplot()`** itself. What this means is that we can overwrite the mapping of our base plot for specific geoms we add to it. For now, we will not do that. In this case, the function "inherits" the mapping from the base plot. 
 
 We will, however, use either of two optional function arguments that define how our histogram looks like, namely:
 
 - *bins* (optional): the number of equally sized bins, in which the data is being sorted; defaults to 30. 
 - *binwidth* (optional): a numeric value or function that determines how wide the bins are; this argument is *NULL* by default (meaning that it is not specified at all); if we define it, it overrides the *bins* argument.
 
-One important aspect to the *ggplot* syntax is that we add layers to a plot using the **+** operator. We can either save the new plot with the added layer as a new object, overwrite the old object with the new plot, have the new plot shown in the **plot** tab by not defining it as an object. Let's say we want to group our data into 10 bins in the histogram. Let's have a look at how the syntax would look like:
+One important aspect to the **`ggplot()`** syntax is that we add layers to a plot using the **+** operator. We can either save the new plot with the added layer as a new object, overwrite the old object with the new plot, have the new plot shown in the **plot** tab by not defining it as an object. Let's say we want to group our data into 10 bins in the histogram. Let's have a look at how the syntax would look like:
 
 ```{r}
 #| eval: false
@@ -94,9 +94,9 @@ p1
 
 As we can see, the plot now has a proper y-axis. The reason is that we chose a geom that determines what goes on this axis (frequency of the data in each bin). We can also verify that the data has been grouped into 10 bins. Finally, now that we have a proper y-axis, there are also horizontal grid lines.
 
-So far, so good. However, we may want to change two aspects of the histogram: the colour of the bars (because the dark grey is depressing) and their border (because it looks tidier if there is a border separating the bars). We can do so by specifying two arguments of the *geom_histogram* function:
+So far, so good. However, we may want to change two aspects of the histogram: the colour of the bars (because the dark grey is depressing) and their border (because it looks tidier if there is a border separating the bars). We can do so by specifying two arguments of the **`geom_histogram()`** function:
 
-- *colour* (optional): a character string representing either a colour word R knows or an RGB code; if we did not specify a variable coding the colour of the borders of our bars in the aesthetics of our plot (either the aesthetics inherited from the base plot or ones we defined separately in the function call of *geom_histogram*), we can assign a border colour **for all bars** here. 
+- *colour* (optional): a character string representing either a colour word R knows or an RGB code; if we did not specify a variable coding the colour of the borders of our bars in the aesthetics of our plot (either the aesthetics inherited from the base plot or ones we defined separately in the function call of **`geom_histogram()`**), we can assign a border colour **for all bars** here. 
 - *fill* (optional): a character string representing either a colour word R knows or an RGB code; similar to the *colour* argument, but it determines the colour used to fill all bars. 
 
 Let's say we prefer our bars to appear in light blue with a dark blue border. We can ask R to do that by specifying the *colour* and *fill* arguments as shown below:
@@ -128,9 +128,9 @@ p1
 
 ## Interchangeability of stats and geoms
 
-As mentioned in the introductory section on data visualisation using *ggplot2*, each **`geom_`** type function comes with a *stats* argument and vice versa. In case of the **`geom_histogram`** function, the default for that *stat* argument is "bin", which divides the data specified as *x* in the **`aes`** function call of the base plot into several equally spaced bins.
+As mentioned in the introductory section on data visualisation using *ggplot2*, each **`geom_`** type function comes with a *stats* argument and vice versa. In case of the **`geom_histogram()`** function, the default for that *stat* argument is "bin", which divides the data specified as *x* in the **`aes()`** function call of the base plot into several equally spaced bins.
 
-Knowing this, we can create a histogram using the **`stat_bin`** function instead (see code example below):
+Knowing this, we can create a histogram using the **`stat_bin()`** function instead (see code example below):
 
 ```{r}
 #| eval: false
@@ -144,7 +144,7 @@ p1 +
   stat_bin(bins = 10, colour = 'darkblue', fill = 'lightblue')
 ```
 
-As we can see below, the resulting graph is identical to the one we created abnove using **'geom_histogram`**.
+As we can see below, the resulting graph is identical to the one we created abnove using **'geom_histogram()`**.
 
 ```{r}
 #| eval: true

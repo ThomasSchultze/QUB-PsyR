@@ -266,17 +266,17 @@ ul.task-list li input[type="checkbox"] {
 <p>In sum, when we use <strong>ggplot2</strong>, the <strong>aestheteics</strong>, <strong>geoms</strong>, and <strong>stats</strong> are the ingredients of our plots. Now all we need to do is learn how to define the <strong>aesthetics</strong>, which <strong>geoms</strong> there are at our disposal (we won’t be using half of them), and which <strong>stats</strong> we need to use to make informative plots.</p>
 <div class="alert alert-info">
 <p>In <em>ggplot2</em>, we will use either functions of type <strong><code>geom_</code></strong> that come with built-in and modifiable <em>stats</em> arguments or <strong><code>stats_</code></strong> functions that come with built-it in and modifiable <em>geom</em> arguments. This illustrates that we always need to define both <strong>stats</strong> and <strong>geoms</strong> when plotting with <em>ggplot2</em>.</p>
-<p><strong>Fun fact</strong>: some of the <strong><code>stats_</code></strong> and <strong><code>geom_</code></strong> functions are interchangeable. Which one we want to use is up to us.</p>
+<p><strong>Fun fact</strong>: The corresponding <strong><code>stats_</code></strong> and <strong><code>geom_</code></strong> functions of <em>ggplot2</em> are interchangeable. Which one we want to use is up to us.</p>
 </div>
 </section>
 <section id="creating-plots-with-ggplot2" class="level2">
 <h2 class="anchored" data-anchor-id="creating-plots-with-ggplot2">Creating plots with ggplot2</h2>
-<p>Irrespective of what type of plot we want to create, the first step is always to create a base plot. We do so by calling the <em>ggplot</em> function from <em>ggplot2</em>. The <em>ggplot</em> function requires two function arguments:</p>
+<p>Irrespective of what type of plot we want to create, the first step is always to create a base plot. We do so by calling the <strong><code>ggplot()</code></strong> function from <em>ggplot2</em>. The <strong><code>ggplot()</code></strong> function requires two function arguments:</p>
 <ul>
 <li><em>data</em> (required): a data frame. We need to tell the function where our data is stored.</li>
-<li><em>mapping</em> (optional): this function argument tells the function the aesthetics. It requires a function call of another function, <em>aes</em> (for aesthetics); if specified, defines the default mapping for all layers we will add to the plot; if not specified, we need to specify the aesthetics separately for each layer.</li>
+<li><em>mapping</em> (optional): this function argument tells the function the aesthetics. It requires a function call of another function, <strong><code>aes()</code></strong> (for aesthetics); if specified, defines the default mapping for all layers we will add to the plot; if not specified, we need to specify the aesthetics separately for each layer.</li>
 </ul>
-<p>The <em>aes</em> function that we need to feed into <em>ggplot</em> for its <em>mapping</em> argument, takes the following arguments:</p>
+<p>The <strong><code>aes()</code></strong> function that we need to feed into <strong><code>ggplot()</code></strong> for its <em>mapping</em> argument, takes the following arguments:</p>
 <ul>
 <li><span class="math inline">\(x\)</span> (required): the variable that goes on the x-axis of our plot.</li>
 <li><span class="math inline">\(y\)</span> (depending on plot type): the variable that goes on the y-axis unless the plot type predefines what goes there (e.g., frequency in a histogram).</li>
@@ -301,7 +301,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="point-shapes-in-r" class="level3">
 <h3 class="anchored" data-anchor-id="point-shapes-in-r">Point shapes in R</h3>
-<p>When plotting in R, the term “point” is a broad category of symbols that can, but do not have to be, actual points. We can choose from a range of symbols that are implemented n the <em>points</em> function from base R. Most R packages that revolve around plotting, and that includes <em>ggplot2</em>, use those exact symbols, so it is good to know what they are. We can determine which symbols to plot via the <em>shape</em> argument. Each symbol is represented by a numeric value as shown in the list below. For example a <em>shape</em> value of 19 (the default value) is a large point. Note that the <em>colour</em> of the ‘points’ in the list below is set to blue (‘#0000FF’ or ‘blue’ in R terms) whereas the <em>fill</em> argument is set to light blue (‘#ADD8E6’ or ‘lightblue’). If the respective shape has only one colour in the list below, we can control this colour with the <em>colour</em> argument of <em>geom_points</em>; if it has two colours (shapes 21 to 25), we can toggle the border colour with the <em>colour</em> argument and the filling colour with <em>fill</em>.</p>
+<p>When plotting in R, the term “point” is a broad category of symbols that can, but do not have to be, actual points. We can choose from a range of symbols that are implemented n the <strong><code>points()</code></strong> function from base R. Most R packages that revolve around plotting, and that includes <em>ggplot2</em>, use those exact symbols, so it is good to know what they are. We can determine which symbols to plot via the <em>shape</em> argument. Each symbol is represented by a numeric value as shown in the list below. For example a <em>shape</em> value of 19 (the default value) is a large point. Note that the <em>colour</em> of the ‘points’ in the list below is set to blue (‘#0000FF’ or ‘blue’ in R terms) whereas the <em>fill</em> argument is set to light blue (‘#ADD8E6’ or ‘lightblue’). If the respective shape has only one colour in the list below, we can control this colour with the <em>colour</em> argument of <strong><code>geom_points()</code></strong>; if it has two colours (shapes 21 to 25), we can toggle the border colour with the <em>colour</em> argument and the filling colour with <em>fill</em>.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="graphs0_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>

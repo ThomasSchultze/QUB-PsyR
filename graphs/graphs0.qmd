@@ -19,19 +19,19 @@ In sum, when we use **ggplot2**, the **aestheteics**, **geoms**, and **stats** a
 :::{.alert .alert-info}
 In *ggplot2*, we will use either functions of type **`geom_`** that come with built-in and modifiable *stats* arguments or **`stats_`** functions that come with built-it in and modifiable *geom* arguments. This illustrates that we always need to define both **stats** and **geoms** when plotting with *ggplot2*.
 
-**Fun fact**: some of the **`stats_`** and **`geom_`** functions are interchangeable. Which one we want to use is up to us.
+**Fun fact**: The corresponding **`stats_`** and **`geom_`** functions of *ggplot2* are interchangeable. Which one we want to use is up to us.
 :::
 
 
 
 ## Creating plots with ggplot2
 
-Irrespective of what type of plot we want to create, the first step is always to create a base plot. We do so by calling the *ggplot* function from *ggplot2*. The *ggplot* function requires two function arguments:
+Irrespective of what type of plot we want to create, the first step is always to create a base plot. We do so by calling the **`ggplot()`** function from *ggplot2*. The **`ggplot()`** function requires two function arguments:
 
 - *data* (required): a data frame. We need to tell the function where our data is stored. 
-- *mapping* (optional): this function argument tells the function the aesthetics. It requires a function call of another function, *aes* (for aesthetics); if specified, defines the default mapping for all layers we will add to the plot; if not specified, we need to specify the aesthetics separately for each layer. 
+- *mapping* (optional): this function argument tells the function the aesthetics. It requires a function call of another function, **`aes()`** (for aesthetics); if specified, defines the default mapping for all layers we will add to the plot; if not specified, we need to specify the aesthetics separately for each layer. 
 
-The *aes* function that we need to feed into *ggplot* for its *mapping* argument, takes the following arguments:
+The **`aes()`** function that we need to feed into **`ggplot()`** for its *mapping* argument, takes the following arguments:
 
 - $x$ (required): the variable that goes on the x-axis of our plot.
 - $y$ (depending on plot type): the variable that goes on the y-axis unless the plot type predefines what goes there (e.g., frequency in a histogram).
@@ -67,7 +67,7 @@ A final thing to note is that some geoms in R have only one colour while others 
 
 ### Point shapes in R
 
-When plotting in R, the term "point" is a broad category of symbols that can, but do not have to be, actual points. We can choose from a range of symbols that are implemented n the *points* function from base R. Most R packages that revolve around plotting, and that includes *ggplot2*, use those exact symbols, so it is good to know what they are. We can determine which symbols to plot via the *shape* argument. Each symbol is represented by a numeric value as shown in the list below. For example a *shape* value of 19 (the default value) is a large point. Note that the *colour* of the 'points' in the list below is set to blue ('#0000FF' or 'blue' in R terms) whereas the *fill* argument is set to light blue ('#ADD8E6' or 'lightblue'). If the respective shape has only one colour in the list below, we can control this colour with the *colour* argument of *geom_points*; if it has two colours (shapes 21 to 25), we can toggle the border colour with the *colour* argument and the filling colour with *fill*.
+When plotting in R, the term "point" is a broad category of symbols that can, but do not have to be, actual points. We can choose from a range of symbols that are implemented n the **`points()`** function from base R. Most R packages that revolve around plotting, and that includes *ggplot2*, use those exact symbols, so it is good to know what they are. We can determine which symbols to plot via the *shape* argument. Each symbol is represented by a numeric value as shown in the list below. For example a *shape* value of 19 (the default value) is a large point. Note that the *colour* of the 'points' in the list below is set to blue ('#0000FF' or 'blue' in R terms) whereas the *fill* argument is set to light blue ('#ADD8E6' or 'lightblue'). If the respective shape has only one colour in the list below, we can control this colour with the *colour* argument of **`geom_points()`**; if it has two colours (shapes 21 to 25), we can toggle the border colour with the *colour* argument and the filling colour with *fill*.
 
 ```{r}
 #| eval: true
