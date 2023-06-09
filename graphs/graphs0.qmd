@@ -62,7 +62,7 @@ RStudio has a convenient feature when we write R scripts: it immediately display
 
 ![](images/col1.png)
 
-A final thing to note is that some geoms in R have only one colour while others have two, a border colour and a filling colour. Geoms that have only one colour include lines and most types of points. We can determine their colour via the *colour* function argument. Other geoms such as bars, circles, and polygons have a border coulour which is separate from their filling colour. For those geoms, we can define the border colour via the *colour* argument and the filling colour via the *fill* argument.
+A final thing to note is that some geoms in R have only one colour while others have two, a border colour and a filling colour. Geoms that have only one colour include lines and most types of points. We can determine their colour via the *colour* function argument. Other geoms such as bars, circles, and polygons have a border colour which is separate from their filling colour. For those geoms, we can define the border colour via the *colour* argument and the filling colour via the *fill* argument.
 
 
 ### Point shapes in R

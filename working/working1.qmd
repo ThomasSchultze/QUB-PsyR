@@ -311,7 +311,7 @@ v2 = 1:4              # lazy way of creating a vector of length 4
 
 v1 + v2               # performs element-wise addition of the vectors
 
-v1 != v2              # takes each element of v1 abnd tests whether it is
+v1 != v2              # takes each element of v1 and tests whether it is
                       # different from the corresponding element of v2
 ```
 

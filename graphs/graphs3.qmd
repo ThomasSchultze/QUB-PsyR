@@ -38,7 +38,7 @@ ggplot(data = df1, mapping = aes(x = condition, y = creativity)) + geom_violin()
 
 ```
 
-If we want to plot the data using violin plots, we first need to set up the base plot. Because we want to plot creativity by condition, we need to define both the *x* and *y* argument in the **`aes()`** function call when setting up the base plot. Here is the syntax:
+If we want to plot the data using violin plots, we first need to set up the base plot. Because we want to plot creativity by condition, we need to define both the *`x`* and *`y`* argument in the **`aes()`** function call when setting up the base plot. Here is the syntax:
 
 ```{r}
 #| eval: false
@@ -60,7 +60,7 @@ p0 = ggplot(data = df1, mapping = aes(x = condition, y = creativity))
 ```
 
 
-Next, we want to add the violins. We can do so using the function **`geom_violin()`**, which has "ydensity" as a default *stat* argument. Due to the interchangeability of stats and geoms in *ggplot2*, we could also add the layer using the **`stat_ydensity()`** function, which has a *geom* argument with "violin" as the default. See the syntax below:
+Next, we want to add the violins. We can do so using the function **`geom_violin()`**, which has "ydensity" as a default *`stat`* argument. Due to the interchangeability of stats and geoms in *ggplot2*, we could also add the layer using the **`stat_ydensity()`** function, which has a *`geom`* argument with "violin" as the default. See the syntax below:
 
 ```{r}
 #| eval: true
@@ -87,7 +87,7 @@ p1
 
 ```
 
-As with all geoms in *ggplot2*, we can customise their appearance. Violins are polygons, and as such, we can separately define their *fill* and *colour* argument to toggle their filling and line colours, respectively. Since we did not specify either of these argument in the base plots function call of **`aes()`**, we can define them in the function call of **`geom_violin()`** (or **`stat_ydensity()`**), and the values we specify there, will be applied equally to all violins. For example, we could ask R to fill the violins in Queen's vibrant red and colour their borders in Queen's dark red. Fully opaque filling colours are not necessariyl practical if we want to add more layers to the plot, so we will use the *ggplot2* function **`alpha()`** to make the filling colour semi-transparent. Here is how the code would look:
+As with all geoms in *ggplot2*, we can customise their appearance. Violins are polygons, and as such, we can separately define their *`fill`* and *`colour`* argument to toggle their filling and line colours, respectively. Since we did not specify either of these argument in the base plots function call of **`aes()`**, we can define them in the function call of **`geom_violin()`** (or **`stat_ydensity()`**), and the values we specify there, will be applied equally to all violins. For example, we could ask R to fill the violins in Queen's vibrant red and colour their borders in Queen's dark red. Fully opaque filling colours are not necessariyl practical if we want to add more layers to the plot, so we will use the *ggplot2* function **`alpha()`** to make the filling colour semi-transparent. Here is how the code would look:
 
 ```{r}
 #| eval: true
@@ -112,7 +112,7 @@ So far, so good. We now have three beautiful violins, but we still miss informat
 - a measure of central tendency (usually the mean, but we can choose the median if we prefer that) that will be represented by the point
 - the lower limit and upper limit of the lines to be drawn, defined by some measure of dispersion (e.g., 95% confidence intervals, standard errors, etc.)
 
-In order to convey this information to the **`geom_pointrange()`** function, we need to define two of its arguments. First, we need to tell it, which *stat* to use. Instead of the default value for the *stat* argument ("identity"), we need to set it to "summary". That means, we tell the function that we will not use the data as is, but instead compute some summary statistics from it. If we do that, we also need to specify the function that does these computations by defining the argument *fun.data*. We can define this argument by stating the name of the function we want to use (just the name of the function **without parentheses**).
+In order to convey this information to the **`geom_pointrange()`** function, we need to define two of its arguments. First, we need to tell it, which *`stat`* to use. Instead of the default value for the *`stat`* argument ("identity"), we need to set it to "summary". That means, we tell the function that we will not use the data as is, but instead compute some summary statistics from it. If we do that, we also need to specify the function that does these computations by defining the argument *`fun.data`*. We can define this argument by stating the name of the function we want to use (just the name of the function **without parentheses**).
 If we want to display means and 95% confidence intervals, we can either use the function **`mean_cl_normal()`** (computes a mean plus the parametric 95% confidence interval) or the function **`mean_cl_boot()`** (computes the mean and a bootstrapped 95% confidence interval). let's have a look at the syntax:
 
 ```{r}
@@ -135,9 +135,9 @@ Here is what the plot looks like:
 p2
 ```
 
-The function **`geom_pointrange()`** allows us to customise the the appearance of the points using the argument *shape* (see the section on scatterplots for details). Depending on which shape we choose, we can then toggle the filling and/or border colour of the points via the function's *fill* and *colour* arguments.
+The function **`geom_pointrange()`** allows us to customise the the appearance of the points using the argument *`shape`* (see the section on scatterplots for details). Depending on which shape we choose, we can then toggle the filling and/or border colour of the points via the function's *`fill`* and *`colour`* arguments.
 
-The point ranges already convey the information we are interested in (central tendency and dispersion of the data in each category). However, the lines indicating the 95% confidence intervals look a bit different from the commonly used error bars because they miss the little horizontal bars at the end. If we want, we can add them by adding another layer to the plot using the **`geom_errorbar()`** function. Similar to the **`geom_pointrange()`** function, we need to define the *stat* argument as "summary" and provide a function that returns the desired information as the *fun.data*. We can use the same function as above, namely **`mean_cl_normal()`** (or **`mean_cl_boot()`** if we prefer non-parametric confidence intervals). A final think to consider is how wide we want to error bars to be. We can toggle their width using the *width* argument (the default is 1, which creates very wide error bars; we will set it to 0.1 instead).  
+The point ranges already convey the information we are interested in (central tendency and dispersion of the data in each category). However, the lines indicating the 95% confidence intervals look a bit different from the commonly used error bars because they miss the little horizontal bars at the end. If we want, we can add them by adding another layer to the plot using the **`geom_errorbar()`** function. Similar to the **`geom_pointrange()`** function, we need to define the *`stat`* argument as "summary" and provide a function that returns the desired information as the *`fun.data`*. We can use the same function as above, namely **`mean_cl_normal()`** (or **`mean_cl_boot()`** if we prefer non-parametric confidence intervals). A final think to consider is how wide we want to error bars to be. We can toggle their width using the *`width`* argument (the default is 1, which creates very wide error bars; we will set it to 0.1 instead).  
 
 Syntax as follows:
 
@@ -161,10 +161,10 @@ p3
 ```
 
 :::{.alert .alert-info}
-Due to the interchangeability of stats and geoms in *ggplot2*, we could add point ranges and error bars using the **`stat_summary()`** function instead. We would simply need to define the *geom* argument as "pointrange" and "errorbar", respectively. The rest of the function calls would be identical to those of the **`geom_pointrange()`** and **`geom_errorbar()`** functions as shown above. 
+Due to the interchangeability of stats and geoms in *ggplot2*, we could add point ranges and error bars using the **`stat_summary()`** function instead. We would simply need to define the *`geom`* argument as "pointrange" and "errorbar", respectively. The rest of the function calls would be identical to those of the **`geom_pointrange()`** and **`geom_errorbar()`** functions as shown above. 
 :::
 
-A final thing we may want to consider is adding the individual data points in the plot. An elegant way to do so is the **`geom_jitter()`** function. When we do plots, jittering means to randomly shift the position of a point by a small margin (jittering is useful when we have overlapping data points). The **`geom_jitter()`** function lets us define in which range we want to randomly move points horizontally and vertically using the *width* and *height* arguments. Each of these arguments must be defined a numeric value. These values correspond to the units of the x- or y-axis. For example, a value of 0.3 means that the points are shifted randomly by up to 0.3 axis units in either direction (up/down or left/right, respectively). When plotting a continuous y-variable against a categorical x-variable, it suffices to shift the points horizontally. Since the default for the *height* argument is 0, it is sufficient to define the *width* argument. We will set it to 0.1, here. Similar to **`geom_point()`**, we can also change the shape of the points using the *shape* argument, and we can toggle the *fill* and/or *colour* arguments depending on the respective character. In the example below, we use the default points that only have the *colour* argument. We will use semi-transparent points in order not to distract the viewers from the point ranges and error bars.
+A final thing we may want to consider is adding the individual data points in the plot. An elegant way to do so is the **`geom_jitter()`** function. When we do plots, jittering means to randomly shift the position of a point by a small margin (jittering is useful when we have overlapping data points). The **`geom_jitter()`** function lets us define in which range we want to randomly move points horizontally and vertically using the *`width`* and *`height`* arguments. Each of these arguments must be defined a numeric value. These values correspond to the units of the x- or y-axis. For example, a value of 0.3 means that the points are shifted randomly by up to 0.3 axis units in either direction (up/down or left/right, respectively). When plotting a continuous y-variable against a categorical x-variable, it suffices to shift the points horizontally. Since the default for the *`height`* argument is 0, it is sufficient to define the *`width`* argument. We will set it to 0.1, here. Similar to **`geom_point()`**, we can also change the shape of the points using the *`shape`* argument, and we can toggle the *`fill`* and/or *`colour`* arguments depending on the respective character. In the example below, we use the default points that only have the *`colour`* argument. We will use semi-transparent points in order not to distract the viewers from the point ranges and error bars.
 
 ```{r}
 #| eval: true
