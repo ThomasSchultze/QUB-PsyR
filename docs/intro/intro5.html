@@ -322,19 +322,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>CSV files are ideal for <strong>Open Data</strong> as most software can read them, including generic text editors.</p>
 <p>In order to load and save data in <em>CSV</em> format, we can use two functions:</p>
 <ul>
-<li><em>write.csv</em> will save tabular data (usually a data frame, but can also be a matrix) as a <em>CSV</em> file</li>
-<li><em>read.csv</em> will load data from a <em>CSV</em> file</li>
+<li><strong><code>write.csv()</code></strong> will save tabular data (usually a data frame, but can also be a matrix) as a <em>CSV</em> file</li>
+<li><strong><code>read.csv()</code></strong> will load data from a <em>CSV</em> file</li>
 </ul>
 <section id="saving-data-frames" class="level2">
 <h2 class="anchored" data-anchor-id="saving-data-frames">Saving data frames</h2>
-<p>If we save a data frame using the function <em>write.csv</em>, we should specify three function arguments:</p>
+<p>If we save a data frame using the function <strong><code>write.csv()</code></strong>, we should specify three function arguments:</p>
 <ul>
 <li><em>x</em>: the name of the object we want to save (a data frame, but works with matrices, too)</li>
 <li><em>file</em>: the <strong>directory</strong> where we want to save the file <strong>plus the file name</strong> as a character string</li>
 <li><em>row.names</em>: whether we want R to assign row names (default is TRUE, but we want to turn that to FALSE)</li>
 </ul>
 <p>If we do not specify a directory, R will save the data frame in the <strong>current working directory</strong>.</p>
-<p>We can ask R to tell us the current working directory using the function <em>getwd</em>. This function is special in that it does not have any function arguments. Here is what the syntax looks like:</p>
+<p>We can ask R to tell us the current working directory using the function <strong><code>getwd()</code></strong>. This function is special in that it does not have any function arguments. Here is what the syntax looks like:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain the current working directory</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -360,7 +360,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="loading-data-frames" class="level2">
 <h2 class="anchored" data-anchor-id="loading-data-frames">Loading data frames</h2>
-<p>We can load a data frame (or matrix) saved in <em>CSV</em> format using the function <em>read.csv</em>.</p>
+<p>We can load a data frame (or matrix) saved in <em>CSV</em> format using the function <strong><code>read.csv()</code></strong>.</p>
 <p>We usually need to specify only two function arguments:</p>
 <ul>
 <li>file: the <strong>directory and file name</strong> of the <em>CSV</em> file</li>

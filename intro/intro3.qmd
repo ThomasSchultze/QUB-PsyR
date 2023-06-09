@@ -54,16 +54,16 @@ That is, we first write the function's name, and then define all required argume
 
 We will be using two functions below:
 
-1. The function *c*, which we will use to create vectors. The arguments the function *c* requires are the elements we want to combine into a vector.
+1. The function **`c()`**, which we will use to create vectors. The arguments the function **`c()`** requires are the elements we want to combine into a vector.
 
-2. The function *matrix*, which creates a matrix from a vector. This functions requires a vector, the number of rows and the number of columns as arguments.
+2. The function **`matrix()`**, which creates a matrix from a vector. This functions requires a vector, the number of rows and the number of columns as arguments.
 
 :::{.alert .alert-info}
 **Core fact 1**: Functions can have a lot of arguments, but it is not always necessary to specify all of them. Most functions have default values for some of their arguments. If we do not specify these arguments, R will just run the function as if we had entered the default value of the argument. If we do specify arguments with default values, we simply override the default. 
 :::
 
 :::{.alert .alert-info}
-**Core fact 2**: It is impossible (for most people at least) to remember all functions and which arguments they require. Therefore, R contains a lifesaver in the form of a special function called *help*. The function *help* requires the name of a *topic* (including but not limited to functions) as its main argument. Calling *help* with the name of a function will show the documentation for that function in the **Help** tab of the **Utility & Help** section of RStudio's interface (bottom right).
+**Core fact 2**: It is impossible (for most people at least) to remember all functions and which arguments they require. Therefore, R contains a lifesaver in the form of a special function called **`help()`**. The function **`help()`** requires the name of a *topic* (including but not limited to functions) as its main argument. Calling **`help()`** with the name of a function will show the documentation for that function in the **help** tab of the **Utility & Help** section of RStudio's interface (bottom right).
 :::
 
 
@@ -110,7 +110,7 @@ R tells us "7", which is exactly the value that we specified as *a*. The "[1]" i
 
 ## Vectors
 
-Vectors are objects that contain multiple values of the same type. Vectors cannot contain elements of different types. We can define vectors using the function *c* with the function's arguments being the values we want to combine into the respective vector. The syntax looks as follow:
+Vectors are objects that contain multiple values of the same type. Vectors cannot contain elements of different types. We can define vectors using the function **`c()`** with the function's arguments being the values we want to combine into the respective vector. The syntax looks as follow:
 
 ```{r}
 #| eval: true
@@ -151,9 +151,9 @@ If we try to combine numeric (double or integer) and logical values into one vec
 
 ## Matrices
 
-Matrices are the two-dimensional cousins of vectors. They have *r* rows and *c* columns. Per convention, the number of rows is stated before the number of columns, that is, a 4x3 matrix has 4 rows and 3 columns (think **r**oman-**c**atholic as a mnemonic aid).
+Matrices are the two-dimensional cousins of vectors. They have *r* rows and **`c()`** columns. Per convention, the number of rows is stated before the number of columns, that is, a 4x3 matrix has 4 rows and 3 columns (think **r**oman-***`c()`***atholic as a mnemonic aid).
 
-As with vectors, all elements of a matrix must share the same type (if we try to combine different types of elements, R will just transform some of the elements to create a homogeneous matrix). In fact, matrices in R are vectors that we break down into rows and columns. To create a matrix, we need to call the function *matrix* and tell R three arguments: the vector we want to make into a matrix, the number of its rows, and the number of its columns. The syntax looks as follows:
+As with vectors, all elements of a matrix must share the same type (if we try to combine different types of elements, R will just transform some of the elements to create a homogeneous matrix). In fact, matrices in R are vectors that we break down into rows and columns. To create a matrix, we need to call the function **`matrix()`** and tell R three arguments: the vector we want to make into a matrix, the number of its rows, and the number of its columns. The syntax looks as follows:
 
 ```{r}
 #| eval: true

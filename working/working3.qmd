@@ -6,7 +6,7 @@ Most R objects consist of multiple elements, the exception being single values (
 
 The most generic form of indexing uses **brackets**. Specifically, we first write the name of the object of interest. In brackets following the object's name, we define which elements we want R to obtain. We can obtain elements by their referring to their (numerical) position in an object or via logical operations (using either binary operators or functions).
 
-Numerical indexing means that we tell R in brackets which elements it should obtain by entering the elements' position within the object. If the object is a vector, we need only provide a single number per element, wheres we need two coordinates in case our object is two-dimensional (e.g., a matrix or a data frame). Using numerical indexing, we can ask R to obtain a single element but also multiple elements of an R object.
+Numerical indexing means that we tell R in brackets which elements it should obtain by entering the elements' position within the object. If the object is a vector, we need only provide a single number per element, where we need two coordinates in case our object is two-dimensional (e.g., a matrix or a data frame). Using numerical indexing, we can ask R to obtain a single element but also multiple elements of an R object.
 
 Lets look at a few examples using vectors first.
 
@@ -59,7 +59,7 @@ v1[v2]
 ```
 :::
 
-A neat trick in R is that we can tell it to obtain all elements of an object **except for** those we specify in brackets. We can do so by preceding the selection of elements with the operator **-**. 
+A neat trick in R is that we can tell it to obtain all elements of an object **except for** those we specify in brackets. We can do so by preceding the selection of elements with the operator **`-`**. 
 
 ```{r}
 #| eval: false
@@ -92,7 +92,7 @@ v1[-v2]
 ```
 :::
 
-Remember that data frames are essentially a container for column vectors of equal length. Remember also that we can obtain an existing column (i.e., one variable) of a data frame using the **$** operator. We can obtain elements of that variable using numerical indexing just as we did in the examples above. Here is what the syntax looks like.
+Remember that data frames are essentially a container for column vectors of equal length. Remember also that we can obtain an existing column (i.e., one variable) of a data frame using the **`$`** operator. We can obtain elements of that variable using numerical indexing just as we did in the examples above. Here is what the syntax looks like.
 
 ```{r}
 #| eval: false
@@ -280,7 +280,7 @@ m1[3:4, 1:2]
 ```
 :::
 
-Finally, as with vectors, we can use the operator **-** to tell R that we want all elements of a two-dimensional object except for some of them. For example, we could specify that we want to exclude some rows and some columns in brackets. Since we have two dimensions, we can also combine selection of certain rows with the exclusion of columns and vice versa. Here are a few examples.
+Finally, as with vectors, we can use the operator **`-`** to tell R that we want all elements of a two-dimensional object except for some of them. For example, we could specify that we want to exclude some rows and some columns in brackets. Since we have two dimensions, we can also combine selection of certain rows with the exclusion of columns and vice versa. Here are a few examples.
 
 
 ```{r}
@@ -452,7 +452,7 @@ l1[2:4]
 ```
 :::
 
-We can exclude some elements using the **-** operator.
+We can exclude some elements using the **`-`** operator.
 
 ```{r}
 #| eval: false
@@ -514,7 +514,7 @@ l1[[2]][1:3]
 ```
 :::
 
-As a final example (just because we can), lets obtain the second element of the character vector that forms the first element of **my_list**, which is the last element of *l1*. In those cases, we need to think backwards (similar to calling multiple functions in one go), that is, we tell R to obtain the fourth element of *l1*, then to obtain that elements' first element, and then to obtain that elements' second element. The code to do so looks as follows:
+As a final example (just because we can), lets obtain the second element of the character vector that forms the first element of *my_list*, which is the last element of *l1*. In those cases, we need to think backwards (similar to calling multiple functions in one go), that is, we tell R to obtain the fourth element of *l1*, then to obtain that elements' first element, and then to obtain that elements' second element. The code to do so looks as follows:
 
 ```{r}
 #| eval: false
@@ -656,11 +656,11 @@ If we inspect the object using RStudio's viewer, instead, all *NA* values will b
 
 ### Using numerical indexing to overwrite variable names
 
-Remember the *names* function we used previously to assign new names to the variables in a data fame? This function allows us to obtain the current variable names of a data frame. If we call it and feed it the name of a data frame as its function argument, R will return of character vector containing the names of all column contained in the data frame. 
+Remember the **`names()`** function we used previously to assign new names to the variables in a data frame? This function allows us to obtain the current variable names of a data frame. If we call it and feed it the name of a data frame as its function argument, R will return of character vector containing the names of all column contained in the data frame. 
 
-The *names* function also allows us to overwrite the existing variables names if we redefine the object returned by the function call as a character vector of equal length (i.e., one element per column of the data frame). Back then we noticed that using the *name* function might become tedious if a data frame contained a lot of variables. However, by using numerical indexing, we can circumvent the need to explicitly rename each variable in a data frame.
+The **`names()`** function also allows us to overwrite the existing variables names if we redefine the object returned by the function call as a character vector of equal length (i.e., one element per column of the data frame). Back then we noticed that using the **`names()`** function might become tedious if a data frame contained a lot of variables. However, by using numerical indexing, we can circumvent the need to explicitly rename each variable in a data frame.
 
-Since the *name* function returns a character vector, we can use numerical indexing to pinpoint the variable names we are interested in. For example, we could ask R to tell us the name of the 2nd variable of a data frame or to overwrite the name of the 4th variable. Here is what the code would look like (we will be using the data frame we worked with above):
+Since the **`names()`** function returns a character vector, we can use numerical indexing to pinpoint the variable names we are interested in. For example, we could ask R to tell us the name of the 2nd variable of a data frame or to overwrite the name of the 4th variable. Here is what the code would look like (we will be using the data frame we worked with above):
 
 ```{r}
 #| eval: false

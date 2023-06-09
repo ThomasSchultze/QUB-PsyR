@@ -321,7 +321,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <p>Most R objects consist of multiple elements, the exception being single values (or vectors of length 1 and 1x1 matrices, which technically are single values, too). There will be situations where we would like to view, extract, or change some, but not all elements of an object. For example we might want to remove the first four cases from a data set because they were test runs, or we might be interested in how the 22nd participant in our recent study responded to questions 13 and 14. What we do in those cases is tell R to look for specific elements of an object. That is called <strong>indexing</strong>.</p>
 <p>The most generic form of indexing uses <strong>brackets</strong>. Specifically, we first write the name of the object of interest. In brackets following the object’s name, we define which elements we want R to obtain. We can obtain elements by their referring to their (numerical) position in an object or via logical operations (using either binary operators or functions).</p>
-<p>Numerical indexing means that we tell R in brackets which elements it should obtain by entering the elements’ position within the object. If the object is a vector, we need only provide a single number per element, wheres we need two coordinates in case our object is two-dimensional (e.g., a matrix or a data frame). Using numerical indexing, we can ask R to obtain a single element but also multiple elements of an R object.</p>
+<p>Numerical indexing means that we tell R in brackets which elements it should obtain by entering the elements’ position within the object. If the object is a vector, we need only provide a single number per element, where we need two coordinates in case our object is two-dimensional (e.g., a matrix or a data frame). Using numerical indexing, we can ask R to obtain a single element but also multiple elements of an R object.</p>
 <p>Lets look at a few examples using vectors first.</p>
 <section id="numerical-indexing-of-vectors" class="level2">
 <h2 class="anchored" data-anchor-id="numerical-indexing-of-vectors">Numerical indexing of vectors</h2>
@@ -360,7 +360,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p>A neat trick in R is that we can tell it to obtain all elements of an object <strong>except for</strong> those we specify in brackets. We can do so by preceding the selection of elements with the operator <strong>-</strong>.</p>
+<p>A neat trick in R is that we can tell it to obtain all elements of an object <strong>except for</strong> those we specify in brackets. We can do so by preceding the selection of elements with the operator <strong><code>-</code></strong>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain all elements of v1 except for the 1st and 2nd (3 to 7)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>v1[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]</span>
@@ -380,7 +380,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p>Remember that data frames are essentially a container for column vectors of equal length. Remember also that we can obtain an existing column (i.e., one variable) of a data frame using the <strong>$</strong> operator. We can obtain elements of that variable using numerical indexing just as we did in the examples above. Here is what the syntax looks like.</p>
+<p>Remember that data frames are essentially a container for column vectors of equal length. Remember also that we can obtain an existing column (i.e., one variable) of a data frame using the <strong><code>$</code></strong> operator. We can obtain elements of that variable using numerical indexing just as we did in the examples above. Here is what the syntax looks like.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a data frame with some demographic data</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>my_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
@@ -514,7 +514,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p>Finally, as with vectors, we can use the operator <strong>-</strong> to tell R that we want all elements of a two-dimensional object except for some of them. For example, we could specify that we want to exclude some rows and some columns in brackets. Since we have two dimensions, we can also combine selection of certain rows with the exclusion of columns and vice versa. Here are a few examples.</p>
+<p>Finally, as with vectors, we can use the operator <strong><code>-</code></strong> to tell R that we want all elements of a two-dimensional object except for some of them. For example, we could specify that we want to exclude some rows and some columns in brackets. Since we have two dimensions, we can also combine selection of certain rows with the exclusion of columns and vice versa. Here are a few examples.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove the first row but obtain all columns </span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>m1[<span class="sc">-</span><span class="dv">1</span>, ]</span>
@@ -667,7 +667,7 @@ $my_list$b
 </div>
 </div>
 </div>
-<p>We can exclude some elements using the <strong>-</strong> operator.</p>
+<p>We can exclude some elements using the <strong><code>-</code></strong> operator.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain a list containing all elements of l1 except for the 3rd</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>l1[<span class="sc">-</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -715,7 +715,7 @@ $my_list$b
 </div>
 </div>
 </div>
-<p>As a final example (just because we can), lets obtain the second element of the character vector that forms the first element of <strong>my_list</strong>, which is the last element of <em>l1</em>. In those cases, we need to think backwards (similar to calling multiple functions in one go), that is, we tell R to obtain the fourth element of <em>l1</em>, then to obtain that elements’ first element, and then to obtain that elements’ second element. The code to do so looks as follows:</p>
+<p>As a final example (just because we can), lets obtain the second element of the character vector that forms the first element of <em>my_list</em>, which is the last element of <em>l1</em>. In those cases, we need to think backwards (similar to calling multiple functions in one go), that is, we tell R to obtain the fourth element of <em>l1</em>, then to obtain that elements’ first element, and then to obtain that elements’ second element. The code to do so looks as follows:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the second element of the 1st element of</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the 4th element of the list l1</span></span>
@@ -814,9 +814,9 @@ $my_list$b
 </section>
 <section id="using-numerical-indexing-to-overwrite-variable-names" class="level3">
 <h3 class="anchored" data-anchor-id="using-numerical-indexing-to-overwrite-variable-names">Using numerical indexing to overwrite variable names</h3>
-<p>Remember the <em>names</em> function we used previously to assign new names to the variables in a data fame? This function allows us to obtain the current variable names of a data frame. If we call it and feed it the name of a data frame as its function argument, R will return of character vector containing the names of all column contained in the data frame.</p>
-<p>The <em>names</em> function also allows us to overwrite the existing variables names if we redefine the object returned by the function call as a character vector of equal length (i.e., one element per column of the data frame). Back then we noticed that using the <em>name</em> function might become tedious if a data frame contained a lot of variables. However, by using numerical indexing, we can circumvent the need to explicitly rename each variable in a data frame.</p>
-<p>Since the <em>name</em> function returns a character vector, we can use numerical indexing to pinpoint the variable names we are interested in. For example, we could ask R to tell us the name of the 2nd variable of a data frame or to overwrite the name of the 4th variable. Here is what the code would look like (we will be using the data frame we worked with above):</p>
+<p>Remember the <strong><code>names()</code></strong> function we used previously to assign new names to the variables in a data frame? This function allows us to obtain the current variable names of a data frame. If we call it and feed it the name of a data frame as its function argument, R will return of character vector containing the names of all column contained in the data frame.</p>
+<p>The <strong><code>names()</code></strong> function also allows us to overwrite the existing variables names if we redefine the object returned by the function call as a character vector of equal length (i.e., one element per column of the data frame). Back then we noticed that using the <strong><code>names()</code></strong> function might become tedious if a data frame contained a lot of variables. However, by using numerical indexing, we can circumvent the need to explicitly rename each variable in a data frame.</p>
+<p>Since the <strong><code>names()</code></strong> function returns a character vector, we can use numerical indexing to pinpoint the variable names we are interested in. For example, we could ask R to tell us the name of the 2nd variable of a data frame or to overwrite the name of the 4th variable. Here is what the code would look like (we will be using the data frame we worked with above):</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the name of the data frame's 2nd variable</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(my_df)[<span class="dv">2</span>]</span>

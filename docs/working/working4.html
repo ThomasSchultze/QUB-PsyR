@@ -318,7 +318,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>So far, we have learned how to obtain or overwrite parts of an R object using numerical indexing. We also know how to obtain a named element of a data frame or list, namely by using the <strong>$</strong> operator. We will now turn to logical indexing, that is obtaining elements of objects that satisfy certain conditions.</p>
+<p>So far, we have learned how to obtain or overwrite parts of an R object using numerical indexing. We also know how to obtain a named element of a data frame or list, namely by using the <strong><code>$</code></strong> operator. We will now turn to logical indexing, that is obtaining elements of objects that satisfy certain conditions.</p>
 <p>Just as with numerical indexing, logical indexing uses brackets. Within these brackets we can specify conditions that be be tested logically such that the result of the test is a TRUE or FALSE statement (i.e., a Boolean variable). R will then only show those elements of the object for which these conditions are true.</p>
 <section id="logical-indexing-using-binary-operators" class="level2">
 <h2 class="anchored" data-anchor-id="logical-indexing-using-binary-operators">Logical indexing using binary operators</h2>
@@ -351,14 +351,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p>We can also obtain elements by combining multiple logical statements using R’s AND and OR operators (<strong>&amp;</strong> and <strong>|</strong>, respectively). For example, we could obtain all elements of the numeric vector we created above that exceed 2 AND are smaller than 5.</p>
+<p>We can also obtain elements by combining multiple logical statements using R’s AND and OR operators (<strong><code>&amp;</code></strong> and <strong><code>|</code></strong>, respectively). For example, we could obtain all elements of the numeric vector we created above that exceed 2 AND are smaller than 5.</p>
 <p>If we combine multiple logical tests in logical indexing, it is important that we tell R in each of the involved tests which variable to test. The following code would not work even though it may seem clear to us what it should mean:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain all elements of v1 that are greater than 2 and smaller than 5</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>v1[v1 <span class="sc">&gt;</span> <span class="dv">2</span> <span class="sc">&amp;</span> <span class="er">&lt;</span> <span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>While it looks as if we asked R to show us all elements that are greater than 2 AND smaller than 5, R will not know which variable the second part of the test refers to and will return an error message (in this message, R will tell us that the <strong>&lt;</strong> sign following the <strong>&amp;</strong> operator was unexpected).</p>
-<p>Here is how the code needs to look like if we want to obtain elements of an obect using a combination of multiple logical statements:</p>
+<p>While it looks as if we asked R to show us all elements that are greater than 2 AND smaller than 5, R will not know which variable the second part of the test refers to and will return an error message (in this message, R will tell us that the <strong><code>&lt;</code></strong> sign following the <strong><code>&amp;</code></strong> operator was unexpected).</p>
+<p>Here is how the code needs to look like if we want to obtain elements of an object using a combination of multiple logical statements:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain all elements of v1 that are greater than 2 and smaller than 5</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>v1[v1 <span class="sc">&gt;</span> <span class="dv">2</span> <span class="sc">&amp;</span> v1 <span class="sc">&lt;</span> <span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -419,10 +419,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="logical-indexing-using-functions" class="level2">
 <h2 class="anchored" data-anchor-id="logical-indexing-using-functions">Logical indexing using functions</h2>
 <p>Instead of - or in addition to - binary operators, we can also use functions for logical indexing. We can use functions in two ways here. First, we can use the output of a function call as a value of comparison. For example, rather than testing whether an element of an object exceeds a certain fixed value, we could test whether it exceeds the mean or the median of that object.</p>
-<p>Second, there a several functions that conduct logical tests. For example, the function <em>is.na</em> tests whether an object is <em>NA</em>, the function <em>is.numeric</em> tests whether an object’s type is numeric (either integer or double), and the function <em>is.finite</em> tests whether a numeric variable has a finite value.</p>
+<p>Second, there a several functions that conduct logical tests. For example, the function <strong><code>is.na()</code></strong> tests whether an object is <em>NA</em>, the function <strong><code>is.numeric()</code></strong> tests whether an object’s type is numeric (either integer or double), and the function <strong><code>is.finite()</code></strong> tests whether a numeric variable has a finite value.</p>
 <div class="alert alert-success">
-<p><strong>Note</strong>: R has a neat way of reversing functions such as <em>is.na</em>, <em>is.numeric</em>, and <em>is.finite</em>. We can make R test the respective opposite by preceding the function call with an exclamation mark (similar to how the operator <strong>!=</strong> mean <strong>not equal</strong>).</p>
-<p>For example, calling <em>!is.na</em> tests whether an object is not missing, <em>!is.numeric</em> tests whether the object’s type is different from numeric, and <em>!is.finite</em> tests whether a numeric value is infinite (or <em>Inf</em> in R terms).</p>
+<p><strong>Note</strong>: R has a neat way of reversing functions such as <strong><code>is.na()</code></strong>, <strong><code>is.numeric()</code></strong>, and <strong><code>is.finite()</code></strong>. We can make R test the respective opposite by preceding the function call with an exclamation mark (similar to how the operator <strong><code>!=</code></strong> mean <strong>not equal</strong>).</p>
+<p>For example, calling <strong><code>!is.na()</code></strong> tests whether an object is not missing, <strong><code>!is.numeric()</code></strong> tests whether the object’s type is different from numeric, and <strong><code>!is.finite()</code></strong> tests whether a numeric value is infinite (or <em>Inf</em> in R terms).</p>
 </div>
 <p>Let’s look at a few examples of logical indexing using functions. We will do so with the data frame we created and modified above. Here is a quick update on how the data frame looks currently.</p>
 <div class="alert alert-warning">
@@ -438,7 +438,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p>We will now obtain and overwrite some of the elements of this data frame using the <em>is.na</em> function and its inverse, <em>!is.na</em>. Note that the complete function call including the opening and closing parentheses must be contained within the brackets.</p>
+<p>We will now obtain and overwrite some of the elements of this data frame using the <strong><code>is.na()</code></strong> function and its inverse, <strong><code>!is.na()</code></strong>. Note that the complete function call including the opening and closing parentheses must be contained within the brackets.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the age of all participants whose responded to item4</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>age[<span class="sc">!</span><span class="fu">is.na</span>(my_df<span class="sc">$</span>item4)]</span>
@@ -469,7 +469,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="alert alert-info">
-<p>Note how R now displays two decimals for <em>item4</em>. It does not display decimals for the other items, even though their object type is <em>double</em> - just as that of <em>item4</em> (we can find out the object types by calling the function <em>typeof</em> and feeding it the column of interest as the sole function argument).</p>
+<p>Note how R now displays two decimals for <em>item4</em>. It does not display decimals for the other items, even though their object type is <em>double</em> - just as that of <em>item4</em> (we can find out the object types by calling the function <strong><code>typeof()</code></strong> and feeding it the column of interest as the sole function argument).</p>
 <p>R generally only uses as many decimals as it has to. If a <em>double</em> type object contains only whole numbers, then R will simply omit the decimals.</p>
 </div>
 

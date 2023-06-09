@@ -11,7 +11,7 @@ Consider, for example the function *matrix* we used previously. It is flexible b
 
 ## The basic setup of R functions
 
-All R function share the same setup. The function has a unique name by which we can call it, and it has a number of *function arguments* that we need to specify in parentheses following the function name when calling the function.
+All R function share the same set-up. The function has a unique name by which we can call it, and it has a number of *function arguments* that we need to specify in parentheses following the function name when calling the function.
 
 Function arguments can be objects that we would like to feed to the function or parameters of the function that influence what the function does. Some of a function's arguments are **required** arguments, that is, if we do not specify these arguments, the functions won't run. Instead, R will complain by printing an error message telling us that we did not specify a required function argument.
 
@@ -25,7 +25,7 @@ Occasionally, we might come across functions that have no arguments at all. Thes
 
 All functions in R are documented in order to help users understand what the function does, what its arguments are and what they do. We can ask R to show us the documentation using the function *help*. If we call this function and feed it the name of an R function as a function argument, R will display the documentation in the **help** tab of the **utility & help** section (bottom right of RStudio's interface). 
 
-Note that the function *help* will accept the function name both if we enter it as is or if we enter it as a character string (i.e., we write it in quotation marks).
+Note that the function **`help()`** will accept the function name both if we enter it as is or if we enter it as a character string (i.e., we write it in quotation marks).
 
 As an alternative to calling the function's name in regular R syntax, we can type the functions name in the search bar of the **help** tab.If we use this way to learn about a function, we do not need quotation marks.
 
@@ -62,16 +62,16 @@ R will now show us the following in the **help** tab.
 
 Let's first look at the **description**. Unsurprisingly, it states that this function computes the sample median.
 
-One of most relevant sections of the documentation is the function's **usage**. As we can see, the function *median* has two function arguments, *x* and *na.rm*. The second argument, *na.rm* has a default value, indicated by the equal sign and a specific value (FALSE) to its right. If we do not specify *na.rm*, R will use the value FALSE as a default. Since the argument *x* has no default, we must specify it. Otherwise, the function won't run.
+One of most relevant sections of the documentation is the function's **usage**. As we can see, the function **`median()`** has two function arguments, *x* and *na.rm*. The second argument, *na.rm* has a default value, indicated by the equal sign and a specific value (FALSE) to its right. If we do not specify *na.rm*, R will use the value FALSE as a default. Since the argument *x* has no default, we must specify it. Otherwise, the function won't run.
 
 The other highly relevant section is the **arguments** section. It tells us what the function arguments do and values are acceptable for each of the two function arguments. The argument *x* must be a numeric vector (we can ignore the first part of the sentence referring quite obscurely to 'an object for which a method has been defined'). This is the set of numbers for which we will compute the median. The second function argument, *na.rm*, defines how missing values (represented by NA, meaning "not available") should be handled. The function will not work when our numeric vector *x* contains at least one NA value. By setting *na.rm* to TRUE, we can tell R to remove the NA values prior to computing the median.
 
-Finally, let's inspect the **value** section. From what the function is supposed to do, we would expect it to return a single numeric value. The documentation tells us that this value can be a double type value when the vector is of even length (in this case, the median is the mean of the two centremost values of *x*). It also informs us that the output of the function will be NA if *x* is either an empty vector of if *x* contains NA values while *na.rm* is set to FALSE.
+Finally, let's inspect the **value** section. From what the function is supposed to do, we would expect it to return a single numeric value. The documentation tells us that this value can be a double type value when the vector is of even length (in this case, the median is the mean of the two centre most values of *x*). It also informs us that the output of the function will be NA if *x* is either an empty vector of if *x* contains NA values while *na.rm* is set to FALSE.
 
 :::{.alert .alert-info}
-At the top left of the documentation, R states in braces following the function's name which R package it stems from. In case of the function *median*, the package it belongs to is called *stats*. This package along with *base* is built into core R.
+At the top left of the documentation, R states in braces following the function's name which R package it stems from. In case of the function **`median()`**, the package it belongs to is called *stats*. This package along with *base* is built into core R.
 
-**Caveat**: If a function does not belong to one of R's built-in packages, R's *help* will not know the function unless the respective package is loaded (see the section on installing and loading additional packages for more information).
+**Caveat**: If a function does not belong to one of R's built-in packages, R's **`help()`** will not know the function unless the respective package is loaded (see the section on installing and loading additional packages for more information).
 :::
 
 ## Finding functions if their name is unknown
@@ -82,21 +82,21 @@ Let's assume, for example, that we are looking for a function that computes the 
 
 ![Fig 2. Search results for the term "standard deviation"](images/working/help_sd.png)
 
-As we can see, R links to several help pages, each of which contains the documentation for a function that R thinks to relate to our search term. R displays the results of the search in a special format, namely *package name*::*function name*. For example, the first result of the search is the function *devfun2* of the package *lme4*. Klicking on any of the links our search returned is equivalent to using the *help* function for the respective function.
+As we can see, R links to several help pages, each of which contains the documentation for a function that R thinks to relate to our search term. R displays the results of the search in a special format, namely *package name*::**`function name`**. For example, the first result of the search is the function **`devfun2()`** of the package *lme4*. Klicking on any of the links our search returned is equivalent to using the **`help()`** function for the respective function.
 
 :::{.alert .alert-info}
-Note that unlike the regular *help* function, using the search bar is not restricted to currently loaded R packages. Any package that is installed on the computer will be included in the search. This handy feature is designed to maximize the chance of finding the function we are looking for.
+Note that unlike the regular **`help()`** function, using the search bar is not restricted to currently loaded R packages. Any package that is installed on the computer will be included in the search. This handy feature is designed to maximize the chance of finding the function we are looking for.
 :::
 
-In the example above, we can see that there is a function called *sd* in the *stats* package that is part of basic R. The brief description of this function looks promising enough to warrant klicking on the function's name. The documentation for the function that R now displays confirms that this is the function we are looking for (see below).
+In the example above, we can see that there is a function called **`sd()`** in the *stats* package that is part of basic R. The brief description of this function looks promising enough to warrant klicking on the function's name. The documentation for the function that R now displays confirms that this is the function we are looking for (see below).
 
 ![Fig 3. Documentation for the function sd](images/working/help_sd2.png)
 
-As we can see from the documentations **usage** and **arguments** sections, the function *sd* requires a numeric vector *x* as a function argument. It has a second optional argument we are already familiar with, namely *na.rm*, which allows us to exclude NA values prior to computing the standard deviation.
+As we can see from the documentations **usage** and **arguments** sections, the function **`sd()`** requires a numeric vector *x* as a function argument. It has a second optional argument we are already familiar with, namely *na.rm*, which allows us to exclude NA values prior to computing the standard deviation.
 
-Let's have a look at the **details** section of the function *sd*. This section contains an important piece of information, namely that the function uses the denominator $n-1$. What this means is that the function *sd* computes an unbiased estimate of the population standard deviation by multiplying the (uncorrected) sample variance by $\frac{n}{n-1}$ prior to taking its square root. 
+Let's have a look at the **details** section of the function **`sd()`**. This section contains an important piece of information, namely that the function uses the denominator $n-1$. What this means is that the function **`sd()`** computes an unbiased estimate of the population standard deviation by multiplying the (uncorrected) sample variance by $\frac{n}{n-1}$ prior to taking its square root. 
 
-An alternative to using the search bar of the **help** tab is to use R code to search for functions. We can do so using a special operator *??* followed by the term we are searching for. If our term consists of more than one word, we need to put it in quotation marks (putting a single word in quotation marks won't do any harm).
+An alternative to using the search bar of the **help** tab is to use R code to search for functions. We can do so using a special operator **`??`** followed by the term we are searching for. If our term consists of more than one word, we need to put it in quotation marks (putting a single word in quotation marks won't do any harm).
 
 The syntax looks like this:
 
@@ -110,7 +110,7 @@ The syntax looks like this:
 We can verify that searching for our term of interest using R syntax yields the same results in the **help** tab. 
 
 :::{.alert .alert-danger}
-**Caveat**: There is one situation in which using the search bar of the **help** tab and using the operator *??* will yield different results. If the search term matches the name of an R function, either from base R or from a currently loaded R package, the **help** tab will always display the documentation for that function instead of providing us with a list of potentially relevant functions. Using the *??* operator will always display the list of results.
+**Caveat**: There is one situation in which using the search bar of the **help** tab and using the operator **`??`** will yield different results. If the search term matches the name of an R function, either from base R or from a currently loaded R package, the **help** tab will always display the documentation for that function instead of providing us with a list of potentially relevant functions. Using the **`??`** operator will always display the list of results.
 :::
 
 :::{.alert .alert-success}
@@ -186,7 +186,7 @@ As we can see, the objects looks exactly as it should, and it contains the infor
 
 Since we defined the output of each function as an object of its own, our **Environment** contains not only the list we wanted to create, but also ten additional objects.Two of them are the original data, which we may want to keep, but the other eight objects are no longer required. Eight superfluous objects may not sound too much, but if we work on more complex tasks in R, the number of superfluous objects may increase rapidly. 
 
-One solution to solve the problem is to clean up afterwards using the function *rm*. This function takes an arbitrary number of R objects as function arguments. It removes all listed arguments from the **Environment**. Here is what the code looks like in our example.
+One solution to solve the problem is to clean up afterwards using the function **`rm()`**. This function takes an arbitrary number of R objects as function arguments. It removes all listed arguments from the **Environment**. Here is what the code looks like in our example.
 
 ```{r}
 #| eval: false

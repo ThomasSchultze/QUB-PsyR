@@ -4,15 +4,15 @@ title: "Binary Operators"
 
 We already know ho to define R objects. We will now turn to the question how to work with them. Generally speaking, we can work with R objects by performing **operations** on them. There are two ways of doing so: one is to use **binary operators**. Another way to perform operations on R objects is to feed them into **functions** as function arguments. Here, we will focus on binary operators.
 
-## Prelude - the $ operator
+## Prelude - the \$ operator
 
 Before we delve into binary operators, we need to learn about a very useful operator specific to data frames and lists with named elements.
 
-This operator is **$**. It is not a binary operator because it requires only one object.
+This operator is **`$`**. It is not a binary operator because it requires only one object.
 
-Specifically, the **$** operator allows us to **extract a named element** from a data frame or list.
+Specifically, the **`$`** operator allows us to **extract a named element** from a data frame or list.
 
-To do so, we need two first write the name of the data frame (or list), immediately follow it with the **$** operator, and then follow with the name of the element we want to obtain.
+To do so, we need two first write the name of the data frame (or list), immediately follow it with the **`$`** operator, and then follow with the name of the element we want to obtain.
 
 Here is what the code looks like, generally speaking:
 
@@ -40,7 +40,7 @@ my_data_frame$age
 
 If we run this code, R will display the information contained in the column labelled *age* in the console with the output looking as follows:
 
-:::{.alert .alert-warning}
+::: {.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -58,7 +58,7 @@ my_data_frame$age
 
 We could also define the extracted column as a separate object and save it in the **Environment**.
 
-One extremely useful feature in R is that we can use the **$** operator to **create new elements** in a data frame or list. For example, we can add a new variable to the data frame from the previous example.
+One extremely useful feature in R is that we can use the **`$`** operator to **create new elements** in a data frame or list. For example, we can add a new variable to the data frame from the previous example.
 
 ```{r}
 #| eval: false
@@ -72,7 +72,7 @@ Once we run the code, R will update the data frame in the **Environment**. It wi
 
 Here is what the data frame would look like in the console:
 
-:::{.alert .alert-warning}
+::: {.alert .alert-warning}
 ```{r}
 #| eval: true
 #| echo: false
@@ -95,14 +95,13 @@ R has seven built-in arithmetic binary operators (you will probably not use the 
 
 | Operator | Operation        | What R does                                |
 |----------|------------------|--------------------------------------------|
-| \+       | addition         | computes the sum of two numbers            |
-| \-       | subtraction      | subtracts the second number from the first |
-| \*       | multiplication   | computes the product of two numbers        |
-| \/       | division         | divides first number by the second         |
-| \^       | power            | takes the first to the power of the second |
-| %%       | modulo           | takes the remainder of division            |
-| %/%      | integer division | division rounded down to whole numbers     |
-
+| **`+`**  | addition         | computes the sum of two numbers            |
+| **`-`**  | subtraction      | subtracts the second number from the first |
+| **`*`**  | multiplication   | computes the product of two numbers        |
+| **`/`**  | division         | divides first number by the second         |
+| **`^`**  | power            | takes the first to the power of the second |
+| **`%%`** | modulo           | takes the remainder of division            |
+| **`%/%`**| integer division | division rounded down to whole numbers     |
 
 ### Logical binary operators
 
@@ -110,13 +109,12 @@ Besides arithmetic operators, R has several built-in logical binary operators. L
 
 | Operator | What R tests                                               |
 |----------|------------------------------------------------------------|
-| \<       | the first value is **less than** the second                |
-| \<=      | the first value is **less than or equal to** the second    |
-| \>       | the first value is **greater** than the second             |
-| \>=      | the first value is **greater than or equal to** the second |
-| ==       | the first value is **exactly equal** to the second         |
-| !=       | the first value is **not equal** to the second             |
-
+| **`<`**  | the first value is **less than** the second                |
+| **`<=`** | the first value is **less than or equal to** the second    |
+| **`>`**  | the first value is **greater** than the second             |
+| **`>=`** | the first value is **greater than or equal to** the second |
+| **`==`** | the first value is **exactly equal** to the second         |
+| **`!=`** | the first value is **not equal** to the second             |
 
 ### Using binary operators on single values
 
@@ -162,7 +160,7 @@ d ^ e         # takes d to the power of e (the result is 169)
 :::
 
 ::: {.alert .alert-info}
-**Note** In the example above, we named the four objects *a*, *b*, *d*, and *e*. This was neither an oversight nor an expression of dislike toward the letter *c*. The simple reason is that there is a function called *c*, and it is prudent to avoid giving objects the same name as existing functions.
+**Note** In the example above, we named the four objects *a*, *b*, *d*, and *e*. This was neither an oversight nor an expression of dislike toward the letter *c*. The simple reason is that there is a function called **`c()`**, and it is prudent to avoid giving objects the same name as existing functions.
 
 Technically, it is possible to assign an object the name of a function, but it may lead to confusion or problems with the R code. Therefore, it is best avoided.
 :::
@@ -220,7 +218,7 @@ z = 'red'  # define a character value
 z != 'red' & (x > 2 | x + y == 7)
 ```
 
-In this example, we test whether the two conditions combined by **&** (logical AND) are simultaneously TRUE. First, whether the value z equals the string 'red', and second, whether at least one of the following two statements combined with the **|** (logical OR) is TRUE: the value x is greater than 2 OR the sum of x and y equals 7. 
+In this example, we test whether the two conditions combined by **`&`** (logical AND) are simultaneously TRUE. First, whether the value z equals the string 'red', and second, whether at least one of the following two statements combined with the **`|`** (logical OR) is TRUE: the value x is greater than 2 OR the sum of x and y equals 7.
 
 The first statement is TRUE because z equals the character string 'red'. The second statement is also true. While the sum of x and y clearly differs from 7 and is, thus, FALSE, x is greater than 2. Since the logical OR only requires one of the statements to be TRUE, the whole statement in parentheses is TRUE. Therefore, executing this code should return the Boolean TRUE, which we can check by inspecting the output in the console.
 
@@ -238,13 +236,11 @@ z = 'red'  # define a character value
 z == 'red' & (x > 2 | x + y == 7)
 ```
 
-
 ::: {.alert .alert-danger}
 In theory, arithmetic operators should only work on numeric values (integer or double). Accordingly, R will complain if at lest one of the objects we use as arguments is a character string. Specifically, it will return an error message in the console stating that we assigned a non-numeric argument to the binary operator.
 
 Something similar should happen if we assign at least one Boolean value, that is, a value stating either a logical TRUE or FALSE. Keep in mind, however, that R sometimes changes the type of an object so that it works with an operator or function (this is called coercion). If we use a Boolean value in an arithmetic operation, R will just treat it as a binary numeric variable (FALSE = 0, TRUE = 1).
 :::
-
 
 ### Using binary operators on vectors and matrices
 
@@ -294,7 +290,7 @@ Irrespective of whether we enter the vector/matrix as the first or the second ar
 We can also use binary operators with both arguments being vectors or matrices. As a general rule, we must use objects of equal size in those operations, that is, if the object to the left of the operator is a vector of length 6, then the object to its right must also be a vector of length 6. Likewise, if we enter a 3x4 matrix to the left of the operator, our argument on its right will also have to be a 3x4 matrix.
 
 ::: {.alert .alert-danger}
-**Caveat**: While R complains when we enter two matrices of unequal size as arguments of a binary operator (it will print an error message in the console), the same is not true for vectors. If we sue binary operators on vectors of unequal length, R will simply extend the shorter vector by starting over. 
+**Caveat**: While R complains when we enter two matrices of unequal size as arguments of a binary operator (it will print an error message in the console), the same is not true for vectors. If we sue binary operators on vectors of unequal length, R will simply extend the shorter vector by starting over.
 
 For example, when adding a vector containing the numbers from 1 to 3 to another vector containing the numbers from 1 to 5, R will turn the first vector into a vector of length 5 by repeating the first two elements (the resulting vector then has the elements 1, 2, 3, 1, 2).
 
@@ -331,7 +327,7 @@ v2 = 1:4              # lazy way of creating a vector of length 4
 
 v1 + v2               # performs element-wise addition of the vectors
 
-v1 != v2              # takes each element of v1 abnd tests whether it is
+v1 != v2              # takes each element of v1 and tests whether it is
                       # different from the corresponding element of v2 
 ```
 :::
@@ -372,6 +368,5 @@ m1 < m2               # takes each element of m1 tests whether it is less than
 As we can see, performing arithmetic operations on matrices using binary operators yields numeric matrices of the same size as the input matrices as result. When using logical binary operators instead, the result will be a Boolean matrix of equal size as the two input matrices.
 
 ::: {.alert .alert-info}
-Note that using the binary operator for multiplication (__\*__) on matrices does not do what we would expect from regular matrix algebra. If we want to do classic matrix multiplication, we need to use a special operator, namely __\%\*\%__.
+Note that using the binary operator for multiplication (**`*`**) on matrices does not do what we would expect from regular matrix algebra. If we want to do classic matrix multiplication, we need to use a special operator, namely **`%*%`**.
 :::
-

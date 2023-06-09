@@ -2,7 +2,7 @@
 title: "Logical Indexing"
 ---
 
-So far, we have learned how to obtain or overwrite parts of an R object using numerical indexing. We also know how to obtain a named element of a data frame or list, namely by using the **$** operator. We will now turn to logical indexing, that is obtaining elements of objects that satisfy certain conditions. 
+So far, we have learned how to obtain or overwrite parts of an R object using numerical indexing. We also know how to obtain a named element of a data frame or list, namely by using the **`$`** operator. We will now turn to logical indexing, that is obtaining elements of objects that satisfy certain conditions. 
 
 Just as with numerical indexing, logical indexing uses brackets. Within these brackets we can specify conditions that be be tested logically such that the result of the test is a TRUE or FALSE statement (i.e., a Boolean variable). R will then only show those elements of the object for which these conditions are true.
 
@@ -55,7 +55,7 @@ m1[m1 == T]
 ```
 :::
 
-We can also obtain elements by combining multiple logical statements using R's AND and OR operators (**&** and **|**, respectively). For example, we could obtain all elements of the numeric vector we created above that exceed 2 AND are smaller than 5. 
+We can also obtain elements by combining multiple logical statements using R's AND and OR operators (**`&`** and **`|`**, respectively). For example, we could obtain all elements of the numeric vector we created above that exceed 2 AND are smaller than 5. 
 
 If we combine multiple logical tests in logical indexing, it is important that we tell R in each of the involved tests which variable to test. The following code would not work even though it may seem clear to us what it should mean:
 
@@ -67,9 +67,9 @@ If we combine multiple logical tests in logical indexing, it is important that w
 v1[v1 > 2 & < 5]
 ```
 
-While it looks as if we asked R to show us all elements that are greater than 2 AND smaller than 5, R will not know which variable the second part of the test refers to and will return an error message (in this message, R will tell us that the **<** sign following the **&** operator was unexpected).
+While it looks as if we asked R to show us all elements that are greater than 2 AND smaller than 5, R will not know which variable the second part of the test refers to and will return an error message (in this message, R will tell us that the **`<`** sign following the **`&`** operator was unexpected).
 
-Here is how the code needs to look like if we want to obtain elements of an obect using a combination of multiple logical statements:
+Here is how the code needs to look like if we want to obtain elements of an object using a combination of multiple logical statements:
 
 ```{r}
 #| eval: false
@@ -166,12 +166,12 @@ Both ways of overwriting the -99s with *NA*s work. The second one is more parsim
 
 Instead of - or in addition to - binary operators, we can also use functions for logical indexing. We can use functions in two ways here. First, we can use the output of a function call as a value of comparison. For example, rather than testing whether an element of an object exceeds a certain fixed value, we could test whether it exceeds the mean or the median of that object.
 
-Second, there a several functions that conduct logical tests. For example, the function *is.na* tests whether an object is *NA*, the function *is.numeric* tests whether an object's type is numeric (either integer or double), and the function *is.finite* tests whether a numeric variable has a finite value. 
+Second, there a several functions that conduct logical tests. For example, the function **`is.na()`** tests whether an object is *NA*, the function **`is.numeric()`** tests whether an object's type is numeric (either integer or double), and the function **`is.finite()`** tests whether a numeric variable has a finite value. 
 
 :::{.alert .alert-success}
-**Note**: R has a neat way of reversing functions such as *is.na*, *is.numeric*, and *is.finite*. We can make R test the respective opposite by preceding the function call with an exclamation mark (similar to how the operator **!=** mean **not equal**).
+**Note**: R has a neat way of reversing functions such as **`is.na()`**, **`is.numeric()`**, and **`is.finite()`**. We can make R test the respective opposite by preceding the function call with an exclamation mark (similar to how the operator **`!=`** mean **not equal**).
 
-For example, calling *!is.na* tests whether an object is not missing, *!is.numeric* tests whether the object's type is different from numeric, and *!is.finite* tests whether a numeric value is infinite (or *Inf* in R terms).
+For example, calling **`!is.na()`** tests whether an object is not missing, **`!is.numeric()`** tests whether the object's type is different from numeric, and **`!is.finite()`** tests whether a numeric value is infinite (or *Inf* in R terms).
 :::
 
 Let's look at a few examples of logical indexing using functions. We will do so with the data frame we created and modified above. Here is a quick update on how the data frame looks currently.
@@ -185,7 +185,7 @@ my_df
 ```
 :::
 
-We will now obtain and overwrite some of the elements of this data frame using the *is.na* function and its inverse, *!is.na*. Note that the complete function call including the opening and closing parentheses must be contained within the brackets.
+We will now obtain and overwrite some of the elements of this data frame using the **`is.na()`** function and its inverse, **`!is.na()`**. Note that the complete function call including the opening and closing parentheses must be contained within the brackets.
 
 ```{r}
 #| eval: false
@@ -227,7 +227,7 @@ my_df
 :::
 
 :::{.alert .alert-info}
-Note how R now displays two decimals for *item4*. It does not display decimals for the other items, even though their object type is *double* - just as that of *item4* (we can find out the object types by calling the function *typeof* and feeding it the column of interest as the sole function argument).
+Note how R now displays two decimals for *item4*. It does not display decimals for the other items, even though their object type is *double* - just as that of *item4* (we can find out the object types by calling the function **`typeof()`** and feeding it the column of interest as the sole function argument).
 
 R generally only uses as many decimals as it has to. If a *double* type object contains only whole numbers, then R will simply omit the decimals.
 :::

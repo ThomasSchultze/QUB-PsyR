@@ -322,9 +322,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="prelude---the-operator" class="level2">
 <h2 class="anchored" data-anchor-id="prelude---the-operator">Prelude - the $ operator</h2>
 <p>Before we delve into binary operators, we need to learn about a very useful operator specific to data frames and lists with named elements.</p>
-<p>This operator is <strong>$</strong>. It is not a binary operator because it requires only one object.</p>
-<p>Specifically, the <strong>$</strong> operator allows us to <strong>extract a named element</strong> from a data frame or list.</p>
-<p>To do so, we need two first write the name of the data frame (or list), immediately follow it with the <strong>$</strong> operator, and then follow with the name of the element we want to obtain.</p>
+<p>This operator is <strong><code>$</code></strong>. It is not a binary operator because it requires only one object.</p>
+<p>Specifically, the <strong><code>$</code></strong> operator allows us to <strong>extract a named element</strong> from a data frame or list.</p>
+<p>To do so, we need two first write the name of the data frame (or list), immediately follow it with the <strong><code>$</code></strong> operator, and then follow with the name of the element we want to obtain.</p>
 <p>Here is what the code looks like, generally speaking:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_frame<span class="sc">$</span>variable_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -350,7 +350,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>We could also define the extracted column as a separate object and save it in the <strong>Environment</strong>.</p>
-<p>One extremely useful feature in R is that we can use the <strong>$</strong> operator to <strong>create new elements</strong> in a data frame or list. For example, we can add a new variable to the data frame from the previous example.</p>
+<p>One extremely useful feature in R is that we can use the <strong><code>$</code></strong> operator to <strong>create new elements</strong> in a data frame or list. For example, we can add a new variable to the data frame from the previous example.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a variable to the data frame coding whether </span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the participants is currently employed</span></span>
@@ -392,37 +392,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </thead>
 <tbody>
 <tr class="odd">
-<td>+</td>
+<td><strong><code>+</code></strong></td>
 <td>addition</td>
 <td>computes the sum of two numbers</td>
 </tr>
 <tr class="even">
-<td>-</td>
+<td><strong><code>-</code></strong></td>
 <td>subtraction</td>
 <td>subtracts the second number from the first</td>
 </tr>
 <tr class="odd">
-<td>*</td>
+<td><strong><code>*</code></strong></td>
 <td>multiplication</td>
 <td>computes the product of two numbers</td>
 </tr>
 <tr class="even">
-<td>/</td>
+<td><strong><code>/</code></strong></td>
 <td>division</td>
 <td>divides first number by the second</td>
 </tr>
 <tr class="odd">
-<td>^</td>
+<td><strong><code>^</code></strong></td>
 <td>power</td>
 <td>takes the first to the power of the second</td>
 </tr>
 <tr class="even">
-<td>%%</td>
+<td><strong><code>%%</code></strong></td>
 <td>modulo</td>
 <td>takes the remainder of division</td>
 </tr>
 <tr class="odd">
-<td>%/%</td>
+<td><strong><code>%/%</code></strong></td>
 <td>integer division</td>
 <td>division rounded down to whole numbers</td>
 </tr>
@@ -445,27 +445,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </thead>
 <tbody>
 <tr class="odd">
-<td>&lt;</td>
+<td><strong><code>&lt;</code></strong></td>
 <td>the first value is <strong>less than</strong> the second</td>
 </tr>
 <tr class="even">
-<td>&lt;=</td>
+<td><strong><code>&lt;=</code></strong></td>
 <td>the first value is <strong>less than or equal to</strong> the second</td>
 </tr>
 <tr class="odd">
-<td>&gt;</td>
+<td><strong><code>&gt;</code></strong></td>
 <td>the first value is <strong>greater</strong> than the second</td>
 </tr>
 <tr class="even">
-<td>&gt;=</td>
+<td><strong><code>&gt;=</code></strong></td>
 <td>the first value is <strong>greater than or equal to</strong> the second</td>
 </tr>
 <tr class="odd">
-<td>==</td>
+<td><strong><code>==</code></strong></td>
 <td>the first value is <strong>exactly equal</strong> to the second</td>
 </tr>
 <tr class="even">
-<td>!=</td>
+<td><strong><code>!=</code></strong></td>
 <td>the first value is <strong>not equal</strong> to the second</td>
 </tr>
 </tbody>
@@ -506,7 +506,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="alert alert-info">
-<p><strong>Note</strong> In the example above, we named the four objects <em>a</em>, <em>b</em>, <em>d</em>, and <em>e</em>. This was neither an oversight nor an expression of dislike toward the letter <em>c</em>. The simple reason is that there is a function called <em>c</em>, and it is prudent to avoid giving objects the same name as existing functions.</p>
+<p><strong>Note</strong> In the example above, we named the four objects <em>a</em>, <em>b</em>, <em>d</em>, and <em>e</em>. This was neither an oversight nor an expression of dislike toward the letter <em>c</em>. The simple reason is that there is a function called <strong><code>c()</code></strong>, and it is prudent to avoid giving objects the same name as existing functions.</p>
 <p>Technically, it is possible to assign an object the name of a function, but it may lead to confusion or problems with the R code. Therefore, it is best avoided.</p>
 </div>
 <p>We can create more complex operations by combining multiple arithmetic and/or logical operators involving multiple values, and we can save the result by defining it as another object.</p>
@@ -541,7 +541,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>z <span class="sc">!=</span> <span class="st">'red'</span> <span class="sc">&amp;</span> (x <span class="sc">&gt;</span> <span class="dv">2</span> <span class="sc">|</span> x <span class="sc">+</span> y <span class="sc">==</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In this example, we test whether the two conditions combined by <strong>&amp;</strong> (logical AND) are simultaneously TRUE. First, whether the value z equals the string ‘red’, and second, whether at least one of the following two statements combined with the <strong>|</strong> (logical OR) is TRUE: the value x is greater than 2 OR the sum of x and y equals 7.</p>
+<p>In this example, we test whether the two conditions combined by <strong><code>&amp;</code></strong> (logical AND) are simultaneously TRUE. First, whether the value z equals the string ‘red’, and second, whether at least one of the following two statements combined with the <strong><code>|</code></strong> (logical OR) is TRUE: the value x is greater than 2 OR the sum of x and y equals 7.</p>
 <p>The first statement is TRUE because z equals the character string ‘red’. The second statement is also true. While the sum of x and y clearly differs from 7 and is, thus, FALSE, x is greater than 2. Since the logical OR only requires one of the statements to be TRUE, the whole statement in parentheses is TRUE. Therefore, executing this code should return the Boolean TRUE, which we can check by inspecting the output in the console.</p>
 <p>It looks as follows:</p>
 <div class="cell">
@@ -649,7 +649,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>As we can see, performing arithmetic operations on matrices using binary operators yields numeric matrices of the same size as the input matrices as result. When using logical binary operators instead, the result will be a Boolean matrix of equal size as the two input matrices.</p>
 <div class="alert alert-info">
-<p>Note that using the binary operator for multiplication (<strong>*</strong>) on matrices does not do what we would expect from regular matrix algebra. If we want to do classic matrix multiplication, we need to use a special operator, namely <strong>%*%</strong>.</p>
+<p>Note that using the binary operator for multiplication (<strong><code>*</code></strong>) on matrices does not do what we would expect from regular matrix algebra. If we want to do classic matrix multiplication, we need to use a special operator, namely <strong><code>%*%</code></strong>.</p>
 </div>
 
 

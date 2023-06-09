@@ -13,7 +13,7 @@ The general idea of a data frame is to view every row as an observation and ever
 
 ### How to define a data frame
 
-We can define data frames by calling the function *data.frame* and entering vectors or matrices as function arguments. Here, vectors are treated as column vectors (or nx1 matrices, if you will). The only requirement is that all of the vectors and matrices we want to combine into a data.frame have the same number of rows.
+We can define data frames by calling the function **`data.frame()`** and entering vectors or matrices as function arguments. Here, vectors are treated as column vectors (or nx1 matrices, if you will). The only requirement is that all of the vectors and matrices we want to combine into a data.frame have the same number of rows.
 
 Below is very simple example of how we can define a data frame in R. Imagine, we have collected data from 5 participants, which we will identify by the numbers from 1 to 5, and that we asked them to report their gender (open response) and age in years (numeric value). 
 
@@ -55,9 +55,9 @@ my_data_frame
 
 ### Assigning proper variable names
 
-We may notice two things: first, the data frame contains exactly the information we specified as function arguments for the *data.frame* function; second, each column of our data frame has a very weird name. The reason is that data frames require variable names for each column, and if we do not specify these names, R will just use each vector's content as a name. This is inconvenient for a number of reasons, so it is desirable to assign proper names to the variables.
+We may notice two things: first, the data frame contains exactly the information we specified as function arguments for the **`data.frame()`** function; second, each column of our data frame has a very weird name. The reason is that data frames require variable names for each column, and if we do not specify these names, R will just use each vector's content as a name. This is inconvenient for a number of reasons, so it is desirable to assign proper names to the variables.
 
-One way to do so is calling the function *names*, which allows us to change the names of a data frame's variables. The function 'names' requires the name of the data frame as a function argument. We then define it as a character vector containing the new variable names. The character vector must contain one element for each column of the data frame. For our data frame, it could look like this:
+One way to do so is calling the function **`names()`**, which allows us to change the names of a data frame's variables. The function 'names' requires the name of the data frame as a function argument. We then define it as a character vector containing the new variable names. The character vector must contain one element for each column of the data frame. For our data frame, it could look like this:
 
 ```{r}
 #| eval: true
@@ -74,7 +74,7 @@ my_data_frame
 ```
 :::
 
-Another way to assign sensible variable names is to specify them when creating the data frame. We can do so by making slight adjustments to the way we enter vectors as function arguments when calling the *data.frame* function. In fact, the code will look as if we define vectors as objects. The only difference is that when doing so within the *data.frame* function, the vectors will not be created outside the data frame (i.e., they will not appear as separate objects in the **Environment**). Here is what the code would look like for our data frame.
+Another way to assign sensible variable names is to specify them when creating the data frame. We can do so by making slight adjustments to the way we enter vectors as function arguments when calling the **`data.frame()`** function. In fact, the code will look as if we define vectors as objects. The only difference is that when doing so within the **`data.frame()`** function, the vectors will not be created outside the data frame (i.e., they will not appear as separate objects in the **Environment**). Here is what the code would look like for our data frame.
 
 ```{r}
 #| eval: true
@@ -85,7 +85,7 @@ my_data_frame = data.frame(
 ) 
 ```
 
-The result is the same as if we had used the *names* function.
+The result is the same as if we had used the **`names()`** function.
 
 :::{.alert .alert-warning}
 ```{r}
@@ -111,7 +111,7 @@ my_data_frame = data.frame(
 
 Running this code creates a data frame with 5 observations of 5 variables in in the environment. One problem is that we cannot name the two new variables contained in the matrix as we did with the vectors. However, when we look at our data frame, we will notice that the variable names do not look as terrible as they did when we entered the unnamed vectors. Instead, the variables will be named "X1" and "X2" (when entering a matrix, R will just assign the names from "X1" to "Xi" for a matrix with *i* columns). 
 
-Still, we might prefer less obscure names for our two measures. One possibility is to use the *names* function as we did above. Another is to create the matrix as a separate object before creating the data frame. This allows us to set proper column names using the function *colnames*. This function works very similar to the *names* function but is specifically designed for matrices. Here is what the code would look like.
+Still, we might prefer less obscure names for our two measures. One possibility is to use the **`names()`** function as we did above. Another is to create the matrix as a separate object before creating the data frame. This allows us to set proper column names using the function **`colnames()`**. This function works very similar to the **`names()`** function but is specifically designed for matrices. Here is what the code would look like.
 
 ```{r}
 #| eval: true
@@ -144,15 +144,15 @@ my_data_frame
 :::
 
 :::{.alert .alert-info}
-Defining objects outside a data frame and then simply using their name as a function argument when calling the *data.frame* function is not limited to matrices but can also be done for vectors. While there are good reasons for defining objects separately before combining them into a data frame, one downside is that our Environment can get a wee bit cluttered. 
+Defining objects outside a data frame and then simply using their name as a function argument when calling the **`data.frame()`** function is not limited to matrices but can also be done for vectors. While there are good reasons for defining objects separately before combining them into a data frame, one downside is that our Environment can get a wee bit cluttered. 
 
-If we want to tidy up our environment, we can remove objects we no longer need (for example, because we put them into a data frame) using the function *rm*. We simply need to use the name of the object we want to remove as the function argument for *rm*, and it will be disappear from the **Environment**.
+If we want to tidy up our environment, we can remove objects we no longer need (for example, because we put them into a data frame) using the function **`rm()`**. We simply need to use the name of the object we want to remove as the function argument for **`rm()`**, and it will be disappear from the **Environment**.
 :::
 
 
 ## Lists
 
-The final type of R object we need to know for now is the list. Lists are very flexible containers that we can create using the *list* function. Think of lists as multi-purpose storage units. They can contain all other types of R objects (including other lists). For example, we could create a list that contains a single character string, a numeric vector, and a data frame. To do so, we simply call the function *list* and enter each object we want to store in the list as a function argument.
+The final type of R object we need to know for now is the list. Lists are very flexible containers that we can create using the **`list()`** function. Think of lists as multi-purpose storage units. They can contain all other types of R objects (including other lists). For example, we could create a list that contains a single character string, a numeric vector, and a data frame. To do so, we simply call the function **`list()`** and enter each object we want to store in the list as a function argument.
 
 ```{r}
 #| eval: true

@@ -8,13 +8,13 @@ CSV files are ideal for **Open Data** as most software can read them, including 
 
 In order to load and save data in *CSV* format, we can use two functions:
 
-- *write.csv* will save tabular data (usually a data frame, but can also be a matrix) as a *CSV* file
-- *read.csv* will load data from a *CSV* file
+- **`write.csv()`** will save tabular data (usually a data frame, but can also be a matrix) as a *CSV* file
+- **`read.csv()`** will load data from a *CSV* file
 
 
 ## Saving data frames
 
-If we save a data frame using the function *write.csv*, we should specify three function arguments:
+If we save a data frame using the function **`write.csv()`**, we should specify three function arguments:
 
 - *x*: the name of the object we want to save (a data frame, but works with matrices, too)
 - *file*: the **directory** where we want to save the file **plus the file name** as a character string
@@ -22,7 +22,7 @@ If we save a data frame using the function *write.csv*, we should specify three 
 
 If we do not specify a directory, R will save the data frame in the **current working directory**.
 
-We can ask R to tell us the current working directory using the function *getwd*. This function is special in that it does not have any function arguments. Here is what the syntax looks like:
+We can ask R to tell us the current working directory using the function **`getwd()`**. This function is special in that it does not have any function arguments. Here is what the syntax looks like:
 
 ```{r}
 #| eval: false
@@ -61,7 +61,7 @@ Provided the directory "C:/Users/Thomas/Documents" already exists on the compute
 
 ## Loading data frames
 
-We can load a data frame (or matrix) saved in *CSV* format using the function *read.csv*.
+We can load a data frame (or matrix) saved in *CSV* format using the function **`read.csv()`**.
 
 We usually need to specify only two function arguments:
 
