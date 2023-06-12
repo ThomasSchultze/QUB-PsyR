@@ -36,11 +36,11 @@ In case of the independent samples $t$-test, we assume the covariance of $Y$ and
 
 We can run all three types of $t$-tests in R using the function **`t.test()`**. This function is quite flexible. It has several function arguments that we can use to specify the type of $t$-test and how our $H_0$ and $H_1$ should look like. Let's have a look at the most important function arguments:
 
-- *x* (required) and *y* (optional): numeric vectors containing the data we want to analyse.
-- *mu* (optional): a numeric value indicating the mean of $X$ under $H_0$. The default is 0.
-- *alternative* (optional): the type of (unspecific) $H_1$. The default is "two.sided" ($H_1: \mu\not=0$), but we can also specify directional (one-tailed) tests by assigning the value "greater" ($H_1: \mu>0$) or "less" $H_1: \mu<0$.
-- *paired* (optional): a Boolean value; only applies if we specified *x* and *y*; if set to FALSE (the default), R will run an independent samples $t$-test; if set to TRUE, it will run a paired $t$-test.
-- *var.equal* (optional): a Boolean value; only applies when running independent samples $t$-tests; if set to TRUE (default), R will correct the degrees of freedom of the test to account for unequal variances.
+- `x` (required) and *y* (optional): numeric vectors containing the data we want to analyse.
+- `mu` (optional): a numeric value indicating the mean of $X$ under $H_0$. The default is 0.
+- `alternative` (optional): the type of (unspecific) $H_1$. The default is "two.sided" ($H_1: \mu\not=0$), but we can also specify directional (one-tailed) tests by assigning the value "greater" ($H_1: \mu>0$) or "less" $H_1: \mu<0$.
+- `paired` (optional): a Boolean value; only applies if we specified `x` and `y`; if set to FALSE (the default), R will run an independent samples $t$-test; if set to TRUE, it will run a paired $t$-test.
+- `var.equal` (optional): a Boolean value; only applies when running independent samples $t$-tests; if set to TRUE (default), R will correct the degrees of freedom of the test to account for unequal variances.
 
 Now that we have a rough understanding of what we can do with the **`t.test()`** function, let's give it a spin.
 
@@ -138,7 +138,7 @@ Of course, R also tells us the $t$-value, degrees of freedom, and $p$-value of t
 
 Let's now turn to cases, in which we want to test for the difference between two variables measured in the same group. This could be two variables measured at the same time, or the same variable measured at two times.
 
-In order to run a paired $t$-test, we need to feed the **`t.test()`** function two numerical vectors of the same length, *x* and *y*. R will pair each element of the first vector with the corresponding element of the second vector. Therefore, we need to ensure that the data for both vectors are in the same order (usually not a problem if we use data frames).
+In order to run a paired $t$-test, we need to feed the **`t.test()`** function two numerical vectors of the same length as its `x` and `y` arguments. R will pair each element of the first vector with the corresponding element of the second vector. Therefore, we need to ensure that the data for both vectors are in the same order (usually not a problem if we use data frames).
 
 Let's look at an example, in which we want to test whether the stress level of 100 simulated people decreases between two measurement occasions *T1* and *T2*.
 
@@ -147,9 +147,9 @@ Since we want to simulate correlated data, using the **`rnorm()`** function won'
 
 We can feed the **`mvrnorm()`** the following arguments:
 
-- *n*: the number of observations
-- *mu*: a vector of length *k* containing the means of the generated variables
-- *Sigma*: the $k\times k$ variance-covariance matrix
+- `n`: the number of observations
+- `mu`: a vector of length $k$ containing the means of the generated variables
+- `Sigma`: the $k\times k$ variance-covariance matrix
 
 The function output will be a $n \times k$ matrix with each column containing the simulated data of one variable.  
 :::
@@ -205,7 +205,7 @@ t.test(x = my_df$stress_T1, y = my_df$stress_T2, alternative = 'greater',
 ```
 :::
 
-R will now inform us that we ran a paired $t-test$ (this is correct as we set the *paired* argument to TRUE; otherwise, R would have computed and independent samples $t$-test).
+R will now inform us that we ran a paired $t-test$ (this is correct as we set the `paired` argument to TRUE; otherwise, R would have computed and independent samples $t$-test).
 
 It also tells us which alternative hypothesis we tested, namely that the difference between *T1* and *T2* stress levels was positive (greater than 0). Furthermore, R reports the mean difference, the one-tailed 95% confidence interval around it. 
 
@@ -275,7 +275,7 @@ t.test(x = my_df2$dv[my_df2$condition == 'experimental'],
 :::
 
 R tells us that we ran a Welch two-sample $t$-test. That is R's way of letting us know that it corrected the test's degrees of freedom for unequal variances. The standard $t$-test for independent samples has $n-2$ degrees of freedom, so in our example, we would expect 98. However, due to slight differences in the empirically obtained variances between the two groups, the correction scales the degrees of freedom down to 94.704 (if you see a $t$-test with fractional degrees of freedom somewhere you now know what happened). The rest of the information is similar to what we saw in the previous examples. In our case, the data support accepting $H_1$. 
-If, for some reason, we do not want R to correct for unequal variances, we can set the *var.equal* argument to TRUE. Depending on how strong the inequality of variances is, this might have an impact on the $p$-value. Let's give it a try with the data above.
+If, for some reason, we do not want R to correct for unequal variances, we can set the `var.equal` argument to TRUE. Depending on how strong the inequality of variances is, this might have an impact on the $p$-value. Let's give it a try with the data above.
 
 ```{r}
 #| eval: false
@@ -316,9 +316,10 @@ An R formula is a social type of R object that requires a specific syntax. Gener
 # generic formula stating that y is a function of x
 y ~ x
 ```
-What this means is that *y* is a function of *x*. Usually, R accepts only a single variable to the left of the tilde operator (**`~`**), whereas we can combine multiple variables on it's right side. We will return to formulae later when we discuss linear models. For now the simple version is sufficient.
 
-In case of an independent $t$-test, we can feed the **`t.test()`** function a formula containing the variable names as well as another function argument called *data*, which requires a data frame as input. Here, we can tell R which data frame our variables are contained in. Let's have a look at the alternative syntax for our test above.
+What this means is that $y$ is a function of $x$. Usually, R accepts only a single variable to the left of the tilde operator (**`~`**), whereas we can combine multiple variables on it's right side. We will return to formulae later when we discuss linear models. For now the simple version is sufficient.
+
+In case of an independent $t$-test, we can feed the **`t.test()`** function a formula containing the variable names as well as another function argument called `data`, which requires a data frame as input. Here, we can tell R which data frame our variables are contained in. Let's have a look at the alternative syntax for our test above.
 
 ```{r}
 #| eval: false

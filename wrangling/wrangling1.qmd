@@ -115,8 +115,8 @@ Each of the lines of code above will create a new data frame, even if we only ex
 
 #### Selecting variables using "from to"
 
-Remember that we used the **:** operator as an efficient (or lazy) way to tell R to create a sequence of number from $X$ to $Y$? In *dyplr* we can do the same to select variables provided that we choose an uninterrupted section. All we need to do is pass the **`select`** function the names of the first and the last variable in the sequence of variables we want to extract and combine them using the **:** operator. 
-If we want to select multiple sequences, we can liste them separated by commas or combine them into a vector using the **`c`** function. Of course, we can also use the **-** or **!** operators to select all but a sequence of variables. The only thing to consider is that we need to put a single sequence of variables in parentheses if we want to exclude it. Examples as follows:
+Remember that we used the **`:`** operator as an efficient (or lazy) way to tell R to create a sequence of number from $X$ to $Y$? In *dyplr* we can do the same to select variables provided that we choose an uninterrupted section. All we need to do is pass the **`select()`** function the names of the first and the last variable in the sequence of variables we want to extract and combine them using the **:** operator. 
+If we want to select multiple sequences, we can liste them separated by commas or combine them into a vector using the **`c()`** function. Of course, we can also use the **`-`** or **`!`** operators to select all but a sequence of variables. The only thing to consider is that we need to put a single sequence of variables in parentheses if we want to exclude it. Examples as follows:
 
 
 ```{r}
@@ -137,23 +137,23 @@ df5c = select(.data = df2, !(ID:manip_check))
 
 #### Selecting variables using helper functions
 
-A very neat way to extract variables using the **`select`** function is to specify the second argument using a **helper function**. Here, we will focus on semantic helper functions, that is, functions that allows us to select variables if their names satisfy certain conditions. For example, we can tell R to select all variables that names of which starts with a certain sequence. All semantic helper functions take a character value or a character vector as their function argument. The semantic helpers are listed below. As you will see, their names are self-explanatory:
+A very neat way to extract variables using the **`select()`** function is to specify the second argument using a **helper function**. Here, we will focus on semantic helper functions, that is, functions that allows us to select variables if their names satisfy certain conditions. For example, we can tell R to select all variables that names of which starts with a certain sequence. All semantic helper functions take a character value or a character vector as their function argument. The semantic helpers are listed below. As you will see, their names are self-explanatory:
 
-- **`starts_with`**: selects all variables the names of which start with the specified character string.
-- **`ends_with`**: selects all variables the names of which endst with the specified character string.
-- **`contains`**: selects all variables the names of which contain the specified character string.
+- `starts_with`: selects all variables the names of which start with the specified character string.
+- `ends_with`: selects all variables the names of which ends with the specified character string.
+- `contains`: selects all variables the names of which contain the specified character string.
 
 If we feed the helper function a vector of character strings instead of a single character value, it will combine the selection criteria with a logical **OR**, that is, it will select all variables the names of which start with (or end with or contain) any of the specified character strings.
 
 :::{.alert .alert-info}
-There is a forth semantic helper function called **`matches`**. This function is very powerful because it lets us define so called **regular expressions** and then selects all variable the names of which match this expression. Regular expressions are a very flexible way of defining how a sequence of symbols must look like in order to be considered a match. For example, we can state that the variable name must consist of three letters followed by an underscore, which, in turn, is followed by two digits.
+There is a forth semantic helper function called **`matches()`**. This function is very powerful because it lets us define so called **regular expressions** and then selects all variable the names of which match this expression. Regular expressions are a very flexible way of defining how a sequence of symbols must look like in order to be considered a match. For example, we can state that the variable name must consist of three letters followed by an underscore, which, in turn, is followed by two digits.
 
-We will not cover regular expressions here because their syntax can be quite complex, but the interested reader is encouraged to research regular expressions on their own. There are several good guides available online.
+We will not cover regular expressions here because their syntax can be quite complex, but the interested reader is encouraged to research regular expressions on their own. There are several good guides available on-line.
 :::
 
 Now, why should we bother with semantic helpers, in the first place? Remember that most raw data comes in **wide format**? Wide format data can easily span hundreds of variables. Quite frequently, some of these variables will have similar (bot of course not identical) names. Consider, for example experiments, with multiple trials. There, the wide format data might contain variables such as "stimulus_X", "reaction_time_X", or "response_X" where $X$ indicates the trial number. Alternatively, imagine a survey study where people respond to several personality questionnaires, where variable names consist of the questionnaire acronym and the item number. If we want to extract variables from such data sets, semantic helpers will we a gods-end. 
 
-As per usual, we can use semantic helper functions to drop variables by preceding the function call with a **-** or **!** operator. Finally, it is worth noting that we can combine multiple semantic helpers helpers using the logical AND (**&**) and OR (**|**) operators. Below are a few examples of selecting columns with semantic helper functions:
+As per usual, we can use semantic helper functions to drop variables by preceding the function call with a **`-`** or **`!`** operator. Finally, it is worth noting that we can combine multiple semantic helpers helpers using the logical AND (**`&`**) and OR (**`|`**) operators. Below are a few examples of selecting columns with semantic helper functions:
 
 ```{r}
 #| eval: false
@@ -173,7 +173,7 @@ df6c = select(.data = df2, contains("dv") | !starts_with('d'))
 
 ## Extracting rows and columns in one go
 
-We can tell R to extract certain columns and rows of a data frame in one go, by combining the function calls for **`select`** and **`filter`**. We can call either function first. Let's say we want to extract the experimental condition and the two dependent variables from our data frame, but restrict the data to female participants. Below are two ways to write the code:
+We can tell R to extract certain columns and rows of a data frame in one go, by combining the function calls for **`select()`** and **`filter()`**. We can call either function first. Let's say we want to extract the experimental condition and the two dependent variables from our data frame, but restrict the data to female participants. Below are two ways to write the code:
 
 ```{r}
 #| eval: false
@@ -187,16 +187,16 @@ df6a = select(.data = filter(.data = df2, gender == 'female'), condition:dv2)
 df6b = filter(.data = select(.data = df2, c(gender, condition:dv2)), gender == 'female')
 ```
 
-As we can see, the code differs slightly depending on which function we call first. If we use **`filter`** first, we must include "gender" because we need this variable to select the rows. If we call **`select`** first, there is no need to retain "gender".
+As we can see, the code differs slightly depending on which function we call first. If we use **`filter()`** first, we must include "gender" because we need this variable to select the rows. If we call **`select()`** first, there is no need to retain "gender".
 
 
 ## Making code less convoluted using pipes
 
 Combining multiple operations for data wrangling in one go can create code that is quite convoluted and, consequentially is hard to parse. The problem becomes more sever the more steps we include. However, we also don't want to clog our environment with too many temporary data sets. Fortunately, *dplyr* comes with a special kind of syntax that can make our life easier by allowing us to combine multiple function calls in a more intuitive way. This syntax is called **piping** (originally, the pipes were contributed by the *magrittr* package, but if we load *dplyr* we can use them without *magrittr*).
 
-The *pipe* is a special operator. It looks like this: **%>%**. Using the pipe to separate functions calls allows us to call the functions in the order in which we want the respective operations to be performed. Importantly, it avoids code lines that end on a dozen closing parentheses. Think of it as telling R to take and object and first do A with it, then do B, then do C, and so on instead of telling R to do C with the outcome of doing B with the outcome of doing A with an object.
+The *pipe* is a special operator. It looks like this: **`%>%`**. Using the pipe to separate functions calls allows us to call the functions in the order in which we want the respective operations to be performed. Importantly, it avoids code lines that end on a dozen closing parentheses. Think of it as telling R to take and object and first do A with it, then do B, then do C, and so on instead of telling R to do C with the outcome of doing B with the outcome of doing A with an object.
 
-To illustrate, let's go back to the most recent example where we combine the **`select`** and **`filter`** functions. Here is what the code would look like when we use *pipes*:
+To illustrate, let's go back to the most recent example where we combine the **`select()`** and **`filter()`** functions. Here is what the code would look like when we use *pipes*:
 
 
 ```{r}
@@ -213,6 +213,6 @@ df6a = df2 %>% select(gender, condition:dv2) %>% filter(gender == 'female')
 df6b = df2 %>% filter(gender == 'female') %>% select(gender, condition:dv2)
 ```
 
-As we can see, the code is a little less convoluted, and it is easier to spot what is being done in what order. The advantage of using **pipes** increases with the number of operations we combine. It is also worth mentioning that since **piping** changes the order of the function calls, we need to consider which variables we extract when using **`select`**. In the original (convoluted) code, we had to retain "gender" when using **`filter`** first. When using **pipes**, we need to retain "gender" only if we call **`select`** first.
+As we can see, the code is a little less convoluted, and it is easier to spot what is being done in what order. The advantage of using **pipes** increases with the number of operations we combine. It is also worth mentioning that since **piping** changes the order of the function calls, we need to consider which variables we extract when using **`select()`**. In the original (convoluted) code, we had to retain "gender" when using **`filter()`** first. When using **pipes**, we need to retain "gender" only if we call **`select()`** first.
 
 

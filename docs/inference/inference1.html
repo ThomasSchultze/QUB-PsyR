@@ -341,11 +341,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>We can run all three types of <span class="math inline">\(t\)</span>-tests in R using the function <strong><code>t.test()</code></strong>. This function is quite flexible. It has several function arguments that we can use to specify the type of <span class="math inline">\(t\)</span>-test and how our <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span> should look like. Let’s have a look at the most important function arguments:</p>
 <ul>
-<li><em>x</em> (required) and <em>y</em> (optional): numeric vectors containing the data we want to analyse.</li>
-<li><em>mu</em> (optional): a numeric value indicating the mean of <span class="math inline">\(X\)</span> under <span class="math inline">\(H_0\)</span>. The default is 0.</li>
-<li><em>alternative</em> (optional): the type of (unspecific) <span class="math inline">\(H_1\)</span>. The default is “two.sided” (<span class="math inline">\(H_1: \mu\not=0\)</span>), but we can also specify directional (one-tailed) tests by assigning the value “greater” (<span class="math inline">\(H_1: \mu&gt;0\)</span>) or “less” <span class="math inline">\(H_1: \mu&lt;0\)</span>.</li>
-<li><em>paired</em> (optional): a Boolean value; only applies if we specified <em>x</em> and <em>y</em>; if set to FALSE (the default), R will run an independent samples <span class="math inline">\(t\)</span>-test; if set to TRUE, it will run a paired <span class="math inline">\(t\)</span>-test.</li>
-<li><em>var.equal</em> (optional): a Boolean value; only applies when running independent samples <span class="math inline">\(t\)</span>-tests; if set to TRUE (default), R will correct the degrees of freedom of the test to account for unequal variances.</li>
+<li><code>x</code> (required) and <em>y</em> (optional): numeric vectors containing the data we want to analyse.</li>
+<li><code>mu</code> (optional): a numeric value indicating the mean of <span class="math inline">\(X\)</span> under <span class="math inline">\(H_0\)</span>. The default is 0.</li>
+<li><code>alternative</code> (optional): the type of (unspecific) <span class="math inline">\(H_1\)</span>. The default is “two.sided” (<span class="math inline">\(H_1: \mu\not=0\)</span>), but we can also specify directional (one-tailed) tests by assigning the value “greater” (<span class="math inline">\(H_1: \mu&gt;0\)</span>) or “less” <span class="math inline">\(H_1: \mu&lt;0\)</span>.</li>
+<li><code>paired</code> (optional): a Boolean value; only applies if we specified <code>x</code> and <code>y</code>; if set to FALSE (the default), R will run an independent samples <span class="math inline">\(t\)</span>-test; if set to TRUE, it will run a paired <span class="math inline">\(t\)</span>-test.</li>
+<li><code>var.equal</code> (optional): a Boolean value; only applies when running independent samples <span class="math inline">\(t\)</span>-tests; if set to TRUE (default), R will correct the degrees of freedom of the test to account for unequal variances.</li>
 </ul>
 <p>Now that we have a rough understanding of what we can do with the <strong><code>t.test()</code></strong> function, let’s give it a spin.</p>
 <section id="the-one-sample-t-test" class="level2">
@@ -428,15 +428,15 @@ mean of x
 <section id="the-paired-t-test" class="level2">
 <h2 class="anchored" data-anchor-id="the-paired-t-test">The paired t-test</h2>
 <p>Let’s now turn to cases, in which we want to test for the difference between two variables measured in the same group. This could be two variables measured at the same time, or the same variable measured at two times.</p>
-<p>In order to run a paired <span class="math inline">\(t\)</span>-test, we need to feed the <strong><code>t.test()</code></strong> function two numerical vectors of the same length, <em>x</em> and <em>y</em>. R will pair each element of the first vector with the corresponding element of the second vector. Therefore, we need to ensure that the data for both vectors are in the same order (usually not a problem if we use data frames).</p>
+<p>In order to run a paired <span class="math inline">\(t\)</span>-test, we need to feed the <strong><code>t.test()</code></strong> function two numerical vectors of the same length as its <code>x</code> and <code>y</code> arguments. R will pair each element of the first vector with the corresponding element of the second vector. Therefore, we need to ensure that the data for both vectors are in the same order (usually not a problem if we use data frames).</p>
 <p>Let’s look at an example, in which we want to test whether the stress level of 100 simulated people decreases between two measurement occasions <em>T1</em> and <em>T2</em>.</p>
 <div class="alert alert-info">
 <p>Since we want to simulate correlated data, using the <strong><code>rnorm()</code></strong> function won’t help us. However, there is a useful function called <strong><code>mvrnorm()</code></strong> in the <em>MASS</em> package. This function allows us to generate data from multivariate normal distributions.</p>
 <p>We can feed the <strong><code>mvrnorm()</code></strong> the following arguments:</p>
 <ul>
-<li><em>n</em>: the number of observations</li>
-<li><em>mu</em>: a vector of length <em>k</em> containing the means of the generated variables</li>
-<li><em>Sigma</em>: the <span class="math inline">\(k\times k\)</span> variance-covariance matrix</li>
+<li><code>n</code>: the number of observations</li>
+<li><code>mu</code>: a vector of length <span class="math inline">\(k\)</span> containing the means of the generated variables</li>
+<li><code>Sigma</code>: the <span class="math inline">\(k\times k\)</span> variance-covariance matrix</li>
 </ul>
 <p>The function output will be a <span class="math inline">\(n \times k\)</span> matrix with each column containing the simulated data of one variable.</p>
 </div>
@@ -488,7 +488,7 @@ mean difference
 </div>
 </div>
 </div>
-<p>R will now inform us that we ran a paired <span class="math inline">\(t-test\)</span> (this is correct as we set the <em>paired</em> argument to TRUE; otherwise, R would have computed and independent samples <span class="math inline">\(t\)</span>-test).</p>
+<p>R will now inform us that we ran a paired <span class="math inline">\(t-test\)</span> (this is correct as we set the <code>paired</code> argument to TRUE; otherwise, R would have computed and independent samples <span class="math inline">\(t\)</span>-test).</p>
 <p>It also tells us which alternative hypothesis we tested, namely that the difference between <em>T1</em> and <em>T2</em> stress levels was positive (greater than 0). Furthermore, R reports the mean difference, the one-tailed 95% confidence interval around it.</p>
 <p>Finally, it shows is the empirical <span class="math inline">\(t\)</span>-value, degrees of freedom (<span class="math inline">\(n-1\)</span>, similar to the one-sample test), and the <span class="math inline">\(p\)</span>-value. In this example, stress was significantly lower at <em>T2</em>than at <em>T1</em>, allowing us to accept <span class="math inline">\(H_1\)</span>.</p>
 <div class="alert alert-success">
@@ -544,7 +544,7 @@ mean of x mean of y
 </div>
 </div>
 </div>
-<p>R tells us that we ran a Welch two-sample <span class="math inline">\(t\)</span>-test. That is R’s way of letting us know that it corrected the test’s degrees of freedom for unequal variances. The standard <span class="math inline">\(t\)</span>-test for independent samples has <span class="math inline">\(n-2\)</span> degrees of freedom, so in our example, we would expect 98. However, due to slight differences in the empirically obtained variances between the two groups, the correction scales the degrees of freedom down to 94.704 (if you see a <span class="math inline">\(t\)</span>-test with fractional degrees of freedom somewhere you now know what happened). The rest of the information is similar to what we saw in the previous examples. In our case, the data support accepting <span class="math inline">\(H_1\)</span>. If, for some reason, we do not want R to correct for unequal variances, we can set the <em>var.equal</em> argument to TRUE. Depending on how strong the inequality of variances is, this might have an impact on the <span class="math inline">\(p\)</span>-value. Let’s give it a try with the data above.</p>
+<p>R tells us that we ran a Welch two-sample <span class="math inline">\(t\)</span>-test. That is R’s way of letting us know that it corrected the test’s degrees of freedom for unequal variances. The standard <span class="math inline">\(t\)</span>-test for independent samples has <span class="math inline">\(n-2\)</span> degrees of freedom, so in our example, we would expect 98. However, due to slight differences in the empirically obtained variances between the two groups, the correction scales the degrees of freedom down to 94.704 (if you see a <span class="math inline">\(t\)</span>-test with fractional degrees of freedom somewhere you now know what happened). The rest of the information is similar to what we saw in the previous examples. In our case, the data support accepting <span class="math inline">\(H_1\)</span>. If, for some reason, we do not want R to correct for unequal variances, we can set the <code>var.equal</code> argument to TRUE. Depending on how strong the inequality of variances is, this might have an impact on the <span class="math inline">\(p\)</span>-value. Let’s give it a try with the data above.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test the hypothesis that the mean of dv differs</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># between the experimental and the control group</span></span>
@@ -577,8 +577,8 @@ mean of x mean of y
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generic formula stating that y is a function of x</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>What this means is that <em>y</em> is a function of <em>x</em>. Usually, R accepts only a single variable to the left of the tilde operator (<strong><code>~</code></strong>), whereas we can combine multiple variables on it’s right side. We will return to formulae later when we discuss linear models. For now the simple version is sufficient.</p>
-<p>In case of an independent <span class="math inline">\(t\)</span>-test, we can feed the <strong><code>t.test()</code></strong> function a formula containing the variable names as well as another function argument called <em>data</em>, which requires a data frame as input. Here, we can tell R which data frame our variables are contained in. Let’s have a look at the alternative syntax for our test above.</p>
+<p>What this means is that <span class="math inline">\(y\)</span> is a function of <span class="math inline">\(x\)</span>. Usually, R accepts only a single variable to the left of the tilde operator (<strong><code>~</code></strong>), whereas we can combine multiple variables on it’s right side. We will return to formulae later when we discuss linear models. For now the simple version is sufficient.</p>
+<p>In case of an independent <span class="math inline">\(t\)</span>-test, we can feed the <strong><code>t.test()</code></strong> function a formula containing the variable names as well as another function argument called <code>data</code>, which requires a data frame as input. Here, we can tell R which data frame our variables are contained in. Let’s have a look at the alternative syntax for our test above.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test the hypothesis that the mean of dv differs</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># between the experimental and the control group</span></span>
