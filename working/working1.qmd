@@ -87,7 +87,7 @@ my_data_frame
 
 ## Back to binary operators
 
-Binary operators are symbols that R uses to represent a specific operation involving two objects. These operations can be *arithmetic* or *logical*. Before we jump into action, we need to have a look at how R's binary operators look like.
+Binary operators are symbols that R uses to represent a specific operation involving two objects. These operations can be **arithmetic** or **logical**. Before we jump into action, we need to have a look at how R's binary operators look like.
 
 ### Arithmetic binary operators
 
