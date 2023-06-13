@@ -16,9 +16,9 @@ In order to load and save data in *CSV* format, we can use two functions:
 
 If we save a data frame using the function **`write.csv()`**, we should specify three function arguments:
 
-- *x*: the name of the object we want to save (a data frame, but works with matrices, too)
-- *file*: the **directory** where we want to save the file **plus the file name** as a character string
-- *row.names*: whether we want R to assign row names (default is TRUE, but we want to turn that to FALSE)
+- `x`: the name of the object we want to save (a data frame, but works with matrices, too)
+- `file`: the **directory** where we want to save the file **plus the file name** as a character string
+- `row.names`: whether we want R to assign row names (default is TRUE, but we want to turn that to FALSE)
 
 If we do not specify a directory, R will save the data frame in the **current working directory**.
 
@@ -65,8 +65,8 @@ We can load a data frame (or matrix) saved in *CSV* format using the function **
 
 We usually need to specify only two function arguments:
 
-- file: the **directory and file name** of the *CSV* file
-- header: a Boolean variable indicating whether the first row of file contains the variable names (default is TRUE)
+- `file`: the **directory and file name** of the *CSV* file
+- `header`: a Boolean variable indicating whether the first row of file contains the variable names (default is TRUE)
 
 :::{.alert .alert-danger}
 **Important**: If we simply call the function, R will display the data frame we loaded in the console. If we want it to appear in the **Environment** we need to define it as a new object.

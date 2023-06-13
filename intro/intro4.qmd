@@ -37,7 +37,7 @@ Also note how the function arguments are shifted a bit to the right. This is cal
 It is, therefore, a good idea to get used to organizing longer pieces of code by using multiple lines and proper indentation. Your future self, your collaborators, and third parties, who will read your code when you make it publicly available, will thank you for it.
 :::
 
-Once we execute the piece of code above, the data frame will appear as an object in RStudio's **Environment** (top right). We can immediately see that it is a data frame because RStudio describes data frames as *x* observations of *y* variables. In our case that is listed as "5 obs. of 3 variables".
+Once we execute the piece of code above, the data frame will appear as an object in RStudio's **Environment** (top right). We can immediately see that it is a data frame because RStudio describes data frames as $x$ observations of $y$ variables. In our case that is listed as "5 obs. of 3 variables".
 
 :::{.alert .alert-info}
 **Note**: The **Environment** will show a small light blue button with a white arrowhead to the left of our data frame's name. If we click this button, RStudio will "unfold" the data frame and show us a list of the vectors it contains as well as the type of the vector.
@@ -109,7 +109,7 @@ my_data_frame = data.frame(
 ) 
 ```
 
-Running this code creates a data frame with 5 observations of 5 variables in in the environment. One problem is that we cannot name the two new variables contained in the matrix as we did with the vectors. However, when we look at our data frame, we will notice that the variable names do not look as terrible as they did when we entered the unnamed vectors. Instead, the variables will be named "X1" and "X2" (when entering a matrix, R will just assign the names from "X1" to "Xi" for a matrix with *i* columns). 
+Running this code creates a data frame with 5 observations of 5 variables in in the environment. One problem is that we cannot name the two new variables contained in the matrix as we did with the vectors. However, when we look at our data frame, we will notice that the variable names do not look as terrible as they did when we entered the unnamed vectors. Instead, the variables will be named "X1" and "X2" (when entering a matrix, R will just assign the names from "X1" to "Xi" for a matrix with $i$ columns). 
 
 Still, we might prefer less obscure names for our two measures. One possibility is to use the **`names()`** function as we did above. Another is to create the matrix as a separate object before creating the data frame. This allows us to set proper column names using the function **`colnames()`**. This function works very similar to the **`names()`** function but is specifically designed for matrices. Here is what the code would look like.
 

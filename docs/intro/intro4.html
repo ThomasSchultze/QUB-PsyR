@@ -122,6 +122,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -339,7 +340,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Also note how the function arguments are shifted a bit to the right. This is called <strong>indentation</strong>. Indentation has no effects on how the code works in R (it does in other programming languages such as Python!). However, it contributes greatly to the legibility of the code by structuring it.</p>
 <p>It is, therefore, a good idea to get used to organizing longer pieces of code by using multiple lines and proper indentation. Your future self, your collaborators, and third parties, who will read your code when you make it publicly available, will thank you for it.</p>
 </div>
-<p>Once we execute the piece of code above, the data frame will appear as an object in RStudio’s <strong>Environment</strong> (top right). We can immediately see that it is a data frame because RStudio describes data frames as <em>x</em> observations of <em>y</em> variables. In our case that is listed as “5 obs. of 3 variables”.</p>
+<p>Once we execute the piece of code above, the data frame will appear as an object in RStudio’s <strong>Environment</strong> (top right). We can immediately see that it is a data frame because RStudio describes data frames as <span class="math inline">\(x\)</span> observations of <span class="math inline">\(y\)</span> variables. In our case that is listed as “5 obs. of 3 variables”.</p>
 <div class="alert alert-info">
 <p><strong>Note</strong>: The <strong>Environment</strong> will show a small light blue button with a white arrowhead to the left of our data frame’s name. If we click this button, RStudio will “unfold” the data frame and show us a list of the vectors it contains as well as the type of the vector.</p>
 </div>
@@ -416,7 +417,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">5</span>)               <span class="co"># responses </span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Running this code creates a data frame with 5 observations of 5 variables in in the environment. One problem is that we cannot name the two new variables contained in the matrix as we did with the vectors. However, when we look at our data frame, we will notice that the variable names do not look as terrible as they did when we entered the unnamed vectors. Instead, the variables will be named “X1” and “X2” (when entering a matrix, R will just assign the names from “X1” to “Xi” for a matrix with <em>i</em> columns).</p>
+<p>Running this code creates a data frame with 5 observations of 5 variables in in the environment. One problem is that we cannot name the two new variables contained in the matrix as we did with the vectors. However, when we look at our data frame, we will notice that the variable names do not look as terrible as they did when we entered the unnamed vectors. Instead, the variables will be named “X1” and “X2” (when entering a matrix, R will just assign the names from “X1” to “Xi” for a matrix with <span class="math inline">\(i\)</span> columns).</p>
 <p>Still, we might prefer less obscure names for our two measures. One possibility is to use the <strong><code>names()</code></strong> function as we did above. Another is to create the matrix as a separate object before creating the data frame. This allows us to set proper column names using the function <strong><code>colnames()</code></strong>. This function works very similar to the <strong><code>names()</code></strong> function but is specifically designed for matrices. Here is what the code would look like.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First, we create our 5x2 matrix as an object</span></span>

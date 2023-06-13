@@ -47,7 +47,7 @@ We can write comments by adding a **\#** in front of the text. All text followin
 
 ![Fig 5. Running code with comments](images/intro/comments1.png)
 
-When running the script the whole code is copied to the console, but only the actual code is being *evaluated*. All the text that we declared as comments is being ignored.
+When running the script the whole code is copied to the console, but only the actual code is being **evaluated**. All the text that we declared as comments is being ignored.
 
 ::: {.alert .alert-info}
 Note: A good rule of thumb is to have at least one line of comments for every four lines of code. When in doubt, opt for more or more detailed comments. Better to over-explain your code than to risk it being unintelligible.

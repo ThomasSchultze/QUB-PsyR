@@ -14,7 +14,7 @@ In R, an object is information that we store in R's memory. In order to define a
 object_name = information
 ```
 
-We write the name of our new object to the left of an *equal* sign and define the information the object should contain to its right. Instead of using an equal sign to define an object, we can also draw an arrow using the *less than* sign and a *hyphen*, which looks like this:
+We write the name of our new object to the left of an **equal sign** and define the information the object should contain to its right. Instead of using an equal sign to define an object, we can also draw an arrow using the **less than** sign and a **hyphen**, which looks like this:
 
 ```{r}
 #| eval: false
@@ -63,13 +63,13 @@ We will be using two functions below:
 :::
 
 :::{.alert .alert-info}
-**Core fact 2**: It is impossible (for most people at least) to remember all functions and which arguments they require. Therefore, R contains a lifesaver in the form of a special function called **`help()`**. The function **`help()`** requires the name of a *topic* (including but not limited to functions) as its main argument. Calling **`help()`** with the name of a function will show the documentation for that function in the **help** tab of the **Utility & Help** section of RStudio's interface (bottom right).
+**Core fact 2**: It is impossible (for most people at least) to remember all functions and which arguments they require. Therefore, R contains a lifesaver in the form of a special function called **`help()`**. The function **`help()`** requires the name of a `topic` (including but not limited to functions) as its main argument. Calling **`help()`** with the name of a function will show the documentation for that function in the **help** tab of the **Utility & Help** section of RStudio's interface (bottom right).
 :::
 
 
 ## Object types
 
-Single values, vectors, and matrices can vary by *type*. The type of these objects refers to the nature of its content, for example whether it contains numbers, character strings, logical arguments etc. The most common types of types are:
+Single values, vectors, and matrices can vary by **type**. The type of these objects refers to the nature of its content, for example whether it contains numbers, character strings, logical arguments etc. The most common types of types are:
 
 - **double**: this means numbers with decimal points (although the decimals must not necessarily be displayed)
 - **integer**: whole numbers that can be negative positive or zero (rarely used because double type numbers are more practical)
@@ -79,7 +79,7 @@ Single values, vectors, and matrices can vary by *type*. The type of these objec
 
 ## Single values
 
-Single values are the simplest type of objects we can define in R. As their name suggests, they represent a single value, for example, the number 7. We could tell R to create a single value called *a* that consists of the number 7. We do this as follows:
+Single values are the simplest type of objects we can define in R. As their name suggests, they represent a single value, for example, the number 7. We could tell R to create a single value called $a$ that consists of the number 7. We do this as follows:
 
 ```{r}
 #| eval: true
@@ -151,7 +151,7 @@ If we try to combine numeric (double or integer) and logical values into one vec
 
 ## Matrices
 
-Matrices are the two-dimensional cousins of vectors. They have *r* rows and **`c()`** columns. Per convention, the number of rows is stated before the number of columns, that is, a 4x3 matrix has 4 rows and 3 columns (think **r**oman-***`c()`***atholic as a mnemonic aid).
+Matrices are the two-dimensional cousins of vectors. They have $r$ rows and $c$ columns. Per convention, the number of rows is stated before the number of columns, that is, a 4x3 matrix has 4 rows and 3 columns (think **r**oman-**c**atholic as a mnemonic aid).
 
 As with vectors, all elements of a matrix must share the same type (if we try to combine different types of elements, R will just transform some of the elements to create a homogeneous matrix). In fact, matrices in R are vectors that we break down into rows and columns. To create a matrix, we need to call the function **`matrix()`** and tell R three arguments: the vector we want to make into a matrix, the number of its rows, and the number of its columns. The syntax looks as follows:
 

@@ -122,6 +122,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -325,7 +326,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>object_name <span class="ot">=</span> information</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We write the name of our new object to the left of an <em>equal</em> sign and define the information the object should contain to its right. Instead of using an equal sign to define an object, we can also draw an arrow using the <em>less than</em> sign and a <em>hyphen</em>, which looks like this:</p>
+<p>We write the name of our new object to the left of an <strong>equal sign</strong> and define the information the object should contain to its right. Instead of using an equal sign to define an object, we can also draw an arrow using the <strong>less than</strong> sign and a <strong>hyphen</strong>, which looks like this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>object_name <span class="ot">&lt;-</span> information</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -363,12 +364,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Core fact 1</strong>: Functions can have a lot of arguments, but it is not always necessary to specify all of them. Most functions have default values for some of their arguments. If we do not specify these arguments, R will just run the function as if we had entered the default value of the argument. If we do specify arguments with default values, we simply override the default.</p>
 </div>
 <div class="alert alert-info">
-<p><strong>Core fact 2</strong>: It is impossible (for most people at least) to remember all functions and which arguments they require. Therefore, R contains a lifesaver in the form of a special function called <strong><code>help()</code></strong>. The function <strong><code>help()</code></strong> requires the name of a <em>topic</em> (including but not limited to functions) as its main argument. Calling <strong><code>help()</code></strong> with the name of a function will show the documentation for that function in the <strong>help</strong> tab of the <strong>Utility &amp; Help</strong> section of RStudio’s interface (bottom right).</p>
+<p><strong>Core fact 2</strong>: It is impossible (for most people at least) to remember all functions and which arguments they require. Therefore, R contains a lifesaver in the form of a special function called <strong><code>help()</code></strong>. The function <strong><code>help()</code></strong> requires the name of a <code>topic</code> (including but not limited to functions) as its main argument. Calling <strong><code>help()</code></strong> with the name of a function will show the documentation for that function in the <strong>help</strong> tab of the <strong>Utility &amp; Help</strong> section of RStudio’s interface (bottom right).</p>
 </div>
 </section>
 <section id="object-types" class="level2">
 <h2 class="anchored" data-anchor-id="object-types">Object types</h2>
-<p>Single values, vectors, and matrices can vary by <em>type</em>. The type of these objects refers to the nature of its content, for example whether it contains numbers, character strings, logical arguments etc. The most common types of types are:</p>
+<p>Single values, vectors, and matrices can vary by <strong>type</strong>. The type of these objects refers to the nature of its content, for example whether it contains numbers, character strings, logical arguments etc. The most common types of types are:</p>
 <ul>
 <li><strong>double</strong>: this means numbers with decimal points (although the decimals must not necessarily be displayed)</li>
 <li><strong>integer</strong>: whole numbers that can be negative positive or zero (rarely used because double type numbers are more practical)</li>
@@ -378,7 +379,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="single-values" class="level2">
 <h2 class="anchored" data-anchor-id="single-values">Single values</h2>
-<p>Single values are the simplest type of objects we can define in R. As their name suggests, they represent a single value, for example, the number 7. We could tell R to create a single value called <em>a</em> that consists of the number 7. We do this as follows:</p>
+<p>Single values are the simplest type of objects we can define in R. As their name suggests, they represent a single value, for example, the number 7. We could tell R to create a single value called <span class="math inline">\(a\)</span> that consists of the number 7. We do this as follows:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -428,7 +429,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="matrices" class="level2">
 <h2 class="anchored" data-anchor-id="matrices">Matrices</h2>
-<p>Matrices are the two-dimensional cousins of vectors. They have <em>r</em> rows and <strong><code>c()</code></strong> columns. Per convention, the number of rows is stated before the number of columns, that is, a 4x3 matrix has 4 rows and 3 columns (think <strong>r</strong>oman-<strong><em><code>c()</code></em></strong>atholic as a mnemonic aid).</p>
+<p>Matrices are the two-dimensional cousins of vectors. They have <span class="math inline">\(r\)</span> rows and <span class="math inline">\(c\)</span> columns. Per convention, the number of rows is stated before the number of columns, that is, a 4x3 matrix has 4 rows and 3 columns (think <strong>r</strong>oman-<strong>c</strong>atholic as a mnemonic aid).</p>
 <p>As with vectors, all elements of a matrix must share the same type (if we try to combine different types of elements, R will just transform some of the elements to create a homogeneous matrix). In fact, matrices in R are vectors that we break down into rows and columns. To create a matrix, we need to call the function <strong><code>matrix()</code></strong> and tell R three arguments: the vector we want to make into a matrix, the number of its rows, and the number of its columns. The syntax looks as follows:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>matrix1 <span class="ot">=</span> <span class="fu">matrix</span>( <span class="co"># this tells R that we want to create a matrix</span></span>
