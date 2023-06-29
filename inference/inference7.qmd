@@ -77,7 +77,7 @@ $$SS_{residual} = SS_{total} - SS_{regression}$$
 
 Or, to be precise: they are both special cases of the general linear model. We use ANOVAs when our predictors are categorical variables, but we could easily set up the same model as a regression model. The output of the respective analysis and the specific parameter tests we run may differ, but the underlying information is the same. :::
 
-Back to $R^2$: we can test for significance of $R^2$ using an $F$-test based o the mean squares not unlike the ones we used in ANOVAs. It can be shown that:
+Back to $R^2$: we can test for significance of $R^2$ using an $F$-test based on the mean squares not unlike the ones we used in ANOVAs. It can be shown that:
 
 $$\frac{MS_{regression}}{MS_{error}} =  \frac{\frac{SS_{regression}}{k-1}}{\frac{SS_{error}}{N-k}} \sim F_{k-1; N-k}$$
 
@@ -91,8 +91,8 @@ $$R_{adjusted}^2 = 1-\frac{\frac{SS_{error}}{df_{error}}}{\frac{SS_{total}}{df_{
 
 We can run regression analyses in R using the **`lm()`** function (linear model). The function has several arguments. We will use only the following two:
 
--   *formula* (required): a formula type object telling the function which variable to predict and which combination of variables to use as predictors
--   *data* (optional): a data frame containing the variables we feed into the formula; if we do not specify this argument, R will assume that the variables we fed into the formula argument exist as objects in our environment
+-   `formula` (required): a formula type object telling the function which variable to predict and which combination of variables to use as predictors
+-   `data` (optional): a data frame containing the variables we feed into the formula; if we do not specify this argument, R will assume that the variables we fed into the formula argument exist as objects in our environment
 
 ### Excurse: formula type objects
 

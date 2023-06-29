@@ -217,7 +217,7 @@ This means that when we look at individual cells of our design instead of collap
 
 ## Running a two-factorial ANOVA in R
 
-When we want to run a two-factorial ANOVA in R, we can use the same package and function we used for the one-factorial case. That is, we use the **`aov_ez()`** function of the package *afex*. Before we can run the analysis, we first need data from a two-factorial design. 
+When we want to run a two-factorial ANOVA in R, we can use the same package and function we used for the one-factorial case. That is, we use the **`aov_ez()`** function of the package `*afex*`. Before we can run the analysis, we first need data from a two-factorial design. 
 
 Let's say, we have data from an experimental $2 \times 2$-design in which we manipulated two factors: job demands (low vs. high) and autonomy (low. vs. high). The dependent variable is the experienced level of job stress. Let's further assume that we have gathered data from 50 participants in each of the four cells of our design and stored it in a data frame called *my_df*. Here is an except of the data.
 
@@ -249,7 +249,7 @@ my_df = my_df %>% arrange(ID)
 head(my_df)
 
 ```
-The difference to a one-factorial ANOVA is that we need to feed the **`aov_ez()`** function a vector containing two variable names as its *between* argument (in the one-factorial case it was a single character value). Here is what the syntax looks like:
+The difference to a one-factorial ANOVA is that we need to feed the **`aov_ez()`** function a vector containing two variable names as its `between` argument (in the one-factorial case it was a single character value). Here is what the syntax looks like:
 
 ```{r}
 #| eval: false
@@ -341,7 +341,7 @@ This means that we should disentangle main effects only if there is no evidence 
 
 Let's first consider the disentangling of main effects (assuming that there is no significant interaction or an ordinal interaction). When a factor has only two levels, the case is clear, because the difference must be between those two levels.
 
-If we have three or more levels, we need to disentangle the main effect in the same way we disentangled them in a one-factorial case. That means we can run pairwise comparisons or custom contrasts on that factor's marginal means (i.e., collapsing across all levels of the other factor) using the **`emmeans()`** function from the package *emmeans*.
+If we have three or more levels, we need to disentangle the main effect in the same way we disentangled them in a one-factorial case. That means we can run pairwise comparisons or custom contrasts on that factor's marginal means (i.e., collapsing across all levels of the other factor) using the **`emmeans()`** function from the package `*emmeans*`.
 
 In our example from far above, the factor "demands" has only two levels, but we can still use the data to show how the syntax and output would look like:
 
@@ -371,7 +371,7 @@ emmeans(object = my_ANOVA, specs = 'demands',
 
 Similar to the one-factorial case, the output will consist of two tables, with the second of them containing the desired information. In this case, we have only one entry here because the factor "demands" has only two levels (however, the logic of the post-hoc comparisons would not differ from the one-factorial case had we more than two levels).
 
-There are two few things worth noting: First, when we feed the the **`emmeans()`** function a single variable as its *specs* argument, the output will contain a message stating that we collapsed across the other factor (in our case "control"). Thus, we know that we are talking about the marginal means of the "demands". Second, when we call the **`emmeans()`** function on a main effect in an ANOVA design with at least two factors, R will also return a message informing us that the results of our pairwise comparisons may be misleading due to involvement in potential interactions (we already know this by now).
+There are two few things worth noting: First, when we feed the the **`emmeans()`** function a single variable as its `specs` argument, the output will contain a message stating that we collapsed across the other factor (in our case "control"). Thus, we know that we are talking about the marginal means of the "demands". Second, when we call the **`emmeans()`** function on a main effect in an ANOVA design with at least two factors, R will also return a message informing us that the results of our pairwise comparisons may be misleading due to involvement in potential interactions (we already know this by now).
 
 Since we have two factors in a $2 \times 2$-design, we need to consider that we may have two significant interpretable main effects. Generally speaking, we need to disentangle each significant main effect via its marginal means, granted that the interaction pattern (absent or ordinal interaction) permits it.
 

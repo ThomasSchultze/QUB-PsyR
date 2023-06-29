@@ -50,7 +50,7 @@ Now that we have a rough understanding of what we can do with the **`t.test()`**
 For starters, we will consider the most simple case, namely the one-sample $t$-test. For example, we could test whether the mean of a vector of numbers differs from zero.
 
 :::{.alert .alert-info}
-We can generate some normally distributed data for our examples using the **`rnorm()`** function. We simply need to feed the function three arguments: the size of the simulated sample (*n*), the true mean (*mean*), and the true standard deviation (*sd*). Calling the **`rnorm()`** function will then result in R producing a pseudo-random sample drawn from the specified normal distribution.
+We can generate some normally distributed data for our examples using the **`rnorm()`** function. We simply need to feed the function three arguments: the size of the simulated sample (`n`), the true mean (`mean`), and the true standard deviation (`sd`). Calling the **`rnorm()`** function will then result in R producing a pseudo-random sample drawn from the specified normal distribution.
 
 If we want to create a reproducible pseudo-random sample, we can call the function **`set.seed()`** before calling **`rnorm()`**. If we feed the **`set.seed()`** function an arbitrary number, the following pseudo-random draw will always be the same.
 :::
@@ -143,7 +143,7 @@ In order to run a paired $t$-test, we need to feed the **`t.test()`** function t
 Let's look at an example, in which we want to test whether the stress level of 100 simulated people decreases between two measurement occasions *T1* and *T2*.
 
 :::{.alert .alert-info}
-Since we want to simulate correlated data, using the **`rnorm()`** function won't help us. However, there is a useful function called **`mvrnorm()`** in the *MASS* package. This function allows us to generate data from multivariate normal distributions.
+Since we want to simulate correlated data, using the **`rnorm()`** function won't help us. However, there is a useful function called **`mvrnorm()`** in the *`MASS`* package. This function allows us to generate data from multivariate normal distributions.
 
 We can feed the **`mvrnorm()`** the following arguments:
 
@@ -259,7 +259,7 @@ t.test(x = my_df2$dv[my_df2$condition == 'experimental'],
        paired = FALSE, var.equal = FALSE)
 ```
 
-Technically, we do not need to specify the *paired* and *var.equal* argument because FALSE is the default for both. Let's have alook at the output.
+Technically, we do not need to specify the `paired` and `var.equal` argument because FALSE is the default for both. Let's have a look at the output.
 
 :::{.alert .alert-warning}
 ```{r}

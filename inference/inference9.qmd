@@ -394,12 +394,12 @@ Theoretically, it is possible to model random slopes for cross-level interaction
 
 ## Running multi-level models in R
 
-R offers several packages that allow computing multi-level models. We will use the *lme4* package as it is perhaps the most commonly used multi-level package. This package has one drawback: it does not compute $p$-values (the reason is that the authors of the package noticed that there it is non-trivial to compute the correct degrees of freedom for the $t$-distributions used to test for statistical significance that holds when certain conditions such as balanced design are not met). Therefore, we will use an additional package called *lmerTest* that computes the degrees of freedom and, consequently, the $p$-values using a Satterthwaite-correction. Since *lmerTest* has *lme4* as a dependency, installing *lmerTest* will also and install *lme4*, and loading *lmerTest* via the *library* function will also load *lme4*. However, because *lme4* is the real workhorse, we will frequently refer to it in the following sections.
+R offers several packages that allow computing multi-level models. We will use the *`lme4`* package as it is perhaps the most commonly used multi-level package. This package has one drawback: it does not compute $p$-values (the reason is that the authors of the package noticed that there it is non-trivial to compute the correct degrees of freedom for the $t$-distributions used to test for statistical significance that holds when certain conditions such as balanced design are not met). Therefore, we will use an additional package called *`lmerTest`* that computes the degrees of freedom and, consequently, the $p$-values using a Satterthwaite-correction. Since *`lmerTest`* has *`lme4`* as a dependency, installing *`lmerTest`* will also and install *`lme4`*, and loading *`lmerTest`* via the **`library()`* * function will also load *`lme4`*. However, because *`lme4`* is the real workhorse, we will frequently refer to it in the following sections.
 
 The way will will use the **`lmer()`** function for now requires us to define two arguments (similar to the regular regression function **`lm()`**):
 
-- *formula* (required): a formula type object telling the function which variable to predict and what parameters to include in the model.
-- *data* (optional): a data frame containing the data; in theory, we could omit defining the argument if all of our variables existed as separate objects in our environment, but using data frames is much preferable. 
+- `formula` (required): a formula type object telling the function which variable to predict and what parameters to include in the model.
+- `data` (optional): a data frame containing the data; in theory, we could omit defining the argument if all of our variables existed as separate objects in our environment, but using data frames is much preferable. 
 
 
 ### Formulae for multi-level models
@@ -427,7 +427,7 @@ y ~ 1 + X + (1 + X||group)
 ```
 
 
-Now that we have a basic understanding of how the formulae work in the *lme4* package, we can turn to the function we will use: **`lmer()`**. Since we will use *lme4* in conjunction with *lmerTest*, it is important to know that *lmerTest* has a function called **`lmer()`** that overrides the original **`lmer()`** function of *lme4*. This is intentional and will allow us to write code as if we were using *lme4* while also providing us with $p$-values in the model output.
+Now that we have a basic understanding of how the formulae work in the *`lme4`* package, we can turn to the function we will use: **`lmer()`**. Since we will use *`lme4`* in conjunction with *`lmerTest`*, it is important to know that *`lmerTest`* has a function called **`lmer()`** that overrides the original **`lmer()`** function of *`lme4`*. This is intentional and will allow us to write code as if we were using *`lme4`* while also providing us with $p$-values in the model output.
 
 Let's now write our first multi-level model in R. As always, we first need some hierarchical data. We will make up some data from a fictional experiment, in which several participants worked on a number of trials each. The data includes performance as a dependent variable, a continuous independent variable at level 1 indicating the stimulus intensity, and a level-two independent variable indicating task difficulty. Let's have a look at an excerpt of the data (stored in *df1*):
 
@@ -506,11 +506,11 @@ summary(mod1)
 ```
 :::
 
-The top of the output contains some general information such as that the $t$-tests of the fixed effect parameters are computed using Satterthwaite's method (this is what we use *lmerTest* for), and that the model parameters were estimates using REML (restricted maximum likelihood). We can usually ignore this information.
+The top of the output contains some general information such as that the $t$-tests of the fixed effect parameters are computed using Satterthwaite's method (this is what we use *`lmerTest`* for), and that the model parameters were estimates using REML (restricted maximum likelihood). We can usually ignore this information.
 
 Two parts of the output are noteworthy. The first is the section labelled "Random effects". here, R shows us two random effects. The first is a random intercept that varies between participants, indicated by the grouping variable for that random effect being "ID". The second is the residual. Since these are random effects, we estimate them as a variance or standard deviation (R neatly computes both for us). In the example above, we can see that there is somewhat more variability within participants (i.e., at level 1) than between participants (at level 2).
 
-The second part of interest is the "Fixed effects" table. Here, we can see the fixed regression parameters along with their standard error and $t$-value. Since we are using *lmertest*, the output also contains the degrees of freedom and a $p$-value. In this model, we have only one fixed effect, namely the fixed intercept. As we can see, it is significantly different from zero.
+The second part of interest is the "Fixed effects" table. Here, we can see the fixed regression parameters along with their standard error and $t$-value. Since we are using *`lmerTest`*, the output also contains the degrees of freedom and a $p$-value. In this model, we have only one fixed effect, namely the fixed intercept. As we can see, it is significantly different from zero.
 
 Let's now gradually add effects to the model. We will start by adding a fixed slope for the level-1 predictor, then add  a fixed slope for the level-2 predictor, then add random slopes for the level-1 predictor and finally include the cross-level interaction. Here is the syntax:
 
@@ -620,7 +620,7 @@ This test logic is conceptually similar to the comparison of nested regression m
 
 We can feed the **`anova()`** function two or more multi-level models, and it will compare each model to its predecessor. Just as in the case of regular regression models, we need to make sure that the models are nested and entered in the correct order for the output of the function to make sense.
 
-There is one other caveat: the **`anova()`** function requires all models to be estimated via the maximum likelihood (ML) method. However, the default method for parameter estimation in *lme4* is restricted maximum likelihood (REML). If we feed models estimated via REML into the **`anova()`** function, the function will recompute the model using ML instead and then compare the models in the order in which we entered them. The potential problem is that the model parameters may slightly differ between the ML and REML method. If we plan to compare models in terms of their fit, it is, therefore prudent to use ML estimation from the start. We can do so by overwriting the default of the *REML* argument of the **`lmer()`** function. The default value is *TRUE* leading to REML estimation, but if we set it to *FALSE* instead, the **`lmer()`** function will estimate the model parameters using ML.
+There is one other caveat: the **`anova()`** function requires all models to be estimated via the maximum likelihood (ML) method. However, the default method for parameter estimation in *`lme4`* is restricted maximum likelihood (REML). If we feed models estimated via REML into the **`anova()`** function, the function will recompute the model using ML instead and then compare the models in the order in which we entered them. The potential problem is that the model parameters may slightly differ between the ML and REML method. If we plan to compare models in terms of their fit, it is, therefore prudent to use ML estimation from the start. We can do so by overwriting the default of the `REML` argument of the **`lmer()`** function. The default value is *TRUE* leading to REML estimation, but if we set it to *FALSE* instead, the **`lmer()`** function will estimate the model parameters using ML.
 
 In our example rerunning the models with ML estimation does not change the overall picture (although in the more complex models, the exact parameter estimate differ slightly). We will therefore not reinvestigate the model outputs for the ML versions. Let's instead have a look at the model comparisons of our five nested models. Here is the syntax:
 

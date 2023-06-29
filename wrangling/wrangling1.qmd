@@ -20,17 +20,17 @@ Likewise, we may want to remove variables from the data frame if:
 - we want to save them for analysis in a separate study (particularly important if we engage with open science, but want to make sure that others do not use our hard-earned data and beat us to publishing cool papers off it)
 - we have computed new variables for our analyses and no longer need the original data in our tidy data frame
 
-In theory, we already know how to drop rows and columns from a data frame, namely using logical or numerical indexing. While this is true, indexing using base R can become tedious if we have large data sets. The good thing is that there is an R package that makes our lives much easier: *dplyr*. The *dplyr* package is part of the *tidyverse*. We can install and load it separately, or we can install and load the whole *tidyverse*. If we do that latter, *dplyr* will be automatically installed and loaded because it is a dependency of the *tidyverse* package.
+In theory, we already know how to drop rows and columns from a data frame, namely using logical or numerical indexing. While this is true, indexing using base R can become tedious if we have large data sets. The good thing is that there is an R package that makes our lives much easier: *`dplyr`*. The *`dplyr`* package is part of the *`tidyverse`*. We can install and load it separately, or we can install and load the whole *`tidyverse`*. If we do that latter, *`dplyr`* will be automatically installed and loaded because it is a dependency of the *`tidyverse`* package.
 
 
 ## Selecting rows with dplyr
 
-In *dyplr*, we can select a subset of the rows of a data frame by using the function `**filter**`. This function takes two arguments:
+In *`dyplr`*, we can select a subset of the rows of a data frame by using the function **`filter()`**. This function takes two arguments:
 
-- *.data* (required): the name of a data frame we want to extract some rows from. Note the dot at the beginning of *.data*.
+- `.data` (required): the name of a data frame we want to extract some rows from. Note the dot at the beginning of `.data`.
 - an unnamed argument telling the function how to select the rows it should retain; a logical expression that will be tested, where TRUE means that the row is retained and FALSE means it will be dropped; we can use binary operators, functions, or a combination of the two to create the logical expression to be tested
 
-When creating the logical expression to be tested, we do not need to put variable names in quotation marks or refer to them using the **$** operator. We can just write their name as is (exactly as we did when using *ggplot2*).
+When creating the logical expression to be tested, we do not need to put variable names in quotation marks or refer to them using the **`$`** operator. We can just write their name as is (exactly as we did when using *`ggplot2`*).
 
 Let's make up some data (stored in *df1*) to demonstrate. We' will create data for 100 participants of a fictional experiment. Here is an excerpt of the data:
 
@@ -57,7 +57,7 @@ df1 = data.frame(
 head(df1)
 ```
 
-We can now use the **`filter`** function to retain only some of the rows. Here are a few code examples:
+We can now use the **`filter()`** function to retain only some of the rows. Here are a few code examples:
 
 ```{r}
 #| eval: false
@@ -76,23 +76,23 @@ df3b = filter(.data = df2, dv1 > mean(dv1))
 Each of the lines of code above creates a new data frame in our environment. While all data frames contain the same variables (i.e., we retain all columns, they will vary in the the number of rows). 
 
 :::{.alert .alert-success}
-**Note**: Filtering the data with the **`filter`** function from *dplyr* is quite similar to indexing using brackets, but the syntax is easier to parse. In particular, the function makes our life somewhat easier when combining several logical tests. The reason is that we do not need to to reference variables using the **$** operator.
+**Note**: Filtering the data with the **`filter()`** function from *`dplyr`* is quite similar to indexing using brackets, but the syntax is easier to parse. In particular, the function makes our life somewhat easier when combining several logical tests. The reason is that we do not need to to reference variables using the **`$`** operator.
 :::
 
 
 ## Selecting columns with dplyr
 
-While selecting rows with *dplyr* is not too different from regular indexing, selecting columns with the **`select`** function is where *dyplr* really shines. The reason is that **`select`** is highly flexible. Similar to the **`filter`** function, **`select`** requires two arguments:
+While selecting rows with *`dplyr`* is not too different from regular indexing, selecting columns with the **`select()`** function is where *dyplr* really shines. The reason is that **`select()`** is highly flexible. Similar to the **`filter()`** function, **`select()`** requires two arguments:
 
-- *.data* (required): the data frame we want to select columns from.
+- `.data` (required): the data frame we want to select columns from.
 - an unnamed argument telling the function how to select the rows it should retain.
 
-We have several options to specify the unnamed argument of **`select`**, which we will discuss below:
+We have several options to specify the unnamed argument of **`select()`**, which we will discuss below:
 
 
 #### Selecting variables by name
 
-If we have specific variables in mind, we can just feed the **`select`** function to name of the variable or variables. Again, we can pass the function the variable names as is (without quotation marks). In case, we want to select only one variable, we can simply pass the **`select`** function this variable's name as the second argument. If we want to select several variables, we need to pass their names separated by commas, or we can put them in a vector using the **`c`** function. Finally, and this may remind you of indexing columns of a data frame using brackets, we can tell R to choose **all but** the specified variable or variables. we can do so by preceding the variable name or vector with either the **-** operator or the **!** operator (logical "non").
+If we have specific variables in mind, we can just feed the **`select()`** function to name of the variable or variables. Again, we can pass the function the variable names as is (without quotation marks). In case, we want to select only one variable, we can simply pass the **`select()`** function this variable's name as the second argument. If we want to select several variables, we need to pass their names separated by commas, or we can put them in a vector using the **`c()`** function. Finally, and this may remind you of indexing columns of a data frame using brackets, we can tell R to choose **all but** the specified variable or variables. we can do so by preceding the variable name or vector with either the **`-`** operator or the **`!`** operator (logical "non").
 
 Examples below:
 
@@ -115,7 +115,7 @@ Each of the lines of code above will create a new data frame, even if we only ex
 
 #### Selecting variables using "from to"
 
-Remember that we used the **`:`** operator as an efficient (or lazy) way to tell R to create a sequence of number from $X$ to $Y$? In *dyplr* we can do the same to select variables provided that we choose an uninterrupted section. All we need to do is pass the **`select()`** function the names of the first and the last variable in the sequence of variables we want to extract and combine them using the **:** operator. 
+Remember that we used the **`:`** operator as an efficient (or lazy) way to tell R to create a sequence of number from $X$ to $Y$? In *`dplyr`* we can do the same to select variables provided that we choose an uninterrupted section. All we need to do is pass the **`select()`** function the names of the first and the last variable in the sequence of variables we want to extract and combine them using the **`:`** operator. 
 If we want to select multiple sequences, we can liste them separated by commas or combine them into a vector using the **`c()`** function. Of course, we can also use the **`-`** or **`!`** operators to select all but a sequence of variables. The only thing to consider is that we need to put a single sequence of variables in parentheses if we want to exclude it. Examples as follows:
 
 
@@ -192,11 +192,11 @@ As we can see, the code differs slightly depending on which function we call fir
 
 ## Making code less convoluted using pipes
 
-Combining multiple operations for data wrangling in one go can create code that is quite convoluted and, consequentially is hard to parse. The problem becomes more sever the more steps we include. However, we also don't want to clog our environment with too many temporary data sets. Fortunately, *dplyr* comes with a special kind of syntax that can make our life easier by allowing us to combine multiple function calls in a more intuitive way. This syntax is called **piping** (originally, the pipes were contributed by the *magrittr* package, but if we load *dplyr* we can use them without *magrittr*).
+Combining multiple operations for data wrangling in one go can create code that is quite convoluted and, consequentially is hard to parse. The problem becomes more sever the more steps we include. However, we also don't want to clog our environment with too many temporary data sets. Fortunately, *`dplyr`* comes with a special kind of syntax that can make our life easier by allowing us to combine multiple function calls in a more intuitive way. This syntax is called **piping** (originally, the pipes were contributed by the *`magrittr`* package, but if we load *`dplyr`* we can use them without *`magrittr`*).
 
-The *pipe* is a special operator. It looks like this: **`%>%`**. Using the pipe to separate functions calls allows us to call the functions in the order in which we want the respective operations to be performed. Importantly, it avoids code lines that end on a dozen closing parentheses. Think of it as telling R to take and object and first do A with it, then do B, then do C, and so on instead of telling R to do C with the outcome of doing B with the outcome of doing A with an object.
+The **pipe** is a special operator. It looks like this: **`%>%`**. Using the pipe to separate functions calls allows us to call the functions in the order in which we want the respective operations to be performed. Importantly, it avoids code lines that end on a dozen closing parentheses. Think of it as telling R to take and object and first do A with it, then do B, then do C, and so on instead of telling R to do C with the outcome of doing B with the outcome of doing A with an object.
 
-To illustrate, let's go back to the most recent example where we combine the **`select()`** and **`filter()`** functions. Here is what the code would look like when we use *pipes*:
+To illustrate, let's go back to the most recent example where we combine the **`select()`** and **`filter()`** functions. Here is what the code would look like when we use **pipes**:
 
 
 ```{r}

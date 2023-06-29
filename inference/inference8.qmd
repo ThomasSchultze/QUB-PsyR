@@ -32,7 +32,7 @@ Before we delve into multiple regression in R, we first need to understand how t
 y ~ x1 + x2
 ```
 
-In the example above, we have two additive effects (think of them as main effects) of $X_1$ and $X_2$ on $Y$. But what if we wanted to add an interaction as well? In this case, we can combine the two predictors using the **:** operator. If we use this operator, R will compute the interaction term as the product of the two variables and use it as a predictor in the model. Here is what the syntax would look like:
+In the example above, we have two additive effects (think of them as main effects) of $X_1$ and $X_2$ on $Y$. But what if we wanted to add an interaction as well? In this case, we can combine the two predictors using the **`:`** operator. If we use this operator, R will compute the interaction term as the product of the two variables and use it as a predictor in the model. Here is what the syntax would look like:
 
 ```{r}
 #| eval: false

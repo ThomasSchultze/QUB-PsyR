@@ -33,7 +33,7 @@ Similar to the $t$-test, ANOVA is a signal to noise ratio, where we treat variab
 
 $$F = \frac{VAR_{between}}{VAR_{within}}=\frac{\frac{SS_{between}}{df_{between}}}{\frac{SS_{within}}{df_{within}}} = \frac{MS_{between}}{MS_{within}}$$
 
-In the formula above, $MS$ is the corresponding *mean squares*.
+In the formula above, $MS$ is the corresponding **mean squares**.
 
 ::: {.alert .alert-success}
 **Fun fact**: Based on the formula above, we can easily derive that $F$ is the ratio of two $\chi^2$-distributed variables. Both the numerator and the denominator constitute a sum of squares divided by its degrees of freedom. That is also the reason why the $F$-distribution has two degrees of freedom, one for the numerator and one for the denominator.
@@ -57,9 +57,9 @@ Again, $J$ is the number of groups we compare, and $n_j$ is the sample size in g
 
 The final thing we need to understand before we can delve into the actual ANOVAs is the $F$-statistic. As we have seen above, we compute $F$ as a ratio of the $MS_{between}$ and the $MS_{within}$. This ratio is interesting in several ways:
 
-1.  Since the $SS_{between}$ usually has much fewer degrees of freedom than that $SS_{within}$, the variability between groups does not have to be nearly as large as the variability within groups to produce a large $F$-value.
+1.  Since the $SS_{between}$ usually has much fewer degrees of freedom than the $SS_{within}$, the variability between groups does not have to be nearly as large as the variability within groups to produce a large $F$-value.
 2.  The more groups we compare, the lower the $F$-ratio will be, ceteris paribus. However, this does not necessarily mean that it becomes more difficult to detect significant mean differences. The more groups we compare, and the more numerator degrees of freedom our test has, the lower the critical $F$-value past which we consider a result statistically significant.
-3.  The larger our total sample, the more denominator degrees of freedom we have, and smaller the noise becomes in our signal-to-noise ratio, ceteris paribus. This makes intuitive sense: as the samples size increases, our measurement becomes more precise, making it easier to detect differences between group means.
+3.  The larger our total sample, the more denominator degrees of freedom we have, and the smaller the noise becomes in our signal-to-noise ratio, ceteris paribus. This makes intuitive sense: as the samples size increases, our measurement becomes more precise, making it easier to detect differences between group means.
 
 ::: {.alert .alert-success}
 **Fun fact**: If we use an ANOVA to compare two means, we effectively run a $t$-test but discard its ability to indicate the direction of the effect.
@@ -72,7 +72,7 @@ ANOVAs come in various flavours. In the following, we will look at some of them,
 -   one-factorial ANOVAs (between-subjects)
 -   two-factorial ANOVAs (between-subjects)
 -   repeated-measures ANOVAs (within-subjects)
--   mixed ANOVAs (at least one between and within factor)
+-   mixed ANOVAs (at least one between and one within factor)
 
 ## One-factorial ANOVA
 
@@ -86,13 +86,13 @@ $\alpha_j = \mu_j - \mu$
 
 In other words, the effect of the $j$th level of factor $A$ is the difference between the true group mean $\mu_j$ and the true grand mean $\mu$. Accordingly, if $\mu_j$ exceeds $\mu$, the respective $\alpha_j$ is positive.
 
-The Null hypothesis is that all group means are equal. This equivalent to stating that all $\alpha_j$ are zero. The alternative hypothesis is that not all group means are equal or, put differently, that at least oe of the $\alpha_j$ is non-zero.
+The Null hypothesis is that all group means are equal. This equivalent to stating that all $\alpha_j$ are zero. The alternative hypothesis is that not all group means are equal or, put differently, that at least one of the $\alpha_j$ is non-zero.
 
 $H0:\alpha_j = 0 \quad \forall j$
 
 $H1: \lnot H_0$
 
-Running ANOVAs in base R tends to be very clunky because R is more centered around classic regression models. Therefore, we won't be using base R to run ANOVAs, but instead use an R package called *afex* (Analysis of Factorial Experiment). That means, we need to install and load *afex* first.
+Running ANOVAs in base R tends to be very clunky because R is more centered around classic regression models. Therefore, we won't be using base R to run ANOVAs, but instead use an R package called *`afex`* (Analysis of Factorial Experiment). That means, we need to install and load *`afex`* first.
 
 ```{r}
 #| eval: false
@@ -113,29 +113,29 @@ Once we have done that, we can start doing ANOVAs with one of several functions:
 -   **`aov_4()`**
 -   **`aov_ez()`**
 
-The three functions serve the same goal and do the same things, but they differ in terms of the syntax. The function **`aov_car()`** uses syntax that is most closely related the the (clunky) base R version of ANOVA. In contrast, **`aov_4()`** uses syntax based on the popular *lme4* package that is widely used for the analysis of generalised mixed models. Thus, this function is ideally suited for users who are already familiar with *lme4*. Finally, **`aov_ez()`** uses a completely string-based format, that is, it does not require a formula type object as a function argument. The advantage of **`aov_ez()`** is that it is very convenient and easy to handle (thus the suffix "ez"). This comes at the cost of flexibility. The lack of a formula means that we are stuck with a full ANOVA model. The other two functions technically allow us to specify models that omit certain main effects or interactions. However, since we will rarely want to run these incomplete models, this is a drawback that usually causes no hassles. In the following, we will focus on the **`aov_ez()`** function and leave exploration of the other functions to the discretion of the reader.
+The three functions serve the same goal and do the same things, but they differ in terms of the syntax. The function **`aov_car()`** uses syntax that is most closely related the the (clunky) base R version of ANOVA. In contrast, **`aov_4()`** uses syntax based on the popular *`lme4`* package that is widely used for the analysis of generalised mixed models. Thus, this function is ideally suited for users who are already familiar with *`lme4`*. Finally, **`aov_ez()`** uses a completely string-based format, that is, it does not require a formula type object as a function argument. The advantage of **`aov_ez()`** is that it is very convenient and easy to handle (thus the suffix "ez"). This comes at the cost of flexibility. The lack of a formula means that we are stuck with a full ANOVA model. The other two functions technically allow us to specify models that omit certain main effects or interactions. However, since we will rarely want to run these incomplete models, this is a drawback that usually causes no hassles. In the following, we will focus on the **`aov_ez()`** function and leave exploration of the other functions to the discretion of the reader.
 
 Here are the most important function arguments of **`aov_ez()`**:
 
--   *id* (necessary): a character value indicating the name of the variable that contains our subject ID
--   *dv* (required): another character value; the name of the variable containing the data the group means of which we want to compare
--   *data* (required): an R object of type data frame containing the data we want to analyse
--   *between* (optional): a character string or character vector indicating the name(s) of the variable(s) constituting the between-subjects factor(s) of our design; default is NULL meaning that there are no between-subjects factors
--   *within* (optional): a character string or character vector indicating the name(s) of the variable(s) constituting the within-subjects factor(s) of our design; default is NULL meaning that there are no within-subjects factors
--   *covariate*: a character value or vector indicating the name(s) of the covariate(s) in our analysis
--   *factorize* (optional): a logical value; determines if the between- and within-subject variables are turned into factors prior to the analysis; default is TRUE; if our design has at least one covariate, we need to set this to FALSE and make sure that all factors are defined as such manually
--   *anova_table* (optional): a list of further arguments passed to the function; the ones we may be interested in are *es* (effect size; default is 'ges', which yields $\eta^2$ as an effect size measure, but we can switch it to 'none' or to 'pes', which yields $\eta^2_p$) and *correction* (non-sphericity correction method; default is 'none', bu we can switch it to 'GG' for the Greenhouse-Geisser or 'HF' for the Huynh-Feldt correction)
+-   `id` (necessary): a character value indicating the name of the variable that contains our subject ID
+-   `dv` (required): another character value; the name of the variable containing the data the group means of which we want to compare
+-   `data` (required): an R object of type data frame containing the data we want to analyse
+-   `between` (optional): a character string or character vector indicating the name(s) of the variable(s) constituting the between-subjects factor(s) of our design; default is NULL meaning that there are no between-subjects factors
+-   `within` (optional): a character string or character vector indicating the name(s) of the variable(s) constituting the within-subjects factor(s) of our design; default is NULL meaning that there are no within-subjects factors
+-   \`covariate\*: a character value or vector indicating the name(s) of the covariate(s) in our analysis
+-   `factorize` (optional): a logical value; determines if the between- and within-subject variables are turned into factors prior to the analysis; default is TRUE; if our design has at least one covariate, we need to set this to FALSE and make sure that all factors are defined as such manually
+-   `anova_table` (optional): a list of further arguments passed to the function; the ones we may be interested in are `es` (effect size; default is 'ges', which yields $\eta^2$ as an effect size measure, but we can switch it to 'none' or to 'pes', which yields $\eta^2_p$) and `correction` (non-sphericity correction method; default is 'none', but we can switch it to 'GG' for the Greenhouse-Geisser or 'HF' for the Huynh-Feldt correction)
 
-For the purpose of running a one-factorial between-subjects ANOVA, we can disregard some of the function arguments shown above. The only ones we need are *id*, *dv*, *between*, and possibly *anova_table* in case we want to obtain the effect size.
+For the purpose of running a one-factorial between-subjects ANOVA, we can disregard some of the function arguments shown above. The only ones we need are `id`, `dv`, `between`, and possibly `anova_table` in case we want to obtain the effect size.
 
 ::: {.alert .alert-danger}
 Now that we want to do ANOVAs, it is time to talk about **factors**. In R, **factors** are a special type of vector that contain both values and labels for those values. The different values of vectors are considered to be categories. Factors are important because the ANOVA-function we use here requires its between- and within-subject variables to be factors.
 
 We can create a factor using the **`factor()`** function by feeding it the following function arguments:
 
--   *x*: a vector we want to turn into a factor
--   *levels*: a vector containing all possible values the factor can take
--   *labels*: a character vector assigning a label to each level of the factor
+-   `x`: a vector we want to turn into a factor
+-   `levels`: a vector containing all possible values the factor can take
+-   `labels`: a character vector assigning a label to each level of the factor
 :::
 
 Lets look at an example, in which we test whether the means of three groups are equal or not. First, we need to create some data.
@@ -194,7 +194,7 @@ aov_ez(id = 'ID', between = 'cond', dv = 'dv', data = my_df)
 
 As we can see, R displays an ANOVA table in the console along with some additional information. The output is preceded by a message (this is NOT an error message; the code ran properly). This message informs us that the **`aov_ez()`** function set the contrast type for our factor 'cond' to 'contr.sum'. What this means is that the contrast underling our factor was forced into effect coding because that is the format that ANOVAs use. We don't need to concern ourselves with that.
 
-Next, R will tell us that this output is an ANOVA table based on type-3 sum of squares. Type-3 sums of squares are what most statistics packages use. If your knowledge of statistics is so advanced that you can make an informed decision that you would prefer type-2 sums of squares, you can change it by setting the *type* function argument to 2.
+Next, R will tell us that this output is an ANOVA table based on type-3 sum of squares. Type-3 sums of squares are what most statistics packages use. If your knowledge of statistics is so advanced that you can make an informed decision that you would prefer type-2 sums of squares, you can change it by setting the `type` function argument to 2.
 
 Now for the important bits. R shows us what the response variable in our model is, namely 'dv'. Below that information, it displays the ANOVA table. Because we ran a one-factorial ANOVA; this table contains only one row. Here, we can see the name of the between-subjects factor (*effect*), the numerator and denominator degrees of freedom for its $F$-value (*df*), the mean squares of the effect (*MSE*), the $F$-value, the generalised $\eta^2$ as a measure of the effect size, and the $p$-value.
 
@@ -257,7 +257,7 @@ model1
 ```
 :::
 
-As we can see, the effect of *cond* (the grouping variable in our fictional data) is statistically significant. We can now state - with the usual confidence - that the means of the three groups are not equal. However, we cannot say anything else. Since an ANOVA uses the squared test statistic $F$, we have no information on the direction of the mean differences, nor do we know which means differ. Thus, we need further analyses to get a clear picture of the mean differences the ANOVA detected.
+As we can see, the effect of the factor "cond" in our fictional data is statistically significant. We can now state - with the usual confidence - that the means of the three groups are not equal. However, we cannot say anything else. Since an ANOVA uses the squared test statistic $F$, we have no information on the direction of the mean differences, nor do we know which means differ. Thus, we need further analyses to get a clear picture of the mean differences the ANOVA detected.
 
 ::: {.alert .alert-info}
 As a useful - if somewhat brutish - metaphor, think of an ANOVA as firing a shotgun into think fog. A statistically significant effect means that we hit something, but we do not know what we hit. In order to find that out we need to venture into the fog and have a closer look.
@@ -295,14 +295,14 @@ $H_0: \hat{\psi} = 0$
 
 $H_1: \hat{\psi} \ne 0$
 
-If we want to analyse contrasts in R, we need another R package called *emmeans*. This package contains a function called **`emmeans()`** (yes, it has the same name as the package) that allows us to run a contrast analysis. Let's have a look at the **`emmeans()`** function. When we call it to analyse contrasts, we need to specify a few arguments:
+If we want to analyse contrasts in R, we need another R package called *`emmeans`*. This package contains a function called **`emmeans()`** (yes, it has the same name as the package) that allows us to run a contrast analysis. Let's have a look at the **`emmeans()`** function. When we call it to analyse contrasts, we need to specify a few arguments:
 
--   *object* (required): an R object containing the results of an ANOVA (good thing we saved our ANOVA as an R object).
--   *spec* (required): a character string or vector containing the name(s) of the grouping variable(s) in our data (in our example, the grouping variable is 'cond').
--   *contr* (optional): a character value or list indicating the type of post-hoc comparisons; the default is NULL, but we can set it to "pairwise", or we can define it as a list of vectors representing custom contrasts.
--   *adjust* (optional): a character value indicating which method should be used to control for type-I error inflation due to multiple comparisons; default is "tukey" for Tukey's method, but we can set it to "none" if we don't want to adjust our $p$-values, or we can choose a different adjustment method such as "holm" (the the Holm-Tukey method) or Bonferroni (for the Bonferroni correction).
+-   `object` (required): an R object containing the results of an ANOVA (good thing we saved our ANOVA as an R object).
+-   `spec` (required): a character string or vector containing the name(s) of the grouping variable(s) in our data (in our example, the grouping variable is 'cond').
+-   `contr` (optional): a character value or list indicating the type of post-hoc comparisons; the default is NULL, but we can set it to "pairwise", or we can define it as a list of vectors representing custom contrasts.
+-   `adjust` (optional): a character value indicating which method should be used to control for type-I error inflation due to multiple comparisons; default is "tukey" for Tukey's method, but we can set it to "none" if we don't want to adjust our $p$-values, or we can choose a different adjustment method such as "holm" (the the Holm-Tukey method) or Bonferroni (for the Bonferroni correction).
 
-Let's dive in an run pairwise comparisons on our ANOVA. We can tell the **`emmeans()`** function to run pairwise contrasts by setting the *contr* argument to "pairwise". The function will then set up the following contrasts:
+Let's dive in an run pairwise comparisons on our ANOVA. We can tell the **`emmeans()`** function to run pairwise contrasts by setting the `contr` argument to "pairwise". The function will then set up the following contrasts:
 
 |            | control | treatment 1 | treatment 2 |
 |------------|---------|-------------|-------------|
@@ -352,7 +352,7 @@ Now let's rerun the analysis while correcting for multiple comparisons. As menti
 Are wondering what would happen if the unadjusted $p$-value is already so large that multiplying it by the number of tests $k$ would propel it above 1? The simple answer is: nothing terrible: R caps the adjusted $p$-values at 1 in order not to violate the laws of probability. While it is technically 'wrong', it is of little concerns to because the $p$-values it concerns are so large they we would not accept $H_1$ in either the adjusted or unadjusted case.
 :::
 
-Here is the code for the pairwise comparisons using Bonferroni's method for controlling type-I error inflation (the only thing we need to change is the *adjust* argument).
+Here is the code for the pairwise comparisons using Bonferroni's method for controlling type-I error inflation (the only thing we need to change is the `adjust` argument).
 
 ```{r}
 #| eval: false
@@ -379,7 +379,7 @@ emmeans(object = model1, specs = 'cond',
 
 The information looks very similar to what we saw when we ran the uncorrected pairwise comparisons. The are only two differences: first, R will state at the bottom of the table that the $p$-values were adjusted using Bonferroni's method for three tests. Second, the $p$-values differ. From looking at the first $p$-value (the one for the contrast comparing treatment 1 to the control group) we can confirm that R has tripled the original $p$-value (the difference at the fourth decimal is due to rounding). If we choose to use a Bonferroni correction for the post-hoc comparisons, our conclusions about the result of the ANOVA change slightly. Now, we would state - with the usual confidence - that the significant effect the ANOVA is due to the mean of the second treatment group differing from both the control group's mean and that from treatment 1. However, we cannot say whether scores in treatment 1 differ from the control group.
 
-Finally, let's consider using a less conservative adjustment method, namely Tukey's method, also known as Tukey's honestly significant difference (HSD). In technical terms, HSD computes the critical mean difference for which a pairwise comparison is considered significant, and then judges each comparison by that difference. The test statistic $q$ follows the Studentised range distribution, the shape of which depends on the number of groups $k$ and the sample size $N$ (via the distribution's degrees of freedom). Because the distribution of the $q$-statistic considers the number of groups, the HSD adjusts for multiple comparisons. Again, the oly theing we need to change about our syntax is the *adjust* argument (see below):
+Finally, let's consider using a less conservative adjustment method, namely Tukey's method, also known as Tukey's honestly significant difference (HSD). In technical terms, HSD computes the critical mean difference for which a pairwise comparison is considered significant, and then judges each comparison by that difference. The test statistic $q$ follows the Studentised range distribution, the shape of which depends on the number of groups $k$ and the sample size $N$ (via the distribution's degrees of freedom). Because the distribution of the $q$-statistic considers the number of groups, the HSD adjusts for multiple comparisons. Again, the oly theing we need to change about our syntax is the `adjust` argument (see below):
 
 ```{r}
 #| eval: false
@@ -421,7 +421,7 @@ Let us go back to our ANOVA example and assume that we want to run two post-hoc 
 
 Let's dissect that! For contrast 1, we compare the control group with the mean of the two treatment groups. In contrast 2, we compare only the two treatment groups; the 0 weight for the control condition means that its mean does not play any role in this contrast.
 
-How do we tell R that we want to run custom contrasts? We can do so using the *contr* argument of the **`emmeans()`** function. To be specific, we need to define this argument as a list in which each element is one contrast.
+How do we tell R that we want to run custom contrasts? We can do so using the `contr` argument of the **`emmeans()`** function. To be specific, we need to define this argument as a list in which each element is one contrast.
 
 When defining the list of contrasts, each contrast must be a numeric vector of length $k$, where $k$ is the number of groups in the grouping variable that we fed into the **`emmeans()`** function (in our case 3). If we chose the wrong vector length, we will receive an error message. We also need to make sure that the sum of each contrast vector is zero (see above). Finally, we can (but do not have to) create these vectors as named elements of the list. Naming the vectors may lead to output that is slightly easier to make sense of.
 
@@ -454,7 +454,7 @@ emmeans(object = model1, specs = 'cond',
   adjust = 'none')
 ```
 
-Running either version of the code will prompt R to test the contrasts and adjust the $p$-values according to Bonferroni's method (of course we could select a different adjustment method or turn if off by changing the *adjust* argument accordingly). We will receive the following console output:
+Running either version of the code will prompt R to test the contrasts and adjust the $p$-values according to Bonferroni's method (of course we could select a different adjustment method or turn if off by changing the `adjust` argument accordingly). We will receive the following console output:
 
 ::: {.alert .alert-warning}
 ```{r}
@@ -476,9 +476,9 @@ As we can see, R now returns a table with two contrast tests. Since we named the
 
 In our example, both contrasts are significant. This means, we can state - with the usual confidence - that the ANOVA was significant because a) getting a treatment leads to different scores than getting no no treatment (control condition), and b) the treatments differ in effectiveness.
 
-But what about multiple comparisons? So far, we have not corrected our custom contrasts for multiple comparisons, but we can do so if we want to. The only thing we need to consider is that we cannot use Tukey's method as it is specific to pairwise comparisons (oddly enough, Tukey's method won't work even if we manually specify pairwise comparisons - if we want to use the HSD method,m we need to set the *contr* argument to "pairwise").
+But what about multiple comparisons? So far, we have not corrected our custom contrasts for multiple comparisons, but we can do so if we want to. The only thing we need to consider is that we cannot use Tukey's method as it is specific to pairwise comparisons (oddly enough, Tukey's method won't work even if we manually specify pairwise comparisons - if we want to use the HSD method,m we need to set the `contr` argument to "pairwise").
 
-To adjust for multiple comparisons, we can again specify the argument *adjust*. If we use custom contrasts, the default for this argument is actually "none", but we can set it to "bonferroni" (for the classic Bonferroni correction) or "holm" (for the slightly lees conservative Holm-Bonferroni method) instead. Let's go with Bonferroni. Here is the code:
+To adjust for multiple comparisons, we can again specify the argument `adjust`. If we use custom contrasts, the default for this argument is actually "none", but we can set it to "bonferroni" (for the classic Bonferroni correction) or "holm" (for the slightly lees conservative Holm-Bonferroni method) instead. Let's go with Bonferroni. Here is the code:
 
 ```{r}
 #| eval: false

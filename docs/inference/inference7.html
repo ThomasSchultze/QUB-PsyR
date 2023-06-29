@@ -359,7 +359,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display">\[SS_{residual} = SS_{total} - SS_{regression}\]</span></p>
 <p>:::{.alert .alert-success} If at this point you are wondering why we are back to sums of squares even though we are not dealing with ANOVAs anymore: regression and ANOVA are the same. :::</p>
 <p>Or, to be precise: they are both special cases of the general linear model. We use ANOVAs when our predictors are categorical variables, but we could easily set up the same model as a regression model. The output of the respective analysis and the specific parameter tests we run may differ, but the underlying information is the same. :::</p>
-<p>Back to <span class="math inline">\(R^2\)</span>: we can test for significance of <span class="math inline">\(R^2\)</span> using an <span class="math inline">\(F\)</span>-test based o the mean squares not unlike the ones we used in ANOVAs. It can be shown that:</p>
+<p>Back to <span class="math inline">\(R^2\)</span>: we can test for significance of <span class="math inline">\(R^2\)</span> using an <span class="math inline">\(F\)</span>-test based on the mean squares not unlike the ones we used in ANOVAs. It can be shown that:</p>
 <p><span class="math display">\[\frac{MS_{regression}}{MS_{error}} =  \frac{\frac{SS_{regression}}{k-1}}{\frac{SS_{error}}{N-k}} \sim F_{k-1; N-k}\]</span></p>
 <p>This <span class="math inline">\(F\)</span>-test tells us whether our regression model as a whole - that is, irrespective of the statistical significance of its individual regression weights - allows for an above-chance prediction of the criterion variable.</p>
 <p>Adding more predictor variables to a regression model will necessarily increase the proportion of variance explained by the model <span class="math inline">\(R^2\)</span> even if the new parameter is not statistically significant individually. To counter this problem, we can adjust <span class="math inline">\(R2\)</span> and essentially “punish” a model for containing too many weak predictors. Here is the formula for the adjusted <span class="math inline">\(R^2\)</span>:</p>
@@ -369,8 +369,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="running-a-regression-analysis-in-r">Running a regression analysis in R</h3>
 <p>We can run regression analyses in R using the <strong><code>lm()</code></strong> function (linear model). The function has several arguments. We will use only the following two:</p>
 <ul>
-<li><em>formula</em> (required): a formula type object telling the function which variable to predict and which combination of variables to use as predictors</li>
-<li><em>data</em> (optional): a data frame containing the variables we feed into the formula; if we do not specify this argument, R will assume that the variables we fed into the formula argument exist as objects in our environment</li>
+<li><code>formula</code> (required): a formula type object telling the function which variable to predict and which combination of variables to use as predictors</li>
+<li><code>data</code> (optional): a data frame containing the variables we feed into the formula; if we do not specify this argument, R will assume that the variables we fed into the formula argument exist as objects in our environment</li>
 </ul>
 </section>
 <section id="excurse-formula-type-objects" class="level3">

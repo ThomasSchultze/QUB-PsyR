@@ -352,7 +352,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="the-one-sample-t-test">The one-sample t-test</h2>
 <p>For starters, we will consider the most simple case, namely the one-sample <span class="math inline">\(t\)</span>-test. For example, we could test whether the mean of a vector of numbers differs from zero.</p>
 <div class="alert alert-info">
-<p>We can generate some normally distributed data for our examples using the <strong><code>rnorm()</code></strong> function. We simply need to feed the function three arguments: the size of the simulated sample (<em>n</em>), the true mean (<em>mean</em>), and the true standard deviation (<em>sd</em>). Calling the <strong><code>rnorm()</code></strong> function will then result in R producing a pseudo-random sample drawn from the specified normal distribution.</p>
+<p>We can generate some normally distributed data for our examples using the <strong><code>rnorm()</code></strong> function. We simply need to feed the function three arguments: the size of the simulated sample (<code>n</code>), the true mean (<code>mean</code>), and the true standard deviation (<code>sd</code>). Calling the <strong><code>rnorm()</code></strong> function will then result in R producing a pseudo-random sample drawn from the specified normal distribution.</p>
 <p>If we want to create a reproducible pseudo-random sample, we can call the function <strong><code>set.seed()</code></strong> before calling <strong><code>rnorm()</code></strong>. If we feed the <strong><code>set.seed()</code></strong> function an arbitrary number, the following pseudo-random draw will always be the same.</p>
 </div>
 <p>Here is what the R code would look like:</p>
@@ -431,7 +431,7 @@ mean of x
 <p>In order to run a paired <span class="math inline">\(t\)</span>-test, we need to feed the <strong><code>t.test()</code></strong> function two numerical vectors of the same length as its <code>x</code> and <code>y</code> arguments. R will pair each element of the first vector with the corresponding element of the second vector. Therefore, we need to ensure that the data for both vectors are in the same order (usually not a problem if we use data frames).</p>
 <p>Let’s look at an example, in which we want to test whether the stress level of 100 simulated people decreases between two measurement occasions <em>T1</em> and <em>T2</em>.</p>
 <div class="alert alert-info">
-<p>Since we want to simulate correlated data, using the <strong><code>rnorm()</code></strong> function won’t help us. However, there is a useful function called <strong><code>mvrnorm()</code></strong> in the <em>MASS</em> package. This function allows us to generate data from multivariate normal distributions.</p>
+<p>Since we want to simulate correlated data, using the <strong><code>rnorm()</code></strong> function won’t help us. However, there is a useful function called <strong><code>mvrnorm()</code></strong> in the <em><code>MASS</code></em> package. This function allows us to generate data from multivariate normal distributions.</p>
 <p>We can feed the <strong><code>mvrnorm()</code></strong> the following arguments:</p>
 <ul>
 <li><code>n</code>: the number of observations</li>
@@ -526,7 +526,7 @@ mean difference
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> my_df2<span class="sc">$</span>dv[my_df2<span class="sc">$</span>condition <span class="sc">==</span> <span class="st">'control'</span>],</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">paired =</span> <span class="cn">FALSE</span>, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Technically, we do not need to specify the <em>paired</em> and <em>var.equal</em> argument because FALSE is the default for both. Let’s have alook at the output.</p>
+<p>Technically, we do not need to specify the <code>paired</code> and <code>var.equal</code> argument because FALSE is the default for both. Let’s have a look at the output.</p>
 <div class="alert alert-warning">
 <div class="cell">
 <div class="cell-output cell-output-stdout">

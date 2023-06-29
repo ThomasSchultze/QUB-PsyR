@@ -19,9 +19,9 @@ If we want to run any of these $\chi^2$-tests, we can use an R function called *
 
 ## Test of observed frequencies against chance
 
-This is the simplest form of the $\chi^2$-test. To run this test, we need only feed the **`chisq.test()`** function a single function argument *x*, namely a numeric vector of length 2 or greater, containing the frequencies we want to analyse.
+  This is the simplest form of the $\chi^2$-test. To run this test, we need only feed the **`chisq.test()`** function a single function argument `x`, namely a numeric vector of length 2 or greater, containing the frequencies we want to analyse.
 
-The function has another argument called *p* which specifies the expected probabilities against which to test the observed frequencies. The default value of this argument is equi-probability. That is, if we do not specify it, R will automatically test whether the observed frequencies systematically differ from a chance distribution.
+The function has another argument called `p` which specifies the expected probabilities against which to test the observed frequencies. The default value of this argument is equi-probability. That is, if we do not specify it, R will automatically test whether the observed frequencies systematically differ from a chance distribution.
 
 Here is an example of how the syntax for this test looks:
 
@@ -55,7 +55,7 @@ As we can see, R tells us which object it ran the test on (*v1*). It also tells 
 
 ## Test of observed frequencies against a predefined probability
 
-Let's assume that we want to compare *v1* not against chance but against unequal probabilities for the three categories. For example, our Null hypothesis could state that the first and second category should occur in 25% of cases each while category three should account for the remaining 50%. To run this test, the only change we need to make to the way we called the **`chisq.test()`** function in the example above is to specify the function argument *p* and define it as a numeric vector containing the probabilities. 
+Let's assume that we want to compare *v1* not against chance but against unequal probabilities for the three categories. For example, our Null hypothesis could state that the first and second category should occur in 25% of cases each while category three should account for the remaining 50%. To run this test, the only change we need to make to the way we called the **`chisq.test()`** function in the example above is to specify the function argument `p` and define it as a numeric vector containing the probabilities. 
 
 This vector of probabilities needs to be of the same length as the vector of observed frequencies. In addition, since we are dealing with probabilities, all elements need to range between 0 and 1, and their sum must equal 1. Let's have a look at the syntax.
 
@@ -77,14 +77,14 @@ chisq.test(x = v1, p = c(0.25, 0.25, 0.50))
 ```
 :::
 
-This time, the empirical $\chi^2$ value is greater, and the corresponding *p*-value is small enough to reject the Null hypothesis. That is, we can state that *v1* was not drawn from a population, in which category 3 is twice as frequent as categories 1 and 2. 
+This time, the empirical $\chi^2$ value is greater, and the corresponding $p$-value is small enough to reject the Null hypothesis. That is, we can state that *v1* was not drawn from a population, in which category 3 is twice as frequent as categories 1 and 2. 
 
 
 ## Tests for systematic covariation in contengency tables
 
 In some cases, we may not be interested in comparing observed frequencies against a (theoretical) distribution, but rather to compare observed frequencies across two variables (i.e., in a two-dimensional contingency table). Conceptually, this boils down to testing - row-by-row or column-by-column - whether the underlying distribution of one variable is equal across all levels of the other variable. 
 
-To do so, we need to feed the **`chisq.test()`** function a matrix of frequencies as the function  argument *x*. We no longer need to specify the function argument *p* because the expected frequencies are computed from the marginal frequencies of the contingency table assuming stochastic independence. 
+To do so, we need to feed the **`chisq.test()`** function a matrix of frequencies as the function  argument `x`. We no longer need to specify the function argument `p` because the expected frequencies are computed from the marginal frequencies of the contingency table assuming stochastic independence. 
 
 Lets look at an example. First, we need some data in table format. We can create such data using the function **`matrix()`** or by combining several vectors of equal length using either the function **`cbind()`** or **`rbind()`** (these functions stack equally long vectors of the same type by column or row). Let's go with the **`rbind()`** version for now.  
 

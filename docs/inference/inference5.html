@@ -398,7 +398,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="running-a-two-factorial-anova-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="running-a-two-factorial-anova-in-r">Running a two-factorial ANOVA in R</h2>
-<p>When we want to run a two-factorial ANOVA in R, we can use the same package and function we used for the one-factorial case. That is, we use the <strong><code>aov_ez()</code></strong> function of the package <em>afex</em>. Before we can run the analysis, we first need data from a two-factorial design.</p>
+<p>When we want to run a two-factorial ANOVA in R, we can use the same package and function we used for the one-factorial case. That is, we use the <strong><code>aov_ez()</code></strong> function of the package <code>*afex*</code>. Before we can run the analysis, we first need data from a two-factorial design.</p>
 <p>Let’s say, we have data from an experimental <span class="math inline">\(2 \times 2\)</span>-design in which we manipulated two factors: job demands (low vs.&nbsp;high) and autonomy (low. vs.&nbsp;high). The dependent variable is the experienced level of job stress. Let’s further assume that we have gathered data from 50 participants in each of the four cells of our design and stored it in a data frame called <em>my_df</em>. Here is an except of the data.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -411,7 +411,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 6  6     low    high    129</code></pre>
 </div>
 </div>
-<p>The difference to a one-factorial ANOVA is that we need to feed the <strong><code>aov_ez()</code></strong> function a vector containing two variable names as its <em>between</em> argument (in the one-factorial case it was a single character value). Here is what the syntax looks like:</p>
+<p>The difference to a one-factorial ANOVA is that we need to feed the <strong><code>aov_ez()</code></strong> function a vector containing two variable names as its <code>between</code> argument (in the one-factorial case it was a single character value). Here is what the syntax looks like:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library afex</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
@@ -474,7 +474,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 <section id="disentangling-main-effects" class="level3">
 <h3 class="anchored" data-anchor-id="disentangling-main-effects">Disentangling main effects</h3>
 <p>Let’s first consider the disentangling of main effects (assuming that there is no significant interaction or an ordinal interaction). When a factor has only two levels, the case is clear, because the difference must be between those two levels.</p>
-<p>If we have three or more levels, we need to disentangle the main effect in the same way we disentangled them in a one-factorial case. That means we can run pairwise comparisons or custom contrasts on that factor’s marginal means (i.e., collapsing across all levels of the other factor) using the <strong><code>emmeans()</code></strong> function from the package <em>emmeans</em>.</p>
+<p>If we have three or more levels, we need to disentangle the main effect in the same way we disentangled them in a one-factorial case. That means we can run pairwise comparisons or custom contrasts on that factor’s marginal means (i.e., collapsing across all levels of the other factor) using the <strong><code>emmeans()</code></strong> function from the package <code>*emmeans*</code>.</p>
 <p>In our example from far above, the factor “demands” has only two levels, but we can still use the data to show how the syntax and output would look like:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load library emmeans</span></span>
@@ -508,7 +508,7 @@ Results are averaged over the levels of: control </code></pre>
 </div>
 </div>
 <p>Similar to the one-factorial case, the output will consist of two tables, with the second of them containing the desired information. In this case, we have only one entry here because the factor “demands” has only two levels (however, the logic of the post-hoc comparisons would not differ from the one-factorial case had we more than two levels).</p>
-<p>There are two few things worth noting: First, when we feed the the <strong><code>emmeans()</code></strong> function a single variable as its <em>specs</em> argument, the output will contain a message stating that we collapsed across the other factor (in our case “control”). Thus, we know that we are talking about the marginal means of the “demands”. Second, when we call the <strong><code>emmeans()</code></strong> function on a main effect in an ANOVA design with at least two factors, R will also return a message informing us that the results of our pairwise comparisons may be misleading due to involvement in potential interactions (we already know this by now).</p>
+<p>There are two few things worth noting: First, when we feed the the <strong><code>emmeans()</code></strong> function a single variable as its <code>specs</code> argument, the output will contain a message stating that we collapsed across the other factor (in our case “control”). Thus, we know that we are talking about the marginal means of the “demands”. Second, when we call the <strong><code>emmeans()</code></strong> function on a main effect in an ANOVA design with at least two factors, R will also return a message informing us that the results of our pairwise comparisons may be misleading due to involvement in potential interactions (we already know this by now).</p>
 <p>Since we have two factors in a <span class="math inline">\(2 \times 2\)</span>-design, we need to consider that we may have two significant interpretable main effects. Generally speaking, we need to disentangle each significant main effect via its marginal means, granted that the interaction pattern (absent or ordinal interaction) permits it.</p>
 </section>
 <section id="disentangling-interactions" class="level3">

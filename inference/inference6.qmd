@@ -65,7 +65,7 @@ $H1: \lnot H_0$
 
 ### Running a repeated measure ANOVA in R
 
-Since we already know how to run between-subjects ANOVAs in R, it is fairly easy to run a repeated measures ANOVA. We will use the same package and function we used for the between-subjects ANOVAs, namely the **`aov_ez()`** function from R package *afex*. The only difference is that we will use the function argument *wihtin* instead of *between* to tell R the name of our within-subjects factor.
+Since we already know how to run between-subjects ANOVAs in R, it is fairly easy to run a repeated measures ANOVA. We will use the same package and function we used for the between-subjects ANOVAs, namely the **`aov_ez()`** function from R package `* afex* `. The only difference is that we will use the function argument `wihtin` instead of `between` to tell R the name of our within-subjects factor.
 
 As always, we need some data first. Let's assume that we ran a study with a within-subjects design, in which 30 participants worked three memory tasks that only differ in difficulty (let's assume that we counterbalanced the order so we do not need to concern ourselves with order effects). In other words, we have a within-subjects factor called "difficulty" with three levels, and we can now test whether participants' task performance differs according this factor.  We will call the data frame containing the data *df1*. Here is what the data looks like.
 
@@ -129,7 +129,7 @@ Often, people test whether this assumption is violated and decide only to contro
 
 Generally speaking, there is no reason to turn off the default Greenhouse-Geisser correction. However, in some cases, we may want to run the ANOVA without correcting for egocentricity (for example, when trying to reproduce results of published studies), or we may want to change the correction method to the Huynh-Feldt method.
 
-We can change the default for the correction of non-sphericity using function argument of the **`aov_ez()`** function called *anova-table*. This argument is a list that allows us to change several aspects of the ANOVA, but for now we only need to define one parameter in that list called *correction*, which is a character string indicating how we want to correct for non-sphericity in an aNOVA with at least one within-subjects factor. It defaults to "GG" (Greenhouse-Geisser method), but we can alternative set it to "none" (no correction) or HF(Huynh-Feldt method).
+We can change the default for the correction of non-sphericity using function argument of the **`aov_ez()`** function called `anova-table`. This argument is a list that allows us to change several aspects of the ANOVA, but for now we only need to define one parameter in that list called `correction`, which is a character string indicating how we want to correct for non-sphericity in an aNOVA with at least one within-subjects factor. It defaults to "GG" (Greenhouse-Geisser method), but we can alternative set it to "none" (no correction) or HF(Huynh-Feldt method).
 
 Let's say we want to turn off the non-sphericity correction. Here is what the syntax looks like:
 
@@ -169,7 +169,7 @@ aov1b
 
 As in the between-subjects case, a significant effect in a repeated measures ANOVA becomes difficult to interpret without further analysis once we have three or more factor levels. The simple conclusion that "not all means are equal" is rarely satisfactory. Therefore, we need to investigate where exactly the mean differences originate using post-hoc comparisons.
 
-The good news is that it works pretty much in the same fashion as it does for between-subjects ANOVAs. That is, we can use the *emmeans* function from the **`emmeans()`** package to test pairwise comparisons or custom contrasts for statistical significance. If we were, for example, interested in the pairwise comparisons, the syntax would look as follows:
+The good news is that it works pretty much in the same fashion as it does for between-subjects ANOVAs. That is, we can use the **`emmeans()`** function from the *`emmeans`* package to test pairwise comparisons or custom contrasts for statistical significance. If we were, for example, interested in the pairwise comparisons, the syntax would look as follows:
 
 ```{r}
 #| eval: false
@@ -184,7 +184,7 @@ emmeans(aov1, specs = 'difficulty',
 
 ```
 
-Note that since 'tukey' is the default for the *correction* argument, we could have omitted it. Now let's have a look at the console output.
+Note that since 'tukey' is the default for the `correction` argument, we could have omitted it. Now let's have a look at the console output.
 
 :::{.alert .alert-warning}
 ```{r}
@@ -247,7 +247,7 @@ head(df2)
 :::
 
 
-We can now run the two-factorial repeated measures ANOVA using the **`aov_ez()`** function. Since we have two within-subjects factors, we need to feed the function a character vector containing both factor's names as the *within* argument. here is what the code looks like:
+We can now run the two-factorial repeated measures ANOVA using the **`aov_ez()`** function. Since we have two within-subjects factors, we need to feed the function a character vector containing both factor's names as the `within` argument. here is what the code looks like:
 
 ```{r}
 #| eval: false
@@ -277,7 +277,7 @@ aov2
 ```
 :::
 
-As we can see, the ANOVA table R returns contains information on the two main effects and the interaction. For the two significant effects, the main effect of the severity of the transgression and the interaction of severity and SES, we can also see that the **`aov_ez()`** function adjusted the degrees of freedom to adjust non-sphericity. There is no such adjustment for the main effect of SES because it has only two levels (if we wanted to turn the adjustment off or set it to the Huynh-Feldt method, we could do it using the *anova_table* argument, see above).
+As we can see, the ANOVA table R returns contains information on the two main effects and the interaction. For the two significant effects, the main effect of the severity of the transgression and the interaction of severity and SES, we can also see that the **`aov_ez()`** function adjusted the degrees of freedom to adjust non-sphericity. There is no such adjustment for the main effect of SES because it has only two levels (if we wanted to turn the adjustment off or set it to the Huynh-Feldt method, we could do it using the `anova_table` argument, see above).
 
 ### Disentangling effects in a two-factorial repeated measure ANOVA
 
@@ -312,7 +312,7 @@ ggplot(data = df2, aes(x = severity, y = forgive, fill = SES)) +
 
 The graphical inspection already suggests that we do not have an ordinal interaction, which means that we should focus on the interaction when interpreting the results and not interpret the main effect of severity. Of course, we could also run a statistical analysis instead of the visual inspection by checking for each level of the severity factor whether there is a significant effect of SES in the same direction.
 
-We can do that using the **`emmeans()`** function. However, we will use the *specs* argument in a slightly different way. Instead of defining it as a character vector containing our two factors, we will define it as a **formula**. Specifically, we will tell the **`emmeans()`** function to compare the means of the factor for which the ANOVA yielded a significant main effect (severity) separately for each level of the other factor (SES). Here is that the syntax looks like:
+We can do that using the **`emmeans()`** function. However, we will use the `specs` argument in a slightly different way. Instead of defining it as a character vector containing our two factors, we will define it as a **formula**. Specifically, we will tell the **`emmeans()`** function to compare the means of the factor for which the ANOVA yielded a significant main effect (severity) separately for each level of the other factor (SES). Here is that the syntax looks like:
 
 ```{r}
 #| eval: false
@@ -323,7 +323,7 @@ emmeans(object = aov2, specs = ~ severity|SES,
         contr = 'pairwise', adjust = 'tukey')
 
 ```
-Here, R will know that we enter a formula when specifying the *specs* argument because we lead with a **tilde** operator (**`~`**). The rest of the definition of *specs* reads as **SES by severity**. Now let's have a look at the output:
+Here, R will know that we enter a formula when specifying the `specs` argument because we lead with a **tilde** operator (**`~`**). The rest of the definition of `specs` reads as **SES by severity**. Now let's have a look at the output:
 
 :::{.alert .alert-warning}
 ```{r}
@@ -344,12 +344,12 @@ Instead, the function adjusted for three tests in each fo the two sets of tests.
 
 What this means is that we need to consider that this way of adjusting for multiple comparisons is more liberal than correcting for all tests we ran post-hoc. 
 
-If we wanted to adjust for all tests, the most straightforward approach would be to specify the contrasts we are interested in manually by feeding the *contr* argument a list of vectors containing the contrast weights.
+If we wanted to adjust for all tests, the most straightforward approach would be to specify the contrasts we are interested in manually by feeding the `contr` argument a list of vectors containing the contrast weights.
 :::
 
 Now that we know that there is an interaction in our data that is not ordinal, we know that we should not interpret the main effects. We do, however, need to understand the nature of the interaction effect. We already know something about the interaction because we ran pairwise comparisons of the three levels of our severity factor for each level of SES.
 
-We can now run the complementary analysis by testing for differences between the two levels of SES for each level of severity of the transgression. If we do not want to adjust for multiple comparisons, we can use the formula-based approach to specifying the *specs* argument (since there is only one comparison for each level of severity, the function will not adjust the $p$-values). Here is what the syntax looks like:
+We can now run the complementary analysis by testing for differences between the two levels of SES for each level of severity of the transgression. If we do not want to adjust for multiple comparisons, we can use the formula-based approach to specifying the `specs` argument (since there is only one comparison for each level of severity, the function will not adjust the $p$-values). Here is what the syntax looks like:
 
 ```{r}
 #| eval: false
@@ -375,7 +375,7 @@ emmeans(object = aov2, specs = ~ SES|severity,
 
 As we can see, only one of the comparisons is statistically significant. That is, while we cannot say based on the data whether SES affects the willingness to forgive slightly or moderately severe transgressions, SES makes a difference when transgressions are severe.
 
-Finally, let's consider the scenario, in which there is no significant interaction between the two within-subjects variables or in which the interaction turns out to be ordinal. In this case, we can actually interpret main effects. This means that we also need to disentangle main effects if the respective variable has more than two levels. We can, once again, do that using the **`emmeans()`** function by running pairwise comparisons on the marginal means. To this end, we need to specify the *specs* argument as the name of the factor we are interested in and omitting the other factor. Let's do that using the example data (neglecting for a moment that the interaction was not ordinal). Here is what the code would look like:
+Finally, let's consider the scenario, in which there is no significant interaction between the two within-subjects variables or in which the interaction turns out to be ordinal. In this case, we can actually interpret main effects. This means that we also need to disentangle main effects if the respective variable has more than two levels. We can, once again, do that using the **`emmeans()`** function by running pairwise comparisons on the marginal means. To this end, we need to specify the `specs` argument as the name of the factor we are interested in and omitting the other factor. Let's do that using the example data (neglecting for a moment that the interaction was not ordinal). Here is what the code would look like:
 
 ```{r}
 #| eval: false
@@ -418,7 +418,7 @@ When computing mean squares from the different sums of squares, we need to consi
 
 ### Running mixed ANOVAs in R
 
-Running mixed ANOVAs in R is easy. All we need to do feed the **`aov_ez()`** function both the *between* and *within* arguments. As always, we first need some data for the mixed ANOVA. Let's say we ran study testing an intervention using a $2 \times 2$ design with experimental condition (treatment vs. control) as a between-subjects factor and measurement time (pre treatment vs. post treatment) as a within-subjects factor. Here is an excerpt of the data:
+Running mixed ANOVAs in R is easy. All we need to do feed the **`aov_ez()`** function both the `between` and `within` arguments. As always, we first need some data for the mixed ANOVA. Let's say we ran study testing an intervention using a $2 \times 2$ design with experimental condition (treatment vs. control) as a between-subjects factor and measurement time (pre treatment vs. post treatment) as a within-subjects factor. Here is an excerpt of the data:
 
 ```{r}
 #| echo: false
@@ -500,9 +500,9 @@ Let's quickly think back on the two-factorial between-subjects ANOVA. Remember w
 
 If we have a significant interaction, we first need to find out how exactly it looks. One way to go about this is using pairwise comparisons on all cells. However, this can get messy with large designs simply because the number of possible pairwise comparisons increases exponentially with the number of a design's cells. Alternatively, we could manually specify post-hoc contrasts to get exactly those contrasts we are interested in. Of course, this can be tedious with large designs, and it is somewhat error prone if we need to enter large numbers of vectors containing contrast weights.
 
-The good news is that there is another elegant way to run analyses of the simple effects behind an interaction, namely providing the **`emmeans()`** function with a *formula** when defining the *specs* argument. 
+The good news is that there is another elegant way to run analyses of the simple effects behind an interaction, namely providing the **`emmeans()`** function with a **formula** when defining the `specs` argument. 
 
-Generally speaking, when we use a formula to specify *specs* we are telling the function to run certain contrasts on one variable (or even more than one) for each level of another (or for each combination of several others). Here is what the syntax looks like in the case of simple effects:
+Generally speaking, when we use a formula to specify `specs` we are telling the function to run certain contrasts on one variable (or even more than one) for each level of another (or for each combination of several others). Here is what the syntax looks like in the case of simple effects:
 
 ```{r}
 #| eval: false
@@ -514,7 +514,7 @@ emmeans(object = aov2, specs = ~ cond | time,
         contr = 'pairwise', adjust = 'none')
 ```
 
-You can read the formula we fed the **`emmeans()`** to define its *spec* argument as follows: run contrasts on *cond* for each level of *time*. Which contrasts to run is, once again, specified using the *contr* argument, in our case pairwise comparisons.
+You can read the formula we fed the **`emmeans()`** to define its `spec` argument as follows: run contrasts on "cond" for each level of "time". Which contrasts to run is, once again, specified using the `contr` argument, in our case pairwise comparisons.
 
 Let's have a look at the console output:
 
@@ -531,7 +531,7 @@ emmeans(object = aov2, specs = ~ cond | time,
 
 As we can see, the output tells us which effect the experimental condition (treatment vs. control) has for each time point (pre. vs. post). Here, we can only confirm an effect after the treatment (post), but our data do not allow conclusions before treatment (pre).
 
-In order to get the full picture of the interaction, we also need to inspect the effect of time by condition. To this end, we simply switch the two variables in our formula specification of *specs* (see syntax below).
+In order to get the full picture of the interaction, we also need to inspect the effect of time by condition. To this end, we simply switch the two variables in our formula specification of `specs` (see syntax below).
 
 
 ```{r}
@@ -566,7 +566,7 @@ In our example, we would not interpret the main effect of "time" because we have
 
 In addition, since we have only two factor levels for "time", there would be no need to disentangle the effects (we could just look at the means to infer the direction of the effect). If we were interested in disentangling a main effect, however, we could do it using **`emmeans()`** just like we did it in the case of the two-factorial between-subjects ANOVA.
 
-In order to disentangle a main effect, we need to run pairwise comparisons on its **marginal means** (i.e., the means when collapsing across the levels of other factors). We can do so by feeding the **`emmeans()`** function only the factor of interest when defining *specs* (omitting the other factors).
+In order to disentangle a main effect, we need to run pairwise comparisons on its **marginal means** (i.e., the means when collapsing across the levels of other factors). We can do so by feeding the **`emmeans()`** function only the factor of interest when defining `specs` (omitting the other factors).
 
 ```{r}
 #| eval: false
