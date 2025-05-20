@@ -6,7 +6,7 @@ The $t$-test is a parametric test designed to test whether the mean of a (approx
 
 The test statistic $t$ is formally defined as follows:
 
-$t = \frac{\bar{X}-\mu}{\hat{\sigma}\sqrt{n}}$
+$t = \frac{\bar{X}-\mu}{\frac{\hat{\sigma}} {\sqrt{n}}}$
 
 Here, $\bar{X}$ is the empirically determined sample mean of the variable $X$, $\mu$ is the assumed population parameter under $H_0$, $\hat{\sigma}$ is the estimate of the population standard deviation derived from the sample, and $n$ is the size of the sample the test is based on.
 

@@ -11,7 +11,7 @@ A key concept in ANOVA is that of the **sum of squares**. To understand the sum 
 
 $$\sigma^2_x = \frac{1}{n} \times \underbrace{\Sigma{(x_i - \bar{x})^2}}_\text{sum of squares}$$
 
-From this equation, we can see that the variance of the variable $x$ is the product of two components. One is the **sum of squares**, that is, the sum of the squared deviations of each observation $x_i$ from their mean $\bar{x$}. The second factor simply divides this sum of squares by the number of observations $n$.
+From this equation, we can see that the variance of the variable $x$ is the product of two components. One is the **sum of squares**, that is, the sum of the squared deviations of each observation $x_i$ from their mean $\bar{x}$. The second factor simply divides this sum of squares by the number of observations $n$.
 
 When we estimate the true variance $\sigma^2_x$ from data we collected, using the formula above produces a slight bias. Specifically, our estimate of the true variance will be systematically too low. To arrive at an unbiased estimate, we need to divide the sum of squares by $n-1$ instead of $n$, leading to the following formal definition of the **estimate of the variance** $\hat{\sigma}^2_x$:
 
