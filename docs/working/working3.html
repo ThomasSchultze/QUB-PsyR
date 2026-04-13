@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Numerical Indexing – QUB-PsyR</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-93b28c2596283b6e178f0a7aa3af3e88.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/QUBlogoWsmall.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">QUB-PsyR</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-intro" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Intro</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-intro">    
+        <li>
+    <a class="dropdown-item" href="../intro/intro1.html">
+ <span class="dropdown-text">R and RStudio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../intro/intro2.html">
+ <span class="dropdown-text">Running Code in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../intro/intro3.html">
+ <span class="dropdown-text">Objects and Functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../intro/intro4.html">
+ <span class="dropdown-text">Data Frames and Lists</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../intro/intro5.html">
+ <span class="dropdown-text">Saving and Loading Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-working-with-r-objects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Working with R Objects</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-working-with-r-objects">    
+        <li>
+    <a class="dropdown-item" href="../working/working1.html">
+ <span class="dropdown-text">Binary Operators</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../working/working2.html">
+ <span class="dropdown-text">Functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../working/working3.html">
+ <span class="dropdown-text">Numerical Indexing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../working/working4.html">
+ <span class="dropdown-text">Logical Indexing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../working/working5.html">
+ <span class="dropdown-text">R Packages</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-statistical-inference" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Statistical Inference</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-statistical-inference">    
+        <li>
+    <a class="dropdown-item" href="../inference/inference0.html">
+ <span class="dropdown-text">A Primer on Statistical Inference</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference1.html">
+ <span class="dropdown-text">The t-test</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference2.html">
+ <span class="dropdown-text">The Chi²-test</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference3.html">
+ <span class="dropdown-text">Correlations</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference4.html">
+ <span class="dropdown-text">One-factorial Analysis of Variance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference5.html">
+ <span class="dropdown-text">Two-factorial Analysis of Variance</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference6.html">
+ <span class="dropdown-text">Repeated measures and mixed ANOVAs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference7.html">
+ <span class="dropdown-text">Simple linear regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference8.html">
+ <span class="dropdown-text">Multiple linear regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../inference/inference9.html">
+ <span class="dropdown-text">Multi-level models</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-visualisation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Visualisation</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-data-visualisation">    
+        <li>
+    <a class="dropdown-item" href="../graphs/graphs0.html">
+ <span class="dropdown-text">Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../graphs/graphs1.html">
+ <span class="dropdown-text">Histograms</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../graphs/graphs2.html">
+ <span class="dropdown-text">Scatterplots</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../graphs/graphs3.html">
+ <span class="dropdown-text">Violin plots</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-wrangling" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Wrangling</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-data-wrangling">    
+        <li>
+    <a class="dropdown-item" href="../wrangling/wrangling0.html">
+ <span class="dropdown-text">Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../wrangling/wrangling1.html">
+ <span class="dropdown-text">Extracting rows and columns</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Numerical Indexing</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Most R objects consist of multiple elements, the exception being single values (or vectors of length 1 and 1x1 matrices, which technically are single values, too). There will be situations where we would like to view, extract, or change some, but not all elements of an object. For example we might want to remove the first four cases from a data set because they were test runs, or we might be interested in how the 22nd participant in our recent study responded to questions 13 and 14. What we do in those cases is tell R to look for specific elements of an object. That is called <strong>indexing</strong>.</p>
+<p>The most generic form of indexing uses <strong>brackets</strong>. Specifically, we first write the name of the object of interest. In brackets following the object’s name, we define which elements we want R to obtain. We can obtain elements by their referring to their (numerical) position in an object or via logical operations (using either binary operators or functions).</p>
+<p>Numerical indexing means that we tell R in brackets which elements it should obtain by entering the elements’ position within the object. If the object is a vector, we need only provide a single number per element, where we need two coordinates in case our object is two-dimensional (e.g., a matrix or a data frame). Using numerical indexing, we can ask R to obtain a single element but also multiple elements of an R object.</p>
+<p>Lets look at a few examples using vectors first.</p>
+<section id="numerical-indexing-of-vectors" class="level2">
+<h2 class="anchored" data-anchor-id="numerical-indexing-of-vectors">Numerical indexing of vectors</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">11</span>, <span class="dv">22</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">19</span>) <span class="co"># create a vector with arbitrary numbers</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the 3rd element of vector v1</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>v1[<span class="dv">3</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain elements 2 to 5 of v1</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>v1[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain elements 2 to 5 of v1 (lazy/efficient version)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>v1[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain elements 2, 5, and 7 of v1</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>v1[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">7</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Using the code above yields the following output in the R console (because we did not save the obtained elements of <em>v1</em> as objects of their own, R will print the result in the console).</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 3 4 5</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  2  5 NA</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 2</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3</code></pre>
+</div>
+</div>
+</div>
+<p>A neat trick in R is that we can tell it to obtain all elements of an object <strong>except for</strong> those we specify in brackets. We can do so by preceding the selection of elements with the operator <strong><code>-</code></strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain all elements of v1 except for the 1st and 2nd (3 to 7)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>v1[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain all elements of v1 except for those (4 to 6)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># specified in v2</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>v1[<span class="sc">-</span>v2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The output in the console looks like this:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3 4 5 6 7</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4 5 6 7</code></pre>
+</div>
+</div>
+</div>
+<p>Remember that data frames are essentially a container for column vectors of equal length. Remember also that we can obtain an existing column (i.e., one variable) of a data frame using the <strong><code>$</code></strong> operator. We can obtain elements of that variable using numerical indexing just as we did in the examples above. Here is what the syntax looks like.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a data frame with some demographic data</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>my_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,                                   </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">51</span>, <span class="dv">32</span>, <span class="dv">23</span>, <span class="dv">55</span>, <span class="dv">68</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">gender =</span> <span class="fu">c</span>(<span class="st">'m'</span>, <span class="st">'f'</span>, <span class="st">'nb'</span>, <span class="st">'f'</span>, <span class="st">'f'</span>, <span class="st">'m'</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">employment =</span> <span class="fu">c</span>(T, T, T, T, T, F)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the first element of the age variable</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>age[<span class="dv">1</span>]</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain elements 2:4 of the gender variable</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>gender[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain all elements of the employment variable </span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># except for the first and the last </span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>employment[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">6</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is what the output in the console would look like:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 40</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "f"  "nb" "f" </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE TRUE TRUE TRUE</code></pre>
+</div>
+</div>
+</div>
+<p>In some of the examples above, we used vectors in brackets to tell R which elements of the vector <em>v1</em> we want to obtain. Generally speaking, we can obtain elements of R objects by indexing objects of the same dimensions in brackets, that is, we can use vectors to obtain elements of one-dimensional objects such as vectors and lists, and matrices to obtain elements of two-dimensional objects such as matrices and data frames.</p>
+</section>
+<section id="numerical-indexing-of-matrices-and-data-frames" class="level2">
+<h2 class="anchored" data-anchor-id="numerical-indexing-of-matrices-and-data-frames">Numerical indexing of matrices and data frames</h2>
+<p>Let’s now turn to two-dimensional objects. As mentioned above, we need to tell R the coordinates of the elements we want to obtain in the brackets following the object’s name. The coordinates must be separated by a comma, and we specify the rows before the columns (remember the <strong>r</strong>oman-<strong>c</strong>atholics as a mnemonic aid).</p>
+<p>For the following examples, we fist generate a 4x4 matrix containing the numbers form 1 to 16.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">16</span>, <span class="at">nrow =</span> <span class="dv">4</span>)  <span class="co"># create a numeric 4x4 matrix</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The matrix looks as follows:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4]
+[1,]    1    5    9   13
+[2,]    2    6   10   14
+[3,]    3    7   11   15
+[4,]    4    8   12   16</code></pre>
+</div>
+</div>
+</div>
+<p>Now let’s look at few examples of numerical indexing using our matrix <em>m1</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the element in the 2nd row and the 3rd column (10)</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>m1[<span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># extract all elements that are in rows 1 and 3 </span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># and at the same time in columns 4 and 2</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>m1[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>)]</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># extract elements 1 to 3 in the 2nd row (2, 6, and 10)</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>m1[<span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is what we will see in the console when running the code above.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]   13    5
+[2,]   15    7</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  2  6 10</code></pre>
+</div>
+</div>
+</div>
+<p>A look at the console shows that R returns the desired elements as vectors. The reason is that we either asked for a single value (example 1), two elements from very different parts of the original matrix (example 2), or a vector of neighboring values within the original matrix (example 3).</p>
+<p>It is possible, though, to obtain elements from a matrix so that R returns another matrix (of smaller size). The output will be another matrix if we extract elements from different rows but the same columns (or vice versa). Let’s have a look at a few examples below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract elements 1 to 3 in the 2nd row (2, 6, and 10)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and the 4th row (4, 8, 12)</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>m1[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the 3rd and 4th elements of columns 1 (3, 4) </span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># and 2 (7, 8)</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>m1[<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A look at the console confirms, again, that the code worked as intended.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    2    6   10
+[2,]    4    8   12</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    3    7
+[2,]    4    8</code></pre>
+</div>
+</div>
+</div>
+<p>Sometimes we might want to extract all elements of certain rows or columns of a two-dimensional R object. Theoretically, we could do so by entering all rows/columns in brackets, but R has an easier way for us to do that: stating nothing! Yes, you read that correctly. If we do not specify the rows or columns in brackets, R will understand that we want all of them. Since in those cases, the elements will either share their row or column positions, the resulting objects will be two-dimensional again (see examples below).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the complete 1st row (1, 5, 9, 13) and </span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 3rd row (3, 7, 11, 15)</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>m1[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), ]</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the complete 3rd (9 to 12) and 4th column</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># (13 to 16)</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>m1[, <span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is what R prints in the console:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    2    6   10
+[2,]    4    8   12</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    3    7
+[2,]    4    8</code></pre>
+</div>
+</div>
+</div>
+<p>Finally, as with vectors, we can use the operator <strong><code>-</code></strong> to tell R that we want all elements of a two-dimensional object except for some of them. For example, we could specify that we want to exclude some rows and some columns in brackets. Since we have two dimensions, we can also combine selection of certain rows with the exclusion of columns and vice versa. Here are a few examples.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove the first row but obtain all columns </span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>m1[<span class="sc">-</span><span class="dv">1</span>, ]</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain rows 1:3, but remove columns 2 and 4</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>m1[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The output in the console looks like this:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4]
+[1,]    2    6   10   14
+[2,]    3    7   11   15
+[3,]    4    8   12   16</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    1    9
+[2,]    2   10
+[3,]    3   11</code></pre>
+</div>
+</div>
+</div>
+<p>In the examples above, we always obtained some elements of a matrix. However, the code would work in the same fashion, had the matrices been data frames instead. To show that this is true, lets look at a few examples using he data frame we created above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the element that is in the 3rd row</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and the 2ns column of the data frame</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>my_df[<span class="dv">3</span>, <span class="dv">2</span>]</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the first variable of the data frame</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># (yields the same output as my_df$ID would)</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>my_df[, <span class="dv">1</span>]</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain rows 2:4 of the data frame</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>my_df[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, ]</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain all elements in rows 3 to 6 and</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co"># in all columns except for the first</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>my_df[<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>, <span class="sc">-</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As we can see from the output, two-dimensional indexing of data frames works as intended.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 32</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4 5 6</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID age gender employment
+2  2  51      f       TRUE
+3  3  32     nb       TRUE
+4  4  23      f       TRUE</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  age gender employment
+3  32     nb       TRUE
+4  23      f       TRUE
+5  55      f       TRUE
+6  68      m      FALSE</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="numerical-indexing-of-lists" class="level2">
+<h2 class="anchored" data-anchor-id="numerical-indexing-of-lists">Numerical indexing of lists</h2>
+<p>Finally, we need to look at how numerical indexing works for lists. At first glance, lists seem to follow the same logic as vectors. They, too, are one-dimensional objects with a certain number of elements. However, indexing of lists uses a slightly different syntax. Specifically, we need to tell R which element or elements of a list we want to obtain using <strong>double brackets</strong>.</p>
+<p>Let’s first create a simple list to work with. Note how the last element of our list is another list (yes, you can put lists into list, that is how cool R lists are).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The following code creates a list with four elements</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>l1 <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">my_value =</span> <span class="st">'hello'</span>,               <span class="co"># a character value</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">my_vector =</span>  <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">8</span>),      <span class="co"># a numeric vector</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">my_matrix =</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> <span class="dv">3</span>,  <span class="co"># a 3x3 matrix of NAs</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ncol =</span> <span class="dv">3</span>),      </span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">my_list =</span> <span class="fu">list</span>(                   <span class="co"># a list of two objects</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">a =</span> <span class="fu">c</span>(<span class="st">'happy'</span>, <span class="st">'hippo'</span>),</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">b =</span> <span class="dv">42</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is what the new list looks like.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>$my_value
+[1] "hello"
+
+$my_vector
+[1] 1 1 2 3 5 8
+
+$my_matrix
+     [,1] [,2] [,3]
+[1,]   NA   NA   NA
+[2,]   NA   NA   NA
+[3,]   NA   NA   NA
+
+$my_list
+$my_list$a
+[1] "happy" "hippo"
+
+$my_list$b
+[1] 42</code></pre>
+</div>
+</div>
+</div>
+<p>We can now obtain elements of the list. However, lists are a bit more complicated than the other objects. In fact, there are two ways to obtain elements of a list. The first is using <strong>single brackets</strong> just as we did it with vectors. If we do that, R will return to us another list containing only the specified elements of the original list.</p>
+<p>If we instead want to obtain a specific element of a list, we can index that element using <strong>double brackets</strong> instead of the single ones. Using double brackets will return the element in its original form. It will obtain values as value,s vectors as vector, matrices as matrices and so on. That is, R will not return a list when we use <strong>double brackets</strong> unless the element we are looking for is another list.</p>
+<p>Let’s look at a few examples using <strong>single brackets</strong> first (we will do them one by one because the output of a list in the console can be a bit longer).</p>
+<p>We can obtain a single element.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain a list containing element 2 of the list l1</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>l1[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>$my_vector
+[1] 1 1 2 3 5 8</code></pre>
+</div>
+</div>
+</div>
+<p>We can obtain multiple elements</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain a list containing elements 2 to 4 of the l1</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>l1[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>$my_vector
+[1] 1 1 2 3 5 8
+
+$my_matrix
+     [,1] [,2] [,3]
+[1,]   NA   NA   NA
+[2,]   NA   NA   NA
+[3,]   NA   NA   NA
+
+$my_list
+$my_list$a
+[1] "happy" "hippo"
+
+$my_list$b
+[1] 42</code></pre>
+</div>
+</div>
+</div>
+<p>We can exclude some elements using the <strong><code>-</code></strong> operator.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain a list containing all elements of l1 except for the 3rd</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>l1[<span class="sc">-</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>$my_value
+[1] "hello"
+
+$my_vector
+[1] 1 1 2 3 5 8
+
+$my_list
+$my_list$a
+[1] "happy" "hippo"
+
+$my_list$b
+[1] 42</code></pre>
+</div>
+</div>
+</div>
+<p>Let us now turn to the case where we ant to obtain a specific element of a list. As mentioned above, we will use <strong>double brackets</strong> to do that. Note that we can only obtain a single element of a list in that fashion. If we try to specify multiple elements in <strong>double brackets</strong>, R will complain by returning an error message.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain element 2 of the list l1</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>l1[[<span class="dv">2</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 1 2 3 5 8</code></pre>
+</div>
+</div>
+</div>
+<p>Some elements of our list are indexable elements on their own. When we obtain such an element using <strong>double brackets</strong>, we can use <strong>hierarchical indexing</strong>. That is, we can tell R to obtain parts of a part of a list. We can do that by first indexing the element of the list we want to obtain using <strong>double brackets</strong> and then specifying which element of the obtained element we want R to extract using either <strong>single brackets</strong> or <strong>double brackets</strong> depending on whether the desired element is another list or not.</p>
+<p>Here is some example code, in which we extract the first three elements of the second element of our list.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain elements 1 to 3 of the second element of l1</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>l1[[<span class="dv">2</span>]][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 1 2</code></pre>
+</div>
+</div>
+</div>
+<p>As a final example (just because we can), lets obtain the second element of the character vector that forms the first element of <em>my_list</em>, which is the last element of <em>l1</em>. In those cases, we need to think backwards (similar to calling multiple functions in one go), that is, we tell R to obtain the fourth element of <em>l1</em>, then to obtain that elements’ first element, and then to obtain that elements’ second element. The code to do so looks as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the second element of the 1st element of</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the 4th element of the list l1</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>l1[[<span class="dv">4</span>]][[<span class="dv">1</span>]][<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "hippo"</code></pre>
+</div>
+</div>
+</div>
+<div class="alert alert-success">
+<p><strong>Important</strong>: Given that indexing of lists is somewhat tricky, you might be wondering why we should bother with it. The answer is that many of the functions we will be using to analyse our data will return lists as their output. These lists can contain tons of information, and we may often require only some of it. Therefore, knowing how to access parts of a list can be extremely handy.</p>
+</div>
+</section>
+<section id="saving-and-overwriting-indexed-elements" class="level2">
+<h2 class="anchored" data-anchor-id="saving-and-overwriting-indexed-elements">Saving and overwriting indexed elements</h2>
+<p>So far, we have only used numerical indexing to make R show us the elements in the console. However, we can do two more things with the obtained elements:</p>
+<ul>
+<li>we can use them as the definition of a new R object</li>
+<li>we can overwrite them by defining new values for them</li>
+</ul>
+<p>In other words, we can use them as both the left-hand-side and the right-hand-side argument in object definition.</p>
+<section id="saving-elements-of-an-object-as-a-new-object" class="level3">
+<h3 class="anchored" data-anchor-id="saving-elements-of-an-object-as-a-new-object">Saving elements of an object as a new object</h3>
+<p>Let’s first look at the case in which we want to save parts of an object as an object of its own. For example, we might be interested in creating a reduced data frame, that contains only some of the variables of the original data frame. We will use the data frame defined above in this example.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a reduced data frame that omits the </span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="co"># employment variable (4th column)</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>reduced_df <span class="ot">=</span> my_df[, <span class="sc">-</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running the code above will create a new object called <em>reduced_df</em> in the <strong>Environment</strong>. As we can see, it consists of 6 observations of 3 variables as compared to the original data frames 6 observations of 4 variables (which makes perfect sense since we asked R to remove one variable.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/working/indexing1.png" class="img-fluid figure-img"></p>
+<figcaption>Fig 1. Defining part of a data frame as a new object</figcaption>
+</figure>
+</div>
+<p>Here is what the new data frame looks like in the console:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID age gender
+1  1  40      m
+2  2  51      f
+3  3  32     nb
+4  4  23      f
+5  5  55      f
+6  6  68      m</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="overwriting-elements-of-an-object" class="level3">
+<h3 class="anchored" data-anchor-id="overwriting-elements-of-an-object">Overwriting elements of an object</h3>
+<p>Let’s now have a look at the second case, in which we use part of an R object as the left-hand-side argument of object definition. As mentioned above, this corresponds to overwriting the existing values of those elements with new values. If we want to overwrite elements of an object, we must consider two rules:</p>
+<p>First, <strong>the new values must conform with the type of the object</strong>. We should overwrite numeric value only with numeric value, character strings with only with other character strings, and so on. If we overwrite existing values with values of different types, R will <strong>not</strong> return an error message. Instead, it will coerce the object such that all elements are of equal type. For example, trying to overwrite elements of a numeric or Boolean object with a character string will turn the whole object into a character string. If we overwrite an element of a numeric vector with a Boolean value (TRUE or FALSE), the object will remain numeric, and the new values will be interpreted as either 1 or 0, and so on.</p>
+<div class="alert alert-danger">
+<p>In case of a data frame, each column works as its own object, that is, messing up one variable in this way will usually not mess up the other variables.</p>
+<p>However, if we overwrite a complete row of the data frame, we can potentially mess up the whole data frame, because now we tamper with elements of each column.</p>
+</div>
+<p>Second, <strong>we need to tell R the correct number of new values</strong> for the elements we want to overwrite. For example, if we want to overwrite two elements of a vector, we need to define the new values in a vector of length two, and if we want to overwrite the elements of a <span class="math inline">\(3\times2\)</span> matrix, the new values must be defined either in a <span class="math inline">\(3\times2\)</span> matrix or as a vector of length 6 (in the latter case, R will simply overwrite the old values with the values contained in the vector by filling columns from top to bottom and then moving to the next column). There is an exception to the second rule: <strong>we can always specify a single value as the new value</strong>. In this case, R will overwrite all of the old values with this new value.</p>
+<p>Let’s look at a few examples using the original data frame we defined above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The first participant entered the wrong age; we need to overwrite it with the correct value</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>age[<span class="dv">1</span>] <span class="ot">=</span> <span class="dv">41</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"># We want to capitalise the letters in our gender variable; overwrite the 3rd column (option A)</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>my_df[,<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'M'</span>, <span class="st">'F'</span>, <span class="st">'NB'</span>, <span class="st">'F'</span>, <span class="st">'F'</span>, <span class="st">'M'</span>)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="co"># overwrite the 3rd column (option B)</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>my_df<span class="sc">$</span>gender <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'M'</span>, <span class="st">'F'</span>, <span class="st">'NB'</span>, <span class="st">'F'</span>, <span class="st">'F'</span>, <span class="st">'M'</span>)</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Participant 6 wants to retract their data we need to overwrite the 6th row with NAs</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>my_df[<span class="dv">6</span>,] <span class="ot">=</span> <span class="cn">NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is what the data frame looks like after we have redefined the values as per the code above:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID age gender employment
+1  1  41      M       TRUE
+2  2  51      F       TRUE
+3  3  32     NB       TRUE
+4  4  23      F       TRUE
+5  5  55      F       TRUE
+6 NA  NA   &lt;NA&gt;         NA</code></pre>
+</div>
+</div>
+</div>
+<div class="alert alert-info">
+<p>Note that R has a slightly different way of showing that a value is <em>NA</em> (not available, i.e., missing) in the console whenever the object type is a character string. Rather than simply showing <em>NA</em> as it does when objects are numeric or Boolean, R will instead show <em><na></na></em> for character strings. This is purely cosmetic, that is, it has no consequences for the way we write code or how R evaluates it.</p>
+<p>If we inspect the object using RStudio’s viewer, instead, all <em>NA</em> values will be shown as <em>NA</em> irrespective of their type.</p>
+</div>
+</section>
+<section id="using-numerical-indexing-to-overwrite-variable-names" class="level3">
+<h3 class="anchored" data-anchor-id="using-numerical-indexing-to-overwrite-variable-names">Using numerical indexing to overwrite variable names</h3>
+<p>Remember the <strong><code>names()</code></strong> function we used previously to assign new names to the variables in a data frame? This function allows us to obtain the current variable names of a data frame. If we call it and feed it the name of a data frame as its function argument, R will return of character vector containing the names of all column contained in the data frame.</p>
+<p>The <strong><code>names()</code></strong> function also allows us to overwrite the existing variables names if we redefine the object returned by the function call as a character vector of equal length (i.e., one element per column of the data frame). Back then we noticed that using the <strong><code>names()</code></strong> function might become tedious if a data frame contained a lot of variables. However, by using numerical indexing, we can circumvent the need to explicitly rename each variable in a data frame.</p>
+<p>Since the <strong><code>names()</code></strong> function returns a character vector, we can use numerical indexing to pinpoint the variable names we are interested in. For example, we could ask R to tell us the name of the 2nd variable of a data frame or to overwrite the name of the 4th variable. Here is what the code would look like (we will be using the data frame we worked with above):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the name of the data frame's 2nd variable</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(my_df)[<span class="dv">2</span>]</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co"># assign a new name to the 4th variable ('employed' instead of 'employment')</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(my_df)[<span class="dv">4</span>] <span class="ot">=</span> <span class="st">'employed'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running the code above prompts R to return the name of the data frame’s 2nd variable in the console:</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "age"</code></pre>
+</div>
+</div>
+</div>
+<p>This is what the data frame looks like after renaming the 4th column.</p>
+<div class="alert alert-warning">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID age gender employed
+1  1  41      M     TRUE
+2  2  51      F     TRUE
+3  3  32     NB     TRUE
+4  4  23      F     TRUE
+5  5  55      F     TRUE
+6 NA  NA   &lt;NA&gt;       NA</code></pre>
+</div>
+</div>
+</div>
+<div class="alert alert-info">
+<p>Technically, we must place the brackets used for indexing directly after the closing parentheses of the function call. Placing the brackets inside the parentheses instead resulted in error messages in previous versions of R. However, in the more recent versions of R, placing the brackets behind the name of the data frame inside the parentheses of the function call will also work. in other words, the two following lines of code produce identical results:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain the names of the first three variables</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(my_df)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="co"># alternative code that yields the same result</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(my_df[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
