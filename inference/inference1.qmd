@@ -307,7 +307,7 @@ As we can see, R now states that we ran a "two sample $t$-test". The degrees of 
 
 If we run an independent samples $t$-test and our grouping variable (in our example the variable "condition") has only two levels, we can use an alternative syntax containing a **formula**.
 
-An R formula is a social type of R object that requires a specific syntax. Generally speaking this syntax looks like this:
+An R formula is a special type of R object that requires a specific syntax. Generally speaking this syntax looks like this:
 
 ```{r}
 #| eval: false
@@ -328,7 +328,7 @@ In case of an independent $t$-test, we can feed the **`t.test()`** function a fo
 # test the hypothesis that the mean of dv differs
 # between the experimental and the control group
 t.test(dv ~ condition, data = my_df2,
-       paired = FALSE, var.equal = FALSE)
+       var.equal = FALSE)
 ```
 As we can see below, the output is the same as for the initial Welch $t$-test above. Which type of syntax we use depends on our personal preferences. 
 
@@ -340,7 +340,7 @@ As we can see below, the output is the same as for the initial Welch $t$-test ab
 # test the hypothesis that the mean of dv differs
 # between the experimental and the control group
 t.test(dv ~ condition, data = my_df2,
-       paired = FALSE, var.equal = FALSE)
+       var.equal = FALSE)
 ```
 :::
 
