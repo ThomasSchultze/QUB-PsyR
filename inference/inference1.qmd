@@ -319,7 +319,11 @@ y ~ x
 
 What this means is that $y$ is a function of $x$. Usually, R accepts only a single variable to the left of the tilde operator (**`~`**), whereas we can combine multiple variables on it's right side. We will return to formulae later when we discuss linear models. For now the simple version is sufficient.
 
-In case of an independent $t$-test, we can feed the **`t.test()`** function a formula containing the variable names as well as another function argument called `data`, which requires a data frame as input. Here, we can tell R which data frame our variables are contained in. Let's have a look at the alternative syntax for our test above.
+In case of an independent $t$-test, we can feed the **`t.test()`** function a formula containing the variable names as well as another function argument called `data`, which requires a data frame as input. Here, we can tell R which data frame our variables are contained in. 
+
+**Caveat**: If we use a formulae for the $t$-test, we cannot define the `paired` argument and, thus, must omit it.
+
+Let's have a look at the alternative syntax for our test above.
 
 ```{r}
 #| eval: false
